@@ -3,7 +3,7 @@ This is small plugin to help undertake cash flow analysis on diagrams in Geodesi
 
 ![alt text][logo]
 
-[logo]: http://imgur.com/a/Wiwo2 "Geodesign Hub Diagram Discounted Cash Flow"
+[logo]: http://i.imgur.com/LbxYEQV.png "Geodesign Hub Diagram Discounted Cash Flow"
 
 
 
