@@ -320,6 +320,7 @@
             $("#totaldcf").html(abbrNum(totaldcf, 2));
             var npv = initInvestment - totaldcf;
             var absnpv =Math.abs(npv);
+            
             if (npv < 0){
             $("#npvVal").html('-' + abbrNum(absnpv, 2));}
             else{
