@@ -319,7 +319,12 @@
 
             $("#totaldcf").html(abbrNum(totaldcf, 2));
             var npv = initInvestment - totaldcf;
-            $("#npvVal").html(abbrNum(npv, 2));
+            var absnpv =Math.abs(npv);
+            if (npv < 0){
+            $("#npvVal").html('-' + abbrNum(absnpv, 2));}
+            else{
+            $("#npvVal").html(abbrNum(absnpv, 2));
+            }
             if (npv > 0) {
                 $("#npvmeaning").html("<p class='bg-danger'>Given the parameters, this investement is currently overvalued. </p>");
 
@@ -629,7 +634,13 @@
             var costslider = $("#initcost-slider").data("ionRangeSlider");
             costslider.update({
                 from: from,
-                max: max
+                max: max,
+                prefix: selectedcurrency,
+            });
+
+            var cashflowslider = $("#acf-slider").data("ionRangeSlider");
+            cashflowslider.update({
+                prefix: selectedcurrency,
             });
         }
 
