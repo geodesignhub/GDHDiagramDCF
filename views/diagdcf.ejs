@@ -43,7 +43,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Geodesign Hub Diagram Discounted Cash Flow Analysis</a>
+                <a class="navbar-brand" href="#">Geodesignhub Diagram Discounted Cash Flow Analysis</a>
             </div>
             <!-- /.navbar-header -->
             <!-- /.navbar-collapse -->
@@ -59,8 +59,7 @@
         <div class="row">
             <div class="col-md-12">
 
-                <p class="description">This plugin downloads a diagram from Geodesign Hub, computes its area and construction costs and provides a <a href="https://en.wikipedia.org/wiki/Discounted_cash_flow" target="_blank">Discounted Cash Flow</a> analysis to calculate Net
-                    Present Value of this project.</p>
+                <p class="description">This plugin downloads a diagram from Geodesignhub, computes its area and construction costs and provides a <a href="https://en.wikipedia.org/wiki/Discounted_cash_flow" target="_blank">Discounted Cash Flow</a> analysis to calculate Net Present Value of this project.</p>
             </div>
         </div>
         <div class="row">
@@ -149,7 +148,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>&copy; 2017 <a href="https://www.hrishikeshballal.net/">Hrishikesh Ballal</a>, see the <a href="https://github.com/hrishiballal/GDHDiagramDCF/">GitHub repository</a> for more information.</p>
+                    <p>&copy; 2017 <a href="https://www.hrishikeshballal.net/">Hrishikesh Ballal</a>, see the <a href="https://github.com/hrishiballal/GDHDiagramDCF/">Github repository</a> for more information.</p>
                 </div>
             </div>
         </footer>
@@ -161,6 +160,7 @@
     <script type="text/javascript" src="assets/js/humane.min.js"></script>
     <script type="text/javascript" src="assets/js/svg.min.js"></script>
     <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
+    <script type="text/javascript" src="assets/js/cleave.min.js"></script>
 
     <!-- Bootstrap Core scripts -->
     <script type="text/javascript" src="assets/js/ion.rangeSlider.min.js"></script>
@@ -646,23 +646,36 @@
         }
 
         function initCostSliders() {
-            $("#initcost-slider").ionRangeSlider({
-                min: 10000,
-                from: totalcost,
-                max: 10000000,
-                step: 1000,
-                prefix: selectedcurrency,
-                grid: true,
-                prettify_enabled: true
-            });
-            $("#acf-slider").ionRangeSlider({
-                min: 10000,
-                max: 10000000,
-                step: 10000,
-                prefix: selectedcurrency,
-                grid: true,
-                prettify_enabled: true
-            });
+            var costcleave = new Cleave('#initcost-slider', {
+                    numeral: true,
+                    numeralThousandsGroupStyle: 'thousand'
+                });
+                
+            var acfcleave = new Cleave('#acf-slider', {
+                    numeral: true,
+                    numeralThousandsGroupStyle: 'thousand'
+                });
+
+
+            $("#initcost-slider").val(parseInt(totalcost));
+            $("#acf-slider").val(100000);
+            // $("#initcost-slider").ionRangeSlider({
+            //     min: 10000,
+            //     from: totalcost,
+            //     max: 10000000,
+            //     step: 1000,
+            //     prefix: selectedcurrency,
+            //     grid: true,
+            //     prettify_enabled: true
+            // });
+            // $("#acf-slider").ionRangeSlider({
+            //     min: 10000,
+            //     max: 10000000,
+            //     step: 10000,
+            //     prefix: selectedcurrency,
+            //     grid: true,
+            //     prettify_enabled: true
+            // });
         }
 
         function initpercentSliders() {
@@ -684,6 +697,7 @@
             });
         }
         initCostSliders();
+
         initpercentSliders();
     </script>
 </body>
