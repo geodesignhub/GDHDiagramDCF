@@ -287,8 +287,8 @@
         inputmap.fitBounds(inputLayer.getBounds());
 
         function computeNPV() {
-            var initInvestment = parseInt($("#initcost-slider").val());
-            var acf = parseInt($("#acf-slider").val());
+            var initInvestment = parseInt(initCost);
+            var acf = parseInt(acfCost);
             var acfg = (parseFloat($("#acfg-slider").val()) / 100);
             var wacc = (parseFloat($("#wacc-slider").val()) / 100);
             var numYears = 25;
@@ -430,9 +430,9 @@
         var selectedcurrency = $("#workingcurrency :selected").val() + " ";
         $("#workingcurrency").on('change', function() {
             selectedcurrency = this.value + " ";
-            var costslider = $("#initcost-slider").data("ionRangeSlider");
-            var acfslider = $("#acf-slider").data("ionRangeSlider");
-            updateCostSliders(costslider, acfslider);
+            // var costslider = $("#initcost-slider").data("ionRangeSlider");
+            // var acfslider = $("#acf-slider").data("ionRangeSlider");
+            // updateCostSliders(costslider, acfslider);
         });
         fx.rates = {
             "AED": 3.672779,
@@ -610,50 +610,57 @@
 
         };
 
-        function updateCostSliders(costslider, acfslider) {
+        // function updateCostSliders(costslider, acfslider) {
 
-            var from = 10000;
-            var max = 1000000000;
-            var workingcur = $("#workingcurrency :selected").val();
-            if (totalcost) {
-                if (workingcur == "EUR") {
-                    from = totalcost;
-                } else {
+        //     var from = 10000;
+        //     var max = 1000000000;
+        //     var workingcur = $("#workingcurrency :selected").val();
+        //     if (totalcost) {
+        //         if (workingcur == "EUR") {
+        //             from = totalcost;
+        //         } else {
 
-                    fx.settings = {
-                        from: "EUR",
-                        to: workingcur
-                    };
-                    from = parseInt(fx.convert(totalcost, {
-                        to: workingcur
-                    }));
-                    max = parseInt(fx.convert(max, {
-                        to: workingcur
-                    }));
-                }
-            }
-            var costslider = $("#initcost-slider").data("ionRangeSlider");
-            costslider.update({
-                from: from,
-                max: max,
-                prefix: selectedcurrency,
-            });
+        //             fx.settings = {
+        //                 from: "EUR",
+        //                 to: workingcur
+        //             };
+        //             from = parseInt(fx.convert(totalcost, {
+        //                 to: workingcur
+        //             }));
+        //             max = parseInt(fx.convert(max, {
+        //                 to: workingcur
+        //             }));
+        //         }
+        //     }
+        //     var costslider = $("#initcost-slider").data("ionRangeSlider");
+        //     costslider.update({
+        //         from: from,
+        //         max: max,
+        //         prefix: selectedcurrency,
+        //     });
 
-            var cashflowslider = $("#acf-slider").data("ionRangeSlider");
-            cashflowslider.update({
-                prefix: selectedcurrency,
-            });
-        }
-
+        //     var cashflowslider = $("#acf-slider").data("ionRangeSlider");
+        //     cashflowslider.update({
+        //         prefix: selectedcurrency,
+        //     });
+        // }
+        var initCost =parseInt(totalcost);
+        var acfCost = 100000;
         function initCostSliders() {
             var costcleave = new Cleave('#initcost-slider', {
                     numeral: true,
-                    numeralThousandsGroupStyle: 'thousand'
+                    numeralThousandsGroupStyle: 'thousand',
+                    onValueChanged: function (e) {
+                        initCost = e.target.rawValue;
+                    }
                 });
                 
             var acfcleave = new Cleave('#acf-slider', {
                     numeral: true,
-                    numeralThousandsGroupStyle: 'thousand'
+                    numeralThousandsGroupStyle: 'thousand',
+                    onValueChanged: function (e) {
+                        acfCost = e.target.rawValue;
+                    }
                 });
 
 
