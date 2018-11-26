@@ -269,7 +269,6 @@
             if (diagramdetail['cost_override'] !== 0) {
                 if (diagramdetail['cost_override_type'] == 'total') {
                     totalcost = parseFloat(diagramdetail['cost_override']).toFixed(2);
-
                 } else {
                     totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * diagramdetail['cost_override'];
                 }
