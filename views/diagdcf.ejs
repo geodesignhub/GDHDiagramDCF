@@ -4,10 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Geodesign Hub Diagram Discounted Cash Flow Calculator</title>
+    <title>Geodesignhub Diagram Discounted Cash Flow Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="Description" lang="en" content="Geodesign Hub Evaluation Maps Builder">
-    <meta name="author" content="Hrishikesh Ballal">
+    <meta name="Description" lang="en" content="Geodesign Hub Diagram DCF">
+    <meta name="author" content="Geodesignhub">
     <meta name="robots" content="index, follow">
     <!-- icons -->
     <link rel="shortcut icon" href="/assets/loaders/favicon.ico">
@@ -43,7 +43,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Geodesignhub Diagram Discounted Cash Flow Analysis</a>
+                <a class="navbar-brand" href="#">Diagram Discounted Cash Flow Analysis</a>
             </div>
             <!-- /.navbar-header -->
             <!-- /.navbar-collapse -->
@@ -81,7 +81,9 @@
                 <p><input type="text" id="acfg-slider" name="acfg-slider" value="" /></p>
                 <h5>Weighted Annual Cost of Capital (WACC)</h5>
                 <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
-                <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
+                <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i>
+                        Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span
+                            id="procstatus">Processing</span>...</span>
                 </p>
             </div>
         </div>
@@ -95,7 +97,8 @@
             </div>
             <div class="col-md-4">
                 <h3>DCF and NPV</h3>
-                <p>Total discounted cashflow and the net present value (total cash flow - initial investment) is shown below.</p>
+                <p>Total discounted cashflow and the net present value (total cash flow - initial investment) is shown
+                    below.</p>
                 <h6>Total Discounted Cash Flow</h6>
                 <h3 id="totaldcf"></h3>
                 <br>
@@ -115,32 +118,32 @@
             </div>
             <div class="col-md-6">
                 <p class="pull-right"> Currency: <select id="workingcurrency">
-                <option value="USD">US dollar</option>
-                <option value="EUR" selected>European Euro</option>
-                <option value="JPY">Japanese yen</option>
-                <option value="GBP">Pound sterling</option>
-                <option value="AUD">Australian dollar</option>
-                <option value="CAD">Canadian dollar</option>
-                <option value="CHF">Swiss franc</option>
-                <option value="CNY">Chinese Yuan Renminbi</option>
-                <option value="SEK">Swedish krona</option>
-                <option value="MXN">Mexican peso</option>
-                <option value="NZD">New Zealand dollar</option>
-                <option value="SGD">Singapore dollar</option>
-                <option value="HKD">Hong Kong dollar</option>
-                <option value="NOK">Norwegian krone</option>
-                <option value="KRW">South Korean won</option>
-                <option value="TRY">Turkish lira</option>
-                <option value="INR">Indian rupee</option>
-                <option value="RUB">Russian ruble</option>
-                <option value="BRL">Brazilian real</option>
-                <option value="ZAR">South African rand</option>
-                <option value="DKK">Danish krone</option>
-                <option value="PLN">Polish zloty</option>
-                <option value="TWD">New Taiwan dollar</option>
-                <option value="THB">Thai baht</option>
-                <option value="MYR">Malaysian ringgit</option>
-                </select></p>
+                        <option value="USD">US dollar</option>
+                        <option value="EUR" selected>European Euro</option>
+                        <option value="JPY">Japanese yen</option>
+                        <option value="GBP">Pound sterling</option>
+                        <option value="AUD">Australian dollar</option>
+                        <option value="CAD">Canadian dollar</option>
+                        <option value="CHF">Swiss franc</option>
+                        <option value="CNY">Chinese Yuan Renminbi</option>
+                        <option value="SEK">Swedish krona</option>
+                        <option value="MXN">Mexican peso</option>
+                        <option value="NZD">New Zealand dollar</option>
+                        <option value="SGD">Singapore dollar</option>
+                        <option value="HKD">Hong Kong dollar</option>
+                        <option value="NOK">Norwegian krone</option>
+                        <option value="KRW">South Korean won</option>
+                        <option value="TRY">Turkish lira</option>
+                        <option value="INR">Indian rupee</option>
+                        <option value="RUB">Russian ruble</option>
+                        <option value="BRL">Brazilian real</option>
+                        <option value="ZAR">South African rand</option>
+                        <option value="DKK">Danish krone</option>
+                        <option value="PLN">Polish zloty</option>
+                        <option value="TWD">New Taiwan dollar</option>
+                        <option value="THB">Thai baht</option>
+                        <option value="MYR">Malaysian ringgit</option>
+                    </select></p>
             </div>
         </div>
         <br><br>
@@ -148,7 +151,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>&copy; 2017 <a href="https://www.hrishikeshballal.net/">Hrishikesh Ballal</a>, see the <a href="https://github.com/hrishiballal/GDHDiagramDCF/">Github repository</a> for more information.</p>
+                    <p>&copy; 2017 Geodesignhub, see the <a href="https://github.com/geodesignhub/GDHDiagramDCF/">Github repository</a> for more information.</p>
                 </div>
             </div>
         </footer>
@@ -213,7 +216,7 @@
         }
 
         function setSVGStyle(reqColor) {
-            var pattern = svgDrawing.pattern(6, 6, function(add) {
+            var pattern = svgDrawing.pattern(6, 6, function (add) {
                 // add.rect(5, 5).fill(reqColor)
                 add.line(0, 0, 6, 6).stroke({
                     width: 1,
@@ -259,16 +262,26 @@
         var projectid = "<%= projectid %>";
         var systemdetail = <%- systemdetail %>;
 
-        $("#sysCost").html("Construction cost: " + abbrNum(systemdetail['syscost'], 2) + " EUR / hectare");
         var totalcost;
         $("#diagName").html(diagramdetail['description']);
         if (diagramdetail['length'] == 0) {
             $("#diagAreaLength").html("Area: " + parseFloat((diagramdetail['area'] / 10000)).toFixed(2) + " ha.");
-            totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * systemdetail['syscost'];
+            if (diagramdetail['cost_override'] !== 0) {
+                if (diagramdetail['cost_override_type'] == 'total') {
+                    totalcost = parseFloat(diagramdetail['cost_override']).toFixed(2);
+
+                } else {
+                    totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * systemdetail['syscost'];
+                }
+            } else {
+                totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * diagramdetail['cost_override'];
+            }
+
         } else if (diagramdetail['area'] == 0) {
             $("#diagAreaLength").html("Length: " + parseFloat((diagramdetail['length'] / 1000)).toFixed(2) + " km.");
         }
 
+        $("#sysCost").html("Total cost: " + abbrNum(totalcost, 2) + " EUR");
         var inputmap = L.map('inputmap', {
             'zoomControl': false,
             'dragging': false,
@@ -313,24 +326,26 @@
                 dcf.push(parseInt(curdcf));
             }
 
-            var totaldcf = dcf.reduce(function(a, b) {
+            var totaldcf = dcf.reduce(function (a, b) {
                 return a + b;
             }, 0);
 
             $("#totaldcf").html(abbrNum(totaldcf, 2));
             var npv = initInvestment - totaldcf;
-            var absnpv =Math.abs(npv);
-            
-            if (npv < 0){
-            $("#npvVal").html('-' + abbrNum(absnpv, 2));}
-            else{
-            $("#npvVal").html(abbrNum(absnpv, 2));
+            var absnpv = Math.abs(npv);
+
+            if (npv < 0) {
+                $("#npvVal").html('-' + abbrNum(absnpv, 2));
+            } else {
+                $("#npvVal").html(abbrNum(absnpv, 2));
             }
             if (npv > 0) {
-                $("#npvmeaning").html("<p class='bg-danger'>Given the parameters, this investement is currently overvalued. </p>");
+                $("#npvmeaning").html(
+                    "<p class='bg-danger'>Given the parameters, this investement is currently overvalued. </p>");
 
             } else {
-                $("#npvmeaning").html("<p class='bg-success'>Given the parameters, this investement is currently undervalued.</p>");
+                $("#npvmeaning").html(
+                    "<p class='bg-success'>Given the parameters, this investement is currently undervalued.</p>");
             }
 
             $("#loadingGIF").hide();
@@ -423,12 +438,12 @@
             }
             return number;
         }
-        $('#computeNPVButton').on('click', function(e) {
+        $('#computeNPVButton').on('click', function (e) {
             $("#loadingGIF").show();
             computeNPV();
         });
         var selectedcurrency = $("#workingcurrency :selected").val() + " ";
-        $("#workingcurrency").on('change', function() {
+        $("#workingcurrency").on('change', function () {
             selectedcurrency = this.value + " ";
             // var costslider = $("#initcost-slider").data("ionRangeSlider");
             // var acfslider = $("#acf-slider").data("ionRangeSlider");
@@ -610,79 +625,29 @@
 
         };
 
-        // function updateCostSliders(costslider, acfslider) {
-
-        //     var from = 10000;
-        //     var max = 1000000000;
-        //     var workingcur = $("#workingcurrency :selected").val();
-        //     if (totalcost) {
-        //         if (workingcur == "EUR") {
-        //             from = totalcost;
-        //         } else {
-
-        //             fx.settings = {
-        //                 from: "EUR",
-        //                 to: workingcur
-        //             };
-        //             from = parseInt(fx.convert(totalcost, {
-        //                 to: workingcur
-        //             }));
-        //             max = parseInt(fx.convert(max, {
-        //                 to: workingcur
-        //             }));
-        //         }
-        //     }
-        //     var costslider = $("#initcost-slider").data("ionRangeSlider");
-        //     costslider.update({
-        //         from: from,
-        //         max: max,
-        //         prefix: selectedcurrency,
-        //     });
-
-        //     var cashflowslider = $("#acf-slider").data("ionRangeSlider");
-        //     cashflowslider.update({
-        //         prefix: selectedcurrency,
-        //     });
-        // }
-        var initCost =parseInt(totalcost);
+        var initCost = parseInt(totalcost);
         var acfCost = 100000;
+
         function initCostSliders() {
             var costcleave = new Cleave('#initcost-slider', {
-                    numeral: true,
-                    numeralThousandsGroupStyle: 'thousand',
-                    onValueChanged: function (e) {
-                        initCost = e.target.rawValue;
-                    }
-                });
-                
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                onValueChanged: function (e) {
+                    initCost = e.target.rawValue;
+                }
+            });
+
             var acfcleave = new Cleave('#acf-slider', {
-                    numeral: true,
-                    numeralThousandsGroupStyle: 'thousand',
-                    onValueChanged: function (e) {
-                        acfCost = e.target.rawValue;
-                    }
-                });
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                onValueChanged: function (e) {
+                    acfCost = e.target.rawValue;
+                }
+            });
 
 
             $("#initcost-slider").val(parseInt(totalcost));
-            $("#acf-slider").val(100000);
-            // $("#initcost-slider").ionRangeSlider({
-            //     min: 10000,
-            //     from: totalcost,
-            //     max: 10000000,
-            //     step: 1000,
-            //     prefix: selectedcurrency,
-            //     grid: true,
-            //     prettify_enabled: true
-            // });
-            // $("#acf-slider").ionRangeSlider({
-            //     min: 10000,
-            //     max: 10000000,
-            //     step: 10000,
-            //     prefix: selectedcurrency,
-            //     grid: true,
-            //     prettify_enabled: true
-            // });
+
         }
 
         function initpercentSliders() {
