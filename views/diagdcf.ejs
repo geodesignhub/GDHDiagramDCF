@@ -271,10 +271,10 @@
                     totalcost = parseFloat(diagramdetail['cost_override']).toFixed(2);
 
                 } else {
-                    totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * systemdetail['syscost'];
+                    totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * diagramdetail['cost_override'];
                 }
             } else {
-                totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * diagramdetail['cost_override'];
+                totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * systemdetail['syscost'];
             }
 
         } else if (diagramdetail['area'] == 0) {
