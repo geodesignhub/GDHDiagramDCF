@@ -12,15 +12,14 @@
     <!-- icons -->
     <link rel="shortcut icon" href="/assets/loaders/favicon.ico">
     <!-- Bootstrap Core CSS file -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
     <!-- Override CSS file - add your own CSS rules -->
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/ion.rangeSlider.css">
-    <link rel="stylesheet" href="assets/css/ion.rangeSlider.skinFlat.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/ion.rangeSlider.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/ion.rangeSlider.skinFlat.css">
     <link rel="stylesheet" type="text/css" href="assets/css/flatty.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/leaflet.css" />
-    <link rel="stylesheet" type="text/css" href="assets/css/ion.rangeSlider.css" />
-    <link rel="stylesheet" type="text/css" href="assets/css/ion.rangeSlider.skinFlat.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-editable.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <!-- Conditional comment containing JS files for IE6 - 8 -->
@@ -59,7 +58,10 @@
         <div class="row">
             <div class="col-md-12">
 
-                <p class="description">This plugin downloads a diagram from Geodesignhub, computes its area and construction costs and provides a <a href="https://en.wikipedia.org/wiki/Discounted_cash_flow" target="_blank">Discounted Cash Flow</a> analysis to calculate Net Present Value of this project.</p>
+                <p class="description">This plugin downloads a diagram from Geodesignhub, computes its area and
+                    construction costs and provides a <a href="https://en.wikipedia.org/wiki/Discounted_cash_flow"
+                        target="_blank">Discounted Cash Flow</a> analysis to calculate Net Present Value of this
+                    project.</p>
             </div>
         </div>
         <div class="row">
@@ -111,9 +113,79 @@
         <!-- /.col-md-4 -->
 
         <!-- /.row -->
-        <hr>
 
+        <br>
+        <br>
         <div class="row">
+            <div class="col-md-12">
+                <h3>Asset Analysis</h3>
+                <div class="row">
+                <div class="col-md-6">
+
+                    <select id="base_asset_class" class="form-control">
+                        <option selected disabled>Select Asset Class</option>
+                        <option data-value='residential'>Residential</option>
+                        <option data-value='hospitality'>Hospitality</option>
+                        <!-- <option data-value='community'>Community</option>
+                        <option data-value='tourism'>Tourism</option>
+                        <option data-value='commercial'>Commercial</option>
+                        <option data-value='agriculture'>Agirculture</option>
+                        <option data-value='green-infrastruture'>Green Infrastruture</option> -->
+                    </select>
+
+                </div>
+                <div class="col-md-6">
+
+                    <select id="base_asset_subclass" class="form-control">
+                        <option selected disabled>Change Densities</option>
+                    </select>
+
+
+
+                </div>
+                </div>
+                <br>
+                <div class='usage_form hidden' id="built_env_form_residential">
+                        <p class='pull-right'>Total Number of units  <a class="editable" href="#" id="residential_units" data-type="text" data-title="Enter new residential units e.g. 5">18</a></p><p class='pull-right'>Total Number of people  <a class="editable" href="#" id="number_of_people" data-type="text" data-title="Enter number of people living here">180</a></p>
+                </div>
+
+                <div class='usage_form hidden' id="built_env_form_hospitality">
+                        <h4>Rooms</h4>
+                        <h4>Occupancy Rate</h4>
+                </div>
+
+
+                <div class='usage_form hidden' id="built_env_form_tourism">
+                        <h4>Visitors</h4>
+                        <h4>Occupancy Rate</h4>
+                </div>
+
+                <div class='usage_form hidden' id="built_env_form_community">
+                        <h4>Visitors</h4>
+                        <h4>Peak Demand</h4>
+
+                </div>
+                <div class='usage_form hidden' id="built_env_form_agriculture">
+
+                </div>
+
+                <div class='usage_form hidden' id="built_env_form_green-infrastructure">
+
+                </div>
+  
+                <h3>Services</h3>
+                <p>A summary of services necessary for this Asset</p>
+                <h4>Community</h4>
+                <h4>Transport</h4>
+                <h4>Energy</h4>
+                <h4>Water</h4>
+                <h4>Sewage</h4>
+
+            </div>
+            
+        </div>
+
+        <!-- <div class="row">
             <div class="col-md-6">
             </div>
             <div class="col-md-6">
@@ -145,13 +217,15 @@
                         <option value="MYR">Malaysian ringgit</option>
                     </select></p>
             </div>
-        </div>
+        </div> -->
         <br><br>
         <!-- Footer -->
+        <hr>
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>&copy; 2017 Geodesignhub, see the <a href="https://github.com/geodesignhub/GDHDiagramDCF/">Github repository</a> for more information.</p>
+                    <p>&copy; 2017 Geodesignhub, see the <a href="https://github.com/geodesignhub/GDHDiagramDCF/">Github
+                            repository</a> for more information.</p>
                 </div>
             </div>
         </footer>
@@ -168,6 +242,7 @@
     <!-- Bootstrap Core scripts -->
     <script type="text/javascript" src="assets/js/ion.rangeSlider.min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap-editable.min.js"></script>
     <script type="text/javascript" src="assets/js/colors.js"></script>
     <script type="text/javascript" src="assets/js/leaflet.js"></script>
     <script type="text/javascript" src="assets/js/money.min.js"></script>
@@ -261,7 +336,7 @@
         var apitoken = "<%= apitoken  %>"; //var test is now assigned to getTest which will only work on browsers
         var projectid = "<%= projectid %>";
         var systemdetail = <%- systemdetail %>;
-
+        
         var totalcost;
         $("#diagName").html(diagramdetail['description']);
         if (diagramdetail['length'] == 0) {
@@ -445,9 +520,7 @@
         var selectedcurrency = $("#workingcurrency :selected").val() + " ";
         $("#workingcurrency").on('change', function () {
             selectedcurrency = this.value + " ";
-            // var costslider = $("#initcost-slider").data("ionRangeSlider");
-            // var acfslider = $("#acf-slider").data("ionRangeSlider");
-            // updateCostSliders(costslider, acfslider);
+            
         });
         fx.rates = {
             "AED": 3.672779,
@@ -671,6 +744,191 @@
         initCostSliders();
 
         initpercentSliders();
+        //built and non-built environment
+        const data = {
+            'residential': "Luxury,High Priced, Mid Priced, Low Priced, Affordable Housing",
+            "hospitality": "Luxury, Upscale Hotel, Midscale Hotel, Budget Hotel",
+            "community": "Hospital,Police Station, Fire Station, School,Community Center, Playground",
+            "tourism": "Eco Tourism, Low Density Attraction, High Density Attraction",
+            "retail": "Luxury Retail, Retail, Multi-storey Retail, Mall, Support Retail, Office",
+            "agriculture": "Crop Farmland, Grassland, Orchard",
+            "green-infrastruture": "Public Park, Garden Land, Woodland, Tree line ",
+            "blue-infrastructure": "Dikes, Barrier walls"
+        };
+
+        $('#base_asset_class').on('change', function (e) {
+
+            var key = $(this).find("option:selected").attr('data-value');
+
+            var vals = [];
+            switch (key) {
+                case 'residential':
+                    vals = data.residential.split(",");
+                    break;
+                case 'hospitality':
+                    vals = data.hospitality.split(",");
+                    break;
+                case 'community':
+                    vals = data.community.split(",");
+                    break;
+                case 'retail':
+                    vals = data.retail.split(",");
+                    break;
+                case 'agriculture':
+                    vals = data.retail.split(",");
+                    break;
+                case 'green-infrastruture':
+                    vals = data.retail.split(",");
+                    break;
+                case 'base':
+                    vals = ['Please choose from above'];
+            }
+
+
+            var $secondChoice = $("#base_asset_subclass");
+            $secondChoice.empty();
+            $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
+            $.each(vals, function (index, value) {
+                $secondChoice.append("<option>" + value + "</option>");
+            });
+
+            var system_id = diagramdetail['sysid'];
+            var diagram_area = diagramdetail.area;
+            var system_tag = systemdetail['systag'];
+            var system_name = systemdetail['sysname'];
+            const units = generateUnits(diagram_area, system_name, system_tag);
+            console.log(diagram_area, system_name, system_tag);
+            console.log(units);
+        });
+
+        function generateUnits(diagramArea, sysName, sysTag){
+
+        var whiteListedSysName = ['HDH', 'LDH', 'IND', 'COM', 'COMIND', 'HSNG', 'HSG', 'MXD'];
+
+        var COMBuilding = function () {
+            const elevationoffset = 1;
+            const comHeights = [14, 25, 30, 22, 28];
+            const floorHeight = 5;
+            const avgUnitsize = 50;
+
+            this.generateUnits = function (area) {
+                var height = elevationoffset + comHeights[Math.floor(Math.random() * comHeights.length)];
+                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                var numUnitsperFloor = Math.round(area / avgUnitsize);
+                var totalUnits = numUnitsperFloor * numFloors;
+                return totalUnits;
+            };
+        }
+
+        var LDHousing = function () {
+            const elevationoffset = 1;
+            const ldhHeights = [1, 2, 3];
+            const floorHeight = 5;
+            const avgUnitsize = 100;
+
+            this.generateUnits = function (area) {
+                var height = elevationoffset + ldhHeights[Math.floor(Math.random() * ldhHeights.length)];
+                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                var numUnitsperFloor = Math.round(area / avgUnitsize);
+                var totalUnits = numUnitsperFloor * numFloors;
+                return totalUnits;
+            };
+        }
+
+        var HDHousing = function () {
+            const elevationoffset = 1;
+            const hdhHeights = [36, 60, 90]; // in meters 
+            const floorHeight = 5;
+            const avgUnitsize = 50;
+
+            this.generateUnits = function (area) {
+                var height = elevationoffset + hdhHeights[Math.floor(Math.random() * hdhHeights.length)];
+                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                var numUnitsperFloor = Math.round(area / avgUnitsize);
+                var totalUnits = numUnitsperFloor * numFloors;
+                return totalUnits;
+            };
+        }
+
+        var MXDBuildings = function () {
+            const elevationoffset = 1;
+            const mxdHeights = [9, 12, 8, 11]; // in meters 
+            const floorHeight = 5;
+            const avgUnitsize = 75;
+
+            this.generateUnits = function (area) {
+                var height = elevationoffset + mxdHeights[Math.floor(Math.random() * mxdHeights.length)];
+                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                var numUnitsperFloor = Math.round(area / avgUnitsize);
+                var totalUnits = numUnitsperFloor * numFloors;
+                return totalUnits;
+            };
+        }
+
+        var LABBuildings = function () {
+            const elevationoffset = 1;
+            var labHeights = [10, 15];
+            const floorHeight = 5;
+            const avgUnitsize = 100;
+
+            this.generateUnits = function (area) {
+                var height = elevationoffset + labHeights[Math.floor(Math.random() * labHeights.length)];
+                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                var numUnitsperFloor = Math.round(area / avgUnitsize);
+                var totalUnits = numUnitsperFloor * numFloors;
+                return totalUnits;
+            };
+        }
+
+        var SMBBuildings = function () {
+            const elevationoffset = 1;
+            var smbHeights = [2, 3, 5, 6, 7, 10];
+            const floorHeight = 5;
+            const avgUnitsize = 75;
+
+            this.generateUnits = function (area) {
+                var height = elevationoffset + smbHeights[Math.floor(Math.random() * smbHeights.length)];
+                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                var numUnitsperFloor = Math.round(area / avgUnitsize);
+                var totalUnits = numUnitsperFloor * numFloors;
+                return totalUnits;
+            };
+        }
+
+
+        if (whiteListedSysName.indexOf(sysName) >= 0) { // system is whitelisted
+            if ((sysName === 'HDH') || (sysName === 'HSNG') || (sysName === 'HSG')) {
+               
+                var hdh = new HDHousing();
+                units = hdh.generateUnits(diagramArea);
+            } else if (sysName === 'MXD') {
+
+               
+                var mxd = new MXDBuildings();
+                var units = mxd.generateUnits(diagramArea);
+            } else if (sysName === 'LDH') {
+                var ldh = new LDHousing();
+                units = ldh.generateUnits(diagramArea);
+
+            } else if ((sysName === 'COM') || (sysName === 'COMIND') || (sysName === 'IND')) {
+                var com = new COMBuilding();
+                units = com.generateUnits(diagramArea);
+                
+            }
+        } else if ((sysTag === 'Large buildings, Industry, commerce')) { // system not whitelisted
+            var lab = new LABBuildings();
+            units = lab.generateUnits(diagramArea);
+           
+        } else if ((sysTag === 'Small buildings, low density housing')) { // system not whitelisted 
+            var smb = new SMBBuildings();
+            units = smb.generateUnits(diagramArea);
+            // yeild = 16;
+        } else {
+            units = 0;
+            // yeild = 12; // default yeild
+        }
+        return units;
+    }
     </script>
 </body>
 
