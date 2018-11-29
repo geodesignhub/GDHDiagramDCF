@@ -120,69 +120,77 @@
             <div class="col-md-12">
                 <h3>Asset Analysis</h3>
                 <div class="row">
-                <div class="col-md-6">
-
-                    <select id="base_asset_class" class="form-control">
-                        <option selected disabled>Select Asset Class</option>
-                        <option data-value='residential'>Residential</option>
-                        <option data-value='hospitality'>Hospitality</option>
-                        <!-- <option data-value='community'>Community</option>
+                    <div class="col-md-6">
+                        <select id="base_asset_class" class="form-control">
+                            <option selected disabled>Select Asset Class</option>
+                            <option data-value='residential'>Residential</option>
+                            <option data-value='hospitality'>Hospitality</option>
+                            <!-- <option data-value='community'>Community</option>
                         <option data-value='tourism'>Tourism</option>
                         <option data-value='commercial'>Commercial</option>
                         <option data-value='agriculture'>Agirculture</option>
                         <option data-value='green-infrastruture'>Green Infrastruture</option> -->
-                    </select>
+                        </select>
 
-                </div>
-                <div class="col-md-6">
+                    </div>
+                    <div class="col-md-6">
 
-                    <select id="base_asset_subclass" class="form-control">
-                        <option selected disabled>Change Densities</option>
-                    </select>
-
-
-
-                </div>
+                        <select id="base_asset_subclass" class="form-control">
+                            <option selected disabled>Change Densities</option>
+                        </select>
+                    </div>
                 </div>
                 <br>
-                <div class='usage_form hidden' id="built_env_form_residential">
-                        <p class='pull-right'>Total Number of units  <a class="editable" href="#" id="residential_units" data-type="text" data-title="Enter new residential units e.g. 5">18</a></p><p class='pull-right'>Total Number of people  <a class="editable" href="#" id="number_of_people" data-type="text" data-title="Enter number of people living here">180</a></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class='usage_form hidden' id="built_env_form_residential">
+                            <h4>Total units: <a class="editable" href="#" id="residential_units" data-type="text"
+                                    data-title="Enter new residential units e.g. 5"></a></h4>
+                            <h4>Total people housed: <a class="editable" href="#" id="number_of_people_residential"
+                                    data-type="text" data-title="Enter number of people living here"></a></h4>
+                        </div>
+
+                        <div class='usage_form hidden' id="built_env_form_hospitality">
+                            <h4>Rooms</h4>
+                            <h4>Occupancy Rate</h4>
+                        </div>
+
+
+                        <div class='usage_form hidden' id="built_env_form_tourism">
+                            <h4>Visitors</h4>
+                            <h4>Occupancy Rate</h4>
+                        </div>
+
+                        <div class='usage_form hidden' id="built_env_form_community">
+                            <h4>Visitors</h4>
+                            <h4>Peak Demand</h4>
+
+                        </div>
+                        <div class='usage_form hidden' id="built_env_form_agriculture">
+
+                        </div>
+
+                        <div class='usage_form hidden' id="built_env_form_green-infrastructure">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <h3>Services</h3>
+                        <p>A summary of services necessary for this Asset</p>
+                        <h4>Community</h4>
+                        <h4>Transport</h4>
+                        <h4>Energy</h4>
+                        <h4>Water</h4>
+                        <h4>Sewage</h4>
+                    </div>
                 </div>
 
-                <div class='usage_form hidden' id="built_env_form_hospitality">
-                        <h4>Rooms</h4>
-                        <h4>Occupancy Rate</h4>
-                </div>
 
 
-                <div class='usage_form hidden' id="built_env_form_tourism">
-                        <h4>Visitors</h4>
-                        <h4>Occupancy Rate</h4>
-                </div>
-
-                <div class='usage_form hidden' id="built_env_form_community">
-                        <h4>Visitors</h4>
-                        <h4>Peak Demand</h4>
-
-                </div>
-                <div class='usage_form hidden' id="built_env_form_agriculture">
-
-                </div>
-
-                <div class='usage_form hidden' id="built_env_form_green-infrastructure">
-
-                </div>
-  
-                <h3>Services</h3>
-                <p>A summary of services necessary for this Asset</p>
-                <h4>Community</h4>
-                <h4>Transport</h4>
-                <h4>Energy</h4>
-                <h4>Water</h4>
-                <h4>Sewage</h4>
 
             </div>
-            
+
         </div>
 
         <!-- <div class="row">
@@ -336,7 +344,7 @@
         var apitoken = "<%= apitoken  %>"; //var test is now assigned to getTest which will only work on browsers
         var projectid = "<%= projectid %>";
         var systemdetail = <%- systemdetail %>;
-        
+
         var totalcost;
         $("#diagName").html(diagramdetail['description']);
         if (diagramdetail['length'] == 0) {
@@ -520,7 +528,7 @@
         var selectedcurrency = $("#workingcurrency :selected").val() + " ";
         $("#workingcurrency").on('change', function () {
             selectedcurrency = this.value + " ";
-            
+
         });
         fx.rates = {
             "AED": 3.672779,
@@ -742,7 +750,27 @@
             });
         }
         initCostSliders();
+        var DisplayUpdater = function () {
 
+            this.updateResidential = function (units, people_housed) {
+
+                $("#residential_units").html(units);
+                $("#number_of_people_residential").html(people_housed);
+
+                $('.editable').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+
+                });
+
+            }
+
+        }
         initpercentSliders();
         //built and non-built environment
         const data = {
@@ -755,30 +783,40 @@
             "green-infrastruture": "Public Park, Garden Land, Woodland, Tree line ",
             "blue-infrastructure": "Dikes, Barrier walls"
         };
-
+        myDisplayUpdater = new DisplayUpdater();
         $('#base_asset_class').on('change', function (e) {
 
             var key = $(this).find("option:selected").attr('data-value');
 
+            $(".usage_form").each(function (index) {
+                $(this).removeClass("hidden");
+                $(this).hide();
+            });
             var vals = [];
             switch (key) {
                 case 'residential':
                     vals = data.residential.split(",");
+                    $("#built_env_form_residential").show();
                     break;
                 case 'hospitality':
                     vals = data.hospitality.split(",");
+                    $("#built_env_form_hospitality").show();
                     break;
                 case 'community':
                     vals = data.community.split(",");
+                    $("#built_env_form_tourism").show();
                     break;
                 case 'retail':
                     vals = data.retail.split(",");
+                    $("#built_env_form_community").show();
                     break;
                 case 'agriculture':
                     vals = data.retail.split(",");
+                    $("#built_env_form_agriculture").show();
                     break;
                 case 'green-infrastruture':
                     vals = data.retail.split(",");
+                    $("#built_env_form_green-infrastructure").show();
                     break;
                 case 'base':
                     vals = ['Please choose from above'];
@@ -797,138 +835,140 @@
             var system_tag = systemdetail['systag'];
             var system_name = systemdetail['sysname'];
             const units = generateUnits(diagram_area, system_name, system_tag);
-            console.log(diagram_area, system_name, system_tag);
-            console.log(units);
+
+            myDisplayUpdater.updateResidential(units, units * 4);
+
         });
 
-        function generateUnits(diagramArea, sysName, sysTag){
 
-        var whiteListedSysName = ['HDH', 'LDH', 'IND', 'COM', 'COMIND', 'HSNG', 'HSG', 'MXD'];
+        function generateUnits(diagramArea, sysName, sysTag) {
 
-        var COMBuilding = function () {
-            const elevationoffset = 1;
-            const comHeights = [14, 25, 30, 22, 28];
-            const floorHeight = 5;
-            const avgUnitsize = 50;
+            var whiteListedSysName = ['HDH', 'LDH', 'IND', 'COM', 'COMIND', 'HSNG', 'HSG', 'MXD'];
 
-            this.generateUnits = function (area) {
-                var height = elevationoffset + comHeights[Math.floor(Math.random() * comHeights.length)];
-                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
-                var numUnitsperFloor = Math.round(area / avgUnitsize);
-                var totalUnits = numUnitsperFloor * numFloors;
-                return totalUnits;
-            };
-        }
+            var COMBuilding = function () {
+                const elevationoffset = 1;
+                const comHeights = [14, 25, 30, 22, 28];
+                const floorHeight = 5;
+                const avgUnitsize = 50;
 
-        var LDHousing = function () {
-            const elevationoffset = 1;
-            const ldhHeights = [1, 2, 3];
-            const floorHeight = 5;
-            const avgUnitsize = 100;
-
-            this.generateUnits = function (area) {
-                var height = elevationoffset + ldhHeights[Math.floor(Math.random() * ldhHeights.length)];
-                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
-                var numUnitsperFloor = Math.round(area / avgUnitsize);
-                var totalUnits = numUnitsperFloor * numFloors;
-                return totalUnits;
-            };
-        }
-
-        var HDHousing = function () {
-            const elevationoffset = 1;
-            const hdhHeights = [36, 60, 90]; // in meters 
-            const floorHeight = 5;
-            const avgUnitsize = 50;
-
-            this.generateUnits = function (area) {
-                var height = elevationoffset + hdhHeights[Math.floor(Math.random() * hdhHeights.length)];
-                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
-                var numUnitsperFloor = Math.round(area / avgUnitsize);
-                var totalUnits = numUnitsperFloor * numFloors;
-                return totalUnits;
-            };
-        }
-
-        var MXDBuildings = function () {
-            const elevationoffset = 1;
-            const mxdHeights = [9, 12, 8, 11]; // in meters 
-            const floorHeight = 5;
-            const avgUnitsize = 75;
-
-            this.generateUnits = function (area) {
-                var height = elevationoffset + mxdHeights[Math.floor(Math.random() * mxdHeights.length)];
-                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
-                var numUnitsperFloor = Math.round(area / avgUnitsize);
-                var totalUnits = numUnitsperFloor * numFloors;
-                return totalUnits;
-            };
-        }
-
-        var LABBuildings = function () {
-            const elevationoffset = 1;
-            var labHeights = [10, 15];
-            const floorHeight = 5;
-            const avgUnitsize = 100;
-
-            this.generateUnits = function (area) {
-                var height = elevationoffset + labHeights[Math.floor(Math.random() * labHeights.length)];
-                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
-                var numUnitsperFloor = Math.round(area / avgUnitsize);
-                var totalUnits = numUnitsperFloor * numFloors;
-                return totalUnits;
-            };
-        }
-
-        var SMBBuildings = function () {
-            const elevationoffset = 1;
-            var smbHeights = [2, 3, 5, 6, 7, 10];
-            const floorHeight = 5;
-            const avgUnitsize = 75;
-
-            this.generateUnits = function (area) {
-                var height = elevationoffset + smbHeights[Math.floor(Math.random() * smbHeights.length)];
-                var numFloors = Math.round(height / floorHeight); // 5 meter per floor
-                var numUnitsperFloor = Math.round(area / avgUnitsize);
-                var totalUnits = numUnitsperFloor * numFloors;
-                return totalUnits;
-            };
-        }
-
-
-        if (whiteListedSysName.indexOf(sysName) >= 0) { // system is whitelisted
-            if ((sysName === 'HDH') || (sysName === 'HSNG') || (sysName === 'HSG')) {
-               
-                var hdh = new HDHousing();
-                units = hdh.generateUnits(diagramArea);
-            } else if (sysName === 'MXD') {
-
-               
-                var mxd = new MXDBuildings();
-                var units = mxd.generateUnits(diagramArea);
-            } else if (sysName === 'LDH') {
-                var ldh = new LDHousing();
-                units = ldh.generateUnits(diagramArea);
-
-            } else if ((sysName === 'COM') || (sysName === 'COMIND') || (sysName === 'IND')) {
-                var com = new COMBuilding();
-                units = com.generateUnits(diagramArea);
-                
+                this.generateUnits = function (area) {
+                    var height = elevationoffset + comHeights[Math.floor(Math.random() * comHeights.length)];
+                    var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                    var numUnitsperFloor = Math.round(area / avgUnitsize);
+                    var totalUnits = numUnitsperFloor * numFloors;
+                    return totalUnits;
+                };
             }
-        } else if ((sysTag === 'Large buildings, Industry, commerce')) { // system not whitelisted
-            var lab = new LABBuildings();
-            units = lab.generateUnits(diagramArea);
-           
-        } else if ((sysTag === 'Small buildings, low density housing')) { // system not whitelisted 
-            var smb = new SMBBuildings();
-            units = smb.generateUnits(diagramArea);
-            // yeild = 16;
-        } else {
-            units = 0;
-            // yeild = 12; // default yeild
+
+            var LDHousing = function () {
+                const elevationoffset = 1;
+                const ldhHeights = [1, 2, 3];
+                const floorHeight = 5;
+                const avgUnitsize = 100;
+
+                this.generateUnits = function (area) {
+                    var height = elevationoffset + ldhHeights[Math.floor(Math.random() * ldhHeights.length)];
+                    var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                    var numUnitsperFloor = Math.round(area / avgUnitsize);
+                    var totalUnits = numUnitsperFloor * numFloors;
+                    return totalUnits;
+                };
+            }
+
+            var HDHousing = function () {
+                const elevationoffset = 1;
+                const hdhHeights = [36, 60, 90]; // in meters 
+                const floorHeight = 5;
+                const avgUnitsize = 50;
+
+                this.generateUnits = function (area) {
+                    var height = elevationoffset + hdhHeights[Math.floor(Math.random() * hdhHeights.length)];
+                    var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                    var numUnitsperFloor = Math.round(area / avgUnitsize);
+                    var totalUnits = numUnitsperFloor * numFloors;
+                    return totalUnits;
+                };
+            }
+
+            var MXDBuildings = function () {
+                const elevationoffset = 1;
+                const mxdHeights = [9, 12, 8, 11]; // in meters 
+                const floorHeight = 5;
+                const avgUnitsize = 75;
+
+                this.generateUnits = function (area) {
+                    var height = elevationoffset + mxdHeights[Math.floor(Math.random() * mxdHeights.length)];
+                    var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                    var numUnitsperFloor = Math.round(area / avgUnitsize);
+                    var totalUnits = numUnitsperFloor * numFloors;
+                    return totalUnits;
+                };
+            }
+
+            var LABBuildings = function () {
+                const elevationoffset = 1;
+                var labHeights = [10, 15];
+                const floorHeight = 5;
+                const avgUnitsize = 100;
+
+                this.generateUnits = function (area) {
+                    var height = elevationoffset + labHeights[Math.floor(Math.random() * labHeights.length)];
+                    var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                    var numUnitsperFloor = Math.round(area / avgUnitsize);
+                    var totalUnits = numUnitsperFloor * numFloors;
+                    return totalUnits;
+                };
+            }
+
+            var SMBBuildings = function () {
+                const elevationoffset = 1;
+                var smbHeights = [2, 3, 5, 6, 7, 10];
+                const floorHeight = 5;
+                const avgUnitsize = 75;
+
+                this.generateUnits = function (area) {
+                    var height = elevationoffset + smbHeights[Math.floor(Math.random() * smbHeights.length)];
+                    var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                    var numUnitsperFloor = Math.round(area / avgUnitsize);
+                    var totalUnits = numUnitsperFloor * numFloors;
+                    return totalUnits;
+                };
+            }
+
+
+            if (whiteListedSysName.indexOf(sysName) >= 0) { // system is whitelisted
+                if ((sysName === 'HDH') || (sysName === 'HSNG') || (sysName === 'HSG')) {
+
+                    var hdh = new HDHousing();
+                    units = hdh.generateUnits(diagramArea);
+                } else if (sysName === 'MXD') {
+
+
+                    var mxd = new MXDBuildings();
+                    var units = mxd.generateUnits(diagramArea);
+                } else if (sysName === 'LDH') {
+                    var ldh = new LDHousing();
+                    units = ldh.generateUnits(diagramArea);
+
+                } else if ((sysName === 'COM') || (sysName === 'COMIND') || (sysName === 'IND')) {
+                    var com = new COMBuilding();
+                    units = com.generateUnits(diagramArea);
+
+                }
+            } else if ((sysTag === 'Large buildings, Industry, commerce')) { // system not whitelisted
+                var lab = new LABBuildings();
+                units = lab.generateUnits(diagramArea);
+
+            } else if ((sysTag === 'Small buildings, low density housing')) { // system not whitelisted 
+                var smb = new SMBBuildings();
+                units = smb.generateUnits(diagramArea);
+                // yeild = 16;
+            } else {
+                units = 0;
+                // yeild = 12; // default yeild
+            }
+            return units;
         }
-        return units;
-    }
     </script>
 </body>
 
