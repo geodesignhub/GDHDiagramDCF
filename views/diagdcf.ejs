@@ -124,19 +124,19 @@
                         <select id="base_asset_class" class="form-control">
                             <option selected disabled>Select Asset Class</option>
                             <option data-value='residential'>Residential</option>
-                            <option data-value='hospitality'>Hospitality</option>
-                            <!-- <option data-value='community'>Community</option>
-                        <option data-value='tourism'>Tourism</option>
-                        <option data-value='commercial'>Commercial</option>
-                        <option data-value='agriculture'>Agirculture</option>
-                        <option data-value='green-infrastruture'>Green Infrastruture</option> -->
+                            <!-- <option data-value='hospitality'>Hospitality</option>
+                            <option data-value='community'>Community</option>
+                            <option data-value='tourism'>Tourism</option>
+                            <option data-value='commercial'>Commercial</option>
+                            <option data-value='agriculture'>Agirculture</option>
+                            <option data-value='green-infrastruture'>Green Infrastruture</option> -->
                         </select>
 
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
 
-                        <select id="base_asset_subclass" class="form-control hidden">
-                            <option selected disabled>Change Densities</option>
+                        <select id="base_asset_subclass" class="form-control">
+                            <option selected disabled>Select Asset Subclass</option>
                         </select>
                     </div>
                 </div>
@@ -863,73 +863,67 @@
         }
         initCostSliders();
         var DisplayUpdater = function () {
-
             this.updateResidential = function (units, people_housed) {
 
                 $("#residential_units").html(units);
                 $("#number_of_people_residential").html(people_housed);
             }
             this.updateBeds = function (population, demand) {
-                $("#beds_per_capita").html(demand);
+                $("#beds_per_capita").editable('setValue',demand);
 
-                $("#total_hospital_beds").html(population * demand);
+                $("#total_hospital_beds").html(parseInt((population * demand)));
                 
-                $('.beds_editable').on('update', function(e, editable) {
-                    const population = $("#number_of_people_residential").val()
-                    $("#total_hospital_beds").html(population*editable.value);
-
-                });
             }
 
             this.updatePoliceStations = function (population, demand) {
-                $("#police_station_per_capita").html(demand);
+                $("#police_station_per_capita").editable('setValue',demand);
 
-                $("#total_police_stations").html(population * demand);
+                $("#total_police_stations").html(parseInt((population * demand)));
                 
                 $('.police_station_editable').on('update', function(e, editable) {
                     const population = $("#number_of_people_residential").val()
-                    $("#total_police_stations").html(population*editable.value);
+                    $("#total_police_stations").html(parseInt((population*editable.value)));
 
                 });
             }
 
             this.updateFireStations = function (population, demand) {
-                $("#fire_station_per_capita").html(demand);
+                $("#fire_station_per_capita").editable('setValue',demand);
 
-                $("#total_firestations").html(population * demand);
+                $("#total_firestations").html(parseInt(population * demand));
                 
                 $('.fire_station_editable').on('update', function(e, editable) {
                     const population = $("#number_of_people_residential").val()
-                    $("#total_police_stations").html(population*editable.value);
+                    $("#total_fire_stations").html(parseInt((population*editable.value)));
 
                 });
             }
 
             this.updateSchools = function (population, demand) {
-                $("#school_per_capita").html(demand);
+                $("#school_per_capita").editable('setValue',demand);
 
-                $("#total_schools").html(population * demand);
+                $("#total_schools").html(parseInt((population * demand)));
                 
                 $('.schools_editable').on('update', function(e, editable) {
-                    const population = $("#number_of_people_residential").val() *.05
-                    $("#total_schools").html(population*editable.value);
+                    const population = $("#number_of_people_residential").val() *.05;
+                    console.log(population, editable.value)
+                    $("#total_schools").html(parseInt((population*editable.value)));
 
                 });
             }
 
             this.updateEnergy = function (population, demand) {
-                $("#energy_per_capita").html(demand);
+                $("#energy_per_capita").editable('setValue',demand);
 
                 $("#total_energy_demand").html(abbrNum((population*demand),2));
                 
                 $('.energy_editable').on('update', function(e, editable) {
                     const population = $("#number_of_people_residential").val();
                     $("#total_energy_demand").html(abbrNum((population*editable.value),2));
-
                 });
             }
             this.updateWater = function (population, demand) {
-                $("#water_per_capita").html(demand);
+                $("#water_per_capita").editable('setValue',demand);
 
                 $("#total_water_demand").html(abbrNum((population * demand),2));
                 
@@ -941,7 +935,7 @@
             }
             
             this.updateSewage = function (population, demand) {
-                $("#sewage_per_capita").html(demand);
+                $("#sewage_per_capita").editable('setValue',demand);
 
                 $("#total_sewage_demand").html(abbrNum((population*demand),2));
                 
@@ -953,19 +947,19 @@
             }
             
             this.updateTransport = function (population, percent_road, percent_rail, times_road, times_rail) {
-                $("#percent_road_usage").html(percent_road);
-                $("#percent_rail_usage").html(percent_rail);
+                $("#percent_road_usage").editable('setValue',percent_road);
+                $("#percent_rail_usage").editable('setValue',percent_rail);
 
                 $("#road_terminal_freq").html(times_road);
                 $("#rail_terminal_freq").html(times_rail);
-                $("#total_rail_usage").html(population*percent_rail*times_rail);
-                $("#total_road_usage").html(population*percent_road*times_road);
+                $("#total_rail_usage").html(abbrNum((population*percent_rail*times_rail),2));
+                $("#total_road_usage").html(abbrNum((population*percent_road*times_road),2));
 
                 $('.road_editable').on('update', function(e, editable) {
                     const population = $("#number_of_people_residential").val();
                     const road_percent = population * editable.value;
                     const road_freq = $("#road_terminal_freq").val();
-                    $("#total_road_usage").html(population*road_percent*road_freq);
+                    $("#total_road_usage").html(abbrNum((population*road_percent*road_freq),2));
                 
                 });
 
@@ -973,7 +967,7 @@
                     const population = $("#number_of_people_residential").val();
                     const rail_percent = population * editable.value;
                     const rail_freq = $("#rail_terminal_freq").val();
-                    $("#total_rail_usage").html(population*rail_percent*rail_freq);
+                    $("#total_rail_usage").html(abbrNum((population*rail_percent*rail_freq),2));
                 
                 });
             }
@@ -982,20 +976,21 @@
         initpercentSliders();
         //built and non-built environment
         const data = {
-            'residential': "Luxury,High Priced, Mid Priced, Low Priced, Affordable Housing",
-            "hospitality": "Luxury, Upscale Hotel, Midscale Hotel, Budget Hotel",
-            "community": "Hospital,Police Station, Fire Station, School,Community Center, Playground",
-            "tourism": "Eco Tourism, Low Density Attraction, High Density Attraction",
-            "retail": "Luxury Retail, Retail, Multi-storey Retail, Mall, Support Retail, Office",
-            "agriculture": "Crop Farmland, Grassland, Orchard",
-            "green-infrastruture": "Public Park, Garden Land, Woodland, Tree line ",
-            "blue-infrastructure": "Dikes, Barrier walls"
+            'residential': "Luxury,High Priced,Mid Priced,Low Priced,Affordable Housing",
+            "hospitality": "Luxury,Upscale Hotel,Midscale Hotel,Budget Hotel",
+            "community": "Hospital,Police Station,Fire Station,School,Community Center,Playground",
+            "tourism": "Eco Tourism,Low Density Attraction,High Density Attraction",
+            "retail": "Luxury Retail,Retail,Multi-storey Retail,Mall,Support Retail,Office",
+            "agriculture": "Crop Farmland,Grassland,Orchard",
+            "green-infrastruture": "Public Park,Garden Land,Woodland,Tree line",
+            "blue-infrastructure": "Dikes,Barrier walls"
         };
-        myDisplayUpdater = new DisplayUpdater();
+
+      $('#base_asset_subclass').on('change', function (e) {
+                myResidentialControl.update();  
+      });
         $('#base_asset_class').on('change', function (e) {
-
             var key = $(this).find("option:selected").attr('data-value');
-
             $(".usage_form").each(function (index) {
                 $(this).removeClass("hidden");
                 $(this).hide();
@@ -1005,6 +1000,9 @@
                 case 'residential':
                     vals = data.residential.split(",");
                     $("#built_env_form_residential").show();
+                    
+                    myResidentialControl.update();
+                    myResidentialControl.initialize();
                     break;
                 case 'hospitality':
                     vals = data.hospitality.split(",");
@@ -1029,35 +1027,21 @@
                 case 'base':
                     vals = ['Please choose from above'];
             }
+               var $secondChoice = $("#base_asset_subclass");
+                $secondChoice.empty();
+                $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
+                $.each(vals, function (index, value) {
+                    $secondChoice.append("<option >" + value + "</option>");
+                  
+                });
+        });
+        
 
+    var ResidentialCalaulator = function (){
 
-            var $secondChoice = $("#base_asset_subclass");
-            $secondChoice.empty();
-            $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
-            $.each(vals, function (index, value) {
-                $secondChoice.append("<option>" + value + "</option>");
-            });
+            this.initialize = function() {
 
-            var system_id = diagramdetail['sysid'];
-            var diagram_area = diagramdetail.area;
-            var system_tag = systemdetail['systag'];
-            var system_name = systemdetail['sysname'];
-            const units = generateUnits(diagram_area, system_name, system_tag);
-            
-            const population = units *4;
-            
-            myDisplayUpdater.updateResidential(units, population);
-            myDisplayUpdater.updateBeds(population, 0.0035);
-            myDisplayUpdater.updatePoliceStations(population, 0.0035);
-            myDisplayUpdater.updateBeds(population, 0.0035);
-            myDisplayUpdater.updateFireStations(population, 0.0035);
-            myDisplayUpdater.updateSchools(population*0.05, 5);
-            myDisplayUpdater.updateEnergy(population, 12.8);
-            myDisplayUpdater.updateWater(population, 200);
-            myDisplayUpdater.updateSewage(population, 82);
-            myDisplayUpdater.updateTransport(population, .8,.2,2,2);
-
-                $('.editable').editable({
+                $('#residential_units').editable({
                     validate: function (value) {
                         if ($.trim(value) == '') {
                             return 'This field is required';
@@ -1067,9 +1051,151 @@
                     }
                 });
 
-        });
+                $('#residential_units').on('change', function(e, editable) {
+                    $('#number_of_people_residential').editable('setValue', editable.value*4);
+                     myResidentialControl.update();
+                    
+                });
+
+                   
+                $('#number_of_people_residential').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#beds_per_capita').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+                $('.beds-editable').on('change', function(e, editable) {
+                    
+                    const population = $("#number_of_people_residential").val()
+                    $("#total_hospital_beds").html(abbrNum((population*editable.value),2));
+
+                });
+                $('#police_station_per_capita').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#fire_station_per_capita').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#school_per_capita').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#energy_per_capita').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#water_per_capita').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#sewage_per_capita').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#percent_road_usage').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#percent_rail_usage').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
 
 
+
+
+            }
+            this.update = function() {
+             
+                
+                const residential_class_defaults = {"Luxury":{"beds":0.0025, "police_stations":0.0025, "fire_stations" :0.0025,"schools": 4, "energy": 14, "water":220, "sewage":102, "transport":{'road':0.9, 'rail':0.1}}, "High Priced":{"beds":0.0025, "police_stations":0.0025, "fire_stations" :0.0025,"schools": 4, "energy": 14, "water":220, "sewage":102, "transport":{'road':0.9, 'rail':0.1}}, "Mid Priced":{"beds":0.0035, "police_stations":0.0035, "fire_stations" :0.0035,"schools": 5, "energy": 12.8, "water":200, "sewage":82, "transport":{'road':0.3, 'rail':0.7}} , "Low Priced": {"beds":0.0045, "police_stations":0.0045, "fire_stations" :0.0045,"schools": 7, "energy": 10, "water":180, "sewage":72, "transport":{'road':0.4, 'rail':0.6}}, "Affordable Housing":{"beds":0.0055, "police_stations":0.0055, "fire_stations" :0.0055,"schools": 10, "energy": 8, "water":160, "sewage":60, "transport":{'road':0.5, 'rail':0.5}}};
+
+
+                myDisplayUpdater = new DisplayUpdater();
+ 
+                var system_id = diagramdetail['sysid'];
+                var diagram_area = diagramdetail['area'];
+                var system_tag = systemdetail['systag'];
+                var system_name = systemdetail['sysname'];
+                
+                const units = generateUnits(diagram_area, system_name, system_tag);
+                
+                const population = units *4;
+                
+                var selected_subclass = $("#base_asset_subclass").val();
+
+                selected_subclass = (selected_subclass) ? selected_subclass : 'Mid Priced';
+                
+                myDisplayUpdater.updateResidential(units, population);
+                myDisplayUpdater.updateBeds(population, residential_class_defaults[selected_subclass]['beds']);
+                myDisplayUpdater.updatePoliceStations(population,residential_class_defaults[selected_subclass]['police_stations']);
+                myDisplayUpdater.updateFireStations(population, residential_class_defaults[selected_subclass]['fire_stations']);
+                myDisplayUpdater.updateSchools(population*0.05, residential_class_defaults[selected_subclass]['schools']);
+                myDisplayUpdater.updateEnergy(population, residential_class_defaults[selected_subclass]['energy']);
+                myDisplayUpdater.updateWater(population, residential_class_defaults[selected_subclass]['water']);
+                myDisplayUpdater.updateSewage(population, residential_class_defaults[selected_subclass]['sewage']);
+                myDisplayUpdater.updateTransport(population, residential_class_defaults[selected_subclass]['transport']['road'],residential_class_defaults[selected_subclass]['transport']['rail'],2,2);
+
+
+            }
+        }
+
+        myResidentialControl = new ResidentialCalaulator();
         function generateUnits(diagramArea, sysName, sysTag) {
 
             var whiteListedSysName = ['HDH', 'LDH', 'IND', 'COM', 'COMIND', 'HSNG', 'HSG', 'MXD'];
