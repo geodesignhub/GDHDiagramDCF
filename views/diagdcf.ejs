@@ -898,48 +898,55 @@
                 $("#number_of_people_residential").html(people_housed);
             }
             this.updateBeds = function (population, demand) {
-                // $("#beds_per_capita").editable('setValue', demand);
-                $("#beds_per_capita").html(demand);
-
+                $("#beds_per_capita").editable('setValue', demand);
+                // $("#beds_per_capita").html(demand);
                 $("#total_hospital_beds").html(parseInt((population * demand)));
 
-                // $('.beds_editable').on('update', function (e, editable) {
-                //     const population = $("#number_of_people_residential").val() * .05;
-                //     console.log(population, editable.value)
-                //     $("#total_schools").html(parseInt((population * editable.value)));
+            }
+            }
+            this.updateBedsRecompute = function (population) {
+                const demand = $("#beds_per_capita").editable('getValue', true);
 
-                // });
+                // $("#beds_per_capita").html(demand);
+                $("#total_hospital_beds").html(parseInt((population * demand)));
+
             }
 
             this.updatePoliceStations = function (population, demand) {
-                // $("#police_station_per_capita").editable('setValue', demand);
-                $("#police_station_per_capita").html(demand);
+                $("#police_station_per_capita").editable('setValue', demand);
+                // $("#police_station_per_capita").html(demand);
 
                 $("#total_police_stations").html(parseInt((population * demand)));
 
-                // $('.police_station_editable').on('update', function (e, editable) {
-                //     const population = $("#number_of_people_residential").val()
-                //     $("#total_police_stations").html(parseInt((population * editable.value)));
+            }
 
-                // });
+            this.updatePoliceStationsRecompute = function (population) {
+                const demand = $("#police_station_per_capita").editable('getValue', true);
+                // $("#police_station_per_capita").html(demand);
+
+                $("#total_police_stations").html(parseInt((population * demand)));
+
             }
 
             this.updateFireStations = function (population, demand) {
-                // $("#fire_station_per_capita").editable('setValue', demand);
-                $("#fire_station_per_capita").html(demand);
+                $("#fire_station_per_capita").editable('setValue', demand);
+                // $("#fire_station_per_capita").html(demand);
 
                 $("#total_firestations").html(parseInt(population * demand));
 
-                // $('.fire_station_editable').on('update', function (e, editable) {
-                //     const population = $("#number_of_people_residential").val()
-                //     $("#total_fire_stations").html(parseInt((population * editable.value)));
+            }
 
-                // });
+            this.updateFireStationsRecompte = function (population) {
+                const demand = $("#fire_station_per_capita").editable('getValue', true);
+                // $("#fire_station_per_capita").html(demand);
+
+                $("#total_firestations").html(parseInt(population * demand));
+
             }
 
             this.updateSchools = function (population, demand) {
-                // $("#school_per_capita").editable('setValue', demand);
-                $("#school_per_capita").html(demand);
+                $("#school_per_capita").editable('setValue', demand);
+                // $("#school_per_capita").html(demand);
                 $("#total_schools").html(parseInt((population * demand)));
 
                 // $('.schools_editable').on('update', function (e, editable) {
@@ -950,9 +957,16 @@
                 // });
             }
 
+            this.updateSchoolsRecompute = function (population, ) {
+                const demand = $("#school_per_capita").editable('getValue', true);
+                // $("#school_per_capita").html(demand);
+                $("#total_schools").html(parseInt((population * demand)));
+
+            }
+
             this.updateEnergy = function (population, demand) {
-                // $("#energy_per_capita").editable('setValue', demand);
-                $("#energy_per_capita").html(demand);
+                $("#energy_per_capita").editable('setValue', demand);
+                // $("#energy_per_capita").html(demand);
 
                 $("#total_energy_demand").html(abbrNum((population * demand), 2));
 
@@ -961,9 +975,17 @@
                 //     $("#total_energy_demand").html(abbrNum((population * editable.value), 2));
                 // });
             }
+
+            this.updateEnergyRecompute = function (population) {
+                const demand = $("#energy_per_capita").editable('getValue', true);
+                // $("#energy_per_capita").html(demand);
+
+                $("#total_energy_demand").html(abbrNum((population * demand), 2));
+
+            }
             this.updateWater = function (population, demand) {
-                // $("#water_per_capita").editable('setValue', demand);
-                $("#water_per_capita").html(demand);
+                $("#water_per_capita").editable('setValue', demand);
+                // $("#water_per_capita").html(demand);
 
                 $("#total_water_demand").html(abbrNum((population * demand), 2));
 
@@ -973,10 +995,17 @@
 
                 // });
             }
+            this.updateWaterRecompute = function (population, demand) {
+                const demand = $("#water_per_capita").editable('getValue', true);
+                // $("#water_per_capita").html(demand);
+
+                $("#total_water_demand").html(abbrNum((population * demand), 2));
+
+            }
 
             this.updateSewage = function (population, demand) {
-                // $("#sewage_per_capita").editable('setValue', demand);
-                $("#sewage_per_capita").html(demand);
+                $("#sewage_per_capita").editable('setValue', demand);
+                // $("#sewage_per_capita").html(demand);
 
                 $("#total_sewage_demand").html(abbrNum((population * demand), 2));
 
@@ -987,11 +1016,19 @@
                 // });
             }
 
+            this.updateSewageRecompute = function (population) {
+                const demand = $("#sewage_per_capita").editable('getValue', true);
+                // $("#sewage_per_capita").html(demand);
+
+                $("#total_sewage_demand").html(abbrNum((population * demand), 2));
+
+            }
+
             this.updateTransport = function (population, percent_road, percent_rail, times_road, times_rail) {
-                // $("#percent_road_usage").editable('setValue', percent_road);
-                // $("#percent_rail_usage").editable('setValue', percent_rail);
-                $("#percent_road_usage").html(percent_road);
-                $("#percent_rail_usage").html(percent_rail);
+                $("#percent_road_usage").editable('setValue', percent_road);
+                $("#percent_rail_usage").editable('setValue', percent_rail);
+                // $("#percent_road_usage").html(percent_road);
+                // $("#percent_rail_usage").html(percent_rail);
 
                 $("#road_terminal_freq").html(times_road);
                 $("#rail_terminal_freq").html(times_rail);
@@ -1013,6 +1050,16 @@
                 //     $("#total_rail_usage").html(abbrNum((population * rail_percent * rail_freq), 2));
 
                 // });
+            }
+
+            this.updateTransportRecompute = function (population,times_road, times_rail) {
+               const percent_road =  $("#percent_road_usage").editable('getValue', true);
+               const percent_rail =  $("#percent_rail_usage").editable('getValue', true);
+               
+                $("#total_rail_usage").html(abbrNum((population * percent_rail * times_rail), 2));
+                $("#total_road_usage").html(abbrNum((population * percent_road * times_road), 2));
+
+
             }
 
         }
@@ -1086,7 +1133,7 @@
 
 
         var ResidentialCalaulator = function () {
-            this.recompute = function(){
+            this.initcompute = function(){
                     const numresidences = parseInt($("#residential_units").editable('getValue', true));
                     const population = parseInt($("#number_of_people_residential").editable('getValue', true));
                     // const population = $('#number_of_people_residential').editable('setValue', numresidences * 4);
@@ -1205,6 +1252,26 @@
                 // });
 
 
+
+
+            }
+            this.recompute = function (){
+
+
+                myDisplayUpdater = new DisplayUpdater();
+
+                const numresidences = parseInt($("#residential_units").editable('getValue', true));
+                const population = parseInt($("#number_of_people_residential").editable('getValue', true));
+                
+                
+                myDisplayUpdater.updateBedsRecompute(population);
+                myDisplayUpdater.updatePoliceStationsRecompute(population);
+                myDisplayUpdater.updateFireStationsRecompte(population);
+                myDisplayUpdater.updateSchoolsRecompute(population * 0.05);
+                myDisplayUpdater.updateEnergyRecompute(population);
+                myDisplayUpdater.updateWaterRecompute(population);
+                myDisplayUpdater.updateSewageRecompute(population);
+                myDisplayUpdater.updateTransportRecompute(population, 2, 2);
 
 
             }
