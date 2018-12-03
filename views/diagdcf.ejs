@@ -900,7 +900,7 @@
             this.updateBeds = function (population, demand) {
                 $("#beds_per_capita").editable('setValue', demand);
                 // $("#beds_per_capita").html(demand);
-                $("#total_hospital_beds").html(parseInt((population * demand)));
+                $("#total_hospital_beds").html(abbrNum(parseInt((population * demand)),2));
 
             }
             }
@@ -908,7 +908,7 @@
                 const demand = $("#beds_per_capita").editable('getValue', true);
 
                 // $("#beds_per_capita").html(demand);
-                $("#total_hospital_beds").html(parseInt((population * demand)));
+                $("#total_hospital_beds").html(abbrNum(parseInt((population * demand)),2));
 
             }
 
@@ -916,7 +916,7 @@
                 $("#police_station_per_capita").editable('setValue', demand);
                 // $("#police_station_per_capita").html(demand);
 
-                $("#total_police_stations").html(parseInt((population * demand)));
+                $("#total_police_stations").html(abbrNum(parseInt((population * demand)),2));
 
             }
 
@@ -924,7 +924,7 @@
                 const demand = $("#police_station_per_capita").editable('getValue', true);
                 // $("#police_station_per_capita").html(demand);
 
-                $("#total_police_stations").html(parseInt((population * demand)));
+                $("#total_police_stations").html(abbrNum(parseInt((population * demand)),2));
 
             }
 
@@ -932,7 +932,7 @@
                 $("#fire_station_per_capita").editable('setValue', demand);
                 // $("#fire_station_per_capita").html(demand);
 
-                $("#total_firestations").html(parseInt(population * demand));
+                $("#total_firestations").html(abbrNum(parseInt(population * demand)),2);
 
             }
 
@@ -940,14 +940,14 @@
                 const demand = $("#fire_station_per_capita").editable('getValue', true);
                 // $("#fire_station_per_capita").html(demand);
 
-                $("#total_firestations").html(parseInt(population * demand));
+                $("#total_firestations").html(abbrNum(parseInt(population * demand)),2);
 
             }
 
             this.updateSchools = function (population, demand) {
                 $("#school_per_capita").editable('setValue', demand);
                 // $("#school_per_capita").html(demand);
-                $("#total_schools").html(parseInt((population * demand)));
+                $("#total_schools").html(abbrNum(parseInt((population * demand))),2);
 
                 // $('.schools_editable').on('update', function (e, editable) {
                 //     const population = $("#number_of_people_residential").val() * .05;
@@ -960,7 +960,7 @@
             this.updateSchoolsRecompute = function (population, ) {
                 const demand = $("#school_per_capita").editable('getValue', true);
                 // $("#school_per_capita").html(demand);
-                $("#total_schools").html(parseInt((population * demand)));
+                $("#total_schools").html(abbrNum(parseInt((population * demand))),2);
 
             }
 
@@ -1256,13 +1256,9 @@
 
             }
             this.recompute = function (){
-
-
                 myDisplayUpdater = new DisplayUpdater();
-
                 const numresidences = parseInt($("#residential_units").editable('getValue', true));
                 const population = parseInt($("#number_of_people_residential").editable('getValue', true));
-                
                 
                 myDisplayUpdater.updateBedsRecompute(population);
                 myDisplayUpdater.updatePoliceStationsRecompute(population);
@@ -1273,10 +1269,8 @@
                 myDisplayUpdater.updateSewageRecompute(population);
                 myDisplayUpdater.updateTransportRecompute(population, 2, 2);
 
-
             }
             this.update = function (units, population) {
-
 
                 const residential_class_defaults = {
                     "Luxury": {
