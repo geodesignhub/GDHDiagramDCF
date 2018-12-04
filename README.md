@@ -1,8 +1,8 @@
-# Geodesign Hub Diagram Discounted Cash Flow Calculator
-This is small plugin to help undertake cash flow analysis on diagrams in Geodesign Hub. It uses the Geodesign Hub [API](http://www.geodesignhub.com/api/) to download the diagram and systems data and then provides a series of controls  
+# Geodesign Hub Asset Analysis
+This is small plugin to help undertake cash flow and asset analysis on diagrams in Geodesignhub. It uses the Geodesign Hub [API](http://www.geodesignhub.com/api/) to download the diagram and systems data and then provides a series of controls to analyze potential uses of this asset. 
 
 ![alt text][logo]
 
-[logo]: http://i.imgur.com/LbxYEQV.png "Geodesign Hub Diagram Discounted Cash Flow"
+[logo]: https://i.imgur.com/GGi7Jcy.jpg "Geodesign Hub Diagram Discounted Cash Flow"
 
 
