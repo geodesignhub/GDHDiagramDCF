@@ -76,14 +76,14 @@ app.get('/', function(request, response) {
                     "systems": JSON.stringify(results[1]),
                     "systemdetail": JSON.stringify(sysdetails[0]),
                 };
-                response.render('diagdcf', opts);
+                response.render('assetanalysis', opts);
             });
 
         });
 
     } else {
         opts = { 'csrfToken': request.csrfToken(), 'systemdetail': '0', 'apitoken': '0', 'projectid': '0', "diagramdetail": '0', 'systems': '0' };
-        response.render('diagdcf', opts);
+        response.render('assetanalysis', opts);
     }
 
 });
