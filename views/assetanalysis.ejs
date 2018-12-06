@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Asset Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" lang="en" content="Geodesignhub Asset Analysis">
+    <meta name="author" content="Geodesignhub">
+    <meta name="robots" content="index, follow">
+    <!-- icons -->
+    <link rel="shortcut icon" href="/assets/loaders/favicon.ico">
+    <!-- Bootstrap Core CSS file -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <!-- Override CSS file - add your own CSS rules -->
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/ion.rangeSlider.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/ion.rangeSlider.skinFlat.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/flatty.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-editable.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <!-- Conditional comment containing JS files for IE6 - 8 -->
+    <!--[if lt IE 9]>
+            <script src="assets/js/html5.js"></script>
+            <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Geodesignhub Asset Analysis</a>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <!-- /.navbar -->
+    <!-- Page Content -->
+    <div class="container-fluid">
+        <!-- /.row -->
+        <br>
+        <!-- Heading Row -->
+        <div class="row">
+            <div class="col-md-12">
+
+                <p class="description">This plugin downloads a diagram from Geodesignhub, computes its area and
+                    construction costs and provides a <a href="https://en.wikipedia.org/wiki/Discounted_cash_flow"
+                        target="_blank">Discounted Cash Flow</a> analysis to calculate Net Present Value of this
+                    project. In additional detailed what-if asset analysis can also be conducted for this site and project. </p>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <h3>Input Diagram</h3>
+                <div id="inputmap"></div>
+                <h4 id="diagName"></h4>
+                <h5 id="diagAreaLength"></h5>
+                <h5 id="sysCost"></h5>
+            </div>
+            <div class="col-md-6">
+                <h3>Parameters</h3>
+                <h5>Capital Expenditure / Initial Investment</h5>
+                <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
+                <h5>Annual Cashflow</h5>
+                <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
+                <h5>Annual OpEx</h5>
+                <p><input type="text" id="aopex-slider" name="aopex-slider" value="" /></p>
+                <h5>Annual SG&A</h5>
+                <p><input type="text" id="asga-slider" name="asga-slider" value="" /></p>
+                <h5>Annual cashflow growth (inflation)</h5>
+                <p><input type="text" id="acfg-slider" name="acfg-slider" value="" /></p>
+                <h5>Weighted Annual Cost of Capital (WACC)</h5>
+                <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
+                <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i>
+                        Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <h3>25-year Discounted Cash Flow</h3>
+                <div id="dcfchart">
+                    <canvas id="chart" height="150"></canvas>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h3>DCF and NPV</h3>
+                <p>Total discounted cashflow and the net present value (total cash flow - initial investment) is shown
+                    below.</p>
+                <h6>Total Discounted Cash Flow</h6>
+                <h3 id="totaldcf"></h3>
+                <br>
+                <h6>Net Present Value (NPV)</h6>
+                <h3 id="npvVal"></h3>
+                <p id="npvmeaning"></p>
+            </div>
+        </div>
+
+        <!-- /.col-md-4 -->
+
+        <!-- /.row -->
+
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Asset Analysis</h3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <select id="base_asset_class" class="form-control">
+                            <option selected disabled>Select Asset Class</option>
+                            <option data-value='residential'>Residential</option>
+                            <option data-value='hospitality'>Hospitality</option>
+                            <!-- <option data-value='community'>Community</option>
+                            <option data-value='tourism'>Tourism</option>
+                            <option data-value='commercial'>Commercial</option>
+                            <option data-value='agriculture'>Agirculture</option>
+                            <option data-value='green-infrastruture'>Green Infrastruture</option> -->
+                        </select>
+
+                    </div>
+                    <div class="col-md-4">
+
+                        <select id="base_asset_subclass" class="form-control">
+                            <option selected disabled>Select Asset Subclass</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class='usage_form hidden' id="built_env_form_residential">
+                            <h4>Total units: <a class="editable" href="#" id="residential_units" data-type="text"
+                                    data-title="Enter new residential units e.g. 5"></a></h4>
+                            <h4>Total people housed: <a class="editable" href="#" id="number_of_people_residential"
+                                    data-type="text" data-title="Enter number of people living here"></a></h4>
+                            <button id="recompute_residential" type="button" class="btn btn-info">Recompute</button>
+
+
+                        </div>
+
+                        <div class='usage_form hidden' id="built_env_form_tourism">
+                            <h4>Average m2 per guest: <a class="editable" href="#" id="tourism_m2_per_guest" data-type="text"
+                                    data-title="Enter new room size e.g. 5">58</a></h4>
+
+                            <h4>Floors: <a class="editable" href="#" id="tourism_floors" data-type="text" data-title="Enter new floors e.g. 5">2</a></h4>
+
+                            <h4>Land Area Factor: <a class="editable" href="#" id="tourism_land_area" data-type="text"
+                                    data-title="Enter new land consumption factor  e.g. 5">3</a></h4>
+
+                            <h4>Avg. People per room: <a class="editable" href="#" id="tourism_people_per_room"
+                                    data-type="text" data-title="Enter new people per room">3</a></h4>
+
+                            <h4>Target Occupancy Rate: <span id="target_occupancy_rate"><a class="editable" href="#" id="target_occupancy_rate"
+                                data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></span></h4>
+                            <br>
+                            
+                            <h3>Total Rooms: <span id="tourism_total_rooms">3</span></h3>
+
+                            <h3>Yearly Visitors: <span id="total_yearly_visitors">3</span></h3>
+                            <br>
+                            <button id="recompute_tourism" type="button" class="btn btn-info">Recompute</button>
+
+                        </div>
+
+
+                        <div class='usage_form hidden' id="built_env_form_retail">
+                            <h4>Visitors</h4>
+                            <h4>Occupancy Rate</h4>
+                        </div>
+
+                        <div class='usage_form hidden' id="built_env_form_community">
+                            <h4>Visitors</h4>
+                            <h4>Peak Demand</h4>
+
+                        </div>
+                        <div class='usage_form hidden' id="built_env_form_agriculture">
+
+                        </div>
+
+                        <div class='usage_form hidden' id="built_env_form_green-infrastructure">
+
+                        </div>
+                        <br>
+
+                        <div id="services" class="services_form">
+                            <h3>Services</h3>
+                            <p>A summary of services necessary for this Asset</p>
+                            <h4>Community</h4>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Hospital Beds per capita</th>
+                                        <td>
+                                            <!-- <a class="editable beds_editable" href="#" id="beds_per_capita" data-type="text"
+                                            data-title="Enter new beds demand e.g. .0040"></a> -->
+                                            <span id="beds_per_capita"></span>
+                                        </td>
+                                        <td>Total beds: <span id='total_hospital_beds'></span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Policestations per capita</th>
+                                        <td>
+                                            <!-- <a class="editable police_station_editable" href="#" id="police_station_per_capita"
+                                            data-type="text" data-title="Enter new police demand e.g. .0040"></a> -->
+                                            <span id="police_station_per_capita"></span>
+                                        </td>
+                                        <td>Total police stations: <span id='total_police_stations'></span></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">Firestations per capita</th>
+                                        <td>
+                                            <!-- <a class="editable fire_station_editable" href="#" id="fire_station_per_capita"
+                                            data-type="text" data-title="Enter new fire station demand e.g. .0040"></a> -->
+                                            <span id="fire_station_per_capita"></span>
+                                        </td>
+                                        <td>Total fire stations: <span id='total_firestations'></span></td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <th scope="row">K12 Schools (m2) per student (5% of population)</th>
+                                        <td>
+                                            <!-- <a class="editable schools_editable" href="#" id="school_per_capita" data-type="text"
+                                            data-title="Enter new school demand e.g. 6"></a> -->
+                                            <span id="school_per_capita"></span>
+                                        </td>
+                                        <td>Total school area required: <span id='total_schools'></span></td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+                            <h4>Energy</h4>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Electricity demand per person (MWh / year) </th>
+                                        <td>
+                                            <!-- <a class="editable energy_editable" href="#" id="energy_per_capita" data-type="text"
+                                            data-title="Enter new energy demand e.g. .0040"></a> -->
+                                            <span id="energy_per_capita"></span>
+
+                                        </td>
+                                        <td>Total electricity demand: <span id='total_energy_demand'></span></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <h4>Water</h4>
+
+                            <table class="table table-bordered">
+                                <tbody>
+
+                                    <th scope="row">Water demand (m3/year/person) </th>
+                                    <td>
+                                        <!-- <a class="editable water_editable" href="#" id="water_per_capita" data-type="text"
+                                        data-title="Enter new water demand e.g. 300"></a> -->
+                                        <span id="water_per_capita"></span>
+                                    </td>
+                                    <td>Total water: <span id='total_water_demand'></span></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <h4>Sewage</h4>
+
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Sewage demand (m3/year/person)</th>
+                                        <td>
+                                            <!-- <a class="editable sewage_editable" href="#" id="sewage_per_capita" data-type="text"
+                                            data-title="Enter new sewage demand e.g. 100"></a> -->
+                                            <span id="sewage_per_capita"></span>
+                                        </td>
+                                        <td>Total sewage demand: <span id='total_sewage_demand'></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h4>Transport</h4>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">% using Road (twice a day)</th>
+                                        <td>
+                                            <!-- <a class="editable road_editable" href="#" id="percent_road_usage" data-type="text"
+                                            data-title="Enter new road percent e.g. .8"></a> -->
+                                            <span id="percent_road_usage"></span>
+                                        </td>
+
+                                        <td>Annual Usage</td>
+                                        <td><span id='total_road_usage'></span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">% using Rail (twice a day)</th>
+                                        <td>
+                                            <!-- <a class="editable rail_editable" href="#" id="percent_rail_usage" data-type="text"
+                                            data-title="Enter new rail percent e.g. .2"></a> -->
+                                            <span id="percent_rail_usage"></span>.
+                                        </td>
+
+                                        <td>Annual Usage</td>
+                                        <td><span id='total_rail_usage'></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+                <p class="pull-right"> Currency: <select id="workingcurrency">
+                        <option value="USD">US dollar</option>
+                        <option value="EUR" selected>European Euro</option>
+                        <option value="JPY">Japanese yen</option>
+                        <option value="GBP">Pound sterling</option>
+                        <option value="AUD">Australian dollar</option>
+                        <option value="CAD">Canadian dollar</option>
+                        <option value="CHF">Swiss franc</option>
+                        <option value="CNY">Chinese Yuan Renminbi</option>
+                        <option value="SEK">Swedish krona</option>
+                        <option value="MXN">Mexican peso</option>
+                        <option value="NZD">New Zealand dollar</option>
+                        <option value="SGD">Singapore dollar</option>
+                        <option value="HKD">Hong Kong dollar</option>
+                        <option value="NOK">Norwegian krone</option>
+                        <option value="KRW">South Korean won</option>
+                        <option value="TRY">Turkish lira</option>
+                        <option value="INR">Indian rupee</option>
+                        <option value="RUB">Russian ruble</option>
+                        <option value="BRL">Brazilian real</option>
+                        <option value="ZAR">South African rand</option>
+                        <option value="DKK">Danish krone</option>
+                        <option value="PLN">Polish zloty</option>
+                        <option value="TWD">New Taiwan dollar</option>
+                        <option value="THB">Thai baht</option>
+                        <option value="MYR">Malaysian ringgit</option>
+                    </select></p>
+            </div>
+        </div> -->
+        <br><br>
+        <!-- Footer -->
+        <hr>
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>&copy; 2017 Geodesignhub, see the <a href="https://github.com/geodesignhub/GDHDiagramDCF/">Github
+                            repository</a> for more information.</p>
+                </div>
+            </div>
+        </footer>
+        <div id="drawing"></div>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- JQuery scripts -->
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/humane.min.js"></script>
+    <script type="text/javascript" src="assets/js/svg.min.js"></script>
+    <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
+    <script type="text/javascript" src="assets/js/cleave.min.js"></script>
+
+    <!-- Bootstrap Core scripts -->
+    <script type="text/javascript" src="assets/js/ion.rangeSlider.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap-editable.min.js"></script>
+    <script type="text/javascript" src="assets/js/colors.js"></script>
+    <script type="text/javascript" src="assets/js/leaflet.js"></script>
+    <script type="text/javascript" src="assets/js/money.min.js"></script>
+
+    <script type="text/javascript">
+        function abbrNum(number, decPlaces) {
+            if (number < 1000) {
+                number = Math.round(number);
+            } else {
+                decPlaces = Math.pow(10, decPlaces);
+                var abbrev = ["k", "m", "b", "t"];
+                for (var i = abbrev.length - 1; i >= 0; i--) {
+                    var size = Math.pow(10, (i + 1) * 3);
+                    if (size <= number) {
+                        number = Math.round(number * decPlaces / size) / decPlaces;
+                        if ((number == 1000) && (i < abbrev.length - 1)) {
+                            number = 1;
+                            i++;
+                        }
+                        number += abbrev[i];
+                        break;
+                    }
+                }
+            }
+            return number;
+        }
+        var ctx = $("#chart");
+        var svgDrawing = SVG('drawing').size(10, 10);
+        // fx.base = "USD";
+
+        function miniMapstyleComp(feature) {
+            // console.log(feature.properties)
+            var curFeature = feature.geometry.type;
+            if (curFeature === 'LineString') {
+                // console.log(feature)
+                return {
+                    weight: 2,
+                    opacity: .9,
+                    color: feature.properties.color,
+                    dashArray: '',
+
+                };
+            } else {
+                // var fillColor = getColor(feature.properties.areatype);
+
+                if (feature.properties.areatype == 'project') {
+                    var fillColor = feature.properties.color;
+                } else { // it is policy
+                    var fillPattern = setSVGStyle(feature.properties.color);
+                    var fillColor = fillPattern;
+                }
+
+                return {
+                    // fillColor: feature.properties.color,
+                    // fillColor:'#333333',
+                    weight: 1,
+                    stroke: true,
+                    opacity: 0.9,
+                    fillColor: fillColor,
+                    color: feature.properties.color,
+                    dashArray: '',
+                    // opacity: 0.2,
+                    fillOpacity: 0.8,
+                };
+            }
+
+        }
+
+        function setSVGStyle(reqColor) {
+            var pattern = svgDrawing.pattern(6, 6, function (add) {
+                // add.rect(5, 5).fill(reqColor)
+                add.line(0, 0, 6, 6).stroke({
+                    width: 1,
+                    color: reqColor
+                })
+                add.line(6, 0, 0, 6).stroke({
+                    width: 1,
+                    color: reqColor
+                })
+            });
+            return pattern.fill();
+        }
+
+        function getColor(type) {
+
+            return type === 'policy' ? '#707070 ' :
+                type === 'project' ? '#a69695 ' :
+                type === 'red2' ? '#bd0026' :
+                type === 'red' ? '#f03b20' :
+                type === 'yellow' ? '#FFFF00' :
+                type === 'green' ? '#74c476' :
+                type === 'green2' ? '#31a354' :
+                type === 'green3' ? '#006d2c' :
+                type === 'purple' ? '#CFACF7' :
+                type === 'purple2' ? '#8D6CBF' :
+                type === 'purple3' ? '#601286' :
+                type === 'orange' ? '#FFA927' :
+                type === 'orange2' ? '#F8872E' :
+                type === 'orange3' ? '#FC6B0A' :
+                type === 'constraints' ? '#343434' :
+                type === 'boundaries' ? '#a6cee3' :
+                type === 'boundaries2' ? '#b2df8a' :
+                '#808080';
+        }
+        $("#loadingGIF").hide();
+        var opGJ = {
+            "type": "FeatureCollection",
+            "features": []
+        };
+        var systems = <%- systems %>;
+        var diagramdetail = <%- diagramdetail %>;
+        var apitoken = "<%= apitoken  %>"; //var test is now assigned to getTest which will only work on browsers
+        var projectid = "<%= projectid %>";
+        var systemdetail = <%- systemdetail %>;
+
+        var totalcost;
+        $("#diagName").html(diagramdetail['description']);
+        if (diagramdetail['length'] == 0) {
+            $("#diagAreaLength").html("Area: " + parseFloat((diagramdetail['area'] / 10000)).toFixed(2) + " ha.");
+            if (diagramdetail['cost_override'] !== 0) {
+                if (diagramdetail['cost_override_type'] == 'total') {
+                    totalcost = parseFloat(diagramdetail['cost_override']).toFixed(2);
+                } else {
+                    totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * diagramdetail['cost_override'];
+                }
+            } else {
+                totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * systemdetail['syscost'];
+                // console.log(totalcost);
+            }
+
+        } else if (diagramdetail['area'] == 0) {
+            $("#diagAreaLength").html("Length: " + parseFloat((diagramdetail['length'] / 1000)).toFixed(2) + " km.");
+        }
+
+        $("#sysCost").html("Total cost: " + abbrNum(totalcost, 2) + " EUR");
+        var inputmap = L.map('inputmap', {
+            'zoomControl': false,
+            'dragging': false,
+            'touchZoom': false,
+            'scrollWheelZoom': false,
+            'doubleClickZoom': false
+        });
+        var inputbaseLayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
+            maxZoom: 18,
+        }).addTo(inputmap);
+        var inputLayer = L.featureGroup().addTo(inputmap);
+        var diagramLayer = L.geoJSON(diagramdetail['geojson'], {
+            style: miniMapstyleComp
+        }).addTo(inputLayer);
+        inputmap.fitBounds(inputLayer.getBounds());
+
+        function computeNPV() {
+            var initInvestment = parseInt(initCost);
+            var acf = parseInt(acfCost);
+            var aopex = parseInt(aopexCost);
+            var asga = parseInt(asgaCost);
+            var acfg = (parseFloat($("#acfg-slider").val()) / 100);
+            var wacc = (parseFloat($("#wacc-slider").val()) / 100);
+            var numYears = 25;
+            var income = [];
+            var lastyearsincome;
+            var yearsPlot = [];
+            var ebitda = acf - aopex - asga;
+            
+            ebitda = (ebitda < 0) ? 0 : ebitda;
+            for (var x = 0; x < numYears; x++) {
+                yearsPlot.push(x);
+                if (x == 0) {
+                    income.push(ebitda);
+                } else {
+                    lastyearsincome = income[x - 1];
+                    var thisyearsincome = lastyearsincome + (lastyearsincome * acfg);
+                    income.push(parseInt(thisyearsincome));
+
+                }
+            }
+
+            var dcf = [];
+            for (var y = 0; y < numYears; y++) {
+                var curdcf = ((income[y]) / Math.pow((1 + wacc), y));
+                dcf.push(parseInt(curdcf));
+            }
+
+            var totaldcf = dcf.reduce(function (a, b) {
+                return a + b;
+            }, 0);
+
+            $("#totaldcf").html(abbrNum(totaldcf, 2));
+            var npv = initInvestment - totaldcf;
+            var absnpv = Math.abs(npv);
+
+            if (npv < 0) {
+                $("#npvVal").html('-' + abbrNum(absnpv, 2));
+            } else {
+                $("#npvVal").html(abbrNum(absnpv, 2));
+            }
+            if (npv > 0) {
+                $("#npvmeaning").html(
+                    "<p class='bg-danger'>Given the parameters, this investement is currently overvalued. </p>");
+
+            } else {
+                $("#npvmeaning").html(
+                    "<p class='bg-success'>Given the parameters, this investement is currently undervalued.</p>");
+            }
+
+            $("#loadingGIF").hide();
+            // plot
+
+            var plotData = {
+                labels: yearsPlot,
+                datasets: [{
+                    label: "Actual Cash Flow",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    borderColor: "rgba(75,192,192,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: income,
+                    spanGaps: false,
+                }, {
+                    label: "Discounted Cash Flow",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(255,99,132,0.2)",
+                    borderColor: "rgba(255,99,132,1)",
+                    pointBackgroundColor: "rgba(255,99,132,1)",
+                    pointBorderColor: "#fff",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(255,99,132,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: dcf,
+                    spanGaps: false,
+                }]
+            };
+
+
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: plotData,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Years'
+                            }
+                        }]
+                    }
+                }
+            });
+
+        }
+
+        function abbrNum(number, decPlaces) {
+            decPlaces = Math.pow(10, decPlaces);
+            var abbrev = ["k", "m", "b", "t"];
+            for (var i = abbrev.length - 1; i >= 0; i--) {
+                var size = Math.pow(10, (i + 1) * 3);
+                if (size <= number) {
+                    number = Math.round(number * decPlaces / size) / decPlaces;
+                    if ((number == 1000) && (i < abbrev.length - 1)) {
+                        number = 1;
+                        i++;
+                    }
+                    number += abbrev[i];
+                    break;
+                }
+            }
+            return number;
+        }
+        $('#computeNPVButton').on('click', function (e) {
+            $("#loadingGIF").show();
+            computeNPV();
+        });
+        var selectedcurrency = $("#workingcurrency :selected").val() + " ";
+        $("#workingcurrency").on('change', function () {
+            selectedcurrency = this.value + " ";
+
+        });
+        // fx.rates = {
+        //     "AED": 3.672779,
+        //     "AFN": 66.800193,
+        //     "ALL": 127.827212,
+        //     "AMD": 487.109878,
+        //     "ANG": 1.780989,
+        //     "AOA": 165.9085,
+        //     "ARS": 15.471,
+        //     "AUD": 1.31536,
+        //     "AWG": 1.799996,
+        //     "AZN": 1.78,
+        //     "BAM": 1.849552,
+        //     "BBD": 2,
+        //     "BDT": 80.125108,
+        //     "BGN": 1.84748,
+        //     "BHD": 0.377001,
+        //     "BIF": 1692.851149,
+        //     "BMD": 1,
+        //     "BND": 1.411252,
+        //     "BOB": 6.933767,
+        //     "BRL": 3.1387,
+        //     "BSD": 1,
+        //     "BTC": 0.0007875411,
+        //     "BTN": 66.682118,
+        //     "BWP": 10.400479,
+        //     "BYN": 1.904562,
+        //     "BYR": 20026.25,
+        //     "BZD": 2.011046,
+        //     "CAD": 1.34073,
+        //     "CDF": 1325.026325,
+        //     "CHF": 1.012472,
+        //     "CLF": 0.024808,
+        //     "CLP": 661.7,
+        //     "CNY": 6.902795,
+        //     "COP": 2970.5,
+        //     "CRC": 561.660798,
+        //     "CUC": 1,
+        //     "CUP": 24.728383,
+        //     "CVE": 104.475,
+        //     "CZK": 25.527933,
+        //     "DJF": 178.87,
+        //     "DKK": 7.022762,
+        //     "DOP": 47.073187,
+        //     "DZD": 110.074,
+        //     "EEK": 14.765569,
+        //     "EGP": 17.5163,
+        //     "ERN": 15.335872,
+        //     "ETB": 22.682675,
+        //     "EUR": 0.944726,
+        //     "FJD": 2.075152,
+        //     "FKP": 0.819001,
+        //     "GBP": 0.819001,
+        //     "GEL": 2.45869,
+        //     "GGP": 0.819001,
+        //     "GHS": 4.807431,
+        //     "GIP": 0.819001,
+        //     "GMD": 44.54,
+        //     "GNF": 9402.8,
+        //     "GTQ": 7.377879,
+        //     "GYD": 207.953501,
+        //     "HKD": 7.76465,
+        //     "HNL": 23.563454,
+        //     "HRK": 6.99987,
+        //     "HTG": 66.771148,
+        //     "HUF": 292.46,
+        //     "IDR": 13344.078017,
+        //     "ILS": 3.671513,
+        //     "IMP": 0.819001,
+        //     "INR": 66.675,
+        //     "IQD": 1176.886141,
+        //     "IRR": 32422.252554,
+        //     "ISK": 107.107248,
+        //     "JEP": 0.819001,
+        //     "JMD": 128.813276,
+        //     "JOD": 0.709751,
+        //     "JPY": 113.9115,
+        //     "KES": 102.649915,
+        //     "KGS": 69.230236,
+        //     "KHR": 4055.341667,
+        //     "KMF": 464.619811,
+        //     "KPW": 900.09,
+        //     "KRW": 1150.05,
+        //     "KWD": 0.305954,
+        //     "KYD": 0.833794,
+        //     "KZT": 315.445334,
+        //     "LAK": 8110.360256,
+        //     "LBP": 1506.612443,
+        //     "LKR": 151.287125,
+        //     "LRD": 93.500553,
+        //     "LSL": 13.010286,
+        //     "LTL": 3.258379,
+        //     "LVL": 0.663231,
+        //     "LYD": 1.432033,
+        //     "MAD": 10.093664,
+        //     "MDL": 19.849225,
+        //     "MGA": 3081.175758,
+        //     "MKD": 58.135,
+        //     "MMK": 1354.899087,
+        //     "MNT": 2460.99351,
+        //     "MOP": 8.001049,
+        //     "MRO": 359.649314,
+        //     "MTL": 0.683602,
+        //     "MUR": 35.552654,
+        //     "MVR": 15.600164,
+        //     "MWK": 732.317781,
+        //     "MXN": 19.5732,
+        //     "MYR": 4.447015,
+        //     "MZN": 70.200347,
+        //     "NAD": 13.010286,
+        //     "NGN": 305.779093,
+        //     "NIO": 29.574421,
+        //     "NOK": 8.48459,
+        //     "NPR": 106.743708,
+        //     "NZD": 1.432246,
+        //     "OMR": 0.384997,
+        //     "PAB": 1,
+        //     "PEN": 3.285958,
+        //     "PGK": 3.170636,
+        //     "PHP": 50.324,
+        //     "PKR": 104.844691,
+        //     "PLN": 4.07335,
+        //     "PYG": 5437.753363,
+        //     "QAR": 3.64115,
+        //     "RON": 4.283923,
+        //     "RSD": 116.974741,
+        //     "RUB": 58.179,
+        //     "RWF": 839.609284,
+        //     "SAR": 3.75045,
+        //     "SBD": 7.774277,
+        //     "SCR": 13.4635,
+        //     "SDG": 6.426125,
+        //     "SEK": 9.006643,
+        //     "SGD": 1.410846,
+        //     "SHP": 0.819001,
+        //     "SLL": 7492.707416,
+        //     "SOS": 578.886497,
+        //     "SRD": 7.5435,
+        //     "STD": 23150.420331,
+        //     "SVC": 8.754864,
+        //     "SYP": 214.356667,
+        //     "SZL": 13.003388,
+        //     "THB": 35.083,
+        //     "TJS": 8.074369,
+        //     "TMT": 3.50998,
+        //     "TND": 2.290905,
+        //     "TOP": 2.260797,
+        //     "TRY": 3.6832,
+        //     "TTD": 6.723645,
+        //     "TWD": 30.91834,
+        //     "TZS": 2229.760079,
+        //     "UAH": 27.008813,
+        //     "UGX": 3619.708069,
+        //     "USD": 1,
+        //     "UYU": 28.102777,
+        //     "UZS": 3331.8,
+        //     "VEF": 9.995002,
+        //     "VND": 22782.246897,
+        //     "VUV": 108.000583,
+        //     "WST": 2.513649,
+        //     "XAF": 619.997442,
+        //     "XAG": 0.05647006,
+        //     "XAU": 0.00081654,
+        //     "XCD": 2.70255,
+        //     "XDR": 0.741199,
+        //     "XOF": 621.033198,
+        //     "XPD": 0.00129314,
+        //     "XPF": 112.941156,
+        //     "XPT": 0.00102566,
+        //     "YER": 249.658196,
+        //     "ZAR": 12.962983,
+        //     "ZMK": 5253.075255,
+        //     "ZMW": 9.780188,
+        //     "ZWL": 322.322775
+
+        // };
+
+        var initCost = parseInt(totalcost);
+        var acfCost = 100000;
+        var aopexCost =0;
+        var asgaCost = 0;
+
+        function initCostSliders() {
+            var costcleave = new Cleave('#initcost-slider', {
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                onValueChanged: function (e) {
+                    initCost = e.target.rawValue;
+                }
+            });
+
+            var acfcleave = new Cleave('#acf-slider', {
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                onValueChanged: function (e) {
+                    acfCost = e.target.rawValue;
+                }
+            });
+
+
+            var aopexcleave = new Cleave('#aopex-slider', {
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                onValueChanged: function (e) {
+                    aopexCost = e.target.rawValue;
+                }
+            });
+
+
+            var asagacleave = new Cleave('#asga-slider', {
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                onValueChanged: function (e) {
+                    asgaCost = e.target.rawValue;
+                }
+            });
+
+
+            $("#initcost-slider").val(parseInt(totalcost));
+
+        }
+
+        function initpercentSliders() {
+            $("#acfg-slider").ionRangeSlider({
+                min: 0,
+                max: 20,
+                step: 0.5,
+                postfix: "%",
+                grid: true,
+                prettify_enabled: true
+            });
+            $("#wacc-slider").ionRangeSlider({
+                min: 0,
+                max: 20,
+                step: 0.5,
+                postfix: "%",
+                grid: true,
+                prettify_enabled: true
+            });
+        }
+        initCostSliders();
+
+        initpercentSliders();
+        //built and non-built environment
+        const data = {
+            'residential': "Luxury,High Priced,Mid Priced,Low Priced,Affordable Housing",
+            "hospitality": "Luxury,Upscale Hotel,Midscale Hotel,Budget Hotel",
+            "community": "Hospital,Police Station,Fire Station,School,Community Center,Playground",
+            "tourism": "Eco Tourism,Low Density Attraction,High Density Attraction",
+            "retail": "Luxury Retail,Retail,Multi-storey Retail,Mall,Support Retail,Office",
+            "agriculture": "Crop Farmland,Grassland,Orchard",
+            "green-infrastruture": "Public Park,Garden Land,Woodland,Tree line",
+            "blue-infrastructure": "Dikes,Barrier walls"
+        };
+
+        $('#base_asset_subclass').on('change', function (e) {
+            if ($("#base_asset_class").find("option:selected").attr('data-value') == 'residential') {
+                myResidentialControl.update(0, 0);
+            } else if ($("#base_asset_class").find("option:selected").attr('data-value') == 'hospitality') {
+                myTourismControl.update(0, 0);
+            }
+        });
+        $('#recompute_residential').on('click', function (e) {
+            myResidentialControl.recompute();
+            //your awesome code here
+        });
+        $('#recompute_tourism').on('click', function (e) {
+            myTourismControl.recompute();
+            //your awesome code here
+        });
+        $('#base_asset_class').on('change', function (e) {
+            var key = $(this).find("option:selected").attr('data-value');
+            $(".usage_form").each(function (index) {
+                $(this).removeClass("hidden");
+                $(this).hide();
+            });
+            var vals = [];
+            switch (key) {
+                case 'residential':
+                    vals = data.residential.split(",");
+                    $(".usage_form").hide();
+                   
+
+                    $("#built_env_form_residential").show();
+                    $("#services").show();
+                    myResidentialControl.update(0, 0);
+                    myResidentialControl.initialize();
+                    break;
+                case 'hospitality':
+                
+                    vals = data.hospitality.split(",");
+                    $(".usage_form").hide();
+                    
+                    $("#built_env_form_tourism").show();
+                    $("#services").show();
+                    myTourismControl.initialize();
+                    myTourismControl.update();
+                    break;
+                case 'community':
+                    vals = data.community.split(",");
+                    $(".usage_form").hide();
+                    $("#built_env_form_community").show();
+                    break;
+                case 'retail':
+                    vals = data.retail.split(",");
+                    $(".usage_form").hide();
+                    $("#built_env_form_retail").show();
+                    break;
+                case 'agriculture':
+                    vals = data.retail.split(",");
+                    $(".usage_form").hide();
+                    $("#built_env_form_agriculture").show();
+                    break;
+                case 'green-infrastruture':
+                    vals = data.retail.split(",");
+                    $(".usage_form").hide();
+                    $("#built_env_form_green-infrastructure").show();
+                    break;
+                case 'base':
+                    vals = ['Please choose from above'];
+            }
+            var $secondChoice = $("#base_asset_subclass");
+            $secondChoice.empty();
+            $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
+            $.each(vals, function (index, value) {
+                $secondChoice.append("<option >" + value + "</option>");
+
+            });
+        });
+
+
+        var ResidentialCalaulator = function () {
+            this.generateResidentialUnits = function (diagramArea, sysName, sysTag) {
+
+                var whiteListedSysName = ['HDH', 'LDH', 'IND', 'COM', 'COMIND', 'HSNG', 'HSG', 'MXD'];
+
+                var COMBuilding = function () {
+                    const elevationoffset = 1;
+                    const comHeights = [14, 25, 30, 22, 28];
+                    const floorHeight = 5;
+                    const avgUnitsize = 50;
+
+                    this.generateUnits = function (area) {
+                        var height = elevationoffset + comHeights[Math.floor(Math.random() * comHeights
+                            .length)];
+                        var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                        var numUnitsperFloor = Math.round(area / avgUnitsize);
+                        var totalUnits = numUnitsperFloor * numFloors;
+                        return totalUnits;
+                    };
+                }
+
+                var LDHousing = function () {
+                    const elevationoffset = 1;
+                    const ldhHeights = [1, 2, 3];
+                    const floorHeight = 5;
+                    const avgUnitsize = 100;
+
+                    this.generateUnits = function (area) {
+                        var height = elevationoffset + ldhHeights[Math.floor(Math.random() * ldhHeights
+                            .length)];
+                        var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                        var numUnitsperFloor = Math.round(area / avgUnitsize);
+                        var totalUnits = numUnitsperFloor * numFloors;
+                        return totalUnits;
+                    };
+                }
+
+                var HDHousing = function () {
+                    const elevationoffset = 1;
+                    const hdhHeights = [36, 60, 90]; // in meters 
+                    const floorHeight = 5;
+                    const avgUnitsize = 50;
+
+                    this.generateUnits = function (area) {
+                        var height = elevationoffset + hdhHeights[Math.floor(Math.random() * hdhHeights
+                            .length)];
+                        var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                        var numUnitsperFloor = Math.round(area / avgUnitsize);
+                        var totalUnits = numUnitsperFloor * numFloors;
+                        return totalUnits;
+                    };
+                }
+
+                var MXDBuildings = function () {
+                    const elevationoffset = 1;
+                    const mxdHeights = [9, 12, 8, 11]; // in meters 
+                    const floorHeight = 5;
+                    const avgUnitsize = 75;
+
+                    this.generateUnits = function (area) {
+                        var height = elevationoffset + mxdHeights[Math.floor(Math.random() * mxdHeights
+                            .length)];
+                        var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                        var numUnitsperFloor = Math.round(area / avgUnitsize);
+                        var totalUnits = numUnitsperFloor * numFloors;
+                        return totalUnits;
+                    };
+                }
+
+                var LABBuildings = function () {
+                    const elevationoffset = 1;
+                    var labHeights = [10, 15];
+                    const floorHeight = 5;
+                    const avgUnitsize = 100;
+
+                    this.generateUnits = function (area) {
+                        var height = elevationoffset + labHeights[Math.floor(Math.random() * labHeights
+                            .length)];
+                        var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                        var numUnitsperFloor = Math.round(area / avgUnitsize);
+                        var totalUnits = numUnitsperFloor * numFloors;
+                        return totalUnits;
+                    };
+                }
+
+                var SMBBuildings = function () {
+                    const elevationoffset = 1;
+                    var smbHeights = [2, 3, 5, 6, 7, 10];
+                    const floorHeight = 5;
+                    const avgUnitsize = 75;
+
+                    this.generateUnits = function (area) {
+                        var height = elevationoffset + smbHeights[Math.floor(Math.random() * smbHeights
+                            .length)];
+                        var numFloors = Math.round(height / floorHeight); // 5 meter per floor
+                        var numUnitsperFloor = Math.round(area / avgUnitsize);
+                        var totalUnits = numUnitsperFloor * numFloors;
+                        return totalUnits;
+                    };
+                }
+
+
+                if (whiteListedSysName.indexOf(sysName) >= 0) { // system is whitelisted
+                    if ((sysName === 'HDH') || (sysName === 'HSNG') || (sysName === 'HSG')) {
+
+                        var hdh = new HDHousing();
+                        units = hdh.generateUnits(diagramArea);
+                    } else if (sysName === 'MXD') {
+
+
+                        var mxd = new MXDBuildings();
+                        var units = mxd.generateUnits(diagramArea);
+                    } else if (sysName === 'LDH') {
+                        var ldh = new LDHousing();
+                        units = ldh.generateUnits(diagramArea);
+
+                    } else if ((sysName === 'COM') || (sysName === 'COMIND') || (sysName === 'IND')) {
+                        var com = new COMBuilding();
+                        units = com.generateUnits(diagramArea);
+
+                    }
+                } else if ((sysTag === 'Large buildings, Industry, commerce')) { // system not whitelisted
+                    var lab = new LABBuildings();
+                    units = lab.generateUnits(diagramArea);
+
+                } else if ((sysTag === 'Small buildings, low density housing')) { // system not whitelisted 
+                    var smb = new SMBBuildings();
+                    units = smb.generateUnits(diagramArea);
+                    // yeild = 16;
+                } else {
+                    units = 0;
+                    // yeild = 12; // default yeild
+                }
+                return units;
+            }
+
+            this.initcompute = function () {
+                const numresidences = parseInt($("#residential_units").editable('getValue', true));
+                const population = parseInt($("#number_of_people_residential").editable('getValue', true));
+                // const population = $('#number_of_people_residential').editable('setValue', numresidences * 4);
+                this.update(numresidences, population);
+
+            }
+            this.initialize = function () {
+
+                $('#residential_units').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+
+                $('#number_of_people_residential').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+            }
+            this.recompute = function () {
+                myDisplayUpdater = new ServicesDisplayUpdater();
+                const numresidences = parseInt($("#residential_units").editable('getValue', true));
+                const population = parseInt($("#number_of_people_residential").editable('getValue', true));
+
+                myDisplayUpdater.updateBedsRecompute(population);
+                myDisplayUpdater.updatePoliceStationsRecompute(population);
+                myDisplayUpdater.updateFireStationsRecompte(population);
+                myDisplayUpdater.updateSchoolsRecompute(population * 0.05);
+                myDisplayUpdater.updateEnergyRecompute(population);
+                myDisplayUpdater.updateWaterRecompute(population);
+                myDisplayUpdater.updateSewageRecompute(population);
+                myDisplayUpdater.updateTransportRecompute(population, 2, 2);
+
+            }
+            this.update = function (units, population) {
+
+                const residential_class_defaults = {
+                    "Luxury": {
+                        "beds": 0.0025,
+                        "police_stations": 0.0025,
+                        "fire_stations": 0.0025,
+                        "schools": 4,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }
+                    },
+                    "High Priced": {
+                        "beds": 0.0025,
+                        "police_stations": 0.0025,
+                        "fire_stations": 0.0025,
+                        "schools": 4,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }
+                    },
+                    "Mid Priced": {
+                        "beds": 0.0035,
+                        "police_stations": 0.0035,
+                        "fire_stations": 0.0035,
+                        "schools": 5,
+                        "energy": 12.8,
+                        "water": 200,
+                        "sewage": 82,
+                        "transport": {
+                            'road': 0.3,
+                            'rail': 0.7
+                        }
+                    },
+                    "Low Priced": {
+                        "beds": 0.0045,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 7,
+                        "energy": 10,
+                        "water": 180,
+                        "sewage": 72,
+                        "transport": {
+                            'road': 0.4,
+                            'rail': 0.6
+                        }
+                    },
+                    "Affordable Housing": {
+                        "beds": 0.0055,
+                        "police_stations": 0.0055,
+                        "fire_stations": 0.0055,
+                        "schools": 10,
+                        "energy": 8,
+                        "water": 160,
+                        "sewage": 60,
+                        "transport": {
+                            'road': 0.5,
+                            'rail': 0.5
+                        }
+                    }
+                };
+
+
+                myDisplayUpdater = new ServicesDisplayUpdater();
+
+                var system_id = diagramdetail['sysid'];
+                var diagram_area = diagramdetail['area'];
+                var system_tag = systemdetail['systag'];
+                var system_name = systemdetail['sysname'];
+
+                if (units === 0 && population === 0) {
+
+                    units = myResidentialControl.generateResidentialUnits(diagram_area, system_name, system_tag);
+                    population = units * 4;
+                }
+
+                var selected_subclass = $("#base_asset_subclass").val();
+
+                selected_subclass = (selected_subclass) ? selected_subclass : 'Mid Priced';
+
+                $("#residential_units").editable('setValue', units);
+                $("#number_of_people_residential").editable('setValue', population);
+
+
+                myDisplayUpdater.updateBeds(population, residential_class_defaults[selected_subclass]['beds']);
+                myDisplayUpdater.updatePoliceStations(population, residential_class_defaults[selected_subclass]
+                    ['police_stations']);
+                myDisplayUpdater.updateFireStations(population, residential_class_defaults[selected_subclass][
+                    'fire_stations'
+                ]);
+                myDisplayUpdater.updateSchools(population * 0.05, residential_class_defaults[selected_subclass]
+                    ['schools']);
+                myDisplayUpdater.updateEnergy(population, residential_class_defaults[selected_subclass][
+                    'energy'
+                ]);
+                myDisplayUpdater.updateWater(population, residential_class_defaults[selected_subclass]['water']);
+                myDisplayUpdater.updateSewage(population, residential_class_defaults[selected_subclass][
+                    'sewage'
+                ]);
+                myDisplayUpdater.updateTransport(population, residential_class_defaults[selected_subclass][
+                    'transport'
+                ]['road'], residential_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
+
+
+            }
+        }
+        var TourismDisplayUpdater = function () {
+
+            this.updateRooms = function (area) {
+                const land_area = $("#tourism_land_area").editable('getValue', true);
+                const floors = $("#tourism_floors").editable('getValue', true);
+                const m2_per_guest = $("#tourism_m2_per_guest").editable('getValue', true);
+                const people_per_room = $("#tourism_people_per_room").editable('getValue', true);
+
+                const rooms = (area / (people_per_room * m2_per_guest * land_area)) / floors;
+                $("#tourism_total_rooms").html(parseInt(rooms));
+            }
+
+
+        }
+
+        var TourismCalaulator = function () {
+
+
+            this.initialize = function () {
+
+                $('#tourism_m2_per_guest').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+                $('#tourism_people_per_room').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+                $('#tourism_floors').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+                $('#tourism_land_area').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+                $('#target_occupancy_rate').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+
+            }
+            this.recompute = function () {
+                
+                const area = diagramdetail['area']
+                myDisplayUpdater = new TourismDisplayUpdater();
+                const m2_per_guest = parseInt($("#tourism_m2_per_guest").editable("getValue", true));
+                const floors = parseInt($("#tourism_floors").editable("getValue", true));
+                const land_area =  parseInt($("#tourism_land_area").editable("getValue", true));
+                const target_occupancy_rate = parseFloat($("#target_occupancy_rate").editable('getValue', true));
+                const people_per_room = parseInt($("#tourism_people_per_room").editable('getValue', true));
+                    
+                const rooms = (area / (people_per_room * m2_per_guest* land_area)) / floors;
+                
+                $("#tourism_total_rooms").html(parseInt(rooms));
+
+                const yearly_visitors = rooms * target_occupancy_rate * people_per_room;
+                $("#total_yearly_visitors").html(parseInt(yearly_visitors));
+
+
+                myDisplayUpdater = new ServicesDisplayUpdater();
+
+                myDisplayUpdater.updateBedsRecompute(yearly_visitors);
+                myDisplayUpdater.updatePoliceStationsRecompute(yearly_visitors);
+                myDisplayUpdater.updateFireStationsRecompte(yearly_visitors);
+                myDisplayUpdater.updateSchoolsRecompute(yearly_visitors * 0.05);
+                myDisplayUpdater.updateEnergyRecompute(yearly_visitors);
+                myDisplayUpdater.updateWaterRecompute(yearly_visitors);
+                myDisplayUpdater.updateSewageRecompute(yearly_visitors);
+                myDisplayUpdater.updateTransportRecompute(yearly_visitors, 2, 2);
+
+            }
+            this.update = function () {
+
+                const tourism_class_defaults = {
+                    "Luxury": {
+                        "tourism_m2_per_guest": 60,
+                        "tourism_floors": 2,
+                        "tourism_land_area": 3,
+                        "target_occupancy_rate": .70,
+                        "people_per_room": 3,
+                        "avg_length_of_stay": 2,
+                        "beds": 0.0045,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }
+                    },
+                    "Upscale Hotel": {
+                        "tourism_m2_per_guest": 50,
+                        "tourism_floors": 4,
+                        "tourism_land_area": 2.7,
+                        "target_occupancy_rate": .70,
+                        "people_per_room": 2,
+                        "avg_length_of_stay": 2,
+                        "beds": 0.0045,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }
+                    },
+                    "Midscale Hotel": {
+                        "tourism_m2_per_guest": 40,
+                        "tourism_floors": 5,
+                        "tourism_land_area": 2,
+                        "target_occupancy_rate": .70,
+                        "people_per_room": 3,
+                        "avg_length_of_stay": 4,
+                        "beds": 0.0045,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }
+                    },
+                    "Budget Hotel": {
+                        "tourism_m2_per_guest": 30,
+                        "tourism_floors": 6,
+                        "tourism_land_area": 1.5,
+                        "target_occupancy_rate": .75,
+                        "people_per_room": 1,
+                        "avg_length_of_stay": 1,
+                        "beds": 0.0045,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }
+                    }
+                };
+
+
+                myTourismDisplayUpdater = new TourismDisplayUpdater();
+
+                var diagram_area = diagramdetail['area'];
+                myTourismDisplayUpdater.updateRooms(diagram_area);
+                var selected_subclass = $("#base_asset_subclass").val();
+                selected_subclass = (selected_subclass) ? selected_subclass : 'Midscale Hotel';
+                
+                const population = parseInt($("#total_yearly_visitors").html());
+
+                myDisplayUpdater = new ServicesDisplayUpdater();
+                
+                myDisplayUpdater.updateBeds(population, tourism_class_defaults[selected_subclass]['beds']);
+                myDisplayUpdater.updatePoliceStations(population, tourism_class_defaults[selected_subclass]['police_stations']);
+                myDisplayUpdater.updateFireStations(population, tourism_class_defaults[selected_subclass]['fire_stations']);
+                myDisplayUpdater.updateSchools(population * 0.05, tourism_class_defaults[selected_subclass]['schools']);
+                myDisplayUpdater.updateEnergy(population, tourism_class_defaults[selected_subclass]['energy']);
+                myDisplayUpdater.updateWater(population, tourism_class_defaults[selected_subclass]['water']);
+                myDisplayUpdater.updateSewage(population, tourism_class_defaults[selected_subclass]['sewage']);
+                myDisplayUpdater.updateTransport(population, tourism_class_defaults[selected_subclass]['transport']['road'], tourism_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
+
+            }
+        }
+
+        var ServicesDisplayUpdater = function () {
+     
+            this.updateBeds = function (population, demand) {
+                $("#beds_per_capita").editable('setValue', demand);
+                // $("#beds_per_capita").html(demand);
+                $("#total_hospital_beds").html(abbrNum(parseInt((population * demand)), 2));
+
+            }
+
+            this.updateBedsRecompute = function (population) {
+                const demand = $("#beds_per_capita").editable('getValue', true);
+                // $("#beds_per_capita").html(demand);
+                $("#total_hospital_beds").html(abbrNum(parseInt((population * demand)), 2));
+
+            }
+
+
+            this.updatePoliceStations = function (population, demand) {
+                $("#police_station_per_capita").editable('setValue', demand);
+                // $("#police_station_per_capita").html(demand);
+
+                $("#total_police_stations").html(abbrNum(parseInt((population * demand)), 2));
+
+            }
+
+            this.updatePoliceStationsRecompute = function (population) {
+                const demand = $("#police_station_per_capita").editable('getValue', true);
+                // $("#police_station_per_capita").html(demand);
+
+                $("#total_police_stations").html(abbrNum(parseInt((population * demand)), 2));
+
+            }
+
+            this.updateFireStations = function (population, demand) {
+                $("#fire_station_per_capita").editable('setValue', demand);
+                // $("#fire_station_per_capita").html(demand);
+
+                $("#total_firestations").html(abbrNum(parseInt(population * demand)), 2);
+
+            }
+
+            this.updateFireStationsRecompte = function (population) {
+                const demand = $("#fire_station_per_capita").editable('getValue', true);
+                // $("#fire_station_per_capita").html(demand);
+
+                $("#total_firestations").html(abbrNum(parseInt(population * demand)), 2);
+
+            }
+
+            this.updateSchools = function (population, demand) {
+                $("#school_per_capita").editable('setValue', demand);
+                // $("#school_per_capita").html(demand);
+                $("#total_schools").html(abbrNum(parseInt((population * demand))), 2);
+
+                // $('.schools_editable').on('update', function (e, editable) {
+                //     const population = $("#number_of_people_residential").val() * .05;
+                //     console.log(population, editable.value)
+                //     $("#total_schools").html(parseInt((population * editable.value)));
+
+                // });
+            }
+
+            this.updateSchoolsRecompute = function (population, ) {
+                const demand = $("#school_per_capita").editable('getValue', true);
+                // $("#school_per_capita").html(demand);
+                $("#total_schools").html(abbrNum(parseInt((population * demand))), 2);
+
+            }
+
+            this.updateEnergy = function (population, demand) {
+                $("#energy_per_capita").editable('setValue', demand);
+                // $("#energy_per_capita").html(demand);
+
+                $("#total_energy_demand").html(abbrNum((population * demand), 2));
+
+                // $('.energy_editable').on('update', function (e, editable) {
+                //     const population = $("#number_of_people_residential").val();
+                //     $("#total_energy_demand").html(abbrNum((population * editable.value), 2));
+                // });
+            }
+
+            this.updateEnergyRecompute = function (population) {
+                const demand = $("#energy_per_capita").editable('getValue', true);
+                // $("#energy_per_capita").html(demand);
+
+                $("#total_energy_demand").html(abbrNum((population * demand), 2));
+
+            }
+            this.updateWater = function (population, demand) {
+                $("#water_per_capita").editable('setValue', demand);
+                // $("#water_per_capita").html(demand);
+
+                $("#total_water_demand").html(abbrNum((population * demand), 2));
+
+                // $('.water_editable').on('update', function (e, editable) {
+                //     const population = $("#number_of_people_residential").val();
+                //     $("#total_warer_demand").html(abbrNum((population * editable.value), 2));
+
+                // });
+            }
+            this.updateWaterRecompute = function (population) {
+                const demand = $("#water_per_capita").editable('getValue', true);
+                // $("#water_per_capita").html(demand);
+
+                $("#total_water_demand").html(abbrNum((population * demand), 2));
+
+            }
+
+            this.updateSewage = function (population, demand) {
+                $("#sewage_per_capita").editable('setValue', demand);
+                // $("#sewage_per_capita").html(demand);
+
+                $("#total_sewage_demand").html(abbrNum((population * demand), 2));
+
+                // $('.sewage_editable').on('update', function (e, editable) {
+                //     const population = $("#number_of_people_residential").val();
+                //     $("#total_sewage_demand").html(abbrNum((population * editable.value), 2));
+
+                // });
+            }
+
+            this.updateSewageRecompute = function (population) {
+                const demand = $("#sewage_per_capita").editable('getValue', true);
+                // $("#sewage_per_capita").html(demand);
+
+                $("#total_sewage_demand").html(abbrNum((population * demand), 2));
+
+            }
+
+            this.updateTransport = function (population, percent_road, percent_rail, times_road, times_rail) {
+                $("#percent_road_usage").editable('setValue', percent_road);
+                $("#percent_rail_usage").editable('setValue', percent_rail);
+                // $("#percent_road_usage").html(percent_road);
+                // $("#percent_rail_usage").html(percent_rail);
+
+                $("#road_terminal_freq").html(times_road);
+                $("#rail_terminal_freq").html(times_rail);
+                $("#total_rail_usage").html(abbrNum((population * percent_rail * times_rail), 2));
+                $("#total_road_usage").html(abbrNum((population * percent_road * times_road), 2));
+
+                // $('.road_editable').on('update', function (e, editable) {
+                //     const population = $("#number_of_people_residential").val();
+                //     const road_percent = population * editable.value;
+                //     const road_freq = $("#road_terminal_freq").val();
+                //     $("#total_road_usage").html(abbrNum((population * road_percent * road_freq), 2));
+
+                // });
+
+                // $('.rail_editable').on('update', function (e, editable) {
+                //     const population = $("#number_of_people_residential").val();
+                //     const rail_percent = population * editable.value;
+                //     const rail_freq = $("#rail_terminal_freq").val();
+                //     $("#total_rail_usage").html(abbrNum((population * rail_percent * rail_freq), 2));
+
+                // });
+            }
+
+            this.updateTransportRecompute = function (population, times_road, times_rail) {
+                const percent_road = $("#percent_road_usage").editable('getValue', true);
+                const percent_rail = $("#percent_rail_usage").editable('getValue', true);
+
+                $("#total_rail_usage").html(abbrNum((population * percent_rail * times_rail), 2));
+                $("#total_road_usage").html(abbrNum((population * percent_road * times_road), 2));
+            }
+        };
+        myResidentialControl = new ResidentialCalaulator();
+        myTourismControl = new TourismCalaulator();
+        $(".services_form").hide();
+    </script>
+</body>
+
+</html>
