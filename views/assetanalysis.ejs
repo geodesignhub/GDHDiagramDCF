@@ -128,6 +128,8 @@
                             <option selected disabled>Select Asset Class</option>
                             <option data-value='residential'>Residential</option>
                             <option data-value='hospitality'>Hospitality</option>
+                            <option data-value='retail'>Retail</option>
+                            <option data-value='office'>Office</option>
                             <!-- <option data-value='community'>Community</option>
                             <option data-value='tourism'>Tourism</option>
                             <option data-value='commercial'>Commercial</option>
@@ -168,8 +170,7 @@
                             <h4>Avg. People per room: <a class="editable" href="#" id="tourism_people_per_room"
                                     data-type="text" data-title="Enter new people per room">3</a></h4>
 
-                            <h4>Target Occupancy Rate: <span id="target_occupancy_rate"><a class="editable" href="#" id="target_occupancy_rate"
-                                data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></span></h4>
+                            <h4>Target Occupancy Rate: <span id="target_occupancy_rate"><a class="editable" href="#" id="target_occupancy_rate" data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></span></h4>
                             <br>
                             
                             <h3>Total Rooms: <span id="tourism_total_rooms">3</span></h3>
@@ -180,23 +181,48 @@
 
                         </div>
 
+                        <div class='usage_form hidden' id="built_env_form_office">
+                            <h4>Average office space m2 per capita: <a class="editable" href="#" id="office_m2_per_visitor" data-type="text" data-title="Enter new room size e.g. 5">4</a></h4>
+                            <h4>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
+                            <h4>Total office workers: <a class="editable" href="#" id="total_daily_visitors_office" data-type="text" data-title="Enter a new office workers">3</a></h4>
+                            
+                            <br>
+                            <h4>Total Floor area needed:&nbsp;<span id="total_floor_area_office_required">0</span> </h4>
+                            <h6>Total Floor area available: <span id="total_floor_area_office_available">0</span></h6>
+                             <br>
+                            <button id="recompute_office" type="button" class="btn btn-info">Recompute</button>
 
+                        </div>
                         <div class='usage_form hidden' id="built_env_form_retail">
-                            <h4>Visitors</h4>
-                            <h4>Occupancy Rate</h4>
+                            <h4>Average retail space m2 per capita: <a class="editable" href="#" id="retail_m2_per_visitor" data-type="text" data-title="Enter new room size e.g. 5">4</a></h4>
+                            <h4>Number of floors: <a class="editable" href="#" id="retail_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
+                            <h4>Total visitors in area: <a class="editable" href="#" id="total_daily_visitors_retail" data-type="text" data-title="Enter a new visitor number">3000</a></h4><br>
+                            <h5>% interested in Luxury Retail (e.g. name brands): <a class="editable" href="#" id="percent_interested_in_luxury_retail" data-type="text" data-title="Enter percentage e.g. 0.15">.1</a></h5>
+                            <h5>% interested in Support Retail (e.g office supplies): <a class="editable" href="#" id="percent_interested_in_support_retail" data-type="text" data-title="Enter percentage e.g. 0.1">.4</a></h5>
+                            <h5>% interested in FMCG Retail (e.g. groceries, medicines): <a class="editable" href="#" id="percent_interested_in_fmcg_retail" data-type="text" data-title="Enter percentage e.g. 0.5">.3</a></h5>
+                            <h5>% interested in other retail (e.g. food / restaurant): <a class="editable" href="#" id="percent_interested_in_food_retail" data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>
+                            
+                            <br>
+                            <h4>Total Floor area needed <span id="total_floor_area_retail_required">0</span> </h4>
+                            <h5>of which Luxury <span id="total_floor_area_retail_luxury_split">0</span></h5>
+                            <h5>of which Support <span id="total_floor_area_retail_support_split">0</span></h5>
+                            <h5>of which FMCG <span id="total_floor_area_retail_fmcg_split">0</span></h5>
+                            <h5>of which other <span id="total_floor_area_retail_other_split">0</span></h5>
+
+                            <h5>Total Floor area available <span id="total_floor_area_retail_available">0</span></h5>
+                             <br>
+                            <button id="recompute_retail" type="button" class="btn btn-info">Recompute</button>
+
                         </div>
 
                         <div class='usage_form hidden' id="built_env_form_community">
                             <h4>Visitors</h4>
                             <h4>Peak Demand</h4>
-
                         </div>
                         <div class='usage_form hidden' id="built_env_form_agriculture">
-
                         </div>
 
                         <div class='usage_form hidden' id="built_env_form_green-infrastructure">
-
                         </div>
                         <br>
 
@@ -326,16 +352,9 @@
                             </table>
                         </div>
 
-                        
                     </div>
-
                 </div>
-
-
-
-
             </div>
-
         </div>
 
         <!-- <div class="row">
@@ -949,7 +968,8 @@
             "hospitality": "Luxury,Upscale Hotel,Midscale Hotel,Budget Hotel",
             "community": "Hospital,Police Station,Fire Station,School,Community Center,Playground",
             "tourism": "Eco Tourism,Low Density Attraction,High Density Attraction",
-            "retail": "Luxury Retail,Retail,Multi-storey Retail,Mall,Support Retail,Office",
+            "retail": "",
+            "office": "",
             "agriculture": "Crop Farmland,Grassland,Orchard",
             "green-infrastruture": "Public Park,Garden Land,Woodland,Tree line",
             "blue-infrastructure": "Dikes,Barrier walls"
@@ -970,6 +990,14 @@
             myTourismControl.recompute();
             //your awesome code here
         });
+        $('#recompute_retail').on('click', function (e) {
+            myRetailControl.recompute();
+            //your awesome code here
+        });
+        $('#recompute_office').on('click', function (e) {
+            myOfficeControl.recompute();
+            //your awesome code here
+        });
         $('#base_asset_class').on('change', function (e) {
             var key = $(this).find("option:selected").attr('data-value');
             $(".usage_form").each(function (index) {
@@ -981,18 +1009,14 @@
                 case 'residential':
                     vals = data.residential.split(",");
                     $(".usage_form").hide();
-                   
-
                     $("#built_env_form_residential").show();
                     $("#services").show();
-                    myResidentialControl.update(0, 0);
                     myResidentialControl.initialize();
+                    myResidentialControl.update(0, 0);
                     break;
                 case 'hospitality':
-                
                     vals = data.hospitality.split(",");
                     $(".usage_form").hide();
-                    
                     $("#built_env_form_tourism").show();
                     $("#services").show();
                     myTourismControl.initialize();
@@ -1006,7 +1030,18 @@
                 case 'retail':
                     vals = data.retail.split(",");
                     $(".usage_form").hide();
+                    $("#services").hide();
                     $("#built_env_form_retail").show();
+                    myRetailControl.initialize();
+                    myRetailControl.recompute();
+                    break;
+                case 'office':
+                    vals = data.office.split(",");
+                    $(".usage_form").hide();
+                    $("#services").hide();
+                    $("#built_env_form_office").show();
+                    myOfficeControl.initialize();
+                    myOfficeControl.recompute();
                     break;
                 case 'agriculture':
                     vals = data.retail.split(",");
@@ -1026,7 +1061,6 @@
             $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
             $.each(vals, function (index, value) {
                 $secondChoice.append("<option >" + value + "</option>");
-
             });
         });
 
@@ -1292,7 +1326,6 @@
                 var system_name = systemdetail['sysname'];
 
                 if (units === 0 && population === 0) {
-
                     units = myResidentialControl.generateResidentialUnits(diagram_area, system_name, system_tag);
                     population = units * 4;
                 }
@@ -1301,7 +1334,7 @@
 
                 selected_subclass = (selected_subclass) ? selected_subclass : 'Mid Priced';
 
-                $("#residential_units").editable('setValue', units);
+                $("#residential_units").editable('setValue', units );
                 $("#number_of_people_residential").editable('setValue', population);
 
 
@@ -1338,8 +1371,6 @@
                 const rooms = (area / (people_per_room * m2_per_guest * land_area)) / floors;
                 $("#tourism_total_rooms").html(parseInt(rooms));
             }
-
-
         }
 
         var TourismCalaulator = function () {
@@ -1512,16 +1543,12 @@
 
 
                 myTourismDisplayUpdater = new TourismDisplayUpdater();
-
                 var diagram_area = diagramdetail['area'];
                 myTourismDisplayUpdater.updateRooms(diagram_area);
                 var selected_subclass = $("#base_asset_subclass").val();
                 selected_subclass = (selected_subclass) ? selected_subclass : 'Midscale Hotel';
-                
-                const population = parseInt($("#total_yearly_visitors").html());
-
+                const population = parseInt($("#total_yearly_visitors").html());    
                 myDisplayUpdater = new ServicesDisplayUpdater();
-                
                 myDisplayUpdater.updateBeds(population, tourism_class_defaults[selected_subclass]['beds']);
                 myDisplayUpdater.updatePoliceStations(population, tourism_class_defaults[selected_subclass]['police_stations']);
                 myDisplayUpdater.updateFireStations(population, tourism_class_defaults[selected_subclass]['fire_stations']);
@@ -1534,27 +1561,176 @@
             }
         }
 
+
+
+        var RetailCalaulator = function () {
+            this.initialize = function () {
+                $('#retail_m2_per_visitor').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+                $('#retail_floors').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+                $('#total_daily_visitors_retail').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+                $('#percent_interested_in_luxury_retail').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+                $('#percent_interested_in_support_retail').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+                $('#percent_interested_in_fmcg_retail').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#percent_interested_in_food_retail').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+
+
+            }
+            this.recompute = function () {
+                const retail_m2_per_visitor = $("#retail_m2_per_visitor").editable('getValue', true);
+                const total_daily_visitors = $("#total_daily_visitors_retail").editable('getValue', true);
+                const number_of_floors = $("#retail_floors").editable('getValue', true);
+                const percent_interested_luxury = $("#percent_interested_in_luxury_retail").editable('getValue', true);
+                const percent_interested_support = $("#percent_interested_in_support_retail").editable('getValue', true);
+                const percent_interested_fmcg = $("#percent_interested_in_fmcg_retail").editable('getValue', true);
+                const percent_interested_food = $("#percent_interested_in_food_retail").editable('getValue', true);
+                const total_floor_area_luxury = (retail_m2_per_visitor * total_daily_visitors * percent_interested_luxury);
+                const total_floor_area_support = (retail_m2_per_visitor * total_daily_visitors * percent_interested_support);
+                const total_floor_area_fmcg = (retail_m2_per_visitor * total_daily_visitors * percent_interested_fmcg);
+                const total_floor_area_other = (retail_m2_per_visitor * total_daily_visitors * percent_interested_food);
+
+                const total_floor_area_retail = (total_floor_area_luxury + total_floor_area_support + total_floor_area_fmcg + total_floor_area_other);
+                $("#total_floor_area_retail_luxury_split").html(abbrNum(parseInt(total_floor_area_luxury),2));
+                $("#total_floor_area_retail_support_split").html(abbrNum(parseInt(total_floor_area_support),2));
+                $("#total_floor_area_retail_fmcg_split").html(abbrNum(parseInt(total_floor_area_fmcg),2));
+                $("#total_floor_area_retail_other_split").html(abbrNum(parseInt(total_floor_area_other),2));
+
+                $("#total_floor_area_retail_required").html(abbrNum(parseInt(total_floor_area_retail),2));
+                var diagram_area = diagramdetail['area'];
+                $("#total_floor_area_retail_available").html(abbrNum(parseInt(diagram_area * 0.8 * number_of_floors),2)); // only 80% of the area is available, rest for frontage etc. 
+
+            }
+
+        }
+
+
+        var OfficeCalaulator = function () {
+            this.initialize = function () {
+
+                $('#office_m2_per_visitor').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#office_floors').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#total_daily_visitors_office').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+            }
+            this.recompute = function () {
+                const office_m2_per_visitor = $("#office_m2_per_visitor").editable('getValue', true);
+                const total_daily_visitors_office = $("#total_daily_visitors_office").editable('getValue', true);
+                const office_floors = $("#office_floors").editable('getValue', true);
+
+                const diagram_area = diagramdetail['area']
+
+                const total_floor_area_office = ((office_m2_per_visitor * total_daily_visitors_office) / office_floors);
+                $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office),2));
+                $("#total_floor_area_office_available").html(abbrNum(parseInt(diagram_area * .8 *office_floors),2));
+
+            }
+
+        }
+
+
         var ServicesDisplayUpdater = function () {
      
             this.updateBeds = function (population, demand) {
                 $("#beds_per_capita").editable('setValue', demand);
                 // $("#beds_per_capita").html(demand);
                 $("#total_hospital_beds").html(abbrNum(parseInt((population * demand)), 2));
-
             }
 
             this.updateBedsRecompute = function (population) {
                 const demand = $("#beds_per_capita").editable('getValue', true);
                 // $("#beds_per_capita").html(demand);
                 $("#total_hospital_beds").html(abbrNum(parseInt((population * demand)), 2));
-
             }
 
 
             this.updatePoliceStations = function (population, demand) {
                 $("#police_station_per_capita").editable('setValue', demand);
                 // $("#police_station_per_capita").html(demand);
-
                 $("#total_police_stations").html(abbrNum(parseInt((population * demand)), 2));
 
             }
@@ -1570,7 +1746,6 @@
             this.updateFireStations = function (population, demand) {
                 $("#fire_station_per_capita").editable('setValue', demand);
                 // $("#fire_station_per_capita").html(demand);
-
                 $("#total_firestations").html(abbrNum(parseInt(population * demand)), 2);
 
             }
@@ -1592,7 +1767,6 @@
                 //     const population = $("#number_of_people_residential").val() * .05;
                 //     console.log(population, editable.value)
                 //     $("#total_schools").html(parseInt((population * editable.value)));
-
                 // });
             }
 
@@ -1606,9 +1780,7 @@
             this.updateEnergy = function (population, demand) {
                 $("#energy_per_capita").editable('setValue', demand);
                 // $("#energy_per_capita").html(demand);
-
                 $("#total_energy_demand").html(abbrNum((population * demand), 2));
-
                 // $('.energy_editable').on('update', function (e, editable) {
                 //     const population = $("#number_of_people_residential").val();
                 //     $("#total_energy_demand").html(abbrNum((population * editable.value), 2));
@@ -1618,28 +1790,22 @@
             this.updateEnergyRecompute = function (population) {
                 const demand = $("#energy_per_capita").editable('getValue', true);
                 // $("#energy_per_capita").html(demand);
-
                 $("#total_energy_demand").html(abbrNum((population * demand), 2));
 
             }
             this.updateWater = function (population, demand) {
                 $("#water_per_capita").editable('setValue', demand);
                 // $("#water_per_capita").html(demand);
-
                 $("#total_water_demand").html(abbrNum((population * demand), 2));
-
                 // $('.water_editable').on('update', function (e, editable) {
                 //     const population = $("#number_of_people_residential").val();
                 //     $("#total_warer_demand").html(abbrNum((population * editable.value), 2));
-
                 // });
             }
             this.updateWaterRecompute = function (population) {
                 const demand = $("#water_per_capita").editable('getValue', true);
                 // $("#water_per_capita").html(demand);
-
                 $("#total_water_demand").html(abbrNum((population * demand), 2));
-
             }
 
             this.updateSewage = function (population, demand) {
@@ -1647,20 +1813,16 @@
                 // $("#sewage_per_capita").html(demand);
 
                 $("#total_sewage_demand").html(abbrNum((population * demand), 2));
-
                 // $('.sewage_editable').on('update', function (e, editable) {
                 //     const population = $("#number_of_people_residential").val();
                 //     $("#total_sewage_demand").html(abbrNum((population * editable.value), 2));
-
                 // });
             }
 
             this.updateSewageRecompute = function (population) {
                 const demand = $("#sewage_per_capita").editable('getValue', true);
                 // $("#sewage_per_capita").html(demand);
-
                 $("#total_sewage_demand").html(abbrNum((population * demand), 2));
-
             }
 
             this.updateTransport = function (population, percent_road, percent_rail, times_road, times_rail) {
@@ -1701,6 +1863,8 @@
         };
         myResidentialControl = new ResidentialCalaulator();
         myTourismControl = new TourismCalaulator();
+        myRetailControl = new RetailCalaulator();
+        myOfficeControl = new OfficeCalaulator();
         $(".services_form").hide();
     </script>
 </body>
