@@ -3,6 +3,6 @@ This is small plugin to help undertake cash flow and asset analysis on diagrams 
 
 ![alt text][logo]
 
-[logo]: https://i.imgur.com/GGi7Jcy.jpg "Geodesign Hub Diagram Discounted Cash Flow"
+[logo]: https://i.imgur.com/5vklmkF.jpg "Geodesign Hub Diagram Discounted Cash Flow"
 
 
