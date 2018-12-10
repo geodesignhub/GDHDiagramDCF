@@ -75,95 +75,43 @@
                 <h5 id="sysCost"></h5>
             </div>
             <div class="col-md-6">
-                <h3>Parameters</h3>
-                <h5>Capital Expenditure / Initial Investment</h5>
-                <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
-                <h5>Annual Cashflow</h5>
-                <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
-                <h5>Annual OpEx</h5>
-                <p><input type="text" id="aopex-slider" name="aopex-slider" value="" /></p>
-                <h5>Annual SGA</h5>
-                <p><input type="text" id="asga-slider" name="asga-slider" value="" /></p>
-                <h5>Annual cashflow growth (inflation)</h5>
-                <p><input type="text" id="acfg-slider" name="acfg-slider" value="" /></p>
-                <h5>Weighted Annual Cost of Capital (WACC)</h5>
-                <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
-                <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i>
-                        Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span
-                            id="procstatus">Processing</span>...</span>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8">
-                <h3>25-year Discounted Cash Flow</h3>
-                <div id="dcfchart">
-                    <canvas id="chart" height="150"></canvas>
-
-                </div>
-            </div>
-            <div class="col-md-4">
-                <h3>DCF and NPV</h3>
-                <p>Total discounted cashflow and the net present value (total cash flow - initial investment) is shown
-                    below.</p>
-                <h6>Total Discounted Cash Flow</h6>
-                <h3 id="totaldcf"></h3>
-                <br>
-                <h6>Net Present Value (NPV)</h6>
-                <h3 id="npvVal"></h3>
-                <p id="npvmeaning"></p>
-            </div>
-        </div>
-
-        <!-- /.col-md-4 -->
-
-        <!-- /.row -->
-
-        <br>
-        <br>
-        <div class="row">
-            <div class="col-md-12">
-                <h3>Asset Analysis</h3>
-                <div class="row">
-                    <div class="col-md-4">
-                        <select id="base_asset_class" class="form-control">
-                            <option selected disabled>Select Class</option>
-                            <option data-value='residential'>Residential</option>
-                            <option data-value='hospitality'>Tourism</option>
-                            <option data-value='retail'>Retail</option>
-                            <option data-value='office'>Office</option>
-                            <!-- <option data-value='community'>Community</option>
-                            <option data-value='tourism'>Tourism</option>
-                            <option data-value='commercial'>Commercial</option>
-                            <option data-value='agriculture'>Agirculture</option>
-                            <option data-value='green-infrastruture'>Green Infrastruture</option> -->
-                        </select>
-
+                    <h3>Asset Analysis</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select id="base_asset_class" class="form-control">
+                                <option selected disabled>Select Class</option>
+                                <option data-value='residential'>Residential</option>
+                                <option data-value='hospitality'>Tourism</option>
+                                <option data-value='retail'>Retail</option>
+                                <option data-value='office'>Office</option>
+                                <!-- <option data-value='community'>Community</option>
+                                <option data-value='tourism'>Tourism</option>
+                                <option data-value='commercial'>Commercial</option>
+                                <option data-value='agriculture'>Agirculture</option>
+                                <option data-value='green-infrastruture'>Green Infrastruture</option> -->
+                            </select>
+    
+                        </div>
+                        <div class="col-md-6">
+    
+                            <select id="base_asset_subclass" class="form-control">
+                                <option selected disabled>Select Subclass</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-
-                        <select id="base_asset_subclass" class="form-control">
-                            <option selected disabled>Select Subclass</option>
-                        </select>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class='usage_form hidden' id="built_env_form_residential">
-                            <h4>Total units: <a class="editable" href="#" id="residential_units" data-type="text"
-                                    data-title="Enter new residential units e.g. 5"></a></h4>
+                    <br>
+                    
+                    <div class='usage_form hidden' id="built_env_form_residential">
                             <h4>Total people housed: <a class="editable" href="#" id="number_of_people_residential"
                                     data-type="text" data-title="Enter number of people living here"></a></h4>
+                            <h4>Total units: <a class="editable" href="#" id="residential_units" data-type="text"
+                                    data-title="Enter new residential units e.g. 5"></a></h4>
                             <br><br>
 
-                            <button id="recompute_residential" type="button" class="btn btn-info">Recompute</button><br>
+                            <button id="recompute_residential" type="button" class="btn btn-info">Recompute</button><br><br>
                             <h5>Population Density: <span id="current_pop_density"></span> people per km2</h5>
                             <small>For reference: Population density of Monaco is 18,000 people per sq. km, Hong Kong
-                                is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_poulation_density"
-                                    target="_blank">on Wikipedia</a></small><br><br>
-
-
+                                is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small><br><br>
                         </div>
 
                         <div class='usage_form hidden' id="built_env_form_tourism">
@@ -192,7 +140,7 @@
 
                         <div class='usage_form hidden' id="built_env_form_office">
                             <h4>Per capita space required in m2: <a class="editable" href="#" id="office_m2_per_visitor"
-                                    data-type="text" data-title="Enter new room size e.g. 5">4</a></h4>
+                                    data-type="text" data-title="Enter new room size e.g. 5">12</a></h4>
                             <h4>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text"
                                     data-title="Enter new floors e.g. 5">1</a></h4>
                             <h4>Expected office workers: <a class="editable" href="#" id="total_daily_visitors_office"
@@ -250,6 +198,66 @@
                         </div>
                         <br>
 
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                
+                    <h3>Parameters</h3>
+                    <h5>Capital Expenditure / Initial Investment</h5>
+                    <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
+                    <h5>Annual Cashflow</h5>
+                    <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
+                    <h5>Annual OpEx</h5>
+                    <p><input type="text" id="aopex-slider" name="aopex-slider" value="" /></p>
+                    <h5>Annual SGA</h5>
+                    <p><input type="text" id="asga-slider" name="asga-slider" value="" /></p>
+                    <h5>Annual cashflow growth (inflation)</h5>
+                    <p><input type="text" id="acfg-slider" name="acfg-slider" value="" /></p>
+                    <h5>Weighted Annual Cost of Capital (WACC)</h5>
+                    <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
+                    <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i>
+                            Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span
+                                id="procstatus">Processing</span>...</span>
+                    </p>
+            </div>
+            <div class="col-md-6">
+                    <h3>25-year Discounted Cash Flow</h3>
+                    <div id="dcfchart">
+                        <canvas id="chart" height="150"></canvas>
+    
+                    </div>
+                    <br>
+                    <h3>DCF and NPV</h3>
+                    <p>Total discounted cashflow and the net present value (total cash flow - initial investment) is shown
+                        below.</p>
+                    <h6>Total Discounted Cash Flow</h6>
+                    <h3 id="totaldcf"></h3>
+                    <br>
+                    <h6>Net Present Value (NPV)</h6>
+                    <h3 id="npvVal"></h3>
+                    <p id="npvmeaning"></p>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+              
+            </div>
+            <div class="col-md-4">
+              
+            </div>
+        </div>
+
+        <!-- /.col-md-4 -->
+
+        <!-- /.row -->
+
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-8">
                         <div id="services" class="services_form">
                             <h3>Services</h3>
                             <p>A summary of services necessary for this Asset</p>
@@ -293,7 +301,7 @@
                                             data-title="Enter new school demand e.g. 6"></a> -->
                                             <span id="school_per_capita"></span>
                                         </td>
-                                        <td>Total school area required: <span id='total_schools'></span></td>
+                                        <td>Total school area required: <span id='total_schools'></span> m2 </td>
                                     </tr>
 
 
@@ -375,9 +383,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -1757,8 +1762,7 @@
 
                 const diagram_area = diagramdetail['area']
 
-                const total_floor_area_office = ((office_m2_per_visitor * total_daily_visitors_office) /
-                    office_floors);
+                const total_floor_area_office = ((office_m2_per_visitor * total_daily_visitors_office));
                 $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office), 2));
                 $("#total_floor_area_office_available").html(abbrNum(parseInt(diagram_area * .8 * office_floors),
                     2));
