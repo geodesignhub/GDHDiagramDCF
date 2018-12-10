@@ -61,7 +61,8 @@
                 <p class="description">This plugin downloads a diagram from Geodesignhub, computes its area and
                     construction costs and provides a <a href="https://en.wikipedia.org/wiki/Discounted_cash_flow"
                         target="_blank">Discounted Cash Flow</a> analysis to calculate Net Present Value of this
-                    project. In additional detailed what-if asset analysis can also be conducted for this site and project. </p>
+                    project. In additional detailed what-if asset analysis can also be conducted for this site and
+                    project. </p>
             </div>
         </div>
         <div class="row">
@@ -81,14 +82,15 @@
                 <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
                 <h5>Annual OpEx</h5>
                 <p><input type="text" id="aopex-slider" name="aopex-slider" value="" /></p>
-                <h5>Annual SG&A</h5>
+                <h5>Annual SGA</h5>
                 <p><input type="text" id="asga-slider" name="asga-slider" value="" /></p>
                 <h5>Annual cashflow growth (inflation)</h5>
                 <p><input type="text" id="acfg-slider" name="acfg-slider" value="" /></p>
                 <h5>Weighted Annual Cost of Capital (WACC)</h5>
                 <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
                 <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i>
-                        Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
+                        Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span
+                            id="procstatus">Processing</span>...</span>
                 </p>
             </div>
         </div>
@@ -125,9 +127,9 @@
                 <div class="row">
                     <div class="col-md-4">
                         <select id="base_asset_class" class="form-control">
-                            <option selected disabled>Select Asset Class</option>
+                            <option selected disabled>Select Class</option>
                             <option data-value='residential'>Residential</option>
-                            <option data-value='hospitality'>Hospitality</option>
+                            <option data-value='hospitality'>Tourism</option>
                             <option data-value='retail'>Retail</option>
                             <option data-value='office'>Office</option>
                             <!-- <option data-value='community'>Community</option>
@@ -141,7 +143,7 @@
                     <div class="col-md-4">
 
                         <select id="base_asset_subclass" class="form-control">
-                            <option selected disabled>Select Asset Subclass</option>
+                            <option selected disabled>Select Subclass</option>
                         </select>
                     </div>
                 </div>
@@ -153,64 +155,86 @@
                                     data-title="Enter new residential units e.g. 5"></a></h4>
                             <h4>Total people housed: <a class="editable" href="#" id="number_of_people_residential"
                                     data-type="text" data-title="Enter number of people living here"></a></h4>
-                            <button id="recompute_residential" type="button" class="btn btn-info">Recompute</button>
+                            <br><br>
+
+                            <button id="recompute_residential" type="button" class="btn btn-info">Recompute</button><br>
+                            <h5>Population Density: <span id="current_pop_density"></span> people per km2</h5>
+                            <small>For reference: Population density of Monaco is 18,000 people per sq. km, Hong Kong
+                                is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_poulation_density"
+                                    target="_blank">on Wikipedia</a></small><br><br>
 
 
                         </div>
 
                         <div class='usage_form hidden' id="built_env_form_tourism">
-                            <h4>Average m2 per guest: <a class="editable" href="#" id="tourism_m2_per_guest" data-type="text"
-                                    data-title="Enter new room size e.g. 5">58</a></h4>
+                            <h5>Average m2 per guest: <a class="editable" href="#" id="tourism_m2_per_guest" data-type="text"
+                                    data-title="Enter new room size e.g. 5">58</a></h5>
 
-                            <h4>Floors: <a class="editable" href="#" id="tourism_floors" data-type="text" data-title="Enter new floors e.g. 5">2</a></h4>
+                            <h5>Floors: <a class="editable" href="#" id="tourism_floors" data-type="text" data-title="Enter new floors e.g. 5">2</a></h5>
 
-                            <h4>Land Area Factor: <a class="editable" href="#" id="tourism_land_area" data-type="text"
-                                    data-title="Enter new land consumption factor  e.g. 5">3</a></h4>
+                            <h5>Land Area Factor: <a class="editable" href="#" id="tourism_land_area" data-type="text"
+                                    data-title="Enter new land consumption factor  e.g. 5">3</a></h5>
 
-                            <h4>Avg. People per room: <a class="editable" href="#" id="tourism_people_per_room"
-                                    data-type="text" data-title="Enter new people per room">3</a></h4>
+                            <h5>Avg. People per room: <a class="editable" href="#" id="tourism_people_per_room"
+                                    data-type="text" data-title="Enter new people per room">3</a></h5>
 
-                            <h4>Target Occupancy Rate: <span id="target_occupancy_rate"><a class="editable" href="#" id="target_occupancy_rate" data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></span></h4>
+                            <h5>Target Occupancy Rate: <span id="target_occupancy_rate_SPAN"><a class="editable" href="#"
+                                        id="target_occupancy_rate" data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></span></h5>
                             <br>
-                            
-                            <h3>Total Rooms: <span id="tourism_total_rooms">3</span></h3>
 
-                            <h3>Yearly Visitors: <span id="total_yearly_visitors">3</span></h3>
+                            <h4>Total Rooms: <span id="tourism_total_rooms">3</span></h4>
+
+                            <h4>Yearly Visitors: <span id="total_yearly_visitors">3</span></h4>
                             <br>
                             <button id="recompute_tourism" type="button" class="btn btn-info">Recompute</button>
 
                         </div>
 
                         <div class='usage_form hidden' id="built_env_form_office">
-                            <h4>Average office space m2 per capita: <a class="editable" href="#" id="office_m2_per_visitor" data-type="text" data-title="Enter new room size e.g. 5">4</a></h4>
-                            <h4>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
-                            <h4>Total office workers: <a class="editable" href="#" id="total_daily_visitors_office" data-type="text" data-title="Enter a new office workers">3</a></h4>
-                            
+                            <h4>Per capita space required in m2: <a class="editable" href="#" id="office_m2_per_visitor"
+                                    data-type="text" data-title="Enter new room size e.g. 5">4</a></h4>
+                            <h4>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text"
+                                    data-title="Enter new floors e.g. 5">1</a></h4>
+                            <h4>Expected office workers: <a class="editable" href="#" id="total_daily_visitors_office"
+                                    data-type="text" data-title="Enter a new office workers">300</a></h4>
+
                             <br>
-                            <h4>Total Floor area needed:&nbsp;<span id="total_floor_area_office_required">0</span> </h4>
-                            <h6>Total Floor area available: <span id="total_floor_area_office_available">0</span></h6>
-                             <br>
+                            <h4>Total Floor area needed:&nbsp;<span id="total_floor_area_office_required">0</span> m2</h4>
+                            <h6>Total Floor area available: <span id="total_floor_area_office_available">0</span> m2</h6>
+                            <br>
                             <button id="recompute_office" type="button" class="btn btn-info">Recompute</button>
 
                         </div>
                         <div class='usage_form hidden' id="built_env_form_retail">
-                            <h4>Average retail space m2 per capita: <a class="editable" href="#" id="retail_m2_per_visitor" data-type="text" data-title="Enter new room size e.g. 5">4</a></h4>
-                            <h4>Number of floors: <a class="editable" href="#" id="retail_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
-                            <h4>Total visitors in area: <a class="editable" href="#" id="total_daily_visitors_retail" data-type="text" data-title="Enter a new visitor number">3000</a></h4><br>
-                            <h5>% interested in Luxury Retail (e.g. name brands): <a class="editable" href="#" id="percent_interested_in_luxury_retail" data-type="text" data-title="Enter percentage e.g. 0.15">.1</a></h5>
-                            <h5>% interested in Support Retail (e.g office supplies): <a class="editable" href="#" id="percent_interested_in_support_retail" data-type="text" data-title="Enter percentage e.g. 0.1">.4</a></h5>
-                            <h5>% interested in FMCG Retail (e.g. groceries, medicines): <a class="editable" href="#" id="percent_interested_in_fmcg_retail" data-type="text" data-title="Enter percentage e.g. 0.5">.3</a></h5>
-                            <h5>% interested in other retail (e.g. food / restaurant): <a class="editable" href="#" id="percent_interested_in_food_retail" data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>
-                            
-                            <br>
-                            <h4>Total Floor area needed <span id="total_floor_area_retail_required">0</span> </h4>
-                            <h5>of which Luxury <span id="total_floor_area_retail_luxury_split">0</span></h5>
-                            <h5>of which Support <span id="total_floor_area_retail_support_split">0</span></h5>
-                            <h5>of which FMCG <span id="total_floor_area_retail_fmcg_split">0</span></h5>
-                            <h5>of which other <span id="total_floor_area_retail_other_split">0</span></h5>
+                            <h4>Per capita retail space <a class="editable" href="#" id="retail_m2_per_visitor" data-type="text"
+                                    data-title="Enter new room size e.g. 5">4</a></h4>
+                            <h4>Number of floors: <a class="editable" href="#" id="retail_floors" data-type="text"
+                                    data-title="Enter new floors e.g. 5">1</a></h4>
+                            <h4>Expected visitors in area: <a class="editable" href="#" id="total_daily_visitors_retail"
+                                    data-type="text" data-title="Enter a new visitor number">3000</a></h4><br>
+                            <div class="hidden">
+                                <h5>% interested in Luxury Retail (e.g. name brands): <a class="editable" href="#" id="percent_interested_in_luxury_retail"
+                                        data-type="text" data-title="Enter percentage e.g. 0.15">.1</a></h5>
+                                <h5>% interested in Support Retail (e.g office supplies): <a class="editable" href="#"
+                                        id="percent_interested_in_support_retail" data-type="text" data-title="Enter percentage e.g. 0.1">.4</a></h5>
+                                <h5>% interested in FMCG Retail (e.g. groceries, medicines): <a class="editable" href="#"
+                                        id="percent_interested_in_fmcg_retail" data-type="text" data-title="Enter percentage e.g. 0.5">.3</a></h5>
+                                <h5>% interested in other retail (e.g. food / restaurant): <a class="editable" href="#"
+                                        id="percent_interested_in_food_retail" data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>
+                            </div>
 
-                            <h5>Total Floor area available <span id="total_floor_area_retail_available">0</span></h5>
-                             <br>
+                            <br>
+                            <h4>Total Floor area needed <span id="total_floor_area_retail_required">0</span> m2.</h4>
+                            <div class="hidden">
+                                <h6>of which Luxury <span id="total_floor_area_retail_luxury_split">0</span> m2</h6>
+                                <h6>of which Support <span id="total_floor_area_retail_support_split">0</span> m2</h6>
+                                <h6>of which FMCG <span id="total_floor_area_retail_fmcg_split">0</span> m2</h6>
+                                <h6>of which other <span id="total_floor_area_retail_other_split">0</span> m2</h6>
+                                <br>
+                            </div>
+                            <small>Total Floor area available <span id="total_floor_area_retail_available">0</span> m2</small>
+                            <br>
+                            <br>
                             <button id="recompute_retail" type="button" class="btn btn-info">Recompute</button>
 
                         </div>
@@ -287,7 +311,7 @@
                                             <span id="energy_per_capita"></span>
 
                                         </td>
-                                        <td>Total electricity demand: <span id='total_energy_demand'></span></td>
+                                        <td>Total electricity demand: <span id='total_energy_demand'></span> MW</td>
                                     </tr>
 
                                 </tbody>
@@ -303,7 +327,7 @@
                                         data-title="Enter new water demand e.g. 300"></a> -->
                                         <span id="water_per_capita"></span>
                                     </td>
-                                    <td>Total water: <span id='total_water_demand'></span></td>
+                                    <td>Total water: <span id='total_water_demand'></span> m3</td>
                                     </tr>
 
                                 </tbody>
@@ -319,7 +343,7 @@
                                             data-title="Enter new sewage demand e.g. 100"></a> -->
                                             <span id="sewage_per_capita"></span>
                                         </td>
-                                        <td>Total sewage demand: <span id='total_sewage_demand'></span></td>
+                                        <td>Total sewage demand: <span id='total_sewage_demand'></span> m3</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -334,7 +358,7 @@
                                             <span id="percent_road_usage"></span>
                                         </td>
 
-                                        <td>Annual Usage</td>
+                                        <td>Usage</td>
                                         <td><span id='total_road_usage'></span></td>
                                     </tr>
                                     <tr>
@@ -345,7 +369,7 @@
                                             <span id="percent_rail_usage"></span>.
                                         </td>
 
-                                        <td>Annual Usage</td>
+                                        <td> Usage</td>
                                         <td><span id='total_rail_usage'></span></td>
                                     </tr>
                                 </tbody>
@@ -579,7 +603,7 @@
             var lastyearsincome;
             var yearsPlot = [];
             var ebitda = acf - aopex - asga;
-            
+
             ebitda = (ebitda < 0) ? 0 : ebitda;
             for (var x = 0; x < numYears; x++) {
                 yearsPlot.push(x);
@@ -898,7 +922,7 @@
 
         var initCost = parseInt(totalcost);
         var acfCost = 100000;
-        var aopexCost =0;
+        var aopexCost = 0;
         var asgaCost = 0;
 
         function initCostSliders() {
@@ -964,8 +988,8 @@
         initpercentSliders();
         //built and non-built environment
         const data = {
-            'residential': "Luxury,High Priced,Mid Priced,Low Priced,Affordable Housing",
-            "hospitality": "Luxury,Upscale Hotel,Midscale Hotel,Budget Hotel",
+            "residential": "Luxury,High Priced,Mid Priced,Low Priced,Affordable Housing",
+            "hospitality": "Upscale Hotel,Midscale Hotel,Budget Hotel",
             "community": "Hospital,Police Station,Fire Station,School,Community Center,Playground",
             "tourism": "Eco Tourism,Low Density Attraction,High Density Attraction",
             "retail": "",
@@ -1237,6 +1261,13 @@
                 const numresidences = parseInt($("#residential_units").editable('getValue', true));
                 const population = parseInt($("#number_of_people_residential").editable('getValue', true));
 
+                var diagram_area = diagramdetail['area'];
+                const area_in_km2 = (diagram_area / 1000000);
+                const new_population_density = population / area_in_km2;
+
+                $("#current_pop_density").html(abbrNum(new_population_density, 2));
+
+
                 myDisplayUpdater.updateBedsRecompute(population);
                 myDisplayUpdater.updatePoliceStationsRecompute(population);
                 myDisplayUpdater.updateFireStationsRecompte(population);
@@ -1334,9 +1365,13 @@
 
                 selected_subclass = (selected_subclass) ? selected_subclass : 'Mid Priced';
 
-                $("#residential_units").editable('setValue', units );
+                $("#residential_units").editable('setValue', units);
                 $("#number_of_people_residential").editable('setValue', population);
 
+                const area_in_km2 = (diagram_area / 1000000);
+                const new_population_density = population / area_in_km2;
+
+                $("#current_pop_density").html(abbrNum(new_population_density, 2));
 
                 myDisplayUpdater.updateBeds(population, residential_class_defaults[selected_subclass]['beds']);
                 myDisplayUpdater.updatePoliceStations(population, residential_class_defaults[selected_subclass]
@@ -1431,17 +1466,17 @@
 
             }
             this.recompute = function () {
-                
+
                 const area = diagramdetail['area']
                 myDisplayUpdater = new TourismDisplayUpdater();
                 const m2_per_guest = parseInt($("#tourism_m2_per_guest").editable("getValue", true));
                 const floors = parseInt($("#tourism_floors").editable("getValue", true));
-                const land_area =  parseInt($("#tourism_land_area").editable("getValue", true));
+                const land_area = parseInt($("#tourism_land_area").editable("getValue", true));
                 const target_occupancy_rate = parseFloat($("#target_occupancy_rate").editable('getValue', true));
                 const people_per_room = parseInt($("#tourism_people_per_room").editable('getValue', true));
-                    
-                const rooms = (area / (people_per_room * m2_per_guest* land_area)) / floors;
-                
+
+                const rooms = (area / (people_per_room * m2_per_guest * land_area)) / floors;
+
                 $("#tourism_total_rooms").html(parseInt(rooms));
 
                 const yearly_visitors = rooms * target_occupancy_rate * people_per_room;
@@ -1547,7 +1582,15 @@
                 myTourismDisplayUpdater.updateRooms(diagram_area);
                 var selected_subclass = $("#base_asset_subclass").val();
                 selected_subclass = (selected_subclass) ? selected_subclass : 'Midscale Hotel';
-                const population = parseInt($("#total_yearly_visitors").html());    
+
+                $("#tourism_m2_per_guest").editable('setValue', tourism_class_defaults[selected_subclass]["tourism_m2_per_guest"]);
+                $("#tourism_floors").editable('setValue', tourism_class_defaults[selected_subclass]["tourism_floors"]);
+                $("#tourism_land_area").editable('setValue', tourism_class_defaults[selected_subclass]["tourism_land_area"]);
+                $("#target_occupancy_rate").editable('setValue', tourism_class_defaults[selected_subclass]["target_occupancy_rate"]);
+
+
+
+                const population = parseInt($("#total_yearly_visitors").html());
                 myDisplayUpdater = new ServicesDisplayUpdater();
                 myDisplayUpdater.updateBeds(population, tourism_class_defaults[selected_subclass]['beds']);
                 myDisplayUpdater.updatePoliceStations(population, tourism_class_defaults[selected_subclass]['police_stations']);
@@ -1641,24 +1684,34 @@
                 const retail_m2_per_visitor = $("#retail_m2_per_visitor").editable('getValue', true);
                 const total_daily_visitors = $("#total_daily_visitors_retail").editable('getValue', true);
                 const number_of_floors = $("#retail_floors").editable('getValue', true);
-                const percent_interested_luxury = $("#percent_interested_in_luxury_retail").editable('getValue', true);
-                const percent_interested_support = $("#percent_interested_in_support_retail").editable('getValue', true);
-                const percent_interested_fmcg = $("#percent_interested_in_fmcg_retail").editable('getValue', true);
-                const percent_interested_food = $("#percent_interested_in_food_retail").editable('getValue', true);
-                const total_floor_area_luxury = (retail_m2_per_visitor * total_daily_visitors * percent_interested_luxury);
-                const total_floor_area_support = (retail_m2_per_visitor * total_daily_visitors * percent_interested_support);
-                const total_floor_area_fmcg = (retail_m2_per_visitor * total_daily_visitors * percent_interested_fmcg);
-                const total_floor_area_other = (retail_m2_per_visitor * total_daily_visitors * percent_interested_food);
+                const percent_interested_luxury = $("#percent_interested_in_luxury_retail").editable('getValue',
+                    true);
+                const percent_interested_support = $("#percent_interested_in_support_retail").editable(
+                    'getValue', true);
+                const percent_interested_fmcg = $("#percent_interested_in_fmcg_retail").editable('getValue',
+                    true);
+                const percent_interested_food = $("#percent_interested_in_food_retail").editable('getValue',
+                    true);
+                const total_floor_area_luxury = (retail_m2_per_visitor * total_daily_visitors *
+                    percent_interested_luxury);
+                const total_floor_area_support = (retail_m2_per_visitor * total_daily_visitors *
+                    percent_interested_support);
+                const total_floor_area_fmcg = (retail_m2_per_visitor * total_daily_visitors *
+                    percent_interested_fmcg);
+                const total_floor_area_other = (retail_m2_per_visitor * total_daily_visitors *
+                    percent_interested_food);
 
-                const total_floor_area_retail = (total_floor_area_luxury + total_floor_area_support + total_floor_area_fmcg + total_floor_area_other);
-                $("#total_floor_area_retail_luxury_split").html(abbrNum(parseInt(total_floor_area_luxury),2));
-                $("#total_floor_area_retail_support_split").html(abbrNum(parseInt(total_floor_area_support),2));
-                $("#total_floor_area_retail_fmcg_split").html(abbrNum(parseInt(total_floor_area_fmcg),2));
-                $("#total_floor_area_retail_other_split").html(abbrNum(parseInt(total_floor_area_other),2));
+                const total_floor_area_retail = (total_floor_area_luxury + total_floor_area_support +
+                    total_floor_area_fmcg + total_floor_area_other);
+                $("#total_floor_area_retail_luxury_split").html(abbrNum(parseInt(total_floor_area_luxury), 2));
+                $("#total_floor_area_retail_support_split").html(abbrNum(parseInt(total_floor_area_support), 2));
+                $("#total_floor_area_retail_fmcg_split").html(abbrNum(parseInt(total_floor_area_fmcg), 2));
+                $("#total_floor_area_retail_other_split").html(abbrNum(parseInt(total_floor_area_other), 2));
 
-                $("#total_floor_area_retail_required").html(abbrNum(parseInt(total_floor_area_retail),2));
+                $("#total_floor_area_retail_required").html(abbrNum(parseInt(total_floor_area_retail), 2));
                 var diagram_area = diagramdetail['area'];
-                $("#total_floor_area_retail_available").html(abbrNum(parseInt(diagram_area * 0.8 * number_of_floors),2)); // only 80% of the area is available, rest for frontage etc. 
+                $("#total_floor_area_retail_available").html(abbrNum(parseInt(diagram_area * 0.8 *
+                    number_of_floors), 2)); // only 80% of the area is available, rest for frontage etc. 
 
             }
 
@@ -1704,9 +1757,11 @@
 
                 const diagram_area = diagramdetail['area']
 
-                const total_floor_area_office = ((office_m2_per_visitor * total_daily_visitors_office) / office_floors);
-                $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office),2));
-                $("#total_floor_area_office_available").html(abbrNum(parseInt(diagram_area * .8 *office_floors),2));
+                const total_floor_area_office = ((office_m2_per_visitor * total_daily_visitors_office) /
+                    office_floors);
+                $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office), 2));
+                $("#total_floor_area_office_available").html(abbrNum(parseInt(diagram_area * .8 * office_floors),
+                    2));
 
             }
 
@@ -1714,7 +1769,7 @@
 
 
         var ServicesDisplayUpdater = function () {
-     
+
             this.updateBeds = function (population, demand) {
                 $("#beds_per_capita").editable('setValue', demand);
                 // $("#beds_per_capita").html(demand);
