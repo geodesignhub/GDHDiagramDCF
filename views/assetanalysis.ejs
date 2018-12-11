@@ -103,10 +103,17 @@
                     
                     <div class='usage_form hidden' id="built_env_form_residential">
                             <h4>Total people housed: <a class="editable" href="#" id="number_of_people_residential"
-                                    data-type="text" data-title="Enter number of people living here"></a></h4>
+                                    data-type="text" data-title="Enter number of people living here">0</a></h4>
                             <h4>Total units: <a class="editable" href="#" id="residential_units" data-type="text"
-                                    data-title="Enter new residential units e.g. 5"></a></h4>
-                            <br><br>
+                                    data-title="Enter new residential units e.g. 5">0</a></h4>
+                            
+                            <h4>Number of floors: <a class="editable" href="#" id="residential_floors" data-type="text"
+                                    data-title="Enter new residential units e.g. 5">1</a></h4>
+                                    <br>
+                            <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> m2</h6>
+                            <h6>Total Floor area available: <span id="total_floor_area_residential_available">0</span> m2</h6>
+                            
+                            <br>
 
                             <button id="recompute_residential" type="button" class="btn btn-info">Recompute</button><br><br>
                             <h5>Population Density: <span id="current_pop_density"></span> people per km2</h5>
@@ -1004,6 +1011,7 @@
 
         $('#base_asset_subclass').on('change', function (e) {
             if ($("#base_asset_class").find("option:selected").attr('data-value') == 'residential') {
+
                 myResidentialControl.update(0, 0);
             } else if ($("#base_asset_class").find("option:selected").attr('data-value') == 'hospitality') {
                 myTourismControl.update(0, 0);
@@ -1231,13 +1239,25 @@
             this.initcompute = function () {
                 const numresidences = parseInt($("#residential_units").editable('getValue', true));
                 const population = parseInt($("#number_of_people_residential").editable('getValue', true));
+                const population = parseInt($("#residential_floors").editable('getValue', true));
                 // const population = $('#number_of_people_residential').editable('setValue', numresidences * 4);
-                this.update(numresidences, population);
+                this.update(numresidences, population, floors);
 
             }
             this.initialize = function () {
 
                 $('#residential_units').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+
+                $('#residential_floors').editable({
                     validate: function (value) {
                         if ($.trim(value) == '') {
                             return 'This field is required';
@@ -1263,12 +1283,18 @@
                 myDisplayUpdater = new ServicesDisplayUpdater();
                 const numresidences = parseInt($("#residential_units").editable('getValue', true));
                 const population = parseInt($("#number_of_people_residential").editable('getValue', true));
+                const floors = parseInt($("#residential_floors").editable('getValue', true));
+                
 
                 var diagram_area = diagramdetail['area'];
                 const area_in_km2 = (diagram_area / 1000000);
                 const new_population_density = population / area_in_km2;
-
+                const total_floor_area_residential_available = parseInt((diagram_area * .8 * floors));
+                const avg_area_per_unit = (parseInt(total_floor_area_residential_available) / parseInt(numresidences));
+       
                 $("#current_pop_density").html(abbrNum(new_population_density, 2));
+                $("#total_floor_area_residential_available").html(abbrNum(total_floor_area_residential_available,2));
+                $("#avg_area_per_unit").html(abbrNum(parseInt(avg_area_per_unit),2));
 
 
                 myDisplayUpdater.updateBedsRecompute(population);
@@ -1281,7 +1307,7 @@
                 myDisplayUpdater.updateTransportRecompute(population, 2, 2);
 
             }
-            this.update = function (units, population) {
+            this.update = function (units, population, floors) {
 
                 const residential_class_defaults = {
                     "Luxury": {
@@ -1362,12 +1388,16 @@
                 if (units === 0 && population === 0) {
                     units = myResidentialControl.generateResidentialUnits(diagram_area, system_name, system_tag);
                     population = units * 4;
+                    floors = 1
                 }
+
 
                 var selected_subclass = $("#base_asset_subclass").val();
 
                 selected_subclass = (selected_subclass) ? selected_subclass : 'Mid Priced';
+                const total_floor_area_residential_available = abbrNum(parseInt((diagram_area * .8 * floors)),2)
 
+                $("#total_floor_area_residential_available").html(total_floor_area_residential_available);
                 $("#residential_units").editable('setValue', units);
                 $("#number_of_people_residential").editable('setValue', population);
 
