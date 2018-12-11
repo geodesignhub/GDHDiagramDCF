@@ -1830,7 +1830,7 @@
             this.updateSchoolsRecompute = function (population, ) {
                 const demand = $("#school_per_capita").editable('getValue', true);
                 // $("#school_per_capita").html(demand);
-                $("#total_schools").html(abbrNum(parseInt((population * demand))), 2);
+                $("#total_schools").html(abbrNum(parseInt((population * demand)), 2));
 
             }
 
