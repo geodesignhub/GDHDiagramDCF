@@ -1803,7 +1803,7 @@
             this.updateFireStations = function (population, demand) {
                 $("#fire_station_per_capita").editable('setValue', demand);
                 // $("#fire_station_per_capita").html(demand);
-                $("#total_firestations").html(abbrNum(parseInt(population * demand)), 2);
+                $("#total_firestations").html(abbrNum(parseInt((population * demand)), 2));
 
             }
 
@@ -1811,7 +1811,7 @@
                 const demand = $("#fire_station_per_capita").editable('getValue', true);
                 // $("#fire_station_per_capita").html(demand);
 
-                $("#total_firestations").html(abbrNum(parseInt(population * demand)), 2);
+                $("#total_firestations").html(abbrNum(parseInt((population * demand)), 2));
 
             }
 
