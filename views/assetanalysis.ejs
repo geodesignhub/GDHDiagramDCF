@@ -1482,7 +1482,7 @@
 
                 $("#tourism_total_rooms").html(parseInt(rooms));
 
-                const yearly_visitors = rooms * target_occupancy_rate * people_per_room;
+                const yearly_visitors = rooms * target_occupancy_rate * people_per_room* 365;
                 $("#total_yearly_visitors").html(parseInt(yearly_visitors));
 
 
