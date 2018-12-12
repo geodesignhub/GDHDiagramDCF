@@ -12,11 +12,38 @@ app.use('/assets', express.static('static'));
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-
+var redisclient = require('redis').createClient(process.env.REDIS_URL || {
+    host: '127.0.0.1',
+    port: 6379
+});
 app.use(cookieParser());
-app.use(csrf({ cookie: true }));
+app.use(csrf({
+    cookie: true
+}));
 
-app.get('/', function(request, response) {
+app.post('/setdefaults', function (request, response) {
+    var projectid = request.body.projectid;
+    var diagramid = request.body.diagramid;
+    var capex = request.body.capex;
+    var acf = request.body.acf;
+    var opex = request.body.opex;
+    var asga = request.body.asga;
+
+    const key = projectid + '-' + diagramid;
+    // console.log(key, { "capex": capex, "acf": acf, "opex": opex,"asga":asga })
+    redisclient.set(key, JSON.stringify({
+        "capex": capex,
+        "acf": acf,
+        "opex": opex,
+        "asga": asga
+    }));
+
+    response.contentType('application/json');
+    response.send({
+        "status": 1
+    });
+});
+app.get('/', function (request, response) {
     var opts = {};
     if (request.query.apitoken && request.query.projectid && request.query.diagramid) {
         var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
@@ -30,20 +57,20 @@ app.get('/', function(request, response) {
 
         var URLS = [diagramdetailurl, systemsurl];
 
-        async.map(URLS, function(url, done) {
+        async.map(URLS, function (url, done) {
             req({
                 url: url,
                 headers: {
                     "Authorization": cred,
                     "Content-Type": "application/json"
                 }
-            }, function(err, response, body) {
+            }, function (err, response, body) {
                 if (err || response.statusCode !== 200) {
                     return done(err || new Error());
                 }
                 return done(null, JSON.parse(body));
             });
-        }, function(err, results) {
+        }, function (err, results) {
             if (err) return response.sendStatus(500);
 
             var diagramdetail = results[0];
@@ -51,38 +78,71 @@ app.get('/', function(request, response) {
 
             var sURls = [systemdetailurl];
 
-            async.map(sURls, function(url, done) {
+            async.map(sURls, function (url, done) {
                 req({
                     url: url,
                     headers: {
                         "Authorization": cred,
                         "Content-Type": "application/json"
                     }
-                }, function(err, response, body) {
+                }, function (err, response, body) {
                     if (err || response.statusCode !== 200) {
                         return done(err || new Error());
                     }
                     return done(null, JSON.parse(body));
                 });
-            }, function(err, sysdetails) {
+            }, function (err, sysdetails) {
                 if (err) return response.sendStatus(500);
 
-                opts = {
-                    "csrfToken": request.csrfToken(),
-                    "apitoken": request.query.apitoken,
-                    "projectid": request.query.projectid,
-                    "status": 1,
-                    "diagramdetail": JSON.stringify(results[0]),
-                    "systems": JSON.stringify(results[1]),
-                    "systemdetail": JSON.stringify(sysdetails[0]),
-                };
-                response.render('assetanalysis', opts);
+
+                var rediskey = projectid + "-" + diagramid;
+                async.map([rediskey], function (rkey, done) {
+
+                        redisclient.get(rkey, function (err, results) {
+                            if (err || results == null) {
+                                return done(null, JSON.stringify({
+                                    "capex": "0",
+                                    "opex": "0",
+                                    "asga": "0",
+                                    "acf": "0"
+                                }));
+                            } else {
+                                return done(null, results);
+                            }
+                        });
+                    },
+                    function (error, op) {
+                        //only OK once set
+                        if (err) return response.sendStatus(500);
+                        op = JSON.parse(op);
+                        
+                        opts = {
+                            "csrfToken": request.csrfToken(),
+                            "apitoken": request.query.apitoken,
+                            "projectid": request.query.projectid,
+                            "status": 1,
+                            "defaultvalues": JSON.stringify(op),
+                            "diagramid": diagramid,
+                            "diagramdetail": JSON.stringify(results[0]),
+                            "systems": JSON.stringify(results[1]),
+                            "systemdetail": JSON.stringify(sysdetails[0]),
+                        };
+                        response.render('assetanalysis', opts);
+                    });
+
             });
 
         });
 
     } else {
-        opts = { 'csrfToken': request.csrfToken(), 'systemdetail': '0', 'apitoken': '0', 'projectid': '0', "diagramdetail": '0', 'systems': '0' };
+        opts = {
+            'csrfToken': request.csrfToken(),
+            'systemdetail': '0',
+            'apitoken': '0',
+            'projectid': '0',
+            "diagramdetail": '0',
+            'systems': '0'
+        };
         response.render('assetanalysis', opts);
     }
 

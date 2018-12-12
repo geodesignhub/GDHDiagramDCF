@@ -66,7 +66,7 @@
             </div>
         </div>
         <div class="row">
-
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="col-md-6">
                 <h3>Input Diagram</h3>
                 <div id="inputmap"></div>
@@ -226,7 +226,8 @@
                     <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
                     <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i>
                             Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span
-                                id="procstatus">Processing</span>...</span>
+                                id="procstatus">Processing</span>...</span><span class="pull-right"><button type="button" id="savevalues" class="btn btn-default btn-x-sm">
+                                    <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Save Values </button></span>
                     </p>
             </div>
             <div class="col-md-6">
@@ -562,6 +563,9 @@
         var diagramdetail = <%- diagramdetail %>;
         var apitoken = "<%= apitoken  %>"; //var test is now assigned to getTest which will only work on browsers
         var projectid = "<%= projectid %>";
+        var diagramid = "<%= diagramid %>";
+        var defaultvalues = <%- defaultvalues %>;
+        
         var systemdetail = <%- systemdetail %>;
 
         var totalcost;
@@ -936,6 +940,19 @@
         var asgaCost = 0;
 
         function initCostSliders() {
+            
+            const totalcost = (defaultvalues['capex'] == "0")? parseInt(initCost) : parseInt(defaultvalues['capex']);
+
+            
+            const acf = (defaultvalues['acf'] =="0") ?  parseInt(totalcost*0.1): defaultvalues['acf'] ;
+            const opex = (defaultvalues['opex'] =="0") ? parseInt(totalcost*0.05) : defaultvalues['opex'] ;
+            const asga = (defaultvalues['asga'] =="0") ?  parseInt(totalcost*0.01) : defaultvalues['asga'] ;
+
+            $("#initcost-slider").val(totalcost);
+            $("#acf-slider").val(acf);
+            $("#aopex-slider").val(opex);
+            $("#asga-slider").val(asga);
+
             var costcleave = new Cleave('#initcost-slider', {
                 numeral: true,
                 numeralThousandsGroupStyle: 'thousand',
@@ -969,9 +986,6 @@
                     asgaCost = e.target.rawValue;
                 }
             });
-
-
-            $("#initcost-slider").val(parseInt(totalcost));
 
         }
 
@@ -1953,6 +1967,43 @@
         myRetailControl = new RetailCalaulator();
         myOfficeControl = new OfficeCalaulator();
         $(".services_form").hide();
+        $('#savevalues').on('click', function (e) {
+            const capex = initCost;
+            const acf = acfCost;
+            const opex =aopexCost;
+            const asga = asgaCost;
+
+            const csrf = $("[name='_csrf']").val();
+            const data = {
+                "capex": capex,
+                "acf": acf,
+                "projectid":projectid, 
+                "diagramid":diagramid,
+                "opex": opex,
+                "asga": asga,
+                "_csrf":csrf
+            };
+            var url = '/setdefaults/';
+            var promise = $.ajax({
+                url: url,
+                type: 'POST',
+                data: data
+            });
+            
+
+            promise.done(function(data) {
+                humane.log("Data successufully saved", {
+                    addnCls: 'humane-flatty-success'
+                });
+            });
+
+            promise.fail(function(data) {
+                humane.log("Error in saving data, the administrators have been notified", {
+                    addnCls: 'humane-flatty-error'
+                });
+            });
+           
+        });
     </script>
 </body>
 
