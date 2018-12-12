@@ -1239,7 +1239,7 @@
             this.initcompute = function () {
                 const numresidences = parseInt($("#residential_units").editable('getValue', true));
                 const population = parseInt($("#number_of_people_residential").editable('getValue', true));
-                const population = parseInt($("#residential_floors").editable('getValue', true));
+                const floors = parseInt($("#residential_floors").editable('getValue', true));
                 // const population = $('#number_of_people_residential').editable('setValue', numresidences * 4);
                 this.update(numresidences, population, floors);
 
