@@ -66,7 +66,7 @@
             </div>
         </div>
         <div class="row">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="col-md-6">
                 <h3>Input Diagram</h3>
                 <div id="inputmap"></div>
@@ -75,184 +75,216 @@
                 <h5 id="sysCost"></h5>
             </div>
             <div class="col-md-6">
-                    <h3>Asset Analysis</h3>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <select id="base_asset_class" class="form-control">
-                                <option selected disabled>Select Class</option>
-                                <option data-value='residential'>Residential</option>
-                                <option data-value='hospitality'>Tourism</option>
-                                <option data-value='retail'>Retail</option>
-                                <option data-value='office'>Office</option>
-                                <!-- <option data-value='community'>Community</option>
+                <h3>Asset Analysis</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <select id="base_asset_class" class="form-control">
+                            <option selected disabled>Select Class</option>
+                            <option data-value='residential'>Residential</option>
+                            <option data-value='hospitality'>Tourism</option>
+                            <option data-value='retail'>Retail</option>
+                            <option data-value='office'>Office</option>
+                            <!-- <option data-value='community'>Community</option>
                                 <option data-value='tourism'>Tourism</option>
                                 <option data-value='commercial'>Commercial</option>
                                 <option data-value='agriculture'>Agirculture</option>
                                 <option data-value='green-infrastruture'>Green Infrastruture</option> -->
-                            </select>
-    
-                        </div>
-                        <div class="col-md-6">
-    
-                            <select id="base_asset_subclass" class="form-control">
-                                <option selected disabled>Select Subclass</option>
-                            </select>
-                        </div>
+                        </select>
+
                     </div>
+                    <div class="col-md-6">
+
+                        <select id="base_asset_subclass" class="form-control">
+                            <option selected disabled>Select Subclass</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+
+                <div class='usage_form hidden' id="built_env_form_residential">
+                    <h4>Total people housed: <a class="editable" href="#" id="number_of_people_residential" data-type="text"
+                            data-title="Enter number of people living here">0</a></h4>
+                    <h4>Total units: <a class="editable" href="#" id="residential_units" data-type="text" data-title="Enter new residential units e.g. 5">0</a></h4>
+
+                    <h4>Number of floors: <a class="editable" href="#" id="residential_floors" data-type="text"
+                            data-title="Enter new residential units e.g. 5">1</a></h4>
                     <br>
-                    
-                    <div class='usage_form hidden' id="built_env_form_residential">
-                            <h4>Total people housed: <a class="editable" href="#" id="number_of_people_residential"
-                                    data-type="text" data-title="Enter number of people living here">0</a></h4>
-                            <h4>Total units: <a class="editable" href="#" id="residential_units" data-type="text"
-                                    data-title="Enter new residential units e.g. 5">0</a></h4>
-                            
-                            <h4>Number of floors: <a class="editable" href="#" id="residential_floors" data-type="text"
-                                    data-title="Enter new residential units e.g. 5">1</a></h4>
-                                    <br>
-                            <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> m2</h6>
-                            <h6>Total Floor area available: <span id="total_floor_area_residential_available">0</span> m2</h6>
-                            
-                            <br>
+                    <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> m2</h6>
+                    <h6>Total Floor area available: <span id="total_floor_area_residential_available">0</span> m2</h6>
 
-                            <button id="recompute_residential" type="button" class="btn btn-info">Recompute</button><br><br>
-                            <h5>Population Density: <span id="current_pop_density"></span> people per km2</h5>
-                            <small>For reference: Population density of Monaco is 18,000 people per sq. km, Hong Kong
-                                is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small><br><br>
-                        </div>
+                    <br>
 
-                        <div class='usage_form hidden' id="built_env_form_tourism">
-                            <h5>Average m2 per guest: <a class="editable" href="#" id="tourism_m2_per_guest" data-type="text"
-                                    data-title="Enter new room size e.g. 5">58</a></h5>
+                    <button id="recompute_residential" type="button" class="btn btn-info">Recompute</button><br><br>
+                    <h5>Population Density: <span id="current_pop_density"></span> people per km2</h5>
+                    <small>For reference: Population density of Monaco is 18,000 people per sq. km, Hong Kong
+                        is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density"
+                            target="_blank">on Wikipedia</a></small><br><br>
+                </div>
 
-                            <h5>Floors: <a class="editable" href="#" id="tourism_floors" data-type="text" data-title="Enter new floors e.g. 5">2</a></h5>
+                <div class='usage_form hidden' id="built_env_form_tourism">
+                    <h5>Average m2 per guest: <a class="editable" href="#" id="tourism_m2_per_guest" data-type="text"
+                            data-title="Enter new room size e.g. 5">58</a></h5>
 
-                            <h5>Land Area Factor: <a class="editable" href="#" id="tourism_land_area" data-type="text"
-                                    data-title="Enter new land consumption factor  e.g. 5">3</a></h5>
+                    <h5>Floors: <a class="editable" href="#" id="tourism_floors" data-type="text" data-title="Enter new floors e.g. 5">2</a></h5>
 
-                            <h5>Avg. People per room: <a class="editable" href="#" id="tourism_people_per_room"
-                                    data-type="text" data-title="Enter new people per room">3</a></h5>
+                    <h5>Land Area Factor: <a class="editable" href="#" id="tourism_land_area" data-type="text"
+                            data-title="Enter new land consumption factor  e.g. 5">3</a></h5>
 
-                            <h5>Target Occupancy Rate: <span id="target_occupancy_rate_SPAN"><a class="editable" href="#"
-                                        id="target_occupancy_rate" data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></span></h5>
-                            <br>
+                    <h5>Avg. People per room: <a class="editable" href="#" id="tourism_people_per_room" data-type="text"
+                            data-title="Enter new people per room">3</a></h5>
 
-                            <h4>Total Rooms: <span id="tourism_total_rooms">3</span></h4>
+                    <h5>Target Occupancy Rate: <span id="target_occupancy_rate_SPAN"><a class="editable" href="#" id="target_occupancy_rate"
+                                data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></span></h5>
+                    <br>
 
-                            <h4>Yearly Visitors: <span id="total_yearly_visitors">3</span></h4>
-                            <br>
-                            <button id="recompute_tourism" type="button" class="btn btn-info">Recompute</button>
+                    <h4>Total Rooms: <span id="tourism_total_rooms">3</span></h4>
 
-                        </div>
+                    <h4>Yearly Visitors: <span id="total_yearly_visitors">3</span></h4>
+                    <br>
+                    <button id="recompute_tourism" type="button" class="btn btn-info">Recompute</button>
 
-                        <div class='usage_form hidden' id="built_env_form_office">
-                            <h4>Per capita space required in m2: <a class="editable" href="#" id="office_m2_per_visitor"
-                                    data-type="text" data-title="Enter new room size e.g. 5">12</a></h4>
-                            <h4>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text"
-                                    data-title="Enter new floors e.g. 5">1</a></h4>
-                            <h4>Expected office workers: <a class="editable" href="#" id="total_daily_visitors_office"
-                                    data-type="text" data-title="Enter a new office workers">300</a></h4>
+                </div>
 
-                            <br>
-                            <h4>Total Floor area needed:&nbsp;<span id="total_floor_area_office_required">0</span> m2</h4>
-                            <h6>Total Floor area available: <span id="total_floor_area_office_available">0</span> m2</h6>
-                            <br>
-                            <button id="recompute_office" type="button" class="btn btn-info">Recompute</button>
+                <div class='usage_form hidden' id="built_env_form_office">
+                    <h4>Per capita space required in m2: <a class="editable" href="#" id="office_m2_per_visitor"
+                            data-type="text" data-title="Enter new room size e.g. 5">12</a></h4>
+                    <h4>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
+                    <h4>Expected office workers: <a class="editable" href="#" id="total_daily_visitors_office"
+                            data-type="text" data-title="Enter a new office workers">300</a></h4>
 
-                        </div>
-                        <div class='usage_form hidden' id="built_env_form_retail">
-                            <h4>Per capita retail space <a class="editable" href="#" id="retail_m2_per_visitor" data-type="text"
-                                    data-title="Enter new room size e.g. 5">4</a></h4>
-                            <h4>Number of floors: <a class="editable" href="#" id="retail_floors" data-type="text"
-                                    data-title="Enter new floors e.g. 5">1</a></h4>
-                            <h4>Expected visitors in area: <a class="editable" href="#" id="total_daily_visitors_retail"
-                                    data-type="text" data-title="Enter a new visitor number">3000</a></h4><br>
-                            <div class="hidden">
-                                <h5>% interested in Luxury Retail (e.g. name brands): <a class="editable" href="#" id="percent_interested_in_luxury_retail"
-                                        data-type="text" data-title="Enter percentage e.g. 0.15">.1</a></h5>
-                                <h5>% interested in Support Retail (e.g office supplies): <a class="editable" href="#"
-                                        id="percent_interested_in_support_retail" data-type="text" data-title="Enter percentage e.g. 0.1">.4</a></h5>
-                                <h5>% interested in FMCG Retail (e.g. groceries, medicines): <a class="editable" href="#"
-                                        id="percent_interested_in_fmcg_retail" data-type="text" data-title="Enter percentage e.g. 0.5">.3</a></h5>
-                                <h5>% interested in other retail (e.g. food / restaurant): <a class="editable" href="#"
-                                        id="percent_interested_in_food_retail" data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>
-                            </div>
+                    <br>
+                    <h4>Total Floor area needed:&nbsp;<span id="total_floor_area_office_required">0</span> m2</h4>
+                    <h6>Total Floor area available: <span id="total_floor_area_office_available">0</span> m2</h6>
+                    <br>
+                    <button id="recompute_office" type="button" class="btn btn-info">Recompute</button>
 
-                            <br>
-                            <h4>Total Floor area needed <span id="total_floor_area_retail_required">0</span> m2.</h4>
-                            <div class="hidden">
-                                <h6>of which Luxury <span id="total_floor_area_retail_luxury_split">0</span> m2</h6>
-                                <h6>of which Support <span id="total_floor_area_retail_support_split">0</span> m2</h6>
-                                <h6>of which FMCG <span id="total_floor_area_retail_fmcg_split">0</span> m2</h6>
-                                <h6>of which other <span id="total_floor_area_retail_other_split">0</span> m2</h6>
-                                <br>
-                            </div>
-                            <small>Total Floor area available <span id="total_floor_area_retail_available">0</span> m2</small>
-                            <br>
-                            <br>
-                            <button id="recompute_retail" type="button" class="btn btn-info">Recompute</button>
+                </div>
+                <div class='usage_form hidden' id="built_env_form_retail">
+                    <h4>Per capita retail space <a class="editable" href="#" id="retail_m2_per_visitor" data-type="text"
+                            data-title="Enter new room size e.g. 5">4</a></h4>
+                    <h4>Number of floors: <a class="editable" href="#" id="retail_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
+                    <h4>Expected visitors in area: <a class="editable" href="#" id="total_daily_visitors_retail"
+                            data-type="text" data-title="Enter a new visitor number">3000</a></h4><br>
+                    <div class="hidden">
+                        <h5>% interested in Luxury Retail (e.g. name brands): <a class="editable" href="#" id="percent_interested_in_luxury_retail"
+                                data-type="text" data-title="Enter percentage e.g. 0.15">.1</a></h5>
+                        <h5>% interested in Support Retail (e.g office supplies): <a class="editable" href="#" id="percent_interested_in_support_retail"
+                                data-type="text" data-title="Enter percentage e.g. 0.1">.4</a></h5>
+                        <h5>% interested in FMCG Retail (e.g. groceries, medicines): <a class="editable" href="#" id="percent_interested_in_fmcg_retail"
+                                data-type="text" data-title="Enter percentage e.g. 0.5">.3</a></h5>
+                        <h5>% interested in other retail (e.g. food / restaurant): <a class="editable" href="#" id="percent_interested_in_food_retail"
+                                data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>
+                    </div>
 
-                        </div>
-
-                        <div class='usage_form hidden' id="built_env_form_community">
-                            <h4>Visitors</h4>
-                            <h4>Peak Demand</h4>
-                        </div>
-                        <div class='usage_form hidden' id="built_env_form_agriculture">
-                        </div>
-
-                        <div class='usage_form hidden' id="built_env_form_green-infrastructure">
-                        </div>
+                    <br>
+                    <h4>Total Floor area needed <span id="total_floor_area_retail_required">0</span> m2.</h4>
+                    <div class="hidden">
+                        <h6>of which Luxury <span id="total_floor_area_retail_luxury_split">0</span> m2</h6>
+                        <h6>of which Support <span id="total_floor_area_retail_support_split">0</span> m2</h6>
+                        <h6>of which FMCG <span id="total_floor_area_retail_fmcg_split">0</span> m2</h6>
+                        <h6>of which other <span id="total_floor_area_retail_other_split">0</span> m2</h6>
                         <br>
+                    </div>
+                    <small>Total Floor area available <span id="total_floor_area_retail_available">0</span> m2</small>
+                    <br>
+                    <br>
+                    <button id="recompute_retail" type="button" class="btn btn-info">Recompute</button>
+
+                </div>
+
+                <div class='usage_form hidden' id="built_env_form_community">
+                    <h4>Visitors</h4>
+                    <h4>Peak Demand</h4>
+                </div>
+                <div class='usage_form hidden' id="built_env_form_agriculture">
+                </div>
+
+                <div class='usage_form hidden' id="built_env_form_green-infrastructure">
+                </div>
+                <br>
 
             </div>
         </div>
         <hr>
         <div class="row">
             <div class="col-md-6">
-                
-                    <h3>Parameters</h3>
-                    <h5>Capital Expenditure / Initial Investment</h5>
-                    <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
-                    <h5>Annual Cashflow</h5>
-                    <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
-                    <h5>Annual OpEx</h5>
-                    <p><input type="text" id="aopex-slider" name="aopex-slider" value="" /></p>
-                    <h5>Annual SGA</h5>
-                    <p><input type="text" id="asga-slider" name="asga-slider" value="" /></p>
-                    <h5>Annual cashflow growth (inflation)</h5>
-                    <p><input type="text" id="acfg-slider" name="acfg-slider" value="" /></p>
-                    <h5>Weighted Annual Cost of Capital (WACC)</h5>
-                    <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
-                    <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i>
-                            Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span
-                                id="procstatus">Processing</span>...</span><span class="pull-right"><button type="button" id="savevalues" class="btn btn-default btn-x-sm">
-                                    <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Save Values </button></span>
-                    </p>
+
+                <h3>Parameters</h3>
+                <h5>Capital Expenditure / Initial Investment</h5>
+                <div class="row">
+                    <div class="col-md-3">
+                        <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>Start year:<input type="text" id="initcost-syear" name="initcost-slider" value="" />&nbsp;End
+                            year:<input type="text" id="initcost-eyear" name="initcost-slider" value="" /></p>
+                    </div>
+                </div>
+                <h5>Annual Cashflow</h5>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>Start year:<input type="text" id="initcost-syear" name="initcost-slider" value="" />&nbsp;End
+                            year:<input type="text" id="initcost-eyear" name="initcost-slider" value="" /></p>
+                    </div>
+                </div>
+
+                <h5>Annual OpEx</h5>
+                <p><input type="text" id="aopex-slider" name="aopex-slider" value="" /></p>
+                <h5>Annual SGA</h5>
+                <p><input type="text" id="asga-slider" name="asga-slider" value="" /></p>
+                <h5>Annual cashflow growth (inflation)</h5>
+                <p><input type="text" id="acfg-slider" name="acfg-slider" value="" /></p>
+                <h5>Weighted Annual Cost of Capital (WACC)</h5>
+                <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
+                <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i>
+                        Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span
+                            id="procstatus">Processing</span>...</span><span class="pull-right"><button type="button"
+                            id="savevalues" class="btn btn-default btn-x-sm">
+                            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Save Values </button></span>
+                </p>
             </div>
             <div class="col-md-6">
-                    <h3>30-year Discounted Cash Flow</h3>
-                    <div id="dcfchart">
-                        <canvas id="chart" height="150"></canvas>
-    
-                    </div>
-                    <br>
-                    <h3>DCF and NPV</h3>
-                    <p>Total discounted cashflow and the net present value (total cash flow - initial investment - operational expenses - general expenses) is shown below.</p>
-                    <table class="table table-bordered">
-                        <tr><td><h6>Total Discounted Cash Flow</h6></td><td><h3 id="totaldcf"></h3></td></tr>
-                        <tr><td><h6>Net Present Value (NPV)</h6></td><td><h3 id="npvVal"></h3>
-                            <p id="npvmeaning"></p></td></tr>
-                    </table>                                       
+                <h3>30-year Discounted Cash Flow</h3>
+                <div id="dcfchart">
+                    <canvas id="chart" height="150"></canvas>
+
+                </div>
+                <br>
+                <h3>DCF and NPV</h3>
+                <p>Total discounted cashflow and the net present value (total cash flow - initial investment -
+                    operational expenses - general expenses) is shown below.</p>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            <h6>Total Discounted Cash Flow</h6>
+                        </td>
+                        <td>
+                            <h3 id="totaldcf"></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h6>Net Present Value (NPV)</h6>
+                        </td>
+                        <td>
+                            <h3 id="npvVal"></h3>
+                            <p id="npvmeaning"></p>
+                        </td>
+                    </tr>
+                </table>
 
             </div>
         </div>
         <div class="row">
             <div class="col-md-8">
-              
+
             </div>
             <div class="col-md-4">
-              
+
             </div>
         </div>
 
@@ -261,134 +293,134 @@
         <!-- /.row -->
 
         <br>
-        
+
         <div class="row">
             <div class="col-md-8">
-                        <div id="services" class="services_form">
-                            <h3>Services</h3>
-                            <p>A summary of services necessary for this Asset</p>
-                            <h4>Community</h4>
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">Hospital Beds per capita</th>
-                                        <td>
-                                            <!-- <a class="editable beds_editable" href="#" id="beds_per_capita" data-type="text"
+                <div id="services" class="services_form">
+                    <h3>Services</h3>
+                    <p>A summary of services necessary for this Asset</p>
+                    <h4>Community</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Hospital Beds per capita</th>
+                                <td>
+                                    <!-- <a class="editable beds_editable" href="#" id="beds_per_capita" data-type="text"
                                             data-title="Enter new beds demand e.g. .0040"></a> -->
-                                            <span id="beds_per_capita"></span>
-                                        </td>
-                                        <td>Total beds: <span id='total_hospital_beds'></span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Policestations per capita</th>
-                                        <td>
-                                            <!-- <a class="editable police_station_editable" href="#" id="police_station_per_capita"
+                                    <span id="beds_per_capita"></span>
+                                </td>
+                                <td>Total beds: <span id='total_hospital_beds'></span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Policestations per capita</th>
+                                <td>
+                                    <!-- <a class="editable police_station_editable" href="#" id="police_station_per_capita"
                                             data-type="text" data-title="Enter new police demand e.g. .0040"></a> -->
-                                            <span id="police_station_per_capita"></span>
-                                        </td>
-                                        <td>Total police stations: <span id='total_police_stations'></span></td>
-                                    </tr>
+                                    <span id="police_station_per_capita"></span>
+                                </td>
+                                <td>Total police stations: <span id='total_police_stations'></span></td>
+                            </tr>
 
-                                    <tr>
-                                        <th scope="row">Firestations per capita</th>
-                                        <td>
-                                            <!-- <a class="editable fire_station_editable" href="#" id="fire_station_per_capita"
+                            <tr>
+                                <th scope="row">Firestations per capita</th>
+                                <td>
+                                    <!-- <a class="editable fire_station_editable" href="#" id="fire_station_per_capita"
                                             data-type="text" data-title="Enter new fire station demand e.g. .0040"></a> -->
-                                            <span id="fire_station_per_capita"></span>
-                                        </td>
-                                        <td>Total fire stations: <span id='total_firestations'></span></td>
-                                    </tr>
+                                    <span id="fire_station_per_capita"></span>
+                                </td>
+                                <td>Total fire stations: <span id='total_firestations'></span></td>
+                            </tr>
 
 
-                                    <tr>
-                                        <th scope="row">K12 Schools (m2) per student (5% of population)</th>
-                                        <td>
-                                            <!-- <a class="editable schools_editable" href="#" id="school_per_capita" data-type="text"
+                            <tr>
+                                <th scope="row">K12 Schools (m2) per student (5% of population)</th>
+                                <td>
+                                    <!-- <a class="editable schools_editable" href="#" id="school_per_capita" data-type="text"
                                             data-title="Enter new school demand e.g. 6"></a> -->
-                                            <span id="school_per_capita"></span>
-                                        </td>
-                                        <td>Total school area required: <span id='total_schools'></span> m2 </td>
-                                    </tr>
+                                    <span id="school_per_capita"></span>
+                                </td>
+                                <td>Total school area required: <span id='total_schools'></span> m2 </td>
+                            </tr>
 
 
-                                </tbody>
-                            </table>
+                        </tbody>
+                    </table>
 
-                            <h4>Energy</h4>
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">Electricity demand per person (MWh / year) </th>
-                                        <td>
-                                            <!-- <a class="editable energy_editable" href="#" id="energy_per_capita" data-type="text"
+                    <h4>Energy</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Electricity demand per person (MWh / year) </th>
+                                <td>
+                                    <!-- <a class="editable energy_editable" href="#" id="energy_per_capita" data-type="text"
                                             data-title="Enter new energy demand e.g. .0040"></a> -->
-                                            <span id="energy_per_capita"></span>
+                                    <span id="energy_per_capita"></span>
 
-                                        </td>
-                                        <td>Total electricity demand: <span id='total_energy_demand'></span> MW</td>
-                                    </tr>
+                                </td>
+                                <td>Total electricity demand: <span id='total_energy_demand'></span> MW</td>
+                            </tr>
 
-                                </tbody>
-                            </table>
-                            <h4>Water</h4>
+                        </tbody>
+                    </table>
+                    <h4>Water</h4>
 
-                            <table class="table table-bordered">
-                                <tbody>
+                    <table class="table table-bordered">
+                        <tbody>
 
-                                    <th scope="row">Water demand (m3/year/person) </th>
-                                    <td>
-                                        <!-- <a class="editable water_editable" href="#" id="water_per_capita" data-type="text"
+                            <th scope="row">Water demand (m3/year/person) </th>
+                            <td>
+                                <!-- <a class="editable water_editable" href="#" id="water_per_capita" data-type="text"
                                         data-title="Enter new water demand e.g. 300"></a> -->
-                                        <span id="water_per_capita"></span>
-                                    </td>
-                                    <td>Total water: <span id='total_water_demand'></span> m3</td>
-                                    </tr>
+                                <span id="water_per_capita"></span>
+                            </td>
+                            <td>Total water: <span id='total_water_demand'></span> m3</td>
+                            </tr>
 
-                                </tbody>
-                            </table>
-                            <h4>Sewage</h4>
+                        </tbody>
+                    </table>
+                    <h4>Sewage</h4>
 
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">Sewage demand (m3/year/person)</th>
-                                        <td>
-                                            <!-- <a class="editable sewage_editable" href="#" id="sewage_per_capita" data-type="text"
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Sewage demand (m3/year/person)</th>
+                                <td>
+                                    <!-- <a class="editable sewage_editable" href="#" id="sewage_per_capita" data-type="text"
                                             data-title="Enter new sewage demand e.g. 100"></a> -->
-                                            <span id="sewage_per_capita"></span>
-                                        </td>
-                                        <td>Total sewage demand: <span id='total_sewage_demand'></span> m3</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <h4>Transport</h4>
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">% using Road (twice a day)</th>
-                                        <td>
-                                            <!-- <a class="editable road_editable" href="#" id="percent_road_usage" data-type="text"
+                                    <span id="sewage_per_capita"></span>
+                                </td>
+                                <td>Total sewage demand: <span id='total_sewage_demand'></span> m3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4>Transport</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">% using Road (twice a day)</th>
+                                <td>
+                                    <!-- <a class="editable road_editable" href="#" id="percent_road_usage" data-type="text"
                                             data-title="Enter new road percent e.g. .8"></a> -->
-                                            <span id="percent_road_usage"></span>
-                                        </td>
+                                    <span id="percent_road_usage"></span>
+                                </td>
 
-                                        <td>Usage</td>
-                                        <td><span id='total_road_usage'></span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">% using Rail (twice a day)</th>
-                                        <td>
-                                            <!-- <a class="editable rail_editable" href="#" id="percent_rail_usage" data-type="text"
+                                <td>Usage</td>
+                                <td><span id='total_road_usage'></span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">% using Rail (twice a day)</th>
+                                <td>
+                                    <!-- <a class="editable rail_editable" href="#" id="percent_rail_usage" data-type="text"
                                             data-title="Enter new rail percent e.g. .2"></a> -->
-                                            <span id="percent_rail_usage"></span>.
-                                        </td>
+                                    <span id="percent_rail_usage"></span>.
+                                </td>
 
-                                        <td> Usage</td>
-                                        <td><span id='total_rail_usage'></span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                <td> Usage</td>
+                                <td><span id='total_rail_usage'></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -565,7 +597,7 @@
         var projectid = "<%= projectid %>";
         var diagramid = "<%= diagramid %>";
         var defaultvalues = <%- defaultvalues %>;
-        
+
         var systemdetail = <%- systemdetail %>;
 
         var totalcost;
@@ -940,13 +972,13 @@
         var asgaCost = 0;
 
         function initCostSliders() {
-            
-            const totalcost = (defaultvalues['capex'] == "0")? parseInt(initCost) : parseInt(defaultvalues['capex']);
 
-            
-            const acf = (defaultvalues['acf'] =="0") ?  parseInt(totalcost*0.1): defaultvalues['acf'] ;
-            const opex = (defaultvalues['opex'] =="0") ? parseInt(totalcost*0.05) : defaultvalues['opex'] ;
-            const asga = (defaultvalues['asga'] =="0") ?  parseInt(totalcost*0.01) : defaultvalues['asga'] ;
+            const totalcost = (defaultvalues['capex'] == "0") ? parseInt(initCost) : parseInt(defaultvalues['capex']);
+
+
+            const acf = (defaultvalues['acf'] == "0") ? parseInt(totalcost * 0.1) : defaultvalues['acf'];
+            const opex = (defaultvalues['opex'] == "0") ? parseInt(totalcost * 0.05) : defaultvalues['opex'];
+            const asga = (defaultvalues['asga'] == "0") ? parseInt(totalcost * 0.01) : defaultvalues['asga'];
 
             $("#initcost-slider").val(totalcost);
             $("#acf-slider").val(acf);
@@ -1298,17 +1330,19 @@
                 const numresidences = parseInt($("#residential_units").editable('getValue', true));
                 const population = parseInt($("#number_of_people_residential").editable('getValue', true));
                 const floors = parseInt($("#residential_floors").editable('getValue', true));
-                
+
 
                 var diagram_area = diagramdetail['area'];
                 const area_in_km2 = (diagram_area / 1000000);
                 const new_population_density = population / area_in_km2;
                 const total_floor_area_residential_available = parseInt((diagram_area * .8 * floors));
-                const avg_area_per_unit = (parseInt(total_floor_area_residential_available) / parseInt(numresidences));
-       
+                const avg_area_per_unit = (parseInt(total_floor_area_residential_available) / parseInt(
+                    numresidences));
+
                 $("#current_pop_density").html(abbrNum(new_population_density, 2));
-                $("#total_floor_area_residential_available").html(abbrNum(total_floor_area_residential_available,2));
-                $("#avg_area_per_unit").html(abbrNum(parseInt(avg_area_per_unit),2));
+                $("#total_floor_area_residential_available").html(abbrNum(
+                    total_floor_area_residential_available, 2));
+                $("#avg_area_per_unit").html(abbrNum(parseInt(avg_area_per_unit), 2));
 
 
                 myDisplayUpdater.updateBedsRecompute(population);
@@ -1409,7 +1443,8 @@
                 var selected_subclass = $("#base_asset_subclass").val();
 
                 selected_subclass = (selected_subclass) ? selected_subclass : 'Mid Priced';
-                const total_floor_area_residential_available = abbrNum(parseInt((diagram_area * .8 * floors)),2)
+                const total_floor_area_residential_available = abbrNum(parseInt((diagram_area * .8 * floors)),
+                    2)
 
                 $("#total_floor_area_residential_available").html(total_floor_area_residential_available);
                 $("#residential_units").editable('setValue', units);
@@ -1526,7 +1561,7 @@
 
                 $("#tourism_total_rooms").html(parseInt(rooms));
 
-                const yearly_visitors = rooms * target_occupancy_rate * people_per_room* 365;
+                const yearly_visitors = rooms * target_occupancy_rate * people_per_room * 365;
                 $("#total_yearly_visitors").html(parseInt(yearly_visitors));
 
 
@@ -1630,23 +1665,39 @@
                 var selected_subclass = $("#base_asset_subclass").val();
                 selected_subclass = (selected_subclass) ? selected_subclass : 'Midscale Hotel';
 
-                $("#tourism_m2_per_guest").editable('setValue', tourism_class_defaults[selected_subclass]["tourism_m2_per_guest"]);
-                $("#tourism_floors").editable('setValue', tourism_class_defaults[selected_subclass]["tourism_floors"]);
-                $("#tourism_land_area").editable('setValue', tourism_class_defaults[selected_subclass]["tourism_land_area"]);
-                $("#target_occupancy_rate").editable('setValue', tourism_class_defaults[selected_subclass]["target_occupancy_rate"]);
+                $("#tourism_m2_per_guest").editable('setValue', tourism_class_defaults[selected_subclass][
+                    "tourism_m2_per_guest"
+                ]);
+                $("#tourism_floors").editable('setValue', tourism_class_defaults[selected_subclass][
+                    "tourism_floors"
+                ]);
+                $("#tourism_land_area").editable('setValue', tourism_class_defaults[selected_subclass][
+                    "tourism_land_area"
+                ]);
+                $("#target_occupancy_rate").editable('setValue', tourism_class_defaults[selected_subclass][
+                    "target_occupancy_rate"
+                ]);
 
 
 
                 const population = parseInt($("#total_yearly_visitors").html());
                 myDisplayUpdater = new ServicesDisplayUpdater();
                 myDisplayUpdater.updateBeds(population, tourism_class_defaults[selected_subclass]['beds']);
-                myDisplayUpdater.updatePoliceStations(population, tourism_class_defaults[selected_subclass]['police_stations']);
-                myDisplayUpdater.updateFireStations(population, tourism_class_defaults[selected_subclass]['fire_stations']);
-                myDisplayUpdater.updateSchools(population * 0.05, tourism_class_defaults[selected_subclass]['schools']);
+                myDisplayUpdater.updatePoliceStations(population, tourism_class_defaults[selected_subclass][
+                    'police_stations'
+                ]);
+                myDisplayUpdater.updateFireStations(population, tourism_class_defaults[selected_subclass][
+                    'fire_stations'
+                ]);
+                myDisplayUpdater.updateSchools(population * 0.05, tourism_class_defaults[selected_subclass][
+                    'schools'
+                ]);
                 myDisplayUpdater.updateEnergy(population, tourism_class_defaults[selected_subclass]['energy']);
                 myDisplayUpdater.updateWater(population, tourism_class_defaults[selected_subclass]['water']);
                 myDisplayUpdater.updateSewage(population, tourism_class_defaults[selected_subclass]['sewage']);
-                myDisplayUpdater.updateTransport(population, tourism_class_defaults[selected_subclass]['transport']['road'], tourism_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
+                myDisplayUpdater.updateTransport(population, tourism_class_defaults[selected_subclass][
+                    'transport'
+                ]['road'], tourism_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
 
             }
         }
@@ -1970,18 +2021,18 @@
         $('#savevalues').on('click', function (e) {
             const capex = initCost;
             const acf = acfCost;
-            const opex =aopexCost;
+            const opex = aopexCost;
             const asga = asgaCost;
 
             const csrf = $("[name='_csrf']").val();
             const data = {
                 "capex": capex,
                 "acf": acf,
-                "projectid":projectid, 
-                "diagramid":diagramid,
+                "projectid": projectid,
+                "diagramid": diagramid,
                 "opex": opex,
                 "asga": asga,
-                "_csrf":csrf
+                "_csrf": csrf
             };
             var url = '/setdefaults/';
             var promise = $.ajax({
@@ -1989,20 +2040,20 @@
                 type: 'POST',
                 data: data
             });
-            
 
-            promise.done(function(data) {
+
+            promise.done(function (data) {
                 humane.log("Data successufully saved", {
                     addnCls: 'humane-flatty-success'
                 });
             });
 
-            promise.fail(function(data) {
+            promise.fail(function (data) {
                 humane.log("Error in saving data, the administrators have been notified", {
                     addnCls: 'humane-flatty-error'
                 });
             });
-           
+
         });
     </script>
 </body>
