@@ -704,9 +704,9 @@
             }, 0);
             var absdcf = Math.abs(totaldcf);
             if (totaldcf < 0) {
-                $("#totaldcf").html('-' + abbrNum(parseFloat(totaldcf.toFixed(2)), 2));
+                $("#totaldcf").html('-' + abbrNum(parseFloat(absdcf.toFixed(2)), 2));
             }else{
-            $("#totaldcf").html(abbrNum(parseFloat(totaldcf.toFixed(2)), 2));
+            $("#totaldcf").html(abbrNum(parseFloat(absdcf.toFixed(2)), 2));
             }
             var npv = initInvestment - totaldcf;
             var absnpv = Math.abs(npv);
