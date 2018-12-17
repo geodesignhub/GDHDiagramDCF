@@ -702,8 +702,11 @@
             var totaldcf = dcf.reduce(function (a, b) {
                 return a + b;
             }, 0);
-
+            if (totaldcf < 0) {
+                $("#totaldcf").html('-' + abbrNum(parseFloat(totaldcf.toFixed(2)), 2));
+            }else{
             $("#totaldcf").html(abbrNum(parseFloat(totaldcf.toFixed(2)), 2));
+            }
             var npv = initInvestment - totaldcf;
             var absnpv = Math.abs(npv);
 
