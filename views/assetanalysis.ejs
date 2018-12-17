@@ -211,26 +211,29 @@
 
                 <h3>Parameters</h3>
                 <h5>Capital Expenditure / Initial Investment</h5>
+                <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
                 <div class="row">
-                    <div class="col-md-3">
-                        <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
+                    <div class="col-xs-4">
+                        <p>Start year (0-30)<input type="text" id="initcost-syear" name="initcost-syear" value="0" /></p>
                     </div>
-                    <div class="col-md-3">
-                        <p>Start year:<input type="text" id="initcost-syear" name="initcost-slider" value="" />&nbsp;End
-                            year:<input type="text" id="initcost-eyear" name="initcost-slider" value="" /></p>
+                    <div class="col-xs-4">
+                        <p>End year (0-30)<input type="text" id="initcost-eyear" name="initcost-eyear" value="1" /></p>
                     </div>
                 </div>
+
                 <h5>Annual Cashflow</h5>
 
+                <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
+
                 <div class="row">
-                    <div class="col-md-3">
-                        <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
+                    <div class="col-xs-4">
+                        <p>Start year (0-30)<input type="text" id="acf-syear" name="acf-syear" value="0" /></p>
                     </div>
-                    <div class="col-md-3">
-                        <p>Start year:<input type="text" id="initcost-syear" name="initcost-slider" value="" />&nbsp;End
-                            year:<input type="text" id="initcost-eyear" name="initcost-slider" value="" /></p>
-                    </div>
+                    <!-- <div class="col-xs-4">
+                                &nbsp;End year (0-30)<input type="text" id="acf-eyear" name="acf-eyear" value="" />
+                        </div>   -->
                 </div>
+
 
                 <h5>Annual OpEx</h5>
                 <p><input type="text" id="aopex-slider" name="aopex-slider" value="" /></p>
@@ -637,7 +640,12 @@
         }).addTo(inputLayer);
         inputmap.fitBounds(inputLayer.getBounds());
 
+        function isNumeric(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+
         function computeNPV() {
+
             var initInvestment = parseInt(initCost);
             var acf = parseInt(acfCost);
             var aopex = parseInt(aopexCost);
@@ -648,39 +656,61 @@
             var income = [];
             var lastyearsincome;
             var yearsPlot = [];
-            var ebitda = acf - aopex - asga;
 
-            ebitda = (ebitda < 0) ? 0 : ebitda;
+
+            const init_investement_syear = isNumeric($("#initcost-syear").val()) ? parseInt($("#initcost-syear").val()) :
+                0;
+            const init_investement_eyear = isNumeric($("#initcost-eyear").val()) ? parseInt($("#initcost-eyear").val()) :
+                1;
+            const acf_syear = isNumeric($("#acf-syear").val()) ? parseInt($("#acf-syear").val()) : 0;
+
+            const investment_duration = init_investement_eyear - init_investement_syear;
+            const yearly_investement = initInvestment / investment_duration;
+
+            // ebitda = (ebitda < 0) ? 0 : ebitda;
             for (var x = 0; x < numYears; x++) {
                 yearsPlot.push(x);
+                var c_acf =0;
+                if (x <= acf_syear) {
+                    c_acf = 0;
+                }
+                else {
+                    c_acf = acf;
+                }
+
+                if (x >= init_investement_syear && x < init_investement_eyear) {
+                    var ebitda = c_acf - yearly_investement - aopex - asga;
+                } else {
+                    var ebitda = c_acf - aopex - asga;
+                }
+
                 if (x == 0) {
-                    income.push(ebitda);
+                    income.push(parseFloat(ebitda.toFixed(2)));
                 } else {
                     lastyearsincome = income[x - 1];
-                    var thisyearsincome = lastyearsincome + (lastyearsincome * acfg);
-                    income.push(parseInt(thisyearsincome));
-
+                    var thisyearsincome = ebitda + (lastyearsincome * acfg);
+                    income.push(parseFloat(thisyearsincome.toFixed(2)));
                 }
-            }
 
+            }
             var dcf = [];
             for (var y = 0; y < numYears; y++) {
                 var curdcf = ((income[y]) / Math.pow((1 + wacc), y));
-                dcf.push(parseInt(curdcf));
+                dcf.push(parseFloat(curdcf.toFixed(2)));
             }
 
             var totaldcf = dcf.reduce(function (a, b) {
                 return a + b;
             }, 0);
 
-            $("#totaldcf").html(abbrNum(totaldcf, 2));
+            $("#totaldcf").html(abbrNum(parseFloat(totaldcf.toFixed(2)), 2));
             var npv = initInvestment - totaldcf;
             var absnpv = Math.abs(npv);
 
             if (npv < 0) {
-                $("#npvVal").html('-' + abbrNum(absnpv, 2));
+                $("#npvVal").html('-' + abbrNum(parseFloat(absnpv.toFixed(2)), 2));
             } else {
-                $("#npvVal").html(abbrNum(absnpv, 2));
+                $("#npvVal").html(abbrNum(parseFloat(absnpv.toFixed(2)), 2));
             }
             if (npv > 0) {
                 $("#npvmeaning").html(
@@ -980,10 +1010,20 @@
             const opex = (defaultvalues['opex'] == "0") ? parseInt(totalcost * 0.05) : defaultvalues['opex'];
             const asga = (defaultvalues['asga'] == "0") ? parseInt(totalcost * 0.01) : defaultvalues['asga'];
 
+            const capex_start = (defaultvalues.hasOwnProperty("capex_start")) ? defaultvalues["capex_start"] : 0;
+
+            const capex_end = (defaultvalues.hasOwnProperty("capex_end")) ? defaultvalues["capex_end"] : 1;
+
+            const acf_start = (defaultvalues.hasOwnProperty("acf_start")) ? defaultvalues["acf_start"] : 0;
+
+
             $("#initcost-slider").val(totalcost);
             $("#acf-slider").val(acf);
             $("#aopex-slider").val(opex);
             $("#asga-slider").val(asga);
+            $("#initcost-syear").val(capex_start);
+            $("#initcost-eyear").val(capex_end);
+            $("#acf-syear").val(acf_start);
 
             var costcleave = new Cleave('#initcost-slider', {
                 numeral: true,
@@ -2024,6 +2064,10 @@
             const opex = aopexCost;
             const asga = asgaCost;
 
+            const capex_start = isNumeric($("#initcost-syear").val()) ? $("#initcost-syear").val() :0;
+            const capex_end = isNumeric($("#initcost-eyear").val()) ? $("#initcost-eyear").val() :1;
+            const acf_start = isNumeric($("#acf-syear").val()) ? $("#acf-syear").val() : 0;
+
             const csrf = $("[name='_csrf']").val();
             const data = {
                 "capex": capex,
@@ -2032,6 +2076,9 @@
                 "diagramid": diagramid,
                 "opex": opex,
                 "asga": asga,
+                "capex_start": capex_start,
+                "capex_end": capex_end,
+                "acf_start": acf_start,
                 "_csrf": csrf
             };
             var url = '/setdefaults/';

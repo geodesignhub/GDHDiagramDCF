@@ -28,6 +28,9 @@ app.post('/setdefaults', function (request, response) {
     var acf = request.body.acf;
     var opex = request.body.opex;
     var asga = request.body.asga;
+    var capex_start = request.body.capex_start;
+    var capex_end = request.body.capex_end;
+    var acf_start = request.body.acf_start;
 
     const key = projectid + '-' + diagramid;
     // console.log(key, { "capex": capex, "acf": acf, "opex": opex,"asga":asga })
@@ -35,7 +38,10 @@ app.post('/setdefaults', function (request, response) {
         "capex": capex,
         "acf": acf,
         "opex": opex,
-        "asga": asga
+        "asga": asga,
+        "capex_start": capex_start,
+        "capex_end": capex_end,
+        "acf_start": acf_start,
     }));
 
     response.contentType('application/json');
@@ -104,7 +110,10 @@ app.get('/', function (request, response) {
                                     "capex": "0",
                                     "opex": "0",
                                     "asga": "0",
-                                    "acf": "0"
+                                    "acf": "0",
+                                    "capex_start": "0",
+                                    "capex_end": "1",
+                                    "acf_start": "0",
                                 }));
                             } else {
                                 return done(null, results);
