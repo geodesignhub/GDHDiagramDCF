@@ -1379,15 +1379,15 @@
                 var diagram_area = diagramdetail['area'];
                 const area_in_km2 = (diagram_area / 1000000);
                 const new_population_density = population / area_in_km2;
-                const total_floor_area_residential_available = parseInt((diagram_area * .6 * floors));
-                const total_floor_area_residential_available_per_floor = parseInt((diagram_area * .6));
+                const total_floor_area_residential_available = parseInt((diagram_area * 0.6 * floors));
+                const total_floor_area_residential_available_per_floor = parseInt((diagram_area * 0.6));
                 const avg_area_per_unit = (parseInt(total_floor_area_residential_available) / parseInt(
                     numresidences));
 
                 $("#current_pop_density").html(abbrNum(new_population_density, 2));
                 $("#total_floor_area_residential_available").html(abbrNum(
                     total_floor_area_residential_available, 2));
-                $("#avg_area_per_unit").html(abbrNum(parseInt(total_floor_area_residential_available_per_floor, 2)) +' per floor.'  + abbrNum(parseInt(avg_area_per_unit), 2) + ' total. <small> Assuming 0.6 Floor Area ratio per dwelling</small>');
+                $("#avg_area_per_unit").html(abbrNum(total_floor_area_residential_available_per_floor, 2) +' per floor. '  + abbrNum(parseInt(avg_area_per_unit), 2) + ' total. <small> Assuming 0.6 Floor Area ratio per dwelling</small>');
 
 
                 myDisplayUpdater.updateBedsRecompute(population);
