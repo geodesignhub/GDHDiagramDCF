@@ -1381,7 +1381,7 @@
                 const new_population_density = population / area_in_km2;
                 const total_floor_area_residential_available = parseInt((diagram_area * 0.6 * floors));
                 const total_floor_area_residential_available_per_floor = parseInt((diagram_area * 0.6));
-                const avg_area_per_unit = (parseInt(total_floor_area_residential_available) / parseInt(
+                const avg_area_per_unit = (parseInt(total_floor_area_residential_available_per_floor) / parseInt(
                     numresidences));
 
                 $("#current_pop_density").html(abbrNum(new_population_density, 2));
