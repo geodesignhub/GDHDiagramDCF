@@ -109,7 +109,7 @@
                     <h4>Number of floors: <a class="editable" href="#" id="residential_floors" data-type="text"
                             data-title="Enter new residential units e.g. 5">1</a></h4>
                     <br>
-                    <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> m2</h6>
+                    <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> m2 <small> Assuming 0.6 Floor Area ratio per dwelling</small></h6>
                     <h6>Total Floor area available: <span id="total_floor_area_residential_available">0</span> m2</h6>
 
                     <br>
@@ -1379,15 +1379,15 @@
                 var diagram_area = diagramdetail['area'];
                 const area_in_km2 = (diagram_area / 1000000);
                 const new_population_density = population / area_in_km2;
-                const total_floor_area_residential_available = parseInt((diagram_area * 0.6 * floors));
+                const  = parseInt((diagram_area * 0.6 * floors));
                 const total_floor_area_residential_available_per_floor = parseInt((diagram_area * 0.6));
-                const avg_area_per_unit = (parseInt(total_floor_area_residential_available_per_floor) / parseInt(
+                const avg_area_per_unit = (parseInt(total_floor_area_residential_available) / parseInt(
                     numresidences));
 
                 $("#current_pop_density").html(abbrNum(new_population_density, 2));
                 $("#total_floor_area_residential_available").html(abbrNum(
                     total_floor_area_residential_available, 2));
-                $("#avg_area_per_unit").html(abbrNum(total_floor_area_residential_available_per_floor, 2) +' per floor. '  + abbrNum(parseInt(avg_area_per_unit), 2) + ' total. <small> Assuming 0.6 Floor Area ratio per dwelling</small>');
+                $("#avg_area_per_unit").html(abbrNum(total_floor_area_residential_available_per_floor, 2) +' per floor. '  + abbrNum(parseInt(avg_area_per_unit), 2) + ' total.');
 
 
                 myDisplayUpdater.updateBedsRecompute(population);
