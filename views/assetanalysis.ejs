@@ -109,7 +109,7 @@
                     <h4>Number of floors: <a class="editable" href="#" id="residential_floors" data-type="text"
                             data-title="Enter new residential units e.g. 5">1</a></h4>
                     <br>
-                    <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> m2 <small> Assuming 0.6 Floor Area ratio per dwelling</small></h6>
+                    <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> <small> Assuming 0.6 Floor Area ratio per dwelling</small></h6>
                     <h6>Total Floor area available: <span id="total_floor_area_residential_available">0</span> m2</h6>
 
                     <br>
@@ -1388,7 +1388,7 @@
                 $("#current_pop_density").html(abbrNum(new_population_density, 2));
                 $("#total_floor_area_residential_available").html(abbrNum(
                     total_floor_area_residential_available, 2));
-                $("#avg_area_per_unit").html(abbrNum(parseInt(avg_area_per_unit), 2) + ' / ' + abbrNum(total_floor_area_residential_available_per_floor, 2) + 'per floor');
+                $("#avg_area_per_unit").html(abbrNum(parseInt(avg_area_per_unit), 2) + ' m2 / ' + abbrNum(total_floor_area_residential_available_per_floor, 2) + ' m2 per floor');
 
 
                 myDisplayUpdater.updateBedsRecompute(population);
