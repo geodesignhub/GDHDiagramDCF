@@ -106,8 +106,8 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
                 totArea = 0;
             } else {
                 try {
-                    bufArea = turf.buffer(cDiag, .01);
-                    totAreaM = turf.area(bufArea);
+                    // bufArea = turf.buffer(cDiag, 0.0);
+                    totAreaM = turf.area(cDiag);
                     totArea = totAreaM * 0.0001; // in hectares                    
                 } catch (err) { //throw JSON.stringify(err)
                     // console.log(err);
@@ -174,7 +174,8 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
                     curDiagDetails['sysname'] = sName;
                 }
             }
-            // console.log(cost_override_type, cost_override);
+
+            // console.log(cost_override_type, cost_override,totalCost);
             if (cost_override !== 0) {
                 if (cost_override_type == 'total') {
                     totalCost = cost_override;
@@ -182,6 +183,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
                     totalCost = totArea * cost_override;
                 }
             } else {
+                console.log(totArea, sysCost)
                 totalCost = totArea * sysCost;
             }
 

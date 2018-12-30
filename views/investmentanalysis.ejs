@@ -365,6 +365,7 @@
         var timeline = <%- timeline %>;
         var bounds = <%- bounds %>;
         var boundaries = <%- boundaries %>;
+        var saved_diagram_details = <%- saved_diagram_details %>;
         var investmentdata;
 
         if (boundaries.features.length > 0) {
@@ -1363,7 +1364,7 @@
                 var y = curInvestmentdata['yeild'];
                 const url = '<a href="https://assetanalysis.herokuapp.com/?apitoken=' + apitoken + '&projectid=' +
                     projectid + '&diagramid=' + diagID +
-                    '/" target="_blank">Details <i class="glyphicon glyphicon-share"></i></a>';
+                    '" target="_blank">Details <i class="glyphicon glyphicon-share"></i></a>';
 
                 $(".aa-" + diagID).html(url);
                 // var units = curInvestmentdata['units'];

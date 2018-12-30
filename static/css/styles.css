@@ -29,6 +29,26 @@ h4 {
     height: 290px;
 }
 
+.map {
+    height: 400px;
+}
+
+.icon {
+    width: 10px;
+    height: 15px;
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+.ionslider {
+    width: 300px;
+    float: right;
+}
+
+.gray {
+    background-color: #ecf0f1;
+}
+
 .icon {
     width: 10px;
     height: 15px;
