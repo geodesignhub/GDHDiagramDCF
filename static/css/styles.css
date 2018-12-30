@@ -1039,3 +1039,68 @@ ul.input-list li {
 .style-2 input[type="text"].focus {
     border: solid 5px #969696;
 }
+
+
+.hor-minimalist-b {
+    font-family: "Open Sans", Sans-Serif;
+    font-size: 12px;
+    background: #fff;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.hor-minimalist-b th {
+    font-size: 14px;
+    font-weight: normal;
+    color: #606060;
+    padding: 10px 8px;
+    border-bottom: 2px solid #303030;
+}
+
+.hor-minimalist-b td {
+    border-bottom: 1px solid #f5f5f5;
+    color: #606060;
+    /* padding: 12px 0px; */
+    padding-right: 5px;
+    min-width: 60px;
+    text-align: right;
+}
+
+.hor-minimalist-b td.sysrow {
+    border-bottom: 2px solid #f5f5f5;
+    color: #606060;
+    /*padding: 16px 0px;*/
+    padding-top: 16px;
+    padding-bottom: 8px;
+}
+
+.hor-minimalist-b tbody tr:hover td {
+    color: #202020;
+}
+
+.hor-minimalist-b td.footertotal {
+    padding-top: 25px;
+    border: 0;
+}
+
+.hor-minimalist-b td.initCol {
+    text-align: left;
+}
+
+.header {
+    text-align: right;
+}
+
+.sysheader {
+    font-size: 15px;
+}
+
+tr.group td {
+    text-align: left;
+    font-size: 14px;
+}
+table.dataTable tbody td {
+    padding: 4px 4px;
+}
+
+  

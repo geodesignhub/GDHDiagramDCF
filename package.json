@@ -1,14 +1,14 @@
 {
     "name": "gdhdiagramdcf",
     "version": "1.0.0",
-    "description": "A Geodesign Hub plugin to help compute Discounted Cash Flow analysis of a diagram.",
+    "description": "A Geodesignhub plugin to help compute Discounted Cash Flow analysis of a diagram.",
     "main": "app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/hrishiballal/GDHDiagramDCF/"
+        "url": "https://github.com/hrishiballal/InvestmentAnalysis/"
     },
     "keywords": [
         "Geodesign",
@@ -26,6 +26,6 @@
         "csurf": "^1.9.0",
         "cookie-parser": "^1.4.3",
         "http-auth": "^3.1.1",
-        "redis": "^2.8.0"
+        "redis": "^2.8.0",
     }
 }
