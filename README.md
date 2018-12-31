@@ -1,7 +1,6 @@
 # Geodesignhub Asset and Investment Analysis
 This is that has two parts: Asset Analysis and Investment Visualization. It uses the Geodesign Hub [API](http://www.geodesignhub.com/api/) to download the diagram and systems data and then provides a series of controls to analyze and set potential uses of this asset. 
 
-
 ![alt text][logo]
 ![alt text][logo2]
 ![alt text][logo3]
@@ -11,10 +10,8 @@ This is that has two parts: Asset Analysis and Investment Visualization. It uses
 [logo3]: https://i.imgur.com/gZDFCV9.jpg "Geodesign Hub Diagram Discounted Cash Flow"
     
 
-
 ### Spatial Analysis Library
 In additon to computing the basic financial analysis (Discounted Cash Flow), a spatial anlaysis library is included in this plugin. The library analyzes the location of the diagram and then generates a grid. Once the grid is generated, it allocates the costs and income over that grid. This is useful to visualize how money flows in the design over time and space. 
-
 
 ## Analyze how investments flow in a design over time and space 
 This plugin downloads a design using the [Geodesignhub API](https://www.geodesignhub.com/api/), computes its area and construction costs and provides a [Discounted Cash Flow](https://en.wikipedia.org/wiki/Discounted_cash_flow) analysis to calculate Net Present Value of the different components of the design. 

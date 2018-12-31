@@ -1063,54 +1063,7 @@
                     asgaCost = e.target.rawValue;
                 }
             });
-
-
-            const class_default_values = JSON.parse(defaultvalues['asset_details']);
-
-            const asset_class = class_default_values.class;
-            
-            if (asset_class) {
-                
-                $("#base_asset_class option[data-value='" + asset_class +"']").attr("selected","selected");
-                if (asset_class == 'residential') {
-                    $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
-                    $("#number_of_people_residential").editable('setValue', class_default_values['metadata']['number_of_people_residential']);
-                    $("#residential_units").editable('setValue', class_default_values['metadata']['residential_units']);
-                    $("#residential_floors").editable('setValue', class_default_values['metadata']['residential_floors']);
-                    $("#current_pop_density").html(class_default_values['metadata']['current_pop_density']);
-                } else if (asset_class == 'hospitality') {
-                    $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
-                    $("#tourism_m2_per_guest").editable('setValue', class_default_values['metadata']['tourism_m2_per_guest']);
-                    $("#tourism_floors").editable('setValue', class_default_values['metadata']['tourism_floors']);
-                    $("#tourism_land_area").editable('setValue', class_default_values['metadata']['tourism_land_area']);
-                    $("#tourism_people_per_room").editable('setValue', class_default_values['metadata']['tourism_people_per_room']);
-                    $("#target_occupancy_rate").editable('setValue', class_default_values['metadata']['target_occupancy_rate']);
-                    $("#tourism_total_rooms").html(class_default_values['metadata']['tourism_total_rooms']);
-                    $("#total_yearly_visitors").html(class_default_values['metadata']['total_yearly_visitors']);
-
-                } else if (asset_class == 'retail') {
-                    $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
-                    $("#retail_m2_per_visitor").editable('setValue', class_default_values['metadata']['retail_m2_per_visitor']);
-                    $("#retail_floors").editable('setValue', class_default_values['metadata']['retail_floors']);
-                    $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata']['total_daily_visitors_retail']);
-
-                    $("#percent_interested_in_luxury_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_luxury_retail']);
-                    $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata']['total_daily_visitors_retail']);
-                    $("#percent_interested_in_support_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_support_retail']);
-                    $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata']['total_daily_visitors_retail']);
-                    $("#percent_interested_in_fmcg_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_fmcg_retail']);
-                    $("#percent_interested_in_food_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_food_retail']);
-                    $("#total_floor_area_retail_required").html(class_default_values['metadata']['total_floor_area_retail_required']);
-
-                } else if (asset_class == 'office') {
-                    $("#base_asset_subclass").val(class_default_values['base_asset_subclass']);
-                    $("#office_m2_per_visitor").editable('setValue', class_default_values['metadata']['office_m2_per_visitor']);
-                    $("#office_floors").editable('setValue', class_default_values['metadata']['office_floors']);
-                    $("#total_daily_visitors_office").editable('setValue', class_default_values['metadata']['total_daily_visitors_office']);
-                    $("#total_floor_area_office_required").html(class_default_values['metadata']['total_floor_area_office_required']);
-                }
-
-            }
+           
 
         }
 
@@ -1173,13 +1126,16 @@
             //your awesome code here
         });
         $('#base_asset_class').on('change', function (e) {
-            var key = $(this).find("option:selected").attr('data-value');
-            $(".usage_form").each(function (index) {
+            const key = $(this).find("option:selected").attr('data-value');
+           updateClassControls(key);
+        });
+        function updateClassControls(base_class_type){
+ $(".usage_form").each(function (index) {
                 $(this).removeClass("hidden");
                 $(this).hide();
             });
             var vals = [];
-            switch (key) {
+            switch (base_class_type) {
                 case 'residential':
                     vals = data.residential.split(",");
                     $(".usage_form").hide();
@@ -1236,8 +1192,7 @@
             $.each(vals, function (index, value) {
                 $secondChoice.append("<option >" + value + "</option>");
             });
-        });
-
+        }
 
         var ResidentialCalaulator = function () {
             this.generateResidentialUnits = function (diagramArea, sysName, sysTag) {
@@ -1798,8 +1753,6 @@
             }
         }
 
-
-
         var RetailCalaulator = function () {
             this.initialize = function () {
                 $('#retail_m2_per_visitor').editable({
@@ -1911,7 +1864,6 @@
 
         }
 
-
         var OfficeCalaulator = function () {
             this.initialize = function () {
 
@@ -1959,7 +1911,6 @@
             }
 
         }
-
 
         var ServicesDisplayUpdater = function () {
 
@@ -2222,6 +2173,95 @@
             });
 
         });
+         var asset_class = "";
+            if (Object.keys(defaultvalues['asset_details']).length === 0 && defaultvalues['asset_details'].constructor ===
+                Object) {
+
+                var class_default_values = {};
+                
+            } else {
+
+                var class_default_values = JSON.parse(defaultvalues['asset_details']);
+                var asset_class = class_default_values.class;
+            }
+
+            if (asset_class) {
+
+                $("#base_asset_class option[data-value='" + asset_class + "']").attr("selected", "selected");
+
+            // var key = $(this).find("option:selected").attr('data-value');
+                updateClassControls(asset_class);
+                if (asset_class == 'residential') {
+                    $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
+                    $("#number_of_people_residential").editable('setValue', class_default_values['metadata'][
+                        'number_of_people_residential'
+                    ]);
+                    $("#residential_units").editable('setValue', class_default_values['metadata']['residential_units']);
+                    $("#residential_floors").editable('setValue', class_default_values['metadata']['residential_floors']);
+                    $("#current_pop_density").html(class_default_values['metadata']['current_pop_density']);
+                } else if (asset_class == 'hospitality') {
+                    $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
+                    $("#tourism_m2_per_guest").editable('setValue', class_default_values['metadata'][
+                        'tourism_m2_per_guest'
+                    ]);
+                    $("#tourism_floors").editable('setValue', class_default_values['metadata']['tourism_floors']);
+                    $("#tourism_land_area").editable('setValue', class_default_values['metadata']['tourism_land_area']);
+                    $("#tourism_people_per_room").editable('setValue', class_default_values['metadata'][
+                        'tourism_people_per_room'
+                    ]);
+                    $("#target_occupancy_rate").editable('setValue', class_default_values['metadata'][
+                        'target_occupancy_rate'
+                    ]);
+                    $("#tourism_total_rooms").html(class_default_values['metadata']['tourism_total_rooms']);
+                    $("#total_yearly_visitors").html(class_default_values['metadata']['total_yearly_visitors']);
+
+                } else if (asset_class == 'retail') {
+                    $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
+                    $("#retail_m2_per_visitor").editable('setValue', class_default_values['metadata'][
+                        'retail_m2_per_visitor'
+                    ]);
+                    $("#retail_floors").editable('setValue', class_default_values['metadata']['retail_floors']);
+                    $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata'][
+                        'total_daily_visitors_retail'
+                    ]);
+
+                    $("#percent_interested_in_luxury_retail").editable('setValue', class_default_values['metadata'][
+                        'percent_interested_in_luxury_retail'
+                    ]);
+                    $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata'][
+                        'total_daily_visitors_retail'
+                    ]);
+                    $("#percent_interested_in_support_retail").editable('setValue', class_default_values['metadata'][
+                        'percent_interested_in_support_retail'
+                    ]);
+                    $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata'][
+                        'total_daily_visitors_retail'
+                    ]);
+                    $("#percent_interested_in_fmcg_retail").editable('setValue', class_default_values['metadata'][
+                        'percent_interested_in_fmcg_retail'
+                    ]);
+                    $("#percent_interested_in_food_retail").editable('setValue', class_default_values['metadata'][
+                        'percent_interested_in_food_retail'
+                    ]);
+                    $("#total_floor_area_retail_required").html(class_default_values['metadata'][
+                        'total_floor_area_retail_required'
+                    ]);
+
+                } else if (asset_class == 'office') {
+                    $("#base_asset_subclass").val(class_default_values['base_asset_subclass']);
+                    $("#office_m2_per_visitor").editable('setValue', class_default_values['metadata'][
+                        'office_m2_per_visitor'
+                    ]);
+                    $("#office_floors").editable('setValue', class_default_values['metadata']['office_floors']);
+                    $("#total_daily_visitors_office").editable('setValue', class_default_values['metadata'][
+                        'total_daily_visitors_office'
+                    ]);
+                    $("#total_floor_area_office_required").html(class_default_values['metadata'][
+                        'total_floor_area_office_required'
+                    ]);
+                }
+
+            }
     </script>
 </body>
 
