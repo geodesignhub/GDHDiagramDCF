@@ -21,19 +21,22 @@ app.use(csrf({
     cookie: true
 }));
 
-app.post('/setdefaults', function(request, response) {
-    var projectid = request.body.projectid;
-    var diagramid = request.body.diagramid;
-    var capex = request.body.capex;
-    var acf = request.body.acf;
-    var opex = request.body.opex;
-    var asga = request.body.asga;
-    var capex_start = request.body.capex_start;
-    var capex_end = request.body.capex_end;
-    var acf_start = request.body.acf_start;
+app.post('/setdefaults', function (request, response) {
+
+    const projectid = request.body.projectid;
+    const diagramid = request.body.diagramid;
+    const capex = request.body.capex;
+    const acf = request.body.acf;
+    const opex = request.body.opex;
+    const asga = request.body.asga;
+    const capex_start = request.body.capex_start;
+    const capex_end = request.body.capex_end;
+    const acf_start = request.body.acf_start;
+    const asset_details = JSON.loads(request.body.asset_details);
 
     const key = projectid + '-' + diagramid;
-    // console.log(key, { "capex": capex, "acf": acf, "opex": opex,"asga":asga })
+
+    
     redisclient.set(key, JSON.stringify({
         "capex": capex,
         "acf": acf,
@@ -42,6 +45,7 @@ app.post('/setdefaults', function(request, response) {
         "capex_start": capex_start,
         "capex_end": capex_end,
         "acf_start": acf_start,
+        "asset_details":asset_details
     }));
 
     response.contentType('application/json');
@@ -49,7 +53,7 @@ app.post('/setdefaults', function(request, response) {
         "status": 1
     });
 });
-app.get('/', function(request, response) {
+app.get('/', function (request, response) {
     var opts = {};
     // var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
     var baseurl = 'http://local.test:8000/api/v1/projects/';
@@ -64,20 +68,20 @@ app.get('/', function(request, response) {
 
         var URLS = [diagramdetailurl, systemsurl];
 
-        async.map(URLS, function(url, done) {
+        async.map(URLS, function (url, done) {
             req({
                 url: url,
                 headers: {
                     "Authorization": cred,
                     "Content-Type": "application/json"
                 }
-            }, function(err, response, body) {
+            }, function (err, response, body) {
                 if (err || response.statusCode !== 200) {
                     return done(err || new Error());
                 }
                 return done(null, JSON.parse(body));
             });
-        }, function(err, results) {
+        }, function (err, results) {
             if (err) return response.sendStatus(500);
 
             var diagramdetail = results[0];
@@ -85,26 +89,26 @@ app.get('/', function(request, response) {
 
             var sURls = [systemdetailurl];
 
-            async.map(sURls, function(url, done) {
+            async.map(sURls, function (url, done) {
                 req({
                     url: url,
                     headers: {
                         "Authorization": cred,
                         "Content-Type": "application/json"
                     }
-                }, function(err, response, body) {
+                }, function (err, response, body) {
                     if (err || response.statusCode !== 200) {
                         return done(err || new Error());
                     }
                     return done(null, JSON.parse(body));
                 });
-            }, function(err, sysdetails) {
+            }, function (err, sysdetails) {
                 if (err) return response.sendStatus(500);
 
                 var rediskey = projectid + "-" + diagramid;
-                async.map([rediskey], function(rkey, done) {
+                async.map([rediskey], function (rkey, done) {
 
-                        redisclient.get(rkey, function(err, results) {
+                        redisclient.get(rkey, function (err, results) {
                             if (err || results == null) {
                                 return done(null, JSON.stringify({
                                     "capex": "0",
@@ -114,13 +118,14 @@ app.get('/', function(request, response) {
                                     "capex_start": "0",
                                     "capex_end": "1",
                                     "acf_start": "0",
+                                    "asset_type": {}
                                 }));
                             } else {
                                 return done(null, results);
                             }
                         });
                     },
-                    function(error, op) {
+                    function (error, op) {
                         //only OK once set
                         if (err) return response.sendStatus(500);
                         op = JSON.parse(op);
@@ -159,20 +164,20 @@ app.get('/', function(request, response) {
         var projecturl = baseurl + projectid + '/';
         var URLS = [synprojectsurl, boundsurl, timelineurl, systemsurl, projecturl, syndiagramsurl, boundaryurl];
 
-        async.map(URLS, function(url, done) {
+        async.map(URLS, function (url, done) {
             req({
                 url: url,
                 headers: {
                     "Authorization": cred,
                     "Content-Type": "application/json"
                 }
-            }, function(err, response, body) {
+            }, function (err, response, body) {
                 if (err || response.statusCode !== 200) {
                     return done(err || new Error());
                 }
                 return done(null, JSON.parse(body));
             });
-        }, function(err, results) {
+        }, function (err, results) {
             if (err) return response.sendStatus(500);
 
             var sURls = [];
@@ -191,31 +196,31 @@ app.get('/', function(request, response) {
                 redis_keys.push(cur_key);
             }
 
-            async.map(sURls, function(url, done) {
+            async.map(sURls, function (url, done) {
                 req({
                     url: url,
                     headers: {
                         "Authorization": cred,
                         "Content-Type": "application/json"
                     }
-                }, function(err, response, body) {
+                }, function (err, response, body) {
                     if (err || response.statusCode !== 200) {
                         return done(err || new Error());
                     }
                     return done(null, JSON.parse(body));
                 });
-            }, function(err, sysdetails) {
+            }, function (err, sysdetails) {
                 if (err) return response.sendStatus(500);
                 var timeline = results[2]['timeline'];
 
                 var keyDetails = {};
 
-                async.map(redis_keys, function(rkey, done) {
-                        redisclient.get(rkey, function(err, redis_results) {
+                async.map(redis_keys, function (rkey, done) {
+                        redisclient.get(rkey, function (err, redis_results) {
 
                             if (err || redis_results == null) {
                                 return done(null, {
-                                    "key":rkey,
+                                    "key": rkey,
                                     "capex": "0",
                                     "opex": "0",
                                     "asga": "0",
@@ -223,18 +228,19 @@ app.get('/', function(request, response) {
                                     "capex_start": "0",
                                     "capex_end": "1",
                                     "acf_start": "0",
+                                    "asset_type": {}
                                 });
                             } else {
                                 return done(null, redis_results);
                             }
                         });
                     },
-                    function(error, op) {
+                    function (error, op) {
                         //only OK once set
-                        
+
                         if (err) return response.sendStatus(500);
-                        
-                        
+
+
                         opts = {
                             "csrfToken": request.csrfToken(),
                             "apitoken": request.query.apitoken,
