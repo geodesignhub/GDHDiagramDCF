@@ -32,7 +32,7 @@ app.post('/setdefaults', function (request, response) {
     const capex_start = request.body.capex_start;
     const capex_end = request.body.capex_end;
     const acf_start = request.body.acf_start;
-    const asset_details = JSON.loads(request.body.asset_details);
+    const asset_details = JSON.parse(request.body.asset_details);
 
     const key = projectid + '-' + diagramid;
 
@@ -55,8 +55,8 @@ app.post('/setdefaults', function (request, response) {
 });
 app.get('/', function (request, response) {
     var opts = {};
-    var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
-    // var baseurl = 'http://local.test:8000/api/v1/projects/';
+    // var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
+    var baseurl = 'http://local.test:8000/api/v1/projects/';
     if (request.query.apitoken && request.query.projectid && request.query.diagramid) {
 
         var apikey = request.query.apitoken;
@@ -65,8 +65,9 @@ app.get('/', function (request, response) {
         var diagramid = request.query.diagramid;
         var diagramdetailurl = baseurl + projectid + '/diagrams/' + diagramid + '/';
         var systemsurl = baseurl + projectid + '/systems/';
+        var projectsurl = baseurl + projectid + '/';
 
-        var URLS = [diagramdetailurl, systemsurl];
+        var URLS = [diagramdetailurl, systemsurl,projectsurl];
 
         async.map(URLS, function (url, done) {
             req({
@@ -85,6 +86,8 @@ app.get('/', function (request, response) {
             if (err) return response.sendStatus(500);
 
             var diagramdetail = results[0];
+            var projectdetails = results[2];
+            
             var systemdetailurl = baseurl + projectid + '/systems/' + diagramdetail['sysid'] + '/';
 
             var sURls = [systemdetailurl];
@@ -129,7 +132,7 @@ app.get('/', function (request, response) {
                         //only OK once set
                         if (err) return response.sendStatus(500);
                         op = JSON.parse(op);
-
+                        const projecttype = projectdetails['projecttype'];
                         opts = {
                             "csrfToken": request.csrfToken(),
                             "apitoken": request.query.apitoken,
@@ -140,6 +143,7 @@ app.get('/', function (request, response) {
                             "diagramdetail": JSON.stringify(results[0]),
                             "systems": JSON.stringify(results[1]),
                             "systemdetail": JSON.stringify(sysdetails[0]),
+                            "projecttype": projecttype
                         };
                         response.render('assetanalysis', opts);
                     });
@@ -228,10 +232,12 @@ app.get('/', function (request, response) {
                                     "capex_start": "0",
                                     "capex_end": "1",
                                     "acf_start": "0",
-                                    "asset_type": {}
+                                    "asset_details": {}
                                 });
                             } else {
-                                return done(null, redis_results);
+                                var rr = JSON.parse(redis_results)
+                                rr["key"]= rkey;                                
+                                return done(null, rr);
                             }
                         });
                     },

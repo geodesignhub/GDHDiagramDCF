@@ -2,21 +2,18 @@ importScripts('../js/turf.min.js');
 importScripts('../js/moment.min.js');
 importScripts('../js/rtree.min.js');
 
-
-
-
-
-function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize, usersubyeilds, numYears) {
-
+function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize, usersubyeilds, numYears, saved_diagram_details) {
     var whiteListedSysName = ['HDH', 'LDH', 'IND', 'COM', 'COMIND', 'HSNG', 'HSG', 'MXD'];
     var systemdetails = JSON.parse(systemdetails);
     var systems = JSON.parse(systems);
     var timeline = JSON.parse(timeline);
     var startyear = parseInt(startyear);
+    const sdd = JSON.parse(saved_diagram_details);
     const usersubmittedyeilds = JSON.parse(usersubyeilds);
     var maxYearlyCost = 0;
     diagCosts = [];
     var number_of_years = numYears;
+
 
     var gridTree = RTree();
     var grid = gridgridsize[0];
@@ -162,10 +159,18 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
                 'id': diagID,
                 'title': diagName
             };
+            var sd_details = {};
+            for (let l1 = 0; l1 < sdd.length; l1++) {
+                const element = sdd[l1];
+                if (element['key'].split('-')[1] == diagID) {
+                    sd_details = element;
+                    break;
+                }
+            }
+            console.log(diagID, sd_details);
+
             for (var h = 0; h < sysdetlen; h++) {
                 var cSys = systemdetails[h];
-
-
                 var sName = cSys['sysname'];
                 if (sName === sysName) {
 
@@ -176,15 +181,20 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
             }
 
             // console.log(cost_override_type, cost_override,totalCost);
-            if (cost_override !== 0) {
-                if (cost_override_type == 'total') {
-                    totalCost = cost_override;
+            const sd_capex = parseInt(sd_details['capex']);
+            if (sd_capex == 0) {
+                if (cost_override !== 0) {
+                    if (cost_override_type == 'total') {
+                        totalCost = cost_override;
+                    } else {
+                        totalCost = totArea * cost_override;
+                    }
                 } else {
-                    totalCost = totArea * cost_override;
+                    totalCost = totArea * sysCost;
                 }
+
             } else {
-                console.log(totArea, sysCost)
-                totalCost = totArea * sysCost;
+                totalCost = sd_capex;
             }
 
             // check if diagram existsin in timeline.
@@ -246,7 +256,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
             var threepercentMaintainece = yearlyCost * 0.03;
             var lastIncome;
             for (var k7 = 0; k7 < number_of_years; k7++) {
-                if (k7 < number_of_years-1) {
+                if (k7 < number_of_years - 1) {
                     var sYear = (startyear + k7);
                     curDiagDetails['maintainence'][sYear] = threepercentMaintainece;
                     totalMaintainence += threepercentMaintainece;
@@ -303,7 +313,7 @@ function generateGrid(bounds) {
         "features": []
     };
     var gridlen = g.features.length;
-    
+
     for (var index = 0; index < gridlen; index++) {
         var curgrid = g.features[index];
         curgrid.properties.id = makeid();
@@ -315,6 +325,6 @@ function generateGrid(bounds) {
 }
 self.onmessage = function (e) {
     gridgridsize = generateGrid(e.data.bounds);
-    
-    computeAreas(e.data.systemdetails, e.data.systems, e.data.timeline, e.data.startyear, gridgridsize, e.data.yeilds, e.data.years);
+
+    computeAreas(e.data.systemdetails, e.data.systems, e.data.timeline, e.data.startyear, gridgridsize, e.data.yeilds, e.data.years, e.data.saved_diagram_details);
 }

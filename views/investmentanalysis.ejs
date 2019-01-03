@@ -731,7 +731,8 @@
                 'startyear': JSON.stringify(startyear),
                 'bounds': bounds['bounds'],
                 'years': numYears,
-                'yeilds': JSON.stringify(yeilds)
+                'yeilds': JSON.stringify(yeilds),
+                'saved_diagram_details': JSON.stringify(saved_diagram_details)
             });
             areaWorker.addEventListener('message', function (e) {
                 if (e.data.mode === 'status') {
