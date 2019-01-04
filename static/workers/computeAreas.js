@@ -167,7 +167,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
                     break;
                 }
             }
-            console.log(diagID, sd_details);
+            
 
             for (var h = 0; h < sysdetlen; h++) {
                 var cSys = systemdetails[h];
@@ -228,19 +228,20 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
 
             var lastIncome;
             for (var k4 = 0; k4 < numYears; k4++) {
-                if (k4 < 19) {
+               
                     // var incomeIncrease = (tenpercentIncome * 0.03);
                     // var newIncome = incomeIncrease + lastIncome;
                     var sYear = (startyear + k4);
                     curDiagDetails['investment'][sYear] = yearlyCost;
                     // lastIncome = newIncome;
-                }
+                
             }
             var totalIncome = 0;
             for (var k = 0; k < number_of_years; k++) {
                 if (k == 0) {
                     lastIncome = tenpercentIncome;
                 }
+
                 var incomeIncrease = (tenpercentIncome * 0.03);
                 var newIncome = incomeIncrease + lastIncome;
                 var sYear = (startyear + k);

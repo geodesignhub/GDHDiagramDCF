@@ -1,7 +1,7 @@
 importScripts('../js/turf.min.js');
 importScripts('../js/rtree.min.js');
 
-function computeBoundaryValue(design, boundary, investmentdata, selectedsystems, systemdetails) {
+function computeBoundaryValue(design, boundary, investmentdata, selectedsystems, systemdetails,numYears,startyear) {
     // get the grid in a rTree
 
     var whiteListedSysName = ['HDH', 'LDH', 'IND', 'COM', 'COMIND', 'HSNG', 'HSG', 'MXD', 'OFC'];
@@ -10,6 +10,9 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
     var design = JSON.parse(design);
     var investmentdata = JSON.parse(investmentdata);
     var selectedsystems = JSON.parse(selectedsystems);
+    
+    var number_of_years = numYears;    
+    var maxYearlyCost = 0;
     // loop over boundaries
     var selectedsystems = selectedsystems.map(function(x) {
         return parseInt(x, 10);
@@ -55,12 +58,14 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
     // console.log(JSON.stringify(selectedsystems));
     var opboundaries = { "type": "FeatureCollection", "features": [] };
     var sysdetaillen = systemdetails.length;
+    
     for (var j3 = 0; j3 < bfeatlen; j3++) {
         var cbndfeat = newboundaries.features[j3];
         var bndID = cbndfeat.properties.id;
         var diagramIDs = bndIDDiags[bndID]['diagrams'];
         var totalIncome = 0;
         var totalInvestment = 0;
+        var yearlyInvestment = {}
         var totalTax = 0;
         // get the items in the grid that intersect the boundary. 
         for (var i1 = 0; i1 < investmentdata.length; i1++) { // loop over the investment data. 
@@ -99,8 +104,10 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
 
                 totalIncome += parseInt(curData['income']['total']);
                 totalInvestment += curData['totalInvestment'];
+               
             }
         }
+        bndIDDiags[bndID]['investment'] = {};
         bndIDDiags[bndID]['totalIncome'] = totalIncome;
         bndIDDiags[bndID]['totalInvestment'] = totalInvestment;
         var totalValuation = (totalInvestment * 0.25) + totalInvestment;
@@ -108,14 +115,28 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
         bndIDDiags[bndID]['totalValuation'] = totalValuation;
         bndIDDiags[bndID]['bname'] = cbndfeat.properties.bname;
         bndIDDiags[bndID]['totalTax'] = totalTax;
+ 
+        yearlyCost = parseFloat(totalInvestment / numYears);
+        maxYearlyCost = (yearlyCost > maxYearlyCost) ? yearlyCost : maxYearlyCost;
 
-
+        for (var k4 = 0; k4 < numYears; k4++) {               
+            // var incomeIncrease = (tenpercentIncome * 0.03);
+            // var newIncome = incomeIncrease + lastIncome;
+            var sYear = (startyear + k4);
+            yearlyInvestment[sYear] = yearlyCost;
+            bndIDDiags[bndID]['investment'][sYear] = parseInt(yearlyCost);
+            // lastIncome = newIncome;
+        
+    }
+   
         cbndfeat.properties.totalTax = totalTax;
         cbndfeat.properties.totalIncome = totalIncome;
         cbndfeat.properties.totalValuation = totalValuation;
         cbndfeat.properties.totalInvestment = totalInvestment;
+        cbndfeat.properties.investment  = yearlyInvestment;
         opboundaries.features.push(cbndfeat);
         counter += 1;
+       
         self.postMessage({
             'percentcomplete': parseInt((100 * counter) / fullproc),
             'mode': 'status',
@@ -124,12 +145,13 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
 
     self.postMessage({
         'boundaryValue': JSON.stringify(bndIDDiags),
-        'newboundaries': JSON.stringify(opboundaries)
+        'newboundaries': JSON.stringify(opboundaries), 
+        'stdVar': maxYearlyCost
     });
 
     // close the worker
     // self.close();
 }
 self.onmessage = function(e) {
-    computeBoundaryValue(e.data.design, e.data.boundaries, e.data.investmentdata, e.data.selectedsystems, e.data.systemdetails);
+    computeBoundaryValue(e.data.design, e.data.boundaries, e.data.investmentdata, e.data.selectedsystems, e.data.systemdetails, e.data.number_of_years, e.data.start_year);
 }
