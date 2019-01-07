@@ -67,70 +67,7 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div id="systemsCBCont" style="display:none">
-                    <h4>Systems</h4>
-                    <div id="systemsCB"></div>
-                    <br>
 
-                </div>
-            </div>
-        </div>
-
-        <div id="balance-sheet" class="row">
-            <div class="col-md-12">
-                <h4>Investment Grid</h4>
-                <small>A distribution of projects (not policies) proposed in the design is shown below. </small> <br>
-                <div id="investmentMap" class="map"></div>
-                <p><small id="gridsizecont"></small></p>
-
-            </div>
-
-            <!-- <div class="col-md-4">
-                <h4>Income</h4>
-                <div id="incomeMap" class="map"></div>
-            </div>
-            <div class="col-md-4">
-                <h4>Maintainence</h4>
-                <div id="maintainenceMap" class="map"></div>
-            </div> -->
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-6">
-
-                <div id="yearlySliderCont" class="pull-right" style="display:none"><br>
-                    <p class='ionslider'><input type="text" id="yearly-slider" name="mapslider" value="" /></p>
-                </div>
-                <br><br>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-6">
-
-                <div id='yearlyortotal' class="btn-group pull-right" data-toggle="buttons">
-                    <label class="btn btn-default active">
-                        <input type="radio" id='totalmap' name="mapdisplay" value="total" checked="">Total
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="radio" id='yearlymap' name="mapdisplay" value="yearly">Yearly
-                    </label>
-                </div>
-                <br><br><br>
-
-                <p class="pull-right"><span id="loadingGIFMap"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatusMap">Processing</span>...</span><br>
-                </p>
-            </div>
-
-        </div>
         <div class="row">
 
             <div class="col-md-6">
@@ -159,6 +96,71 @@
         </div>
         <br>
         <br>
+        <div id="balance-sheet" class="row">
+            <div class="col-md-12">
+                <h4>Investment Grid</h4>
+                <small>A distribution of projects (not policies) proposed in the design is shown below. </small> <br>
+                <div id="investmentMap" class="map"></div>
+                <p><small id="gridsizecont"></small></p>
+
+            </div>
+
+            <!-- <div class="col-md-4">
+                <h4>Income</h4>
+                <div id="incomeMap" class="map"></div>
+            </div>
+            <div class="col-md-4">
+                <h4>Maintainence</h4>
+                <div id="maintainenceMap" class="map"></div>
+            </div> -->
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                
+                    <div id="systemsCBCont" style="display:none">
+                            <h4>Systems</h4>
+                            <div id="systemsCB"></div>
+                            <br>
+        
+                        </div>
+            </div>
+            <div class="col-md-6">
+
+                <div id="yearlySliderCont" class="pull-right" style="display:none"><br>
+                    <p class='ionslider'><input type="text" id="yearly-slider" name="mapslider" value="" /></p>
+                </div>
+                <br><br>
+            </div>
+        </div>
+        
+        <div class="row">
+
+            <div class="col-md-6">
+                
+            </div>
+            <div class="col-md-6">
+
+                <div id='yearlyortotal' class="btn-group pull-right" data-toggle="buttons">
+                    <label class="btn btn-default active">
+                        <input type="radio" id='totalmap' name="mapdisplay" value="total" checked="">Total
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" id='yearlymap' name="mapdisplay" value="yearly">Yearly
+                    </label>
+                </div>
+                <br><br><br>
+
+                <p class="pull-right"><span id="loadingGIFMap"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatusMap">Processing</span>...</span><br>
+                </p>
+            </div>
+
+        </div>
+        <br>
+        
+        
+
 
         <hr>
         <br>
@@ -174,7 +176,7 @@
                 <br><br><br><br>
                 <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i>
                         Compute Net Present Value</button></p>
-                <p><span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span></p>
+                <p><span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span></p><br>
                 <p class='pull-right'>Yeild Assumption : * - <a class="editable" href="#" id="one-star" data-type="text"
                         data-title="Enter integer yeild e.g. 5">10</a> %, ** - <a class="editable" href="#" id="two-star"
                         data-type="text" data-title="Enter integer yeild e.g. 5">12</a> %, *** - <a class="editable"
@@ -513,7 +515,7 @@
                         var mHTML =
                             "<tr><th class='header initCol'></th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
                         var npvHTML =
-                            "<tr><th class='header initCol'></th><th class='aaheader'>Analysis</th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
+                            "<tr><th class='header initCol'></th><th>Asset Class</th><th>Population (residents, visitors etc.)</th><th class='aaheader'>Analysis</th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
 
                         for (var g = 0; g < numYears; g++) {
                             if (g < numYears - 2) {
@@ -612,6 +614,8 @@
                             $('#income > tbody').append(diagrowHTMLincome);
                             var diagrowHTMLnpv = "<tr class=" + "'" + cursys.id + "'" + "><td class='initCol'>" +
                                 curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" +
+                                "'assetdetails-" + curdiagid + "'" + "></td>" + "<td class=" +
+                                "'population-" + curdiagid + "'" + "></td>" + "<td class=" +
                                 "'aa-" + curdiagid + "'" + "></td>" + "<td class=" + "funding-" +
                                 curdiagid + "'" +
                                 ">" + curdiagprops.fundingtype + "</td>" + "<td class=" + "system-" +
@@ -993,7 +997,8 @@
             } else {
                 L.choropleth(newboundaries, {
                     valueProperty: function (feature) {
-                        var i = (feature.properties.investment[parseInt(yearlyOrTotal)]) ? feature.properties.investment[parseInt(yearlyOrTotal)] : 0;
+                        var i = (feature.properties.investment[parseInt(yearlyOrTotal)]) ? feature.properties
+                            .investment[parseInt(yearlyOrTotal)] : 0;
                         i = (i / stdVar) * 100;
                         // console.log("investment: " + i);
                         return i;
@@ -1008,8 +1013,9 @@
                         fillOpacity: 0.8
                     },
                     onEachFeature: function (feature, layer) {
-                        var ps = (feature.properties.investment[parseInt(yearlyOrTotal)]) ? feature.properties.investment[parseInt(yearlyOrTotal)] : 0;
-                        ps = abbrNum(ps, 2);                        
+                        var ps = (feature.properties.investment[parseInt(yearlyOrTotal)]) ? feature.properties
+                            .investment[parseInt(yearlyOrTotal)] : 0;
+                        ps = abbrNum(ps, 2);
                         // layer.bindPopup(ps);
                     }
                 }).addTo(taxLayer);
@@ -1019,7 +1025,7 @@
         }
 
         function renderBoundaryInvestment(boundarydata, yearlyOrTotal) {
-            
+
             if ($.fn.DataTable.isDataTable('#boundaries_investment_tables')) {
                 boundaries_investment_tables.destroy();
             }
@@ -1036,7 +1042,7 @@
                 $("#boundariesinvestmentlist").empty();
                 for (var x = 0; x < bdata.length; x++) {
                     var curBoundaryValue = bdata[x];
-                    
+
                     if (curBoundaryValue.totalInvestment == 0) {} else {
                         $('#boundaries_investment_tables > tbody:last-child').append('<tr><td>' + curBoundaryValue.bname +
                             '</td><td>' + '<span class="badge badge-default badge-pill">' + abbrNum(
@@ -1061,7 +1067,7 @@
                 $("#boundariesinvestmentlist").empty();
                 for (var x = 0; x < bdata.length; x++) {
                     var curBoundaryValue = bdata[x];
-                    
+
                     if (curBoundaryValue.investment[parseInt(yearlyOrTotal)] == 0) {} else {
                         $('#boundaries_investment_tables > tbody:last-child').append('<tr><td>' + curBoundaryValue.bname +
                             '</td><td>' + '<span class="badge badge-default badge-pill">' + abbrNum(
@@ -1421,6 +1427,7 @@
                 16: "***",
                 18: "****"
             };
+            const ssd = saved_diagram_details;
             for (var g = 0; g < investmentdata.length; g++) {
                 var curInvestmentdata = investmentdata[g];
                 var diagID = curInvestmentdata['id'];
@@ -1435,6 +1442,42 @@
                 // if (units > 0) {
                 //     $(".aa-" + diagID).html(units);
                 // }
+
+                for (let p1 = 0; p1 < ssd.length; p1++) {
+                    const cur_ele = ssd[p1];
+                    const diag_id = parseInt(cur_ele['key'].split('-')[1]);
+                    if (diag_id == diagID) {
+                        const asset_details = cur_ele['asset_details'];
+
+                        if (Object.keys(asset_details).length === 0 && asset_details.constructor === Object) {
+                            $(".assetdetails-" + diagID).html('Not set');
+                            $('.population-' + diagID).html('-');
+                        } else {
+                            const ad = asset_details['class'];
+                            $(".assetdetails-" + diagID).html(ad);
+
+                            if (ad === 'hospitality') {
+                                $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
+                                    'total_yearly_visitors'
+                                ], 2));
+                            } else if (ad == 'residential') {
+                                $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
+                                    'number_of_people_residential'
+                                ], 2));
+                            } else if (ad == 'retail') {
+                                $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
+                                    'total_daily_visitors_retail'
+                                ], 2));
+                            } else if (ad == 'office') {
+                                $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
+                                    'total_daily_visitors_office'
+                                ], 2));
+                            }
+
+                        }
+                    }
+
+                }
 
                 var curSysID = curInvestmentdata['sysid'];
                 if (yeildDict.hasOwnProperty(curSysID)) {} else {
@@ -1808,7 +1851,7 @@
             var tableGenerator = function (domid) {
 
 
-                var groupColumn = (domid == 'npv') ? 3 : 2;
+                var groupColumn = (domid == 'npv') ? 5 : 2;
 
 
                 var t = $('#' + domid).DataTable({

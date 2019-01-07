@@ -2098,7 +2098,8 @@
                     metadata['tourism_total_rooms'] = parseInt($("#tourism_total_rooms").html());
                     metadata['total_yearly_visitors'] = parseInt($("#total_yearly_visitors").html());
 
-                } else if (base_asset_class == 'retail') {
+                } 
+                else if (base_asset_class == 'retail') {
                     metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
                     metadata['retail_m2_per_visitor'] = parseInt($("#retail_m2_per_visitor").editable(
                         'getValue', true));
@@ -2118,7 +2119,8 @@
                     metadata['percent_interested_in_food_retail'] = parseFloat($(
                         "#percent_interested_in_food_retail").editable('getValue', true));
                     metadata['total_floor_area_retail_required'] = $("#total_floor_area_retail_required").html();
-                } else if (base_asset_class == 'office') {
+                } 
+                else if (base_asset_class == 'office') {
                     metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
                     metadata['office_m2_per_visitor'] = parseInt($("#office_m2_per_visitor").editable(
                         'getValue', true));

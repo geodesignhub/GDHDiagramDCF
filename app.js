@@ -36,7 +36,7 @@ app.post('/setdefaults', function (request, response) {
 
     const key = projectid + '-' + diagramid;
 
-    
+
     redisclient.set(key, JSON.stringify({
         "capex": capex,
         "acf": acf,
@@ -45,7 +45,7 @@ app.post('/setdefaults', function (request, response) {
         "capex_start": capex_start,
         "capex_end": capex_end,
         "acf_start": acf_start,
-        "asset_details":asset_details
+        "asset_details": asset_details
     }));
 
     response.contentType('application/json');
@@ -55,8 +55,8 @@ app.post('/setdefaults', function (request, response) {
 });
 app.get('/', function (request, response) {
     var opts = {};
-    // var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
-    var baseurl = 'http://local.test:8000/api/v1/projects/';
+    var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
+    // var baseurl = 'http://local.test:8000/api/v1/projects/';
     if (request.query.apitoken && request.query.projectid && request.query.diagramid) {
 
         var apikey = request.query.apitoken;
@@ -67,7 +67,7 @@ app.get('/', function (request, response) {
         var systemsurl = baseurl + projectid + '/systems/';
         var projectsurl = baseurl + projectid + '/';
 
-        var URLS = [diagramdetailurl, systemsurl,projectsurl];
+        var URLS = [diagramdetailurl, systemsurl, projectsurl];
 
         async.map(URLS, function (url, done) {
             req({
@@ -87,7 +87,7 @@ app.get('/', function (request, response) {
 
             var diagramdetail = results[0];
             var projectdetails = results[2];
-            
+
             var systemdetailurl = baseurl + projectid + '/systems/' + diagramdetail['sysid'] + '/';
 
             var sURls = [systemdetailurl];
@@ -236,7 +236,7 @@ app.get('/', function (request, response) {
                                 });
                             } else {
                                 var rr = JSON.parse(redis_results)
-                                rr["key"]= rkey;                                
+                                rr["key"] = rkey;
                                 return done(null, rr);
                             }
                         });
