@@ -304,7 +304,7 @@ function generateGrid(bounds) {
     var area = parseInt(turf.area(poly));
     var length = Math.sqrt(area);
     // grid of 25 x 25
-    var numberofgridcells = 25;
+    var numberofgridcells = 10;
     var gridsize = (length / numberofgridcells) / 1000;
     gridsize = round(gridsize, 2);
     // console.log(gridsize);

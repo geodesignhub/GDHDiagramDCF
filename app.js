@@ -36,7 +36,6 @@ app.post('/setdefaults', function (request, response) {
 
     const key = projectid + '-' + diagramid;
 
-
     redisclient.set(key, JSON.stringify({
         "capex": capex,
         "acf": acf,

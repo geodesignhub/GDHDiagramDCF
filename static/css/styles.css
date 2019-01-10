@@ -28,7 +28,9 @@ h4 {
 #outputmap {
     height: 290px;
 }
-
+#boundaryChart {
+    height: 200px;
+}
 .map {
     height: 400px;
 }
