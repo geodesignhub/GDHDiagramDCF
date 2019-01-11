@@ -41,6 +41,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
         for (var n = 0; n < allDiaglen; n++) {
             var diagAddedIDs = [];
             var curDiag = allDiagrams[n];
+            
             var cDFeatlen = curDiag.features.length;
             var diagID = curDiag.features[0].properties.diagramid;
             var projectorpolicy = curDiag.features[0].properties.areatype;
@@ -51,7 +52,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
                     var curFeat = curDiag.features[b];
                     var curDiagbounds = turf.bbox(curFeat);
                     var cData = gridTree.bbox([curDiagbounds[0], curDiagbounds[1]], [curDiagbounds[2], curDiagbounds[3]]); // array of features
-
+                  
                     for (var g1 = 0; g1 < cData.length; g1++) {
                         var curIFeatGrid = cData[g1];
                         var curIFeatGridID = curIFeatGrid.properties.id;
@@ -263,7 +264,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
                     totalMaintainence += threepercentMaintainece;
                 }
             }
-
+            curDiagDetails['area'] = totArea;
             curDiagDetails['maintainence']['total'] = totalMaintainence;
             diagCosts.push(curDiagDetails);
         }
@@ -304,7 +305,7 @@ function generateGrid(bounds) {
     var area = parseInt(turf.area(poly));
     var length = Math.sqrt(area);
     // grid of 25 x 25
-    var numberofgridcells = 10;
+    var numberofgridcells = 50;
     var gridsize = (length / numberofgridcells) / 1000;
     gridsize = round(gridsize, 2);
     // console.log(gridsize);

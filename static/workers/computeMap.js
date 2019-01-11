@@ -41,7 +41,6 @@ function computeFinanceMaps(grid, sysGrid, diagGrid, investmentdata, selectedsys
     var finalIncomeGrid = {};
     var finaldcfGrid = {};
 
-
     var fullproc = Object.keys(sysGrid).length;
     var counter = 0;
     for (var sysid in sysGrid) { // iterate over the systems. 
@@ -55,7 +54,7 @@ function computeFinanceMaps(grid, sysGrid, diagGrid, investmentdata, selectedsys
                 for (var i1 = 0; i1 < filtered_investmentdata_length; i1++) { // loop over the investment data. 
                     var curData = filteredinvestmentData[i1]; // current investment data
                     var diagID = curData.id; // diagram id of the current investment
-
+                    
                     var name_added = 0;
                     var filteredIDs = diagGrid[diagID]; // the grid IDs that this diagram intersects. 
                     var filteredGridlen = filteredIDs.length; // number of grid cells that this diagram intersects
@@ -155,9 +154,6 @@ function computeFinanceMaps(grid, sysGrid, diagGrid, investmentdata, selectedsys
                                         newYearlyMaintainence[curkey] = newYearlyMaintainence[curkey] + (curYearlyMaintainence[curkey] / filteredGridlen);
                                     }
                                 });
-
-
-
 
                                 maintGrid.properties.maintainence = newYearlyMaintainence;
 

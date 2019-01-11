@@ -67,10 +67,16 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="boundariesCont">
+                    <canvas id="boundaryChart"></canvas>
+                </div>
+            </div>
+        </div>
 
         <div class="row">
-
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="boundariesCont">
                     <h4>Investment by boundary</h4>
                     <table id="boundaries_investment_tables" class="table table-striped table-bordered" style="width:100%">
@@ -86,21 +92,12 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="boundariesCont">
                     <h4>Map</h4>
                     <div id="taxMap" class="map"></div>
                 </div>
             </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="boundariesCont">
-                    <canvas id="boundaryChart"></canvas>
-                </div>
-            </div>
-
 
         </div>
         <br>
@@ -1099,7 +1096,7 @@
                     }]
                 }
             }
-            console.log(b_investment_dataset);
+            
             var ctx = $("#boundaryChart");
             var myLineChart = new Chart(ctx, {
                 type: 'line',
