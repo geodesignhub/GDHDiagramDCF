@@ -1,5 +1,5 @@
 # Geodesignhub Asset and Investment Analysis
-This is that has two parts: Asset Analysis and Investment Visualization. It uses the Geodesign Hub [API](http://www.geodesignhub.com/api/) to download the diagram and systems data and then provides a series of controls to analyze and set potential uses of this asset. 
+This plugin has two parts: Asset Analysis and Investment Visualization. It uses the Geodesign Hub [API](http://www.geodesignhub.com/api/) to download the diagram and systems data and then provides a series of controls to analyze and set potential uses of this asset. 
 
 ![alt text][logo]
 ![alt text][logo2]
