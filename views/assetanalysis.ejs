@@ -20,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/flatty.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/leaflet.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-editable.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/select2.min.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <!-- Conditional comment containing JS files for IE6 - 8 -->
@@ -66,18 +67,21 @@
             </div>
         </div>
         <div class="row">
+            
+        </div>
+        <div class="row">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <h3>Input Diagram</h3>
                 <div id="inputmap"></div>
                 <h4 id="diagName"></h4>
                 <h5 id="diagAreaLength"></h5>
                 <h5 id="sysCost"></h5>
             </div>
-            <div class="col-md-6">
-                <h3>Asset Analysis</h3>
-                <div class="row">
-                    <div class="col-md-6">
+            <div class="col-md-4">
+              
+              
+                        <h3>Asset Class</h3>
                         <select id="base_asset_class" class="form-control">
                             <option selected disabled>Select Class</option>
                             <option data-value='residential'>Residential</option>
@@ -89,16 +93,12 @@
                                 <option data-value='commercial'>Commercial</option>
                                 <option data-value='agriculture'>Agirculture</option>
                                 <option data-value='green-infrastruture'>Green Infrastruture</option> -->
-                        </select>
-
-                    </div>
-                    <div class="col-md-6">
-
+                        </select><br><br>
                         <select id="base_asset_subclass" class="form-control">
                             <option selected disabled>Select Subclass</option>
                         </select>
-                    </div>
-                </div>
+                        <br>
+
                 <br>
 
                 <div class='usage_form hidden' id="built_env_form_residential">
@@ -205,6 +205,19 @@
                 <br>
 
             </div>
+            
+            <div class="col-md-4">            
+                    <h3>Representative Image</h3>
+                        
+                    <select id="base_asset_subclass_image" class="form-control">
+                        <option selected disabled>Change Image</option>
+                    </select>
+                    <br><br> <br><br>
+                    <div id="selected_typology_image">
+    
+                    </div>
+                            
+                </div>
         </div>
         <hr>
         <div class="row">
@@ -488,6 +501,7 @@
     <script type="text/javascript" src="assets/js/colors.js"></script>
     <script type="text/javascript" src="assets/js/leaflet.js"></script>
     <script type="text/javascript" src="assets/js/money.min.js"></script>
+    <script type="text/javascript" src="assets/js/select2.min.js"></script>
 
     <script type="text/javascript">
         function abbrNum(number, decPlaces) {
@@ -603,6 +617,7 @@
 
         var systemdetail = <%- systemdetail %>;
         const projecttype = "<%= projecttype %>";
+        const all_images = <%- all_image_files %>;
 
         var totalcost;
         $("#diagName").html(diagramdetail['description']);
@@ -1136,8 +1151,40 @@
                 $(this).hide();
             });
             var vals = [];
+
+             
+            // $("#base_asset_subclass_image").select2('destroy');
+            $("#base_asset_subclass_image").empty();
+            const filtered_images = all_images.filter(function (str) { return str.includes(base_class_type)});
+            var d = [];
+            
+            for (let i9 = 0; i9 < filtered_images.length; i9++) {
+                var d1 = [];
+                
+                const element = filtered_images[i9];
+                d1['id'] = i9;
+                d1['base_class'] = base_class_type;
+                d1['image_path'] =element;
+                d1['text']= "<span><img src='assets/img/asset-images/thumbnails/"+element+"'/></span>";
+                d.push(d1);                
+            };
+            $('#base_asset_subclass_image').on('select2:select', function (e) {
+                var data = e.params.data;
+                const image_path = data['image_path'];
+                $("#selected_typology_image").html("<img src='assets/img/asset-images/"+image_path+"'/>");
+            });
+
+            $("#base_asset_subclass_image").select2({
+            placeholder: "Select a image",
+            data: d,
+            templateResult: function (d) { return $(d.text); },
+            templateSelection: function (d) { return $(d.base_class); },
+            
+            });
+
             switch (base_class_type) {
                 case 'residential':
+                    
                     vals = data.residential.split(",");
                     $(".usage_form").hide();
                     $("#built_env_form_residential").show();
@@ -2263,6 +2310,9 @@
             }
 
         }
+
+        $("#base_asset_subclass_image").select2();
+   
     </script>
 </body>
 

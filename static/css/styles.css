@@ -59,7 +59,9 @@ h4 {
     border: 1px solid transparent;
 }
 
-
+#selected_typology_image img{
+    height: 250px;
+}
 /**
  * Bootstrap requires a containing element to wrap site contents 
  * and house the grid system. You may choose one of two containers.
@@ -1070,6 +1072,7 @@ ul.input-list li {
     border-collapse: collapse;
     text-align: left;
 }
+
 
 .hor-minimalist-b th {
     font-size: 14px;

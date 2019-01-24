@@ -20,6 +20,87 @@ app.use(cookieParser());
 app.use(csrf({
     cookie: true
 }));
+const image_files = ['com-offices-8.jpg',
+    'commecial-office.jpg',
+    'commercial-fuel.jpg',
+    'commercial-large-store.jpg',
+    'commercial-mall.jpg',
+    'commercial-office-3.jpg',
+    'commercial-office-4.jpg',
+    'commercial-office-6.jpg',
+    'commercial-office-8.jpg',
+    'commercial-office-low-density.jpg',
+    'commercial-offices-5.jpg',
+    'commercial-offices-7.jpg',
+    'commercial-restaurant.jpg',
+    'commercial-shop-front.jpg',
+    'commerical-entertainment.jpg',
+    'commerical-low-density-2.jpg',
+    'commerical-office-large.jpg',
+    'commerical-shop.jpg',
+    'fam-barn-2.jpg',
+    'farm-barn.jpg',
+    'farm-shed.jpg',
+    'farm-windmill-2.jpg',
+    'farm-windmill.jpg',
+    'industiral-services.jpg',
+    'industrial-factory-2.jpg',
+    'industrial-factory-3.jpg',
+    'industrial-factory-4.jpg',
+    'industrial-factory-5.jpg',
+    'industrial-factory-warehouse.jpg',
+    'industrial-factory.jpg',
+    'industrial-heavy-industry.jpg',
+    'industrial-offices.jpg',
+    'industrial-plant.jpg',
+    'industrial-processing.jpg',
+    'industrial-warehouse-2.jpg',
+    'industrial-warehouse-3.jpg',
+    'industrial-warehouse-4.jpg',
+    'industrial-warehouse-5.jpg',
+    'industrial-warehouse.jpg',
+    'institutional-hospital-2.jpg',
+    'institutional-hospital.jpg',
+    'institutional-office-3.jpg',
+    'institutional-uni-cityhall-2.jpg',
+    'institutional-uni-cityhall.jpg',
+    'mix-block.jpg',
+    'mix-building.jpg',
+    'mix-buildings-3.jpg',
+    'mix-low-density.jpg',
+    'mix-med-density.jpg',
+    'mix-offices-2.jpg',
+    'mix-offices-4.jpg',
+    'mix-offices.jpg',
+    'mix-restaurant-housing.jpg',
+    'mix-tower-2.jpg',
+    'mix-tower-3.jpg',
+    'mix-tower-4.jpg',
+    'residential-high-density-housing-3.jpg',
+    'residential-high-density-housing.jpg',
+    'residential-highrise-2.jpg',
+    'residential-highrise-3.jpg',
+    'residential-highrise-4.jpg',
+    'residential-highrise-5.jpg',
+    'residential-low-density-7.jpg',
+    'residential-low-density-housin.jpg',
+    'residential-low-density-housing-2.jpg',
+    'residential-low-density-housing-3.jpg',
+    'residential-low-density-housing-5.jpg',
+    'residential-low-density-housing-6.jpg',
+    'residential-low-density-housing-7.jpg',
+    'residential-low-density-housing-8.jpg',
+    'residential-low-density-sf-housing.jpg',
+    'residential-med-density-housing-2.jpg',
+    'residential-med-density-housing-3.jpg',
+    'residential-med-density-housing.jpg',
+    'residential-med-high-density-housing.jpg',
+    'residential-sf-house-3.jpg',
+    'residential-sf-low-density-housing.jpg',
+    'residential-small-sf-house-2.jpg',
+    'residential-small-sf-house.jpg',
+    'residential-urban-house.jpg',
+];
 
 app.post('/setdefaults', function (request, response) {
 
@@ -128,6 +209,8 @@ app.get('/', function (request, response) {
                         });
                     },
                     function (error, op) {
+               
+                        
                         //only OK once set
                         if (err) return response.sendStatus(500);
                         op = JSON.parse(op);
@@ -142,7 +225,8 @@ app.get('/', function (request, response) {
                             "diagramdetail": JSON.stringify(results[0]),
                             "systems": JSON.stringify(results[1]),
                             "systemdetail": JSON.stringify(sysdetails[0]),
-                            "projecttype": projecttype
+                            "projecttype": projecttype,
+                            "all_image_files": JSON.stringify(image_files)
                         };
                         response.render('assetanalysis', opts);
                     });
