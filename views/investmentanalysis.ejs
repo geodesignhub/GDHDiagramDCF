@@ -13,10 +13,6 @@
     <link rel="shortcut icon" href="/assets/loaders/favicon.ico">
     <!-- Bootstrap Core CSS file -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="assets/css/bootstrap-editable.css"> -->
-    <!-- Override CSS file - add your own CSS rules -->
-    <!-- <link rel="stylesheet" href="assets/css/ion.rangeSlider.css"> -->
-    <!-- <link rel="stylesheet" href="assets/css/ion.rangeSlider.skinFlat.css"> -->
     <link rel="stylesheet" type="text/css" href="assets/css/flatty.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/leaflet.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.min.css" />
@@ -58,7 +54,7 @@
         <!-- Heading Row -->
         <div class="row">
             <div class="col-md-12">
-                <h3 id="designName">About</h3>
+                
                 <p class="description">This plugin shows how investments will flow through your study area over time.
                     It downloads a design from Geodesignhub, computes its area and construction costs and provides a <a
                         href="https://en.wikipedia.org/wiki/Discounted_cash_flow" target="_blank">Discounted Cash Flow</a>
@@ -76,114 +72,26 @@
         </div>
 
         <div class="row">
-            <!-- <div class="col-md-4"> -->
-                <!--                 <div class="boundariesCont">
-                    <h4>Investment by boundary</h4>
-                    <table id="boundaries_investment_tables" class="table table-striped table-bordered" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Boundary Name</th>
-                                <th>Investment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div> -->
-            <!-- </div> -->
-
-            <div class="col-md-6">
+            
+            <div class="col-md-12">
                 <div class="boundariesCont">
                     <h4>Boundary Map</h4>
                     <div id="boundaryMap" class="map"></div>
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <h4>Systems</h4>
-                <!-- <small>A distribution of projects (not policies) proposed in the design is shown below. </small> <br> -->
-               <!--  <div id="investmentMap" class="map"></div>
-                <p><small id="gridsizecont"></small></p> -->
-
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md=12">
+                 <h4>Systems</h4>
                 <div id="systemsCBCont" style="display:none">
                     <div id="systemsCB"></div>
                     <br>
 
                 </div>
             </div>
-        </div>
-        <br>
-        <br>
-        <!-- <div id="balance-sheet" class="row"> -->
-
-            <!-- <div class="col-md-4">
-                <h4>Income</h4>
-                <div id="incomeMap" class="map"></div>
             </div>
-            <div class="col-md-4">
-                <h4>Maintainence</h4>
-                <div id="maintainenceMap" class="map"></div>
-            </div> -->
-        <!-- </div> -->
-
-        <div class="row">
-
-            <div class="col-md-12">
-
-            </div>
-        </div>
-
-        <!-- <div class="row">
-
-            <div class="col-md-12 center-block">
-
-                <div id='yearlyortotal' class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default active">
-                        <input type="radio" id='totalmap' name="mapdisplay" value="total" checked="">Total
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="radio" id='yearlymap' name="mapdisplay" value="yearly">Yearly
-                    </label>
-                </div> 
-           <br><br><br>
-
-                <div id="yearlySliderCont" class="" style="display:none"><br>
-                    <p class='ionslider'><input type="text" id="yearly-slider" name="mapslider" value="" /></p>
-                </div>
-                <br><br>
-            
-               
-
-                <p class="pull-right"><span id="loadingGIFMap"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatusMap">Processing</span>...</span><br>
-                </p>
-            </div>
-
-        </div> -->
-        <br>
-        <hr>
-        <br>
-        <!-- <div class='row'>
-            <div class='col-md-6'>
-                <h3>Financials</h3>
-                <br>
-                <br>
-            </div>
-            <div class='col-md-6  text-right'>
-                <h5>Weighted Annual Cost of Capital (WACC)</h5>
-                <p class='ionslider'><input type="text" id="wacc-slider" name="wacc" value="" /></p>
-                <br><br><br><br>
-                <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i>
-                        Compute Net Present Value</button></p>
-                <p><span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span></p><br>
-                <p class='pull-right'>Yeild Assumption : * - <a class="editable" href="#" id="one-star" data-type="text"
-                        data-title="Enter integer yeild e.g. 5">10</a> %, ** - <a class="editable" href="#" id="two-star"
-                        data-type="text" data-title="Enter integer yeild e.g. 5">12</a> %, *** - <a class="editable"
-                        href="#" id="three-star" data-type="text" data-title="Enter integer yeild e.g. 5">16</a> %,
-                    **** - <a class="editable" href="#" id="four-star" data-type="text" data-title="Enter integer yeild e.g. 5">18</a>
-                    %</p>
-                <br>
-            </div>
-        </div> -->
 
         <!-- /.col-md-4 -->
         <div class="row">
@@ -200,107 +108,17 @@
                         <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
                     </tfoot>
                 </table>
-                <br>
-                <!-- <p class="pull-right"><span class="bg-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    This investement is currently undervalued&nbsp;&nbsp;&nbsp;<span class="bg-danger">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    This investement is currently overvalued&nbsp;&nbsp;&nbsp;<span class="gray">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    Year at which investment pays off</p> -->
+           
             </div>
         </div>
-     <!--    <div class="row">
-            <div class="col-md-12"><br>
-                <p class="pull-right">
-                    <a class="btn btn-sm" id="toggle_financial_details">Hide detailed financial statement</a>
-                </p><br><br>
-            </div>
-            <div id="income-investment-maintainence-table" class="col-md-12">
-                <br>
-                <h4>Investments</h4>
-                <table id="investments" class="hor-minimalist-b">
-                    <thead>
-
-                    </thead>
-                    <tbody>
-                        </tbody>
-                    <tfoot></tfoot>
-                </table>
-                <br>
-                <h4>Income</h4>
-                <table id="income" class="hor-minimalist-b">
-                    <thead>
-                        <tr class='blank'>&nbsp;&nbsp;</tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-                <br>
-                <br>
-                <h4>Maintainence</h4>
-                <table id="maintainence" class="hor-minimalist-b">
-                    <thead>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-                <br>
-                <p class='pull-right'><small>* Maintainence assumes 3% of investment annually. </small></p>
-            </div>
-        </div> -->
-<!--         <div class="row">
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-6"><br>
-                <p class="pull-right">
-                    <a class="btn btn-sm" id="download_data_as_csv">Download data as a CSV</a>
-                </p><br><br>
-            </div>
-        </div> -->
-        <!-- /.row -->
-        <br>
-        <!-- <div class="row">
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-6">
-                <p class="pull-right"> Currency: <select id="workingcurrency">
-                <option value="USD">US dollar</option>
-                <option value="EUR" selected>European Euro</option>
-                <option value="JPY">Japanese yen</option>
-                <option value="GBP">Pound sterling</option>
-                <option value="AUD">Australian dollar</option>
-                <option value="CAD">Canadian dollar</option>
-                <option value="CHF">Swiss franc</option>
-                <option value="CNY">Chinese Yuan Renminbi</option>
-                <option value="SEK">Swedish krona</option>
-                <option value="MXN">Mexican peso</option>
-                <option value="NZD">New Zealand dollar</option>
-                <option value="SGD">Singapore dollar</option>
-                <option value="HKD">Hong Kong dollar</option>
-                <option value="NOK">Norwegian krone</option>
-                <option value="KRW">South Korean won</option>
-                <option value="TRY">Turkish lira</option>
-                <option value="INR">Indian rupee</option>
-                <option value="RUB">Russian ruble</option>
-                <option value="BRL">Brazilian real</option>
-                <option value="ZAR">South African rand</option>
-                <option value="DKK">Danish krone</option>
-                <option value="PLN">Polish zloty</option>
-                <option value="TWD">New Taiwan dollar</option>
-                <option value="THB">Thai baht</option>
-                <option value="MYR">Malaysian ringgit</option>
-                </select></p>
-            </div>
-        </div> -->
+     
         <br><br>
         <hr>
         <!-- Footer -->
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>&copy; 2017-2018 Geodesignhub, see the <a href="https://geodesignhub.github.io/AssetAnalysis/">Github
+                    <p>&copy; 2019 Geodesignhub, see the <a href="https://geodesignhub.github.io/AssetAnalysis/">Github
                             repository</a> for more information.</p>
                 </div>
             </div>
@@ -334,9 +152,6 @@
         var diagGrids;
         var boundaryGeomDetails;
         var boundaryValueDetails;
-        var investment_table;
-        var income_table;
-        var maintainence_table;
         var npv_table;
         var boundaries_investment_tables;
 
@@ -389,13 +204,6 @@
             }
             return number;
         }
-        // $('#computeNPVButton').on('click', function (e) {
-        //     $("#loadingGIF").show();
-        //     populateTableDataInit();
-        //     // $("#loadingGIF").hide();
-        // });
-        var selectedcurrency = $("#workingcurrency :selected").val() + " ";
-
 
         function initpercentSliders() {
             $("#wacc-slider").ionRangeSlider({
@@ -407,23 +215,7 @@
                 grid: true,
                 prettify_enabled: true
             });
-            // $("#yearly-slider").ionRangeSlider({
-            //     min: startyear,
-            //     max: startyear + 30,
-            //     from: startyear,
-            //     step: 1,
-            //     grid: true,
-            //     prettify_enabled: true,
-            //     onFinish: function (data) {
-            //         var tY = parseInt($("#yearly-slider").val());
-            //         // plotIncomeMap(incomeGrid, tY, standardizationVar);
-            //         // plotInvestmentMap(investmentGrid, tY, standardizationVar);
-            //         renderBoundaryInvestmentMap(boundaryGeomDetails, tY, boundaryStdVar);
-            //         // renderBoundaryInvestment(boundaryValueDetails, tY);
-            //         renderBoundaryInvestmentChart(boundaryValueDetails);
-            //         // plotMaintainenceMap(maintainenceGrid, tY, standardizationVar);
-            //     }
-            // });
+           
         }
 
         function generateInitTables() {
@@ -470,79 +262,27 @@
                     }
                 }
             }
-            // iterate over design features
-            // console.log(diagGJ);
-            // iterate over systems to build the table. 
-
-            // $("#investments").find("tbody>tr:gt(0)").remove();
-            // $("#investments").find("thead>tr:gt(0)").remove();
-
-            // $("#investments > tbody").empty();
-            // $("#investments > thead").empty();
-            // $("#investments > tfoot").empty();
-
-            // $("#income").find("tbody>tr:gt(0)").remove();
-            // $("#income").find("thead>tr:gt(0)").remove();
-
-            // $("#maintainence").find("tbody>tr:gt(0)").remove();
-            // $("#maintainence").find("thead>tr:gt(0)").remove();
-
+          
             $("#npv").find("tbody>tr:gt(0)").remove();
             $("#npv").find("thead>tr:gt(0)").remove();
 
             var headcounter = 0;
             var footercounter = 0;
             for (var h = 0; h < syslen; h++) {
-                // iterate over system
                 var cursys = sys[h];
-
                 if (cursys.diagrams.length > 0) {
-                    // create a new row
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
-                        // var rowHTML =
-                        //     "<tr><th class='header initCol'></th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
-                        // var rHTML =
-                        //     "<tr><th class='header initCol'></th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
-                        // var mHTML =
-                        //     "<tr><th class='header initCol'></th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
                         var npvHTML =
                             "<tr><th class='header initCol'>Diagram</th><th>Asset Class</th><th>Population (residents, visitors etc.)</th><th class='aaheader'>Analysis</th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
 
-                        // for (var g = 0; g < numYears; g++) {
-                        //     if (g < numYears - 2) {
-                        //         rowHTML += "<th class='header'>" + (startyear + yrCounter) + "</th>";
-                        //         rHTML += "<th class='header'>" + (startyear + yrCounter) + "</th>";
-                        //         mHTML += "<th class='header'>" + (startyear + yrCounter) + "</th>";
-                        //         npvHTML += "<th class='header'>" + (startyear + yrCounter) + "</th>";
-                        //         yrCounter += 1;
-                        //     } else {
-                        //         if (g == (numYears - 1)) {
-                        //             rowHTML += "<th class='header'>Total</th>";
-
-                        //             rHTML += "<th class='header'>Total</th>";
-                        //             mHTML += "<th class='header'>Total</th>";
-                        //             npvHTML += "<th class='header'>Total</th>";
-                        //         } else {
-                        //             npvHTML += "<th class='header'>NPV</th>";
-                        //         }
-                        //     }
-                        // }
-                        // rowHTML += "</tr>";
-                        // rHTML += "</tr>";
-                        // mHTML += "</tr>";
                         npvHTML += "</tr>";
 
-                        // $('#investments > thead').append(rowHTML);
-                        // $('#income > thead').append(rHTML);
                         $('#npv  > thead').append(npvHTML);
-                        // $('#maintainence > thead').append(mHTML);
                         headcounter += 1;
                     } // header is added. 
 
                     // add system row 
-
-
                     var diaglen = cursys.diagrams.length;
 
                     for (var p = 0; p < diaglen; p++) {
@@ -551,59 +291,6 @@
                             var curdiagprops = curdiag.features[0].properties;
                             var curdiagid = curdiag.features[0].properties.diagramid;
                             var projectorpolicy = curdiag.features[0].properties.areatype;
-                            // console.log(curdiagprops);
-                            // var curdiagname = curdiag.
-                            // var diagrowHTMLinvest = "<tr class=" + "'" + cursys.id + "'" + "><td class='initCol'>" +
-                            //     curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" +
-                            //     "funding-" +
-                            //     curdiagid + "'" +
-                            //     ">" + curdiagprops.fundingtype + "</td>" + "<td class=" + "system-" +
-                            //     curdiagid + "'" +
-                            //     ">" + cursys.sysname + "<sup class=" + "'yeild-" + cursys.id + "'" + "></sup></td>";
-                            // yrCounter = 0;
-                            // for (var g2 = 0; g2 < numYears; g2++) {
-                            //     if (g2 < numYears - 2) {
-                            //         var cYear = (startyear + yrCounter);
-                            //         diagrowHTMLinvest += "<td id=" + "'" + curdiagid + "-" + cYear + "-invest" + "'" +
-                            //             ">" + "0.00" + "</td>";
-                            //         yrCounter += 1;
-                            //     } else {
-                            //         if (g2 == (numYears - 1)) {
-                            //             diagrowHTMLinvest += "<td id=" + "'" + curdiagid + "-all-invest" + "'" + ">" +
-                            //                 "0.00" + "</td>";
-                            //         }
-
-                            //     }
-                            // }
-                            // diagrowHTMLinvest += "</tr>";
-
-
-                            // $('#investments > tbody').append(diagrowHTMLinvest);
-
-                            // var diagrowHTMLincome = "<tr class=" + "'" + cursys.id + "'" + "><td class='initCol'>" +
-                            //     curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" +
-                            //     "funding-" +
-                            //     curdiagid + "'" +
-                            //     ">" + curdiagprops.fundingtype + "</td>" + "<td class=" + "system-" +
-                            //     curdiagid + "'" +
-                            //     ">" + cursys.sysname + "<sup class=" + "'yeild-" + cursys.id + "'" + "></sup></td>";
-                            // yrCounter = 0
-                            // for (var g3 = 0; g3 < numYears; g3++) {
-                            //     if (g3 < numYears - 2) {
-                            //         var cYear = (startyear + yrCounter);
-                            //         diagrowHTMLincome += "<td id=" + "'" + curdiagid + "-" + cYear + "-income" + "'" +
-                            //             ">" + "0.00" + "</td>";
-                            //         yrCounter += 1;
-                            //     } else {
-                            //         if (g3 == (numYears - 1)) {
-                            //             diagrowHTMLincome += "<td id=" + "'" + curdiagid + "-total-income" + "'" + ">" +
-                            //                 "0.00" + "</td>";
-                            //         }
-
-                            //     }
-                            // }
-                            // diagrowHTMLincome += "</tr>";
-                            // $('#income > tbody').append(diagrowHTMLincome);
                             var diagrowHTMLnpv = "<tr class=" + "'" + cursys.id + "'" + "><td class='initCol'>" +
                                 curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" +
                                 "'assetdetails-" + curdiagid + "'" + "></td>" + "<td class=" +
@@ -614,88 +301,13 @@
                                 curdiagid + "'" +
                                 ">" + cursys.sysname + "<sup class=" + "'yeild-" + cursys.id + "'" + "></sup></td>";
                             yrCounter = 0;
-                            // for (var g4 = 0; g4 < numYears; g4++) {
-                            //     if (g4 < (numYears - 2)) {
-                            //         var cYear = (startyear + yrCounter);
-                            //         diagrowHTMLnpv += "<td id=" + "'" + curdiagid + "-" + cYear + "-dcf" + "'" + ">" +
-                            //             "0.00" + "</td>";
-                            //         yrCounter += 1;
-                            //     } else {
-                            //         if (g4 == (numYears - 1)) {
-                            //             diagrowHTMLnpv += "<td id=" + "'" + curdiagid + "-total-dcf" + "'" + ">" +
-                            //                 "0.00" + "</td>";
-                            //         } else if (g4 == (numYears - 2)) {
-                            //             diagrowHTMLnpv += "<td class='npvcont' id=" + "'" + curdiagid + "-total-npv" +
-                            //                 "'" + ">" + "0.00" + "</td>";
-                            //         }
-                            //     }
-                            // }
+                          
                             diagrowHTMLnpv += "</tr>";
                             $('#npv > tbody').append(diagrowHTMLnpv);
 
 
-                            // var diagrowHTMLmaint = "<tr class=" + "'" + cursys.id + "'" + "><td class='initCol'>" +
-                            //     curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" +
-                            //     "funding-" +
-                            //     curdiagid + "'" +
-                            //     ">" + curdiagprops.fundingtype + "</td>" + "<td class=" + "system-" +
-                            //     curdiagid + "'" +
-                            //     ">" + cursys.sysname + "<sup class=" + "'yeild-" + cursys.id + "'" + "></sup></td>";
-                            // yrCounter = 0;
-                            // for (var g5 = 0; g5 < numYears; g5++) {
-                            //     if (g5 < (numYears - 2)) {
-                            //         var cYear = (startyear + yrCounter);
-                            //         diagrowHTMLmaint += "<td id=" + "'" + curdiagid + "-" + cYear + "-maint" + "'" +
-                            //             ">" + "0.00" + "</td>";
-                            //         yrCounter += 1;
-                            //     } else {
-                            //         if (g5 == (numYears - 1)) {
-                            //             diagrowHTMLmaint += "<td id=" + "'" + curdiagid + "-total-maint" + "'" + ">" +
-                            //                 "0.00" + "</td>";
-                            //         }
-                            //     }
-                            // }
-                            // diagrowHTMLmaint += "</tr>";
-                            // $('#maintainence > tbody').append(diagrowHTMLmaint);
-
                         }
                     }
-
-
-                    if (h === (syslen - 1)) { // footer row
-                        // var rowHTML =
-                            // "<tr class='footer'><td class='footertotal initCol'>Total</td><td class='footertotal fundingfooter'></td><td class='footertotal systemfooter'></td>";
-                        // var rHTML =
-                            // "<tr class='footer'><td class='footertotal initCol'>Total</td><td class='footertotal fundingfooter'></td><td class='footertotal systemfooter'></td>";
-                        // var maintHTML =
-                            // "<tr class='footer'><td class='footertotal initCol'>Total</td><td class='footertotal fundingfooter'></td><td class='footertotal systemfooter'></td>";
-                        // var npvHTML =
-                            // "<tr class='footer'><td class='footertotal initCol'>Total</td><td class='footertotal unitsfooter'></td><td class='footertotal fundingfooter'></td><td class='footertotal systemfooter'></td>";
-                        // yrCounter = 0;
-                        // for (var g5 = 0; g5 < numYears; g5++) {
-                        //     if (g5 < numYears - 1) {
-                        //         var cYear = (startyear + yrCounter);
-                        //         rowHTML += "<td class='footertotal' id=" + "'" + cYear + "-total-investment" + "'" +
-                        //             ">0.00</td>";
-                        //         rHTML += "<td class='footertotal' id=" + "'" + cYear + "-total-income" + "'" +
-                        //             ">0.00</td>";
-                        //         maintHTML += "<td class='footertotal' id=" + "'" + cYear + "-total-maint" + "'" +
-                        //             ">0.00</td>";
-
-                        //         yrCounter += 1;
-                        //     }
-
-                        // }
-                        // rowHTML += "</tr>";
-                        // rHTML += "</tr>";
-                        // maintHTML += "</tr>";
-                        // npvHTML += "</tr>";
-                        // $('#investments > tfoot').append(rowHTML);
-                        // $('#income > tfoot').append(rHTML);
-                        // $('#maintainence > tfoot').append(maintHTML);
-                        // $('#npv tbody>tr:last').after(npvHTML);
-                        // footercounter +=1;
-                    } // header is added. 
                 }
             }
             systems = sys;
@@ -746,8 +358,6 @@
                     $("#gridsizecont").html("Note: Grid cell size is " + gridsize + " hectares.");
                     diagGrids = JSON.parse(e.data.diagGrids);
 
-                    populateMaps(e.data.grid, e.data.sysGrids, e.data.diagGrids, e.data.output, 'all', 'all',
-                        parseInt(e.data.maxYearlyCost));
                     investmentdata = JSON.parse(e.data.output);
 
                     showallTables();
@@ -789,83 +399,6 @@
             }
         })(console)
 
-        // function convert_investment_to_csv() {
-        //     formatted_investment = [];
-        //     const cInvest = investmentdata;
-
-
-        //     function populateCSVData(investmentdata, datatype) {
-        //         for (let index = 0; index < cInvest.length; index++) {
-        //             const element = cInvest[index];
-        //             var cur_ele_item = {
-        //                 'title': element['title'],
-        //                 'systemname': element['sysname'],
-        //                 'type': datatype
-        //             };
-        //             var startyear = parseInt(Object.keys(element[datatype])[0]);
-        //             for (var g = 0; g < numYears; g++) {
-        //                 cur_ele_item[startyear] = element[datatype][startyear];
-        //                 var startyear = (startyear + 1);
-        //             }
-        //             formatted_investment.push(cur_ele_item);
-        //         }
-        //     }
-        //     populateCSVData(cInvest, 'investment');
-        //     populateCSVData(cInvest, 'income');
-        //     populateCSVData(cInvest, 'maintainence');
-        //     // var json = formatted_investment.items;
-        //     var fields = Object.keys(formatted_investment[0]);
-        //     var replacer = function (key, value) {
-        //         return value === null ? '' : value
-        //     };
-        //     var csv = formatted_investment.map(function (row) {
-        //         return fields.map(function (fieldName) {
-        //             return JSON.stringify(row[fieldName], replacer)
-        //         }).join(',');
-        //     })
-        //     csv.unshift(fields.join(',')) // add header column
-
-        //     console.save(csv.join('\r\n'));
-        // }
-
-        function populateMaps(grid, sysGridIDs, diagGridIDs, idata, selectedsystems, totalorYearly, stdVar) {
-            var mapWorker = new Worker('/assets/workers/computeMap.js');
-            mapWorker.onerror = function (e) {
-                console.log('Error: Line ' + e.lineno + ' in ' + e.filename + ': ' + e.message);
-                $("#loadingGIF").hide();
-                humane.log("There was a error in creating maps, please try again.. ", {
-                    addnCls: 'humane-flatty-log'
-                });
-
-            };
-
-            $("#loadingGIF").show();
-            mapWorker.postMessage({
-                'grid': grid,
-                'sysGrid': sysGridIDs,
-                'diagGrid': diagGridIDs,
-                'investmentdata': idata,
-                'allDiagrams': JSON.stringify(systems),
-                'selectedsystems': 'all'
-            });
-            mapWorker.addEventListener('message', function (e) {
-                if (e.data.mode === 'status') {
-                    updateMapsWorkerStatus(e.data.percentcomplete);
-                } else {
-                    // console.log(e.data.incomeGrid);
-                    incomeGrid = JSON.parse(e.data.incomeGrid);
-                    investmentGrid = JSON.parse(e.data.investmentGrid);
-                    maintainenceGrid = JSON.parse(e.data.maintainenceGrid);
-                    // plotIncomeMap(incomeGrid, totalorYearly, stdVar);
-                    // plotInvestmentMap(investmentGrid, totalorYearly, stdVar);
-                    // plotMaintainenceMap(maintainenceGrid, totalorYearly, stdVar);
-                    // paint on map.
-                    $("#loadingGIFMap").hide();
-
-                }
-            }, false);
-
-        }
 
         function updateMaps() {
 
@@ -958,13 +491,50 @@
             }, false);
 
         }
+        function highlightFeature(e) {
+            var layer = e.target;
+
+            layer.setStyle({
+                weight: 5,
+                color: '#fff',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                layer.bringToFront();
+            }
+
+        info.update(layer.feature.properties);
+        console.log(layer.feature.properties)
+        }
+        function resetHighlight(e) {
+            boundaryChoropleth.resetStyle(e.target);
+        }
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
+        function zoomToFeature(e) {
+            boundarymap.fitBounds(e.target.getBounds());
+        }
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
 
         function renderBoundaryInvestmentMap(newboundaries, yearlyOrTotal, stdVar) {
             boundaryLayer.clearLayers();
 
 
             if (yearlyOrTotal === 'all') {
-                L.choropleth(newboundaries, {
+                boundaryChoropleth = L.choropleth(newboundaries, {
                     valueProperty: function (feature) {
                         var m = feature.properties.totalInvestment;
                         // m = (m / stdVar) * 100;
@@ -979,16 +549,11 @@
                         weight: 2,
                         fillOpacity: 0.8
                     },
-                    onEachFeature: function (feature, layer) {
-
-                        var ps = abbrNum(feature.properties.totalInvestment, 2);
-
-                        layer.bindPopup(ps);
-                    }
+                    onEachFeature: onEachFeature
                 }).addTo(boundaryLayer);
 
             } else {
-                L.choropleth(newboundaries, {
+                boundaryChoropleth = L.choropleth(newboundaries, {
                     valueProperty: function (feature) {
                         var i = (feature.properties.investment[parseInt(yearlyOrTotal)]) ? feature.properties
                             .investment[parseInt(yearlyOrTotal)] : 0;
@@ -1005,12 +570,7 @@
                         weight: 2,
                         fillOpacity: 0.8
                     },
-                    onEachFeature: function (feature, layer) {
-                        var ps = (feature.properties.investment[parseInt(yearlyOrTotal)]) ? feature.properties
-                            .investment[parseInt(yearlyOrTotal)] : 0;
-                        ps = abbrNum(ps, 2);
-                        // layer.bindPopup(ps);
-                    }
+                    onEachFeature: onEachFeature
                 }).addTo(boundaryLayer);
 
             }
@@ -1095,81 +655,6 @@
 
         }
 
-        // function renderBoundaryInvestment(boundarydata, yearlyOrTotal) {
-
-        //     if ($.fn.DataTable.isDataTable('#boundaries_investment_tables')) {
-        //         boundaries_investment_tables.destroy();
-        //     }
-        //     $('#boundaries_investment_tables > tbody').empty();
-        //     if (yearlyOrTotal === 'all') {
-        //         var bdata = [];
-        //         for (var k in boundarydata) {
-        //             var v = boundarydata[k];
-        //             bdata.push(v);
-        //         }
-        //         var bdata = bdata.sort(function (a, b) {
-        //             return parseFloat(a.totalInvestment) - parseFloat(b.totalInvestment);
-        //         });
-        //         $("#boundariesinvestmentlist").empty();
-        //         for (var x = 0; x < bdata.length; x++) {
-        //             var curBoundaryValue = bdata[x];
-
-        //             if (curBoundaryValue.totalInvestment == 0) {} else {
-        //                 $('#boundaries_investment_tables > tbody:last-child').append('<tr><td>' + curBoundaryValue.bname +
-        //                     '</td><td>' + '<span class="badge badge-default badge-pill">' + abbrNum(
-        //                         curBoundaryValue.totalInvestment,
-        //                         2) +
-        //                     '</span></td></tr>');
-        //             }
-        //         }
-        //         boundaries_investment_tables = $('#boundaries_investment_tables').DataTable({
-        //             searching: false,
-        //             info: false
-        //         });
-        //     } else {
-        //         var bdata = [];
-        //         for (var k in boundarydata) {
-        //             var v = boundarydata[k];
-        //             bdata.push(v);
-        //         }
-        //         var bdata = bdata.sort(function (a, b) {
-        //             return parseFloat(a.totalInvestment) - parseFloat(b.totalInvestment);
-        //         });
-        //         $("#boundariesinvestmentlist").empty();
-        //         for (var x = 0; x < bdata.length; x++) {
-        //             var curBoundaryValue = bdata[x];
-
-        //             if (curBoundaryValue.investment[parseInt(yearlyOrTotal)] == 0) {} else {
-        //                 $('#boundaries_investment_tables > tbody:last-child').append('<tr><td>' + curBoundaryValue.bname +
-        //                     '</td><td>' + '<span class="badge badge-default badge-pill">' + abbrNum(
-        //                         curBoundaryValue.investment[parseInt(yearlyOrTotal)], 2) +
-        //                     '</span></td></tr>');
-        //             }
-        //         }
-        //         boundaries_investment_tables = $('#boundaries_investment_tables').DataTable({
-        //             searching: false,
-        //             info: false
-        //         });
-
-        //     }
-        // }
-
-        // var incomemap = L.map('incomeMap', {
-        //     'zoomControl': false,
-        //     'dragging': false,
-        //     'touchZoom': false,
-        //     'scrollWheelZoom': false,
-        //     'doubleClickZoom': false,
-        //     'attributionControl': false
-        // });
-        // var incomeBaseLayer = L.tileLayer(
-        //     'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-        //         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
-        //         maxZoom: 18,
-        //     }).addTo(incomemap);
-        // var incomeLayer = L.featureGroup().addTo(incomemap);
-
-
         var boundarymap = L.map('boundaryMap', {
             'zoomControl': false,
             'dragging': false,
@@ -1178,42 +663,27 @@
             'doubleClickZoom': false,
             'attributionControl': false
         });
-        var taxBaseLayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+        L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
             maxZoom: 18,
         }).addTo(boundarymap);
         var boundaryLayer = L.featureGroup().addTo(boundarymap);
+        var info = L.control();
 
-        // var investmentmap = L.map('investmentMap', {
-        //     'zoomControl': false,
-        //     'dragging': false,
-        //     'touchZoom': false,
-        //     'scrollWheelZoom': false,
-        //     'doubleClickZoom': false,
-        //     'attributionControl': false
-        // });
-        // var incomeBaseLayer = L.tileLayer(
-        //     'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-        //         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
-        //         maxZoom: 18,
-        //     }).addTo(investmentmap);
-        // var investmentLayer = L.featureGroup().addTo(investmentmap);
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this.update();
+            return this._div;
+        };
 
-        // var maintainencemap = L.map('maintainenceMap', {
-        //     'zoomControl': false,
-        //     'dragging': false,
-        //     'touchZoom': false,
-        //     'scrollWheelZoom': false,
-        //     'doubleClickZoom': false,
-        //     'attributionControl': false
-        // });
-        // var maintainenceBaseLayer = L.tileLayer(
-        //     'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-        //         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
-        //         maxZoom: 18,
-        //     }).addTo(maintainencemap);
-        // var maintainenceLayer = L.featureGroup().addTo(maintainencemap);
+        // method that we will use to update the control based on feature properties passed
+        info.update = function (props) {
+            this._div.innerHTML = '<h4>Total Investment</h4>' +  (props ?
+                '<b>' + props.bname + '</b><br />' + abbrNum(props.totalInvestment,2) + ' EUR'
+                : 'Hover over a boundary');
+        };
 
+        info.addTo(boundarymap);
 
         var bnds = bounds['bounds'];
         var latLngs = bnds.split(',');
@@ -1221,240 +691,8 @@
         var northEast = L.latLng(latLngs[3], latLngs[2]);
         var mB = new L.latLngBounds(southWest, northEast);
 
-        // incomemap.fitBounds(mB);
-        // investmentmap.fitBounds(mB);
-        // maintainencemap.fitBounds(mB);
         boundarymap.fitBounds(mB);
 
-        // function plotIncomeMap(incomeGrid, yearlyOrTotal, stdVar) {
-
-        //     incomeLayer.clearLayers();
-        //     if (yearlyOrTotal === 'all') {
-
-        //         L.choropleth(incomeGrid, {
-        //             valueProperty: function (feature) {
-        //                 var m = feature.properties.totalIncome;
-        //                 m = (m / stdVar) * 100;
-
-        //                 return m;
-        //             },
-
-        //             scale: ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c'], //greens
-        //             // scale: ['#dadaeb', '#bcbddc', '#9e9ac8', '#756bb1', '#54278f'], //purples
-        //             steps: 5,
-        //             mode: 'q',
-        //             style: {
-        //                 color: '#fff',
-        //                 weight: 2,
-        //                 fillOpacity: 0.8
-        //             },
-        //             onEachFeature: function (feature, layer) {
-        //                 var ps = abbrNum(feature.properties.totalIncome, 2);
-        //                 // layer.bindPopup(ps +'<br>'+ feature.properties.diagrams);
-        //             }
-        //         }).addTo(incomeLayer);
-        //     } else {
-        //         L.choropleth(incomeGrid, {
-        //             valueProperty: function (feature) {
-        //                 var i = (feature.properties.income[parseInt(yearlyOrTotal)]) ? feature.properties.income[
-        //                     parseInt(yearlyOrTotal)] : 0;
-        //                 i = (i / stdVar) * 100;
-        //                 // console.log("income: " + i);
-        //                 return i
-        //             },
-        //             scale: ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c'], //greens
-        //             // scale: ['#dadaeb', '#bcbddc', '#9e9ac8', '#756bb1', '#54278f'], //purples
-        //             steps: 5,
-        //             mode: 'q',
-        //             style: {
-        //                 color: '#fff',
-        //                 weight: 2,
-        //                 fillOpacity: 0.8
-        //             },
-        //             onEachFeature: function (feature, layer) {
-        //                 var ps = (feature.properties.income[parseInt(yearlyOrTotal)]) ? feature.properties.income[
-        //                     parseInt(yearlyOrTotal)] : 0;
-        //                 ps = abbrNum(ps, 2);
-        //                 // layer.bindPopup(ps +'<br>'+ feature.properties.diagrams);
-        //             }
-        //         }).addTo(incomeLayer);
-
-        //     }
-        //     incomemap.fitBounds(incomeLayer.getBounds());
-
-
-        // }
-
-        // function plotInvestmentMap(investmentGrid, yearlyOrTotal, stdVar) {
-
-        //     investmentLayer.clearLayers();
-
-        //     // var plotValue = (yearlyOrTotal === 'all') ? 'totalInvestment': yearlyOrTotal;
-        //     if (yearlyOrTotal === 'all') {
-
-        //         L.choropleth(investmentGrid, {
-        //             valueProperty: function (feature) {
-        //                 var i = feature.properties.totalInvestment;
-        //                 i = (i / stdVar) * 100;
-        //                 // console.log("investment: " + i);
-        //                 return i
-        //             },
-        //             scale: ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'], // reds
-        //             // scale: ['#dadaeb', '#bcbddc', '#9e9ac8', '#756bb1', '#54278f'], //purples
-        //             steps: 5,
-        //             mode: 'q',
-        //             style: {
-        //                 color: '#fff',
-        //                 weight: 2,
-        //                 fillOpacity: 0.8
-        //             },
-        //             onEachFeature: function (feature, layer) {
-        //                 // layer.bindPopup('District ' + feature.properties.id + '<br>' +
-        //                 //     feature.properties.totalInvestment.toLocaleString() + ' incidents');
-        //                 var ps = abbrNum(feature.properties.totalInvestment, 2);
-
-        //                 const diagrams = feature.properties.diagrams;
-        //                 const diaglen = diagrams.length;
-        //                 var diag_strings = '';
-        //                 for (let index = 0; index < diaglen; index++) {
-        //                     const diag_id = diagrams[index];
-        //                     diag_strings += getDiagramSystemTitle(diag_id);
-        //                 }
-
-
-
-        //                 ps = abbrNum(ps, 2);
-        //                 layer.bindPopup(ps + ' ' + diag_strings);
-
-        //             }
-        //         }).addTo(investmentLayer);
-        //     } else {
-
-        //         L.choropleth(investmentGrid, {
-        //             valueProperty: function (feature) {
-        //                 var i = (feature.properties.investment[parseInt(yearlyOrTotal)]) ? feature.properties
-        //                     .investment[parseInt(yearlyOrTotal)] : 0;
-        //                 i = (i / stdVar) * 100;
-        //                 // console.log("investment: " + i);
-        //                 return i
-        //             },
-        //             scale: ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'], // reds
-        //             // scale: ['#dadaeb', '#bcbddc', '#9e9ac8', '#756bb1', '#54278f'], //purples
-        //             steps: 5,
-        //             mode: 'e',
-        //             style: {
-        //                 color: '#fff',
-        //                 weight: 2,
-        //                 fillOpacity: 0.8
-        //             },
-        //             onEachFeature: function (feature, layer) {
-        //                 // layer.bindPopup('District ' + feature.properties.id + '<br>' +
-        //                 //     feature.properties.totalInvestment.toLocaleString() + ' incidents');
-        //                 var ps = (feature.properties.investment[parseInt(yearlyOrTotal)]) ? feature.properties
-        //                     .investment[parseInt(yearlyOrTotal)].toLocaleString() : 0;
-
-        //                 const diagrams = feature.properties.diagrams;
-        //                 const diaglen = diagrams.length;
-        //                 var diag_strings = '';
-        //                 for (let index = 0; index < diaglen; index++) {
-        //                     const diag_id = diagrams[index];
-        //                     diag_strings += getDiagramSystemTitle(diag_id);
-        //                 }
-
-
-        //                 ps = abbrNum(ps, 2);
-        //                 layer.bindPopup(ps + ' ' + diag_strings);
-
-
-        //             }
-        //         }).addTo(investmentLayer);
-        //     }
-        //     investmentmap.fitBounds(investmentLayer.getBounds());
-        // }
-
-        // function plotMaintainenceMap(maintainenceGrid, yearlyOrTotal, stdVar) {
-        //     maintainenceLayer.clearLayers();
-        //     var plotValue = (yearlyOrTotal === 'all') ? 'totalMaintainence' : yearlyOrTotal;
-
-        //     if (yearlyOrTotal === 'all') {
-
-        //         L.choropleth(maintainenceGrid, {
-        //             valueProperty: function (feature) {
-        //                 var m = feature.properties.totalMaintainence;
-        //                 m = (m / stdVar) * 100;
-
-        //                 return m
-        //             },
-        //             scale: ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'],
-        //             // scale: ['#dadaeb', '#bcbddc', '#9e9ac8', '#756bb1', '#54278f'], //purples
-        //             steps: 5,
-        //             mode: 'q',
-        //             style: {
-        //                 color: '#fff',
-        //                 weight: 2,
-        //                 fillOpacity: 0.8
-        //             },
-        //             onEachFeature: function (feature, layer) {
-        //                 // layer.bindPopup('District ' + feature.properties.id + '<br>' +
-        //                 //     feature.properties.totalMaintainence.toLocaleString() + ' incidents');
-        //                 var ps = feature.properties.totalMaintainence;
-        //                 // console.log(ps);
-        //                 ps = Math.abs(ps);
-        //                 ps = abbrNum(ps, 2);
-        //                 layer.on({
-        //                     mouseover: highlightFeature,
-        //                     mouseout: resetHighlight
-        //                 });
-        //                 layer.bindPopup("-" + ps);
-
-        //             }
-        //         }).addTo(maintainenceLayer);
-        //     } else {
-        //         L.choropleth(maintainenceGrid, {
-        //             valueProperty: function (feature) {
-        //                 var m = (feature.properties.maintainence[parseInt(yearlyOrTotal)]) ? feature.properties
-        //                     .maintainence[parseInt(yearlyOrTotal)] : 0;
-        //                 m = (m / stdVar) * 100;
-        //                 // console.log("maintainence: " + m);
-        //                 return m    
-        //             },
-        //             scale: ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'],
-        //             // scale: ['#dadaeb', '#bcbddc', '#9e9ac8', '#756bb1', '#54278f'], //purples
-        //             steps: 5,
-        //             mode: 'e',
-        //             style: {
-        //                 color: '#fff',
-        //                 weight: 2,
-        //                 fillOpacity: 0.8
-        //             },
-        //             onEachFeature: function (feature, layer) {
-        //                 // layer.bindPopup('District ' + feature.properties.id + '<br>' +
-        //                 //     feature.properties.totalMaintainence.toLocaleString() + ' incidents');
-        //                 var ps = (feature.properties.maintainence[parseInt(yearlyOrTotal)]) ? feature.properties
-        //                     .maintainence[parseInt(yearlyOrTotal)].toLocaleString() : 0;
-        //                 // console.log(ps);
-        //                 ps = Math.abs(ps);
-        //                 ps = abbrNum(ps, 2);
-        //                 layer.bindPopup("-" + ps);
-        //                 layer.on({
-        //                     mouseover: highlightFeature,
-        //                     mouseout: resetHighlight
-        //                 });
-        //             }
-        //         }).addTo(maintainenceLayer);
-
-        //     }
-        //     maintainencemap.fitBounds(maintainenceLayer.getBounds());
-        // }
-
-        // function highlightFeature(e) {
-        //     var layer = e.target;
-        //     // if (!L.Browser.ie && !L.Browser.opera) {
-        //     //     layer.bringToFront();
-        //     // }
-
-        //     displayFeatureProps(layer.feature.properties);
-        // }
 
         function getDiagramSystemTitle(diagramid) {
             const ad = systems;
@@ -1492,27 +730,17 @@
 
         function populateIncomeInvestment(investmentdata) {
             var yeildDict = {};
-            var yeildLookup = {
-                10: "*",
-                12: "**",
-                16: "***",
-                18: "****"
-            };
             const ssd = saved_diagram_details;
             for (var g = 0; g < investmentdata.length; g++) {
                 var curInvestmentdata = investmentdata[g];
                 var diagID = curInvestmentdata['id'];
                 var totalInvestment = curInvestmentdata['totalInvestment'];
-                var y = curInvestmentdata['yeild'];
+                
                 const url = '<a href="https://assetanalysis.herokuapp.com/?apitoken=' + apitoken + '&projectid=' +
                     projectid + '&diagramid=' + diagID +
                     '" target="_blank">Details <i class="glyphicon glyphicon-share"></i></a>';
 
                 $(".aa-" + diagID).html(url);
-                // var units = curInvestmentdata['units'];
-                // if (units > 0) {
-                //     $(".aa-" + diagID).html(units);
-                // }
 
                 for (let p1 = 0; p1 < ssd.length; p1++) {
                     const cur_ele = ssd[p1];
@@ -1550,233 +778,8 @@
 
                 }
 
-                // var curSysID = curInvestmentdata['sysid'];
-                // if (yeildDict.hasOwnProperty(curSysID)) {} else {
-                //     $(".yeild-" + curSysID).html(yeildLookup[y]);
-                //     yeildDict[curSysID] = true;
-                // }
-                // var tInvest;
-                // tInvest = abbrNum(totalInvestment, 1);
-
-                // $("#" + diagID + "-all-invest").html(tInvest);
-                // var annualIncome = abbrNum(curInvestmentdata['income']['yearly'],1);
-                // var totalIncome;
-                // totalIncome = abbrNum(curInvestmentdata['income']['total'], 1);
-
-                // $("#"+ diagID+ "-"+"annual-income").html(annualIncome);
-                // $("#" + diagID + "-" + "total-income").html(totalIncome);
-
-
-                // var totalMaint = curInvestmentdata['maintainence']['total'];
-
-                // var abstotalMaint = Math.abs(totalMaint);
-                // totalMaint = '(' + abbrNum(abstotalMaint, 1) + ')';
-                // totalMaint = abbrNum(abstotalMaint, 1);
-
-                // $("#"+ diagID+ "-"+"annual-income").html(annualIncome);
-                // $("#" + diagID + "-" + "total-maint").html(totalMaint);
-
-                // for (var t1 = 0; t1 < numYears; t1++) {
-                //     var currentYear = (startyear + t1);
-                //     var cInvest = curInvestmentdata['investment'];
-                //     var cIncome = curInvestmentdata['income'];
-                //     var cMaint = curInvestmentdata['maintainence'];
-                //     var totalIncome = curInvestmentdata['income']['total'];
-                //     if (currentYear in cInvest) {
-                //         var yearlyInvest = 0;
-
-                //         yearlyInvest = abbrNum(cInvest[currentYear], 1);
-
-                //         $("#" + diagID + "-" + currentYear + "-invest").html(yearlyInvest);
-                //     }
-                //     var yearlyIncome = 0;
-                //     yearlyIncome = abbrNum(cIncome[currentYear], 1);
-
-                //     $("#" + diagID + "-" + currentYear + "-income").html(yearlyIncome);
-                //     // var totalIncome = 
-                //     // $("#"+ diagID+ "-"+"growth").html(0.03);
-
-                //     var yearlyMaintainence = 0;
-                //     var absMaint = Math.abs(cMaint[currentYear]);
-
-                //     // yearlyMaintainence = '(' + abbrNum(absMaint, 1) + ')';
-                //     yearlyMaintainence = abbrNum(absMaint, 1);
-
-                //     $("#" + diagID + "-" + currentYear + "-maint").html(yearlyMaintainence);
-
-                // }
             }
         }
-
-        // function computeDCFNPV(investmentdata) {
-
-        //     var wacc = (parseFloat($("#wacc-slider").val()) / 100);
-
-        //     var yearlyIncomeTotal = {};
-        //     var yearlyInvestmentTotal = {};
-        //     var yearlyDCFTotal = {};
-        //     var yearlyMaintainenceTotal = {};
-
-        //     for (var t2 = 0; t2 < numYears; t2++) {
-        //         var currentYear = (startyear + t2);
-        //         yearlyIncomeTotal[currentYear] = 0;
-        //         yearlyInvestmentTotal[currentYear] = 0;
-        //         yearlyDCFTotal[currentYear] = 0;
-        //         yearlyMaintainenceTotal[currentYear] = 0;
-        //     }
-
-        //     for (var t2 = 0; t2 < investmentdata.length; t2++) {
-        //         var curSys = investmentdata[t2];
-        //         var roiYear;
-        //         var income = curSys['income'];
-        //         var investment = curSys['investment'];
-        //         var maintainence = curSys['maintainence'];
-        //         var totalInvestment = curSys['totalInvestment'];
-
-        //         var netIncome = [];
-        //         var rtIncomeTotal = 0;
-        //         var found = false;
-        //         for (var g = 0; g < numYears; g++) {
-        //             var cYear = (startyear + g);
-        //             var yearInvestment;
-        //             var yearIncome;
-        //             var yearMaintainence;
-        //             try {
-        //                 yearInvestment = (investment[cYear]) ? (investment[cYear]) : 0;
-        //             } catch (err) {
-        //                 yearInvestment = 0;
-        //             }
-        //             try {
-        //                 yearIncome = (income[cYear]) ? (income[cYear]) : 0;
-        //             } catch (err) {
-        //                 yearIncome = 0;
-        //             }
-        //             try {
-        //                 yearMaintainence = (maintainence[cYear]) ? (maintainence[cYear]) : 0;
-        //             } catch (err) {
-        //                 yearMaintainence = 0;
-        //             }
-        //             rtIncomeTotal += yearIncome;
-        //             if (rtIncomeTotal >= totalInvestment && found == false) {
-        //                 roiYear = cYear;
-        //                 found = true;
-        //             }
-        //             yearlyIncomeTotal[cYear] += yearIncome;
-        //             yearlyInvestmentTotal[cYear] += yearInvestment;
-        //             yearlyMaintainenceTotal[cYear] += yearMaintainence;
-        //             netIncome.push((yearIncome - yearInvestment - yearMaintainence));
-        //         }
-        //         // console.log(roiYear);
-        //         var dcf = [];
-        //         for (var g1 = 0; g1 < numYears; g1++) {
-        //             var cYear = (startyear + g1);
-        //             var curdcf = ((netIncome[g1]) / Math.pow((1 + wacc), g1));
-        //             dcf.push(parseInt(curdcf));
-        //             var abscurDCF = Math.abs(curdcf);
-        //             if (curdcf < 0) {
-        //                 $("#" + curSys['id'] + "-" + cYear + "-dcf").html('(' + abbrNum(abscurDCF, 1) + ')');
-
-        //             } else {
-
-        //                 $("#" + curSys['id'] + "-" + cYear + "-dcf").html(abbrNum(abscurDCF, 1));
-
-        //             }
-        //             if ($("#" + curSys['id'] + "-" + cYear + "-dcf").hasClass("gray")) {
-        //                 $("#" + curSys['id'] + "-" + cYear + "-dcf").removeClass("gray");
-        //             }
-        //             if (roiYear == cYear) {
-        //                 $("#" + curSys['id'] + "-" + cYear + "-dcf").addClass("gray");
-        //             }
-        //             var yearlyIncome = yearlyIncomeTotal[cYear];
-        //             var yearlyInvestment = yearlyInvestmentTotal[cYear];
-        //             var yearlyMaintainence = yearlyMaintainenceTotal[cYear];
-
-        //             var absyearlyIncome = Math.abs(yearIncome);
-        //             var absyearlyInvestment = Math.abs(yearlyInvestment);
-        //             var absyearlyMaintainence = Math.abs(yearlyMaintainence);
-
-        //             if (yearlyIncome < 0) {
-
-        //                 $("#" + +cYear + "-total-income").html('(' + abbrNum(yearlyIncome, 1) + ')');
-
-        //             } else {
-
-        //                 $("#" + +cYear + "-total-income").html(abbrNum(yearlyIncome, 1));
-
-        //             }
-        //             if (yearlyMaintainence < 0) {
-        //                 var absyrlyMaintainence = Math.abs(yearlyMaintainence);
-
-        //                 $("#" + +cYear + "-total-maint").html('(' + abbrNum(absyrlyMaintainence, 1) + ')');
-
-        //             }
-        //             if (yearlyInvestment < 0) {
-
-        //                 $("#" + +cYear + "-total-investment").html('(' + abbrNum(yearlyInvestment, 1) + ')');
-
-        //             } else {
-
-        //                 $("#" + +cYear + "-total-investment").html(abbrNum(yearlyInvestment, 1));
-
-        //             }
-        //         }
-
-        //         var totaldcf = dcf.reduce(function (a, b) {
-        //             return a + b;
-        //         }, 0);
-        //         var abstotaldcf = Math.abs(totaldcf);
-        //         if (totaldcf < 0) {
-
-        //             $("#" + curSys['id'] + "-total-dcf").html('(' + abbrNum(abstotaldcf, 1) + ')');
-
-        //         } else {
-
-        //             $("#" + curSys['id'] + "-total-dcf").html(abbrNum(abstotaldcf, 1));
-
-        //         }
-        //         var npv = curSys['totalInvestment'] - totaldcf;
-        //         var absnpv = Math.abs(npv);
-        //         // const totalTxt = "<small>"+ abbrNum(parseInt(curSys['totalInvestment'])) + " - " + abbrNum(parseInt(totaldcf)) +"<small><br>";
-        //         if (npv < 0) {
-
-        //             $("#" + curSys['id'] + "-total-npv").html('(' + abbrNum(absnpv, 1) + ')');
-
-        //             if ($("#" + curSys['id'] + "-total-npv").hasClass('bg-danger')) {
-        //                 $("#" + curSys['id'] + "-total-npv").removeClass('bg-danger');
-        //             } else if ($("#" + curSys['id'] + "-total-npv").hasClass('bg-success')) {
-        //                 $("#" + curSys['id'] + "-total-npv").removeClass('bg-success');
-        //             }
-        //             $("#" + curSys['id'] + "-total-npv").addClass('bg-success');
-        //         } else {
-
-        //             $("#" + curSys['id'] + "-total-npv").html(abbrNum(absnpv, 1));
-
-
-        //             if ($("#" + curSys['id'] + "-total-npv").hasClass('bg-danger')) {
-        //                 $("#" + curSys['id'] + "-total-npv").removeClass('bg-danger');
-        //             } else if ($("#" + curSys['id'] + "-total-npv").hasClass('bg-success')) {
-        //                 $("#" + curSys['id'] + "-total-npv").removeClass('bg-success');
-        //             }
-        //             $("#" + curSys['id'] + "-total-npv").addClass('bg-danger');
-        //         }
-        //     }
-
-        // }
-
-
-        $('input:radio[name="mapdisplay"]').change(function (event) {
-
-            var checked = $('input:radio[name="mapdisplay"]:checked').val();
-            if (checked == 'total') {
-                $("#yearlySliderCont").hide();
-                // plotIncomeMap(incomeGrid, 'all', standardizationVar);
-                // plotMaintainenceMap(maintainenceGrid, 'all', standardizationVar);
-                // plotInvestmentMap(investmentGrid, 'all', standardizationVar);
-            } else {
-                $("#yearlySliderCont").show();
-
-            }
-        });
 
         function generateSystemCB(systems) {
             $("#systemsCB").html('');
@@ -1868,56 +871,12 @@
         populateTableDataInit();
         // computeDCFNPV();
         function showallTables() {
-            // hide rest from map, 
-            // $('#investments > tbody > tr').each(function () {
-            //     $(this).show();
-            // });
-            // hide rest from map, 
-            // $('#income > tbody > tr').each(function () {
-            //     $(this).show();
-            // });
-            // hide rest from map, 
             $('#npv > tbody > tr').each(function () {
                 $(this).show();
             });
-            // $('#maintainence > tbody > tr').each(function () {
-            //     $(this).show();
-            // });
+
         }
-        $('#toggle_financial_details').on('click', function (event) {
-
-            if ($("#income-investment-maintainence-table").hasClass('hidden')) {
-                $("#income-investment-maintainence-table").removeClass('hidden');
-                $("#toggle_financial_details").html("Hide detailed financial statement");
-                humane.log('Showing detailed investments', {
-                    addnCls: 'humane-flatty-success'
-                });
-            } else {
-                $("#income-investment-maintainence-table").addClass('hidden');
-                $("#toggle_financial_details").html("Show detailed financial statement");
-                humane.log('Hiding detailed investments', {
-                    addnCls: 'humane-flatty-success'
-                });
-            }
-        });
-
-        // $('#download_data_as_csv').on('click', function (event) {
-        //     convert_investment_to_csv();
-
-        // });
-        // $(document).ready(function () {
-        //     $('.editable').editable({
-        //         validate: function (value) {
-
-        //             if ($.trim(value) == '') {
-        //                 return 'This field is required';
-        //             } else if (parseInt(value) > 25) {
-        //                 return "Yeild must be a number less than 25"
-        //             }
-        //         }
-        //     });
-        // });
-
+      
         function initializeTables() {
             var tableGenerator = function (domid) {
                 var groupColumn = 5;
@@ -1958,22 +917,10 @@
                 return t;
             }
 
-            // investment_table = tableGenerator('investments');
-            // income_table = tableGenerator('income');
-            // maintainence_table = tableGenerator('maintainence');
             npv_table = tableGenerator('npv');
         }
 
         function destroyTables() {
-            // if ($.fn.DataTable.isDataTable('#investments')) {
-            //     investment_table.destroy();
-            // }
-            // if ($.fn.DataTable.isDataTable('#income')) {
-            //     income_table.destroy();
-            // }
-            // if ($.fn.DataTable.isDataTable('#maintainence')) {
-            //     maintainence_table.destroy();
-            // }
             if ($.fn.DataTable.isDataTable('#npv')) {
                 npv_table.destroy();
             }
