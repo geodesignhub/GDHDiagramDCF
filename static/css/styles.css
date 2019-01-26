@@ -47,6 +47,11 @@ h4 {
     float: right;
 }
 
+.ionslider-left {
+    width: 300px;
+   
+}
+
 .gray {
     background-color: #ecf0f1;
 }
@@ -1088,7 +1093,7 @@ ul.input-list li {
     /* padding: 12px 0px; */
     padding-right: 5px;
     min-width: 60px;
-    text-align: right;
+    text-align: center;
 }
 
 .hor-minimalist-b td.sysrow {

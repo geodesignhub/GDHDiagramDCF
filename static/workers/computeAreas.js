@@ -174,7 +174,6 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
                 var cSys = systemdetails[h];
                 var sName = cSys['sysname'];
                 if (sName === sysName) {
-
                     sysCost = cSys['syscost'];
                     curDiagDetails['sysid'] = cSys['id'];
                     curDiagDetails['sysname'] = sName;
@@ -224,9 +223,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, gridgridsize,
 
             yearlyCost = parseFloat(totalCost / numYears);
             maxYearlyCost = (yearlyCost > maxYearlyCost) ? yearlyCost : maxYearlyCost;
-
             var tenpercentIncome = (yeild * totalCost) / 100;
-
             var lastIncome;
             for (var k4 = 0; k4 < numYears; k4++) {
                
@@ -309,7 +306,7 @@ function generateGrid(bounds) {
     var gridsize = (length / numberofgridcells) / 1000;
     gridsize = round(gridsize, 2);
     // console.log(gridsize);
-    var g = turf.squareGrid(bounds, gridsize, 'kilometers');
+    var g = turf.hexGrid(bounds, gridsize, 'kilometers');
     var grid = {
         "type": "FeatureCollection",
         "features": []
