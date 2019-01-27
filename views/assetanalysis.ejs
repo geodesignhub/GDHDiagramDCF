@@ -28,7 +28,6 @@
             <script src="assets/js/html5.js"></script>
             <script src="assets/js/respond.min.js"></script>
         <![endif]-->
-
 </head>
 
 <body>
@@ -147,15 +146,23 @@
                 </div>
 
                 <div class='usage_form hidden' id="built_env_form_office">
+
+                    <h6>Usage</h6>
                     <h4>Per capita space required in m2: <a class="editable" href="#" id="office_m2_per_visitor"
                             data-type="text" data-title="Enter new room size e.g. 5">12</a></h4>
                     <h4>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
                     <h4>Expected office workers: <a class="editable" href="#" id="total_daily_visitors_office"
                             data-type="text" data-title="Enter a new office workers">300</a></h4>
+                    <br>
+                    <h6>Employment</h6>
+                    <h4>Direct employees to office workers ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio" data-type="text" data-title="Enter new ratio">.01</a></h4>
+                    <h4>Indirect employees to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_office" data-type="text" data-title="Enter new ratio">.2</a></h4>
 
                     <br>
                     <h4>Total Floor area needed:&nbsp;<span id="total_floor_area_office_required">0</span> m2</h4>
                     <h6>Total Floor area available: <span id="total_floor_area_office_available">0</span> m2</h6>
+                    <h4>Total direct employment: <span id="total_direct_employment_office">0</span></h6>
+                    <h4>Total indirect employment: <span id="total_indirect_employment_office">0</span></h6>
                     <br>
                     <button id="recompute_office" type="button" class="btn btn-info">Recompute</button>
 
@@ -293,20 +300,7 @@
                 </table>
 
             </div>
-        </div><br><br>
-        <div class="row">
-            <div class="col-md-6">
-                <h3>Remember parameters</h3>
-                <% if (projecttype == 'paid'){ %>
-                <button type="button" id="savevalues" class="btn btn-default btn-x-sm"><span class="glyphicon glyphicon-cloud"
-                        aria-hidden="true"></span> Save values on server </button> <br><br>
-                <% } else{ %>  
-                <small>This is only available for paid projects on Geodesignhub, you can save the values you enter so
-                    you dont have to enter them again.</small>
-                <% } %>
-            </div>
-            <div class="col-md-6"></div>
-        </div>
+        </div><br>
 
         <!-- /.col-md-4 -->
         <!-- /.row -->
@@ -339,7 +333,7 @@
                             </tr>
 
                             <tr>
-                                <th scope="row">Fires personnel per capita</th>
+                                <th scope="row">Fire personnel per capita</th>
                                 <td>
                                     <!-- <a class="editable fire_station_editable" href="#" id="fire_station_per_capita"
                                             data-type="text" data-title="Enter new fire station demand e.g. .0040"></a> -->
@@ -441,39 +435,19 @@
             </div>
         </div>
 
-        <!-- <div class="row">
+        <div class="row">
             <div class="col-md-6">
+                <h3>Remember parameters</h3>
+                <% if (projecttype == 'paid'){ %>
+                <button type="button" id="savevalues" class="btn btn-default btn-x-sm"><span class="glyphicon glyphicon-cloud"
+                        aria-hidden="true"></span> Save values on server </button> <br><br>
+                <% } else{ %>  
+                <small>This is only available for paid projects on Geodesignhub, you can save the values you enter so
+                    you dont have to enter them again.</small>
+                <% } %>
             </div>
-            <div class="col-md-6">
-                <p class="pull-right"> Currency: <select id="workingcurrency">
-                        <option value="USD">US dollar</option>
-                        <option value="EUR" selected>European Euro</option>
-                        <option value="JPY">Japanese yen</option>
-                        <option value="GBP">Pound sterling</option>
-                        <option value="AUD">Australian dollar</option>
-                        <option value="CAD">Canadian dollar</option>
-                        <option value="CHF">Swiss franc</option>
-                        <option value="CNY">Chinese Yuan Renminbi</option>
-                        <option value="SEK">Swedish krona</option>
-                        <option value="MXN">Mexican peso</option>
-                        <option value="NZD">New Zealand dollar</option>
-                        <option value="SGD">Singapore dollar</option>
-                        <option value="HKD">Hong Kong dollar</option>
-                        <option value="NOK">Norwegian krone</option>
-                        <option value="KRW">South Korean won</option>
-                        <option value="TRY">Turkish lira</option>
-                        <option value="INR">Indian rupee</option>
-                        <option value="RUB">Russian ruble</option>
-                        <option value="BRL">Brazilian real</option>
-                        <option value="ZAR">South African rand</option>
-                        <option value="DKK">Danish krone</option>
-                        <option value="PLN">Polish zloty</option>
-                        <option value="TWD">New Taiwan dollar</option>
-                        <option value="THB">Thai baht</option>
-                        <option value="MYR">Malaysian ringgit</option>
-                    </select></p>
-            </div>
-        </div> -->
+            <div class="col-md-6"></div>
+        </div>
         <br><br>
         <!-- Footer -->
         <hr>
@@ -1010,18 +984,18 @@
                 case 'retail':
                     vals = data.retail.split(",");
                     $(".usage_form").hide();
-                    $("#services").hide();
+                    $("#services").show();
                     $("#built_env_form_retail").show();
                     myRetailControl.initialize();
-                    myRetailControl.recompute();
+                    myRetailControl.update();
                     break;
                 case 'office':
                     vals = data.office.split(",");
                     $(".usage_form").hide();
-                    $("#services").hide();
+                    $("#services").show();
                     $("#built_env_form_office").show();
                     myOfficeControl.initialize();
-                    myOfficeControl.recompute();
+                    myOfficeControl.update();
                     break;
                 case 'agriculture':
                     vals = data.retail.split(",");
@@ -1629,7 +1603,7 @@
 
 
 
-                const population = parseInt($("#total_yearly_visitors").html());
+                const population = parseInt($("#    ").html());
                 myDisplayUpdater = new ServicesDisplayUpdater();
                 myDisplayUpdater.updateBeds(population, tourism_class_defaults[selected_subclass]['beds']);
                 myDisplayUpdater.updatePoliceStations(population, tourism_class_defaults[selected_subclass][
@@ -1723,7 +1697,6 @@
                 });
 
 
-
             }
             this.recompute = function () {
                 const retail_m2_per_visitor = $("#retail_m2_per_visitor").editable('getValue', true);
@@ -1758,7 +1731,81 @@
                 $("#total_floor_area_retail_available").html(abbrNum(parseInt(diagram_area * 0.8 *
                     number_of_floors), 2)); // only 80% of the area is available, rest for frontage etc. 
 
+                myDisplayUpdater = new ServicesDisplayUpdater();
+
+                myDisplayUpdater.updateBedsRecompute(total_daily_visitors);
+                myDisplayUpdater.updatePoliceStationsRecompute(total_daily_visitors);
+                myDisplayUpdater.updateFireStationsRecompte(total_daily_visitors);
+                myDisplayUpdater.updateSchoolsRecompute(total_daily_visitors * 0.05);
+                myDisplayUpdater.updateEnergyRecompute(total_daily_visitors);
+                myDisplayUpdater.updateWaterRecompute(total_daily_visitors);
+                myDisplayUpdater.updateSewageRecompute(total_daily_visitors);
+                myDisplayUpdater.updateTransportRecompute(total_daily_visitors, 2, 2);
+
+
             }
+            this.update = function () {
+
+                const retail_class_defaults = {
+                    "Standard": {
+                        "retail_m2_per_visitor": 12,
+                        "total_daily_visitors_retail": 2000,
+                        "retail_floors": 2,
+                        "percent_interested_in_luxury_retail": .1,
+                        "percent_interested_in_support_retail": .2,
+                        "percent_interested_in_fmcg_retail": .5,
+                        "percent_interested_in_food_retail": .2,
+                        "beds": 0.0045,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }
+                    }
+                };
+
+
+                var selected_subclass = $("#base_asset_subclass").val();
+                selected_subclass = (selected_subclass) ? selected_subclass : 'Standard';
+
+
+                $("#retail_m2_per_visitor").editable('setValue', retail_class_defaults[selected_subclass]['retail_m2_per_visitor']);
+                $("#total_daily_visitors_retail").editable('setValue',  retail_class_defaults[selected_subclass]['total_daily_visitors_retail']);
+                $("#retail_floors").editable('setValue', retail_class_defaults[selected_subclass]['retail_floors']);
+                $("#percent_interested_in_luxury_retail").editable('setValue', retail_class_defaults[selected_subclass]['percent_interested_in_luxury_retail']);
+                $("#percent_interested_in_support_retail").editable(
+                    'setValue', retail_class_defaults[selected_subclass]['percent_interested_in_support_retail']);
+                $("#percent_interested_in_fmcg_retail").editable('setValue', retail_class_defaults[selected_subclass]['percent_interested_in_fmcg_retail']);
+                $("#percent_interested_in_food_retail").editable('setValue',retail_class_defaults[selected_subclass]['percent_interested_in_fmcg_retail']);
+
+
+
+                const population = parseInt(retail_class_defaults[selected_subclass]['retail_m2_per_visitor']);
+                myDisplayUpdater = new ServicesDisplayUpdater();
+                myDisplayUpdater.updateBeds(population, retail_class_defaults[selected_subclass]['beds']);
+                myDisplayUpdater.updatePoliceStations(population, retail_class_defaults[selected_subclass][
+                    'police_stations'
+                ]);
+                myDisplayUpdater.updateFireStations(population, retail_class_defaults[selected_subclass][
+                    'fire_stations'
+                ]);
+                myDisplayUpdater.updateSchools(population * 0.05, retail_class_defaults[selected_subclass][
+                    'schools'
+                ]);
+                myDisplayUpdater.updateEnergy(population, retail_class_defaults[selected_subclass]['energy']);
+                myDisplayUpdater.updateWater(population, retail_class_defaults[selected_subclass]['water']);
+                myDisplayUpdater.updateSewage(population, retail_class_defaults[selected_subclass]['sewage']);
+                myDisplayUpdater.updateTransport(population, retail_class_defaults[selected_subclass][
+                    'transport'
+                ]['road'], retail_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
+
+            }
+
 
         }
 
@@ -1792,12 +1839,32 @@
                         }
                     }
                 });
+                $('#direct_employees_to_visitor_ratio').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+                $('#indirect_to_direct_employees_ratio_office').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
 
             }
             this.recompute = function () {
                 const office_m2_per_visitor = $("#office_m2_per_visitor").editable('getValue', true);
                 const total_daily_visitors_office = $("#total_daily_visitors_office").editable('getValue', true);
                 const office_floors = $("#office_floors").editable('getValue', true);
+                const direct_employees_to_visitor_ratio = $("#direct_employees_to_visitor_ratio").editable('getValue', true);
+                const indirect_to_direct_employees_ratio_office = $("#indirect_to_direct_employees_ratio_office").editable('getValue', true);
 
                 const diagram_area = diagramdetail['area']
 
@@ -1805,8 +1872,67 @@
                 $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office), 2));
                 $("#total_floor_area_office_available").html(abbrNum(parseInt(diagram_area * .8 * office_floors),
                     2));
+                $("#total").html(abbrNum(parseInt(diagram_area * .8 * office_floors),
+                    2));
+                $("#total_direct_employment_office").html(abbrNum(parseInt(direct_employees_to_visitor_ratio * total_daily_visitors_office),2));
+                $("#total_indirect_employment_office").html(abbrNum(parseInt(indirect_to_direct_employees_ratio_office * total_daily_visitors_office),2));
 
             }
+
+
+            this.update = function () {
+
+                const office_class_defaults = {
+                    "Standard": {
+                        "office_m2_per_visitor": 12,
+                        "total_daily_visitors_office": 2000,
+                        "office_floors": 2,
+                        "beds": 0.0045,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }
+                    }
+                };
+
+
+                var selected_subclass = $("#base_asset_subclass").val();
+                selected_subclass = (selected_subclass) ? selected_subclass : 'Standard';
+
+
+                $("#office_m2_per_visitor").editable('setValue', office_class_defaults[selected_subclass]['office_m2_per_visitor']);
+                $("#total_daily_visitors_office").editable('setValue',  office_class_defaults[selected_subclass]['total_daily_visitors_office']);
+                $("#office_floors").editable('setValue', office_class_defaults[selected_subclass]['office_floors']);
+
+
+
+                const population = parseInt(office_class_defaults[selected_subclass]['total_daily_visitors_office']);
+                myDisplayUpdater = new ServicesDisplayUpdater();
+                myDisplayUpdater.updateBeds(population, office_class_defaults[selected_subclass]['beds']);
+                myDisplayUpdater.updatePoliceStations(population, office_class_defaults[selected_subclass][
+                    'police_stations'
+                ]);
+                myDisplayUpdater.updateFireStations(population, office_class_defaults[selected_subclass][
+                    'fire_stations'
+                ]);
+                myDisplayUpdater.updateSchools(population * 0.05, office_class_defaults[selected_subclass][
+                    'schools'
+                ]);
+                myDisplayUpdater.updateEnergy(population, office_class_defaults[selected_subclass]['energy']);
+                myDisplayUpdater.updateWater(population, office_class_defaults[selected_subclass]['water']);
+                myDisplayUpdater.updateSewage(population, office_class_defaults[selected_subclass]['sewage']);
+                myDisplayUpdater.updateTransport(population, office_class_defaults[selected_subclass][
+                    'transport'
+                ]['road'], office_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
+
+            }
+
 
         }
 
@@ -2026,6 +2152,10 @@
                     metadata['total_daily_visitors_office'] = parseInt($("#total_daily_visitors_office").editable(
                         'getValue', true));
                     metadata['total_floor_area_office_required'] = $("#total_floor_area_office_required").html();
+                    metadata['total_direct_employment_office'] = $("#total_direct_employment_office").html();
+                    metadata['total_indirect_employment_office'] = $("#total_indirect_employment_office").html();
+                    metadata['direct_employees_to_visitor_ratio'] = $("#direct_employees_to_visitor_ratio").html();
+                    metadata['indirect_to_direct_employees_ratio_office'] = $("#indirect_to_direct_employees_ratio_office").html();
 
                 }
                 

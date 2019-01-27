@@ -66,6 +66,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="boundariesCont">
+                    <h4>Boundaries and Investments</h4>
                     <canvas id="boundaryChart"></canvas>
                 </div>
             </div>
@@ -75,7 +76,7 @@
 
             <div class="col-md-12">
                 <div class="boundariesCont">
-                    <h4>Boundary Map</h4>
+                    <h4>Boundaries Map</h4>
                     <div id="boundaryMap" class="map"></div>
                 </div>
             </div>
@@ -149,9 +150,6 @@
         var boundaryStdVar;
         var maintainenceGrid;
         var investmentGrid;
-        var grid;
-        var sysGrids;
-        var diagGrids;
         var boundaryGeomDetails;
         var boundaryValueDetails;
         var npv_table;
@@ -406,16 +404,13 @@
                 if (e.data.mode === 'status') {
                     updateWorkerStatus(e.data.percentcomplete);
                 } else {
-                    // console.log(e.data.boundaryValue);
 
-                    // renderBoundaryInvestment(JSON.parse(e.data.boundaryValue), 'all');
                     renderBoundaryInvestmentMap(JSON.parse(e.data.newboundaries), parseInt(e.data.stdVar));
                     renderBoundaryInvestmentChart(JSON.parse(e.data.boundaryValue));
                     boundaryStdVar = parseInt(e.data.stdVar);
                     boundaryGeomDetails = JSON.parse(e.data.newboundaries);
                     boundaryValueDetails = JSON.parse(e.data.boundaryValue);
                     $("#loadingGIF").hide();
-                    // paint on map.
                 }
             }, false);
 
@@ -502,25 +497,18 @@
             for (var g1 = 0; g1 < numYears; g1++) {
                 var cYear = (startyear + g1);
                 labels.push(cYear);
-
-
             }
+
             for (var x = 0; x < bdata.length; x++) {
                 var curBoundaryValue = bdata[x];
-
                 var cur_b_investment = {};
                 cur_b_investment['label'] = curBoundaryValue.bname;
                 cur_b_investment['data'] = [];
-
                 for (var g1 = 0; g1 < numYears; g1++) {
                     var cYear = (startyear + g1);
                     cur_b_investment['data'].push(parseInt(curBoundaryValue['investment'][cYear]));
-
-
                 }
-
                 b_investment_dataset.push(cur_b_investment);
-
             }
 
             var options = {
@@ -564,8 +552,6 @@
                 },
                 options: options
             });
-
-
         }
 
         var boundarymap = L.map('boundaryMap', {
@@ -606,7 +592,6 @@
 
         boundarymap.fitBounds(mB);
 
-
         function getDiagramSystemTitle(diagramid) {
             const ad = systems;
             var sysName = 'NA';
@@ -633,13 +618,8 @@
                     }
                 }
             const sys_title = ' | ' + sysName + ' ' + diagName;
-
             return sys_title
         }
-
-
-
-
 
         function populateIncomeInvestment(investmentdata) {
             var yeildDict = {};
@@ -707,12 +687,6 @@
                 $('#systemsCB input:checked').each(function () {
                     selectedsystems.push($(this).attr('id'));
                 });
-                // switch yearly
-                // TODO: click on the yearly switch
-                // $("#loadingGIF").show();
-                // TODO: update maps for system. 
-                // updateMaps();
-
 
                 destroyTables();
 
@@ -788,7 +762,6 @@
                 });
                 return t;
             }
-
             npv_table = tableGenerator('npv');
         }
 
@@ -799,5 +772,4 @@
         }
     </script>
 </body>
-
 </html>
