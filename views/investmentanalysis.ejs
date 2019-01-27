@@ -54,7 +54,7 @@
         <!-- Heading Row -->
         <div class="row">
             <div class="col-md-12">
-                
+
                 <p class="description">This plugin shows how investments will flow through your study area over time.
                     It downloads a design from Geodesignhub, computes its area and construction costs and provides a <a
                         href="https://en.wikipedia.org/wiki/Discounted_cash_flow" target="_blank">Discounted Cash Flow</a>
@@ -72,7 +72,7 @@
         </div>
 
         <div class="row">
-            
+
             <div class="col-md-12">
                 <div class="boundariesCont">
                     <h4>Boundary Map</h4>
@@ -84,19 +84,21 @@
         <br>
         <div class="row">
             <div class="col-md=12">
-                 <h4>Systems</h4>
+                <h4>Systems</h4>
                 <div id="systemsCBCont" style="display:none">
                     <div id="systemsCB"></div>
                     <br>
 
                 </div>
             </div>
-            </div>
-
+        </div>
+        <br><br>
+        <hr>
         <!-- /.col-md-4 -->
         <div class="row">
             <div class="col-md-12">
                 <h4>Diagrams and Asset Details</h4>
+                <br>
                 <table id="npv" class="hor-minimalist-b">
                     <thead>
                         <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
@@ -108,12 +110,12 @@
                         <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
                     </tfoot>
                 </table>
-           
+
             </div>
         </div>
-     
         <br><br>
         <hr>
+       
         <!-- Footer -->
         <footer>
             <div class="row">
@@ -215,7 +217,7 @@
                 grid: true,
                 prettify_enabled: true
             });
-           
+
         }
 
         function generateInitTables() {
@@ -262,7 +264,7 @@
                     }
                 }
             }
-          
+
             $("#npv").find("tbody>tr:gt(0)").remove();
             $("#npv").find("thead>tr:gt(0)").remove();
 
@@ -301,7 +303,7 @@
                                 curdiagid + "'" +
                                 ">" + cursys.sysname + "<sup class=" + "'yeild-" + cursys.id + "'" + "></sup></td>";
                             yrCounter = 0;
-                          
+
                             diagrowHTMLnpv += "</tr>";
                             $('#npv > tbody').append(diagrowHTMLnpv);
 
@@ -317,9 +319,9 @@
             $("#procstatus").html(" " + data + "% complete");
         }
 
-        function updateMapsWorkerStatus(data) {
-            $("#procstatusMap").html(" " + data + "% complete");
-        }
+        // function updateMapsWorkerStatus(data) {
+        //     $("#procstatusMap").html(" " + data + "% complete");
+        // }
 
         function populateTableDataInit() {
             destroyTables();
@@ -332,8 +334,6 @@
                 });
 
             };
-            // const yeilds = $("#one-star, #two-star, #three-star, #four-star").editable('getValue');
-            const yeilds = { "one-star": "10", "two-star": "12", "three-star": "16", "four-star": "18" };
             areaWorker.postMessage({
                 'systemdetails': JSON.stringify(systemdetail),
                 'systems': JSON.stringify(systems),
@@ -341,7 +341,6 @@
                 'startyear': JSON.stringify(startyear),
                 'bounds': bounds['bounds'],
                 'years': numYears,
-                'yeilds': JSON.stringify(yeilds),
                 'saved_diagram_details': JSON.stringify(saved_diagram_details)
             });
             areaWorker.addEventListener('message', function (e) {
@@ -350,13 +349,13 @@
                 } else {
 
                     standardizationVar = parseInt(e.data.maxYearlyCost);
-                    grid = JSON.parse(e.data.grid);
-                    sysGrids = JSON.parse(e.data.sysGrids);
+                    // grid = JSON.parse(e.data.grid);
+                    // sysGrids = JSON.parse(e.data.sysGrids);
 
-                    var gridsize = e.data.gridsize;
-                    var gridsize = parseFloat(gridsize * gridsize * 100).toFixed(2);
-                    $("#gridsizecont").html("Note: Grid cell size is " + gridsize + " hectares.");
-                    diagGrids = JSON.parse(e.data.diagGrids);
+                    // var gridsize = e.data.gridsize;
+                    // var gridsize = parseFloat(gridsize * gridsize * 100).toFixed(2);
+                    // $("#gridsizecont").html("Note: Grid cell size is " + gridsize + " hectares.");
+                    // diagGrids = JSON.parse(e.data.diagGrids);
 
                     investmentdata = JSON.parse(e.data.output);
 
@@ -371,76 +370,6 @@
                         updateBoundaries();
                     }
                     initializeTables();
-                }
-            }, false);
-
-        }
-        (function (console) {
-            console.save = function (data, filename) {
-                if (!data) {
-                    console.error('Console.save: No data')
-                    return;
-                }
-                if (!filename) filename = 'investmentdata.csv'
-                if (typeof data === "object") {
-                    data = JSON.stringify(data, undefined, 4)
-                }
-                var blob = new Blob([data], {
-                        type: 'text/json'
-                    }),
-                    e = document.createEvent('MouseEvents'),
-                    a = document.createElement('a')
-                a.download = filename
-                a.href = window.URL.createObjectURL(blob)
-                a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
-                e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0,
-                    null)
-                a.dispatchEvent(e)
-            }
-        })(console)
-
-
-        function updateMaps() {
-
-            var selectedsystems = [];
-            $('#systemsCB input:checked').each(function () {
-                selectedsystems.push($(this).attr('id'));
-            });
-            $("#loadingGIF").show();
-            $("#procstatus").html("Processing..");
-
-            var mapWorker = new Worker('/assets/workers/computeMap.js');
-            mapWorker.onerror = function (e) {
-                console.log('Error: Line ' + e.lineno + ' in ' + e.filename + ': ' + e.message);
-                $("#loadingGIF").hide();
-                humane.log("There was a error in creating maps, please try again.. ", {
-                    addnCls: 'humane-flatty-log'
-                });
-
-            };
-
-            mapWorker.postMessage({
-                'grid': JSON.stringify(grid),
-                'sysGrid': JSON.stringify(sysGrids),
-                'diagGrid': JSON.stringify(diagGrids),
-                'allDiagrams': JSON.stringify(systems),
-                'investmentdata': JSON.stringify(investmentdata),
-                'selectedsystems': JSON.stringify(selectedsystems)
-            });
-            mapWorker.addEventListener('message', function (e) {
-                if (e.data.mode === 'status') {
-                    updateWorkerStatus(e.data.percentcomplete);
-                } else {
-                    // console.log(e.data.incomeGrid);
-                    var incg = JSON.parse(e.data.incomeGrid);
-                    var invg = JSON.parse(e.data.investmentGrid);
-                    var maintg = JSON.parse(e.data.maintainenceGrid);
-                    // plotIncomeMap(incg, 'all', standardizationVar);
-                    // plotInvestmentMap(invg, 'all', standardizationVar);
-                    // plotMaintainenceMap(maintg, 'all', standardizationVar);
-
-                    $("#loadingGIF").hide();
-                    // paint on map.
                 }
             }, false);
 
@@ -480,7 +409,7 @@
                     // console.log(e.data.boundaryValue);
 
                     // renderBoundaryInvestment(JSON.parse(e.data.boundaryValue), 'all');
-                    renderBoundaryInvestmentMap(JSON.parse(e.data.newboundaries), 'all', parseInt(e.data.stdVar));
+                    renderBoundaryInvestmentMap(JSON.parse(e.data.newboundaries), parseInt(e.data.stdVar));
                     renderBoundaryInvestmentChart(JSON.parse(e.data.boundaryValue));
                     boundaryStdVar = parseInt(e.data.stdVar);
                     boundaryGeomDetails = JSON.parse(e.data.newboundaries);
@@ -491,6 +420,7 @@
             }, false);
 
         }
+
         function highlightFeature(e) {
             var layer = e.target;
 
@@ -505,12 +435,14 @@
                 layer.bringToFront();
             }
 
-        info.update(layer.feature.properties);
-        console.log(layer.feature.properties)
+            info.update(layer.feature.properties);
+            // console.log(layer.feature.properties)
         }
+
         function resetHighlight(e) {
             boundaryChoropleth.resetStyle(e.target);
         }
+
         function onEachFeature(feature, layer) {
             layer.on({
                 mouseover: highlightFeature,
@@ -518,9 +450,11 @@
                 click: zoomToFeature
             });
         }
+
         function zoomToFeature(e) {
             boundarymap.fitBounds(e.target.getBounds());
         }
+
         function onEachFeature(feature, layer) {
             layer.on({
                 mouseover: highlightFeature,
@@ -529,51 +463,27 @@
             });
         }
 
-        function renderBoundaryInvestmentMap(newboundaries, yearlyOrTotal, stdVar) {
+        function renderBoundaryInvestmentMap(newboundaries, stdVar) {
             boundaryLayer.clearLayers();
 
+            boundaryChoropleth = L.choropleth(newboundaries, {
+                valueProperty: function (feature) {
+                    var m = feature.properties.totalInvestment;
+                    // m = (m / stdVar) * 100;
+                    return m;
+                },
 
-            if (yearlyOrTotal === 'all') {
-                boundaryChoropleth = L.choropleth(newboundaries, {
-                    valueProperty: function (feature) {
-                        var m = feature.properties.totalInvestment;
-                        // m = (m / stdVar) * 100;
-                        return m;
-                    },
+                scale: ['#dadaeb', '#bcbddc', '#9e9ac8', '#756bb1', '#54278f'], //purples
+                steps: 5,
+                mode: 'q',
+                style: {
+                    color: '#fff',
+                    weight: 2,
+                    fillOpacity: 0.8
+                },
+                onEachFeature: onEachFeature
+            }).addTo(boundaryLayer);
 
-                    scale: ['#dadaeb', '#bcbddc', '#9e9ac8', '#756bb1', '#54278f'], //purples
-                    steps: 5,
-                    mode: 'q',
-                    style: {
-                        color: '#fff',
-                        weight: 2,
-                        fillOpacity: 0.8
-                    },
-                    onEachFeature: onEachFeature
-                }).addTo(boundaryLayer);
-
-            } else {
-                boundaryChoropleth = L.choropleth(newboundaries, {
-                    valueProperty: function (feature) {
-                        var i = (feature.properties.investment[parseInt(yearlyOrTotal)]) ? feature.properties
-                            .investment[parseInt(yearlyOrTotal)] : 0;
-                        i = (i / stdVar) * 100;
-                        // console.log("investment: " + i);
-                        return i;
-                    },
-
-                    scale: ['#dadaeb', '#bcbddc', '#9e9ac8', '#756bb1', '#54278f'], //purples
-                    steps: 5,
-                    mode: 'q',
-                    style: {
-                        color: '#fff',
-                        weight: 2,
-                        fillOpacity: 0.8
-                    },
-                    onEachFeature: onEachFeature
-                }).addTo(boundaryLayer);
-
-            }
             boundarymap.fitBounds(boundaryLayer.getBounds());
         }
 
@@ -590,25 +500,25 @@
             var b_investment_dataset = [];
             var labels = [];
             for (var g1 = 0; g1 < numYears; g1++) {
-                    var cYear = (startyear + g1);
-                    labels.push(cYear);
-                    
+                var cYear = (startyear + g1);
+                labels.push(cYear);
 
-                }
+
+            }
             for (var x = 0; x < bdata.length; x++) {
                 var curBoundaryValue = bdata[x];
 
-                var cur_b_investment = {}; 
+                var cur_b_investment = {};
                 cur_b_investment['label'] = curBoundaryValue.bname;
-                cur_b_investment['data'] =[];
-                
+                cur_b_investment['data'] = [];
+
                 for (var g1 = 0; g1 < numYears; g1++) {
                     var cYear = (startyear + g1);
                     cur_b_investment['data'].push(parseInt(curBoundaryValue['investment'][cYear]));
-                    
+
 
                 }
-                
+
                 b_investment_dataset.push(cur_b_investment);
 
             }
@@ -644,11 +554,14 @@
                     }]
                 }
             }
-            
+
             var ctx = $("#boundaryChart");
             var myLineChart = new Chart(ctx, {
                 type: 'line',
-                data: {'labels':labels, 'datasets':b_investment_dataset},
+                data: {
+                    'labels': labels,
+                    'datasets': b_investment_dataset
+                },
                 options: options
             });
 
@@ -678,9 +591,9 @@
 
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
-            this._div.innerHTML = '<h4>Total Investment</h4>' +  (props ?
-                '<b>' + props.bname + '</b><br />' + abbrNum(props.totalInvestment,2) + ' EUR'
-                : 'Hover over a boundary');
+            this._div.innerHTML = '<h4>Total Investment</h4>' + (props ?
+                '<b>' + props.bname + '</b><br />' + abbrNum(props.totalInvestment, 2) + ' EUR' :
+                'Hover over a boundary');
         };
 
         info.addTo(boundarymap);
@@ -735,7 +648,7 @@
                 var curInvestmentdata = investmentdata[g];
                 var diagID = curInvestmentdata['id'];
                 var totalInvestment = curInvestmentdata['totalInvestment'];
-                
+
                 const url = '<a href="https://assetanalysis.herokuapp.com/?apitoken=' + apitoken + '&projectid=' +
                     projectid + '&diagramid=' + diagID +
                     '" target="_blank">Details <i class="glyphicon glyphicon-share"></i></a>';
@@ -798,7 +711,7 @@
                 // TODO: click on the yearly switch
                 // $("#loadingGIF").show();
                 // TODO: update maps for system. 
-                updateMaps();
+                // updateMaps();
 
 
                 destroyTables();
@@ -806,35 +719,7 @@
                 if (boundaries.features.length > 0) {
                     updateBoundaries();
                 }
-                // hide rest from map, 
-                // $('#investments > tbody > tr').each(function () {
-                //     var cls = $(this).attr('class');
-                //     var classWhitelist = ['blank'];
-                //     if (jQuery.inArray(cls, classWhitelist) == -1) { // it is not in whitelist
-                //         if (jQuery.inArray(cls, selectedsystems) == -1) { // this class is not in whilte list
-                //             // hide it.
-                //             $(this).hide();
-                //         } else {
-                //             // show it.
-                //             $(this).show();
-                //         }
-                //     }
-                // });
-                // hide rest from map, 
-                // $('#income > tbody > tr').each(function () {
-                //     var cls = $(this).attr('class');
-                //     var classWhitelist = ['blank'];
-                //     if (jQuery.inArray(cls, classWhitelist) == -1) { // it is not in whitelist
-                //         if (jQuery.inArray(cls, selectedsystems) == -1) { // this class is not in whilte list
-                //             // hide it.
-                //             $(this).hide();
-                //         } else {
-                //             // show it.
-                //             $(this).show();
-                //         }
-                //     }
-                // });
-                // hide rest from map, 
+
                 $('#npv > tbody > tr').each(function () {
                     var cls = $(this).attr('class');
                     var classWhitelist = ['blank'];
@@ -848,20 +733,7 @@
                         }
                     }
                 });
-                // hide rest from map, 
-                // $('#maintainence > tbody > tr').each(function () {
-                //     var cls = $(this).attr('class');
-                //     var classWhitelist = ['blank'];
-                //     if (jQuery.inArray(cls, classWhitelist) == -1) { // it is not in whitelist
-                //         if (jQuery.inArray(cls, selectedsystems) == -1) { // this class is not in whilte list
-                //             // hide it.
-                //             $(this).hide();
-                //         } else {
-                //             // show it.
-                //             $(this).show();
-                //         }
-                //     }
-                // });
+
                 initializeTables();
                 // hide
             });
@@ -876,7 +748,7 @@
             });
 
         }
-      
+
         function initializeTables() {
             var tableGenerator = function (domid) {
                 var groupColumn = 5;
