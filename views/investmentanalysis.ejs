@@ -284,7 +284,7 @@
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
                         var npvHTML =
-                            "<tr><th class='header initCol'>Diagram</th><th>Asset Class</th><th>Population (residents, visitors etc.)</th><th class='aaheader'>Analysis</th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
+                            "<tr><th class='header initCol'>Diagram</th><th>Asset Class</th><th>Image</th><th>Population (residents, visitors etc.)</th><th class='aaheader'>Analysis</th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
 
                         npvHTML += "</tr>";
 
@@ -303,7 +303,8 @@
                             var projectorpolicy = curdiag.features[0].properties.areatype;
                             var diagrowHTMLnpv = "<tr class=" + "'" + cursys.id + "'" + "><td class='initCol'>" +
                                 curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" +
-                                "'assetdetails-" + curdiagid + "'" + "></td>" + "<td class=" +
+                                "'assetdetails-" + curdiagid + "'" + "></td>" +"<td class=" +
+                                "'assetimage assetimage-" + curdiagid + "'" + "></td>" + "<td class=" +
                                 "'population-" + curdiagid + "'" + "></td>" + "<td class=" +
                                 "'aa-" + curdiagid + "'" + "></td>" + "<td class=" + "funding-" +
                                 curdiagid + "'" +
@@ -651,14 +652,17 @@
                     const diag_id = parseInt(cur_ele['key'].split('-')[1]);
                     if (diag_id == diagID) {
                         const asset_details = cur_ele['asset_details'];
-
+                        
                         if (Object.keys(asset_details).length === 0 && asset_details.constructor === Object) {
                             $(".assetdetails-" + diagID).html('Not set');
+                            $(".assetimage-" + diagID).html('Not set');
                             $('.population-' + diagID).html('-');
                         } else {
                             const ad = asset_details['class'];
                             $(".assetdetails-" + diagID).html(ad);
-
+                            if(asset_details['metadata']['representative_image'].length > 0){
+                                $(".assetimage-" + diagID).html("<img src='assets/img/asset-images/"+asset_details['metadata']['representative_image']+"'/>");
+                            }
                             if (ad === 'hospitality') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
                                     'total_yearly_visitors'
@@ -667,6 +671,7 @@
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
                                     'number_of_people_residential'
                                 ], 2));
+                                $(".assetimage-"+diagID).append("<br><small>Density:"+asset_details['metadata']['current_pop_density']+" people / km<sup>2</sup></small>")
                             } else if (ad == 'retail') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
                                     'total_daily_visitors_retail'
@@ -736,7 +741,7 @@
 
         function initializeTables() {
             var tableGenerator = function (domid) {
-                var groupColumn = 5;
+                var groupColumn = 6;
                 var t = $('#' + domid).DataTable({
                     "columnDefs": [{
                         "visible": false,
@@ -806,144 +811,164 @@
     // {name: 'work_to_rest', range: [0,2]}
     // ];
     var data = [];
+    var max_residents = 0;
+    var max_visitors =0;
+    var max_direct_employment = 0;
+    var max_indirect_employment = 0;
     for (const bnd_id in boundary_details) {
         if (boundary_details.hasOwnProperty(bnd_id)) {
+
             const cur_boundary = boundary_details[bnd_id];
+            console.log(cur_boundary.total_population)
+            max_residents = (cur_boundary.total_population > max_residents) ? cur_boundary.total_population : max_residents;
+            console.log(max_residents)
+            max_visitors = (cur_boundary.total_visitors > max_visitors) ? cur_boundary.total_visitors : max_visitors;
+            max_direct_employment = (cur_boundary.total_direct_employment > max_direct_employment) ? cur_boundary.total_direct_employment : max_direct_employment;
+            max_indirect_employment = (cur_boundary.total_indirect_employment > max_indirect_employment) ? cur_boundary.total_indirect_employment : max_indirect_employment;
+
+
             var cur_bnd_data = {'player':cur_boundary.bname, 'residents':cur_boundary.total_population, 'visitors':cur_boundary.total_visitors, 'direct_employment':cur_boundary.total_direct_employment, 'indirect_employment':cur_boundary.total_indirect_employment};
+
             data.push(cur_bnd_data);
         }
     }
 
-    const features  = [{name:'residents', range:[1, 20000]},{name:'visitors', range:[1, 20000]}, {name:'direct_employment', range:[1, 20000]}, {name:'indirect_employment', range:[1, 20000]}];
-    console.log(data)
-/*
- * Parameters
- *****************************/
-const width = 920, height = 400, padding = 28, brush_width = 20;
-const filters = {};
+    max_residents = (max_residents * 0.1)+ max_residents;
+    max_visitors = (max_visitors * 0.1)+ max_visitors;
+    max_direct_employment = (max_direct_employment * 0.1)+ max_direct_employment;
+    max_indirect_employment = (max_indirect_employment * 0.1)+ max_indirect_employment;
 
-/*
- * Helper functions
- *****************************/
-// Horizontal scale
-const xScale = d3.scalePoint()
-  .domain(features.map(x=>x.name))
-  .range([padding, width-padding]);
+    const features  = [{name:'residents', range:[0, max_residents]},{name:'visitors', range:[0, max_visitors]}, {name:'direct_employment', range:[0, max_direct_employment]}, {name:'indirect_employment', range:[0, max_indirect_employment]}];
+    // console.log(data)
+    console.log(max_residents)
+        /*
+         * Parameters
+         *****************************/
+        const width = 920, height = 400, padding = 28, brush_width = 20;
+        const filters = {};
 
-// Each vertical scale
-const yScales = {};
-features.map(x=>{
-  yScales[x.name] = d3.scaleLinear()
-    .domain(x.range)
-    .range([height-padding, padding]);
-});
-yScales.team = d3.scaleOrdinal()
-    .domain(features[0].range)
-    .range([height-padding, padding]);
+        /*
+         * Helper functions
+         *****************************/
+        // Horizontal scale
+        const xScale = d3.scalePoint()
+          .domain(features.map(x=>x.name))
+          .range([padding, width-padding]);
 
-// Each axis generator
-const yAxis = {};
-d3.entries(yScales).map(x=>{
-  yAxis[x.key] = d3.axisLeft(x.value);
-});
+        // Each vertical scale
+        const yScales = {};
+        features.map(x=>{
+          yScales[x.name] = d3.scaleLinear()
+            .domain(x.range)
+            .range([height-padding, padding]);
+        });
+        yScales.team = d3.scaleOrdinal()
+            .domain(features[0].range)
+            .range([height-padding, padding]);
 
-// Each brush generator
-const brushEventHandler = function(feature){
-  if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") 
-    return; // ignore brush-by-zoom
-  if(d3.event.selection != null){
-    filters[feature] = d3.event.selection.map(d=>yScales[feature].invert(d));
-  }else{
-    if(feature in filters)
-      delete(filters[feature]);
-  }
-  applyFilters();
-}
+        // Each axis generator
+        const yAxis = {};
+        d3.entries(yScales).map(x=>{
+          yAxis[x.key] = d3.axisLeft(x.value);
+        });
 
-const applyFilters = function(){
-  d3.select('g.active').selectAll('path')
-    .style('display', d=>(selected(d)?null:'none'));
-}
-           
- const selected = function(d){
-   const _filters = d3.entries(filters);
-   return _filters.every(f=>{
-      return f.value[1] <= d[f.key] && d[f.key] <= f.value[0];
-   });
- }
-
-const yBrushes = {};
-d3.entries(yScales).map(x=>{
-  let extent = [
-    [-(brush_width/2), padding],
-    [brush_width/2, height-padding]
-  ];
-  yBrushes[x.key]= d3.brushY()
-    .extent(extent)
-    .on('brush', ()=>brushEventHandler(x.key))
-    .on('end', ()=>brushEventHandler(x.key));
-});
-
-// Paths for data
-const lineGenerator = d3.line();
-
-const linePath = function(d){
-  const _data = d3.entries(d).filter(x=>x.key!='player');
-  let points = _data.map(x=>([xScale(x.key),yScales[x.key](x.value)]));
-  return(lineGenerator(points));
-}
-
-/*
- * Parallel Coordinates
- *****************************/
-// Main svg container
-const pcSvg = d3.select('div.parcoords')
-  .append('svg')
-  .attr('width', width)
-  .attr('height', height);
-
-// Inactive data
-pcSvg.append('g').attr('class','inactive').selectAll('path')
-  .data(data)
-  .enter()
-    .append('path')
-    .attr('d', d=>linePath(d));
-
-// Inactive data
-pcSvg.append('g').attr('class','active').selectAll('path')
-  .data(data)
-  .enter()
-    .append('path')
-    .attr('d', d=>linePath(d));
-
-// Vertical axis for the features
-const featureAxisG = pcSvg.selectAll('g.feature')
-  .data(features)
-  .enter()
-    .append('g')
-      .attr('class','feature')
-      .attr('transform',d=>('translate('+xScale(d.name)+',0)'));
-
-featureAxisG
-      .append('g')
-      .each(function(d){
-        d3.select(this).call(yAxis[d.name]);
-      });
-
-featureAxisG
-  .each(function(d){
-    d3.select(this)
-      .append('g')
-      .attr('class','brush')
-      .call(yBrushes[d.name]);
-  });
-
-featureAxisG
-  .append("text")
-  .attr("text-anchor", "middle")
-  .attr('y', padding/2)
-  .text(d=>d.name);
+        // Each brush generator
+        const brushEventHandler = function(feature){
+          if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") 
+            return; // ignore brush-by-zoom
+          if(d3.event.selection != null){
+            filters[feature] = d3.event.selection.map(d=>yScales[feature].invert(d));
+          }else{
+            if(feature in filters)
+              delete(filters[feature]);
+          }
+          applyFilters();
         }
+
+        const applyFilters = function(){
+          d3.select('g.active').selectAll('path')
+            .style('display', d=>(selected(d)?null:'none'));
+        }
+                   
+         const selected = function(d){
+           const _filters = d3.entries(filters);
+           return _filters.every(f=>{
+              return f.value[1] <= d[f.key] && d[f.key] <= f.value[0];
+           });
+         }
+
+        const yBrushes = {};
+        d3.entries(yScales).map(x=>{
+          let extent = [
+            [-(brush_width/2), padding],
+            [brush_width/2, height-padding]
+          ];
+          yBrushes[x.key]= d3.brushY()
+            .extent(extent)
+            .on('brush', ()=>brushEventHandler(x.key))
+            .on('end', ()=>brushEventHandler(x.key));
+        });
+
+        // Paths for data
+        const lineGenerator = d3.line();
+
+        const linePath = function(d){
+          const _data = d3.entries(d).filter(x=>x.key!='player');
+          let points = _data.map(x=>([xScale(x.key),yScales[x.key](x.value)]));
+          return(lineGenerator(points));
+        }
+
+        /*
+         * Parallel Coordinates
+         *****************************/
+        // Main svg container
+        const pcSvg = d3.select('div.parcoords')
+          .append('svg')
+          .attr('width', width)
+          .attr('height', height);
+
+        // Inactive data
+        pcSvg.append('g').attr('class','inactive').selectAll('path')
+          .data(data)
+          .enter()
+            .append('path')
+            .attr('d', d=>linePath(d));
+
+        // Inactive data
+        pcSvg.append('g').attr('class','active').selectAll('path')
+          .data(data)
+          .enter()
+            .append('path')
+            .attr('d', d=>linePath(d));
+
+        // Vertical axis for the features
+        const featureAxisG = pcSvg.selectAll('g.feature')
+          .data(features)
+          .enter()
+            .append('g')
+              .attr('class','feature')
+              .attr('transform',d=>('translate('+xScale(d.name)+',0)'));
+
+        featureAxisG
+              .append('g')
+              .each(function(d){
+                d3.select(this).call(yAxis[d.name]);
+              });
+
+        featureAxisG
+          .each(function(d){
+            d3.select(this)
+              .append('g')
+              .attr('class','brush')
+              .call(yBrushes[d.name]);
+          });
+
+        featureAxisG
+          .append("text")
+          .attr("text-anchor", "middle")
+          .attr('y', padding/2)
+          .text(d=>d.name);
+                }
 
     </script>
 </body>

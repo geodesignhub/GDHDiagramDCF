@@ -1427,7 +1427,7 @@
                 const m2_per_guest = $("#tourism_m2_per_guest").editable('getValue', true);
                 const people_per_room = $("#tourism_people_per_room").editable('getValue', true);
 
-                const rooms = (area / (people_per_room * m2_per_guest * land_area)) / floors;
+                const rooms = (area / (people_per_room * m2_per_guest * land_area)) * floors;
                 $("#tourism_total_rooms").html(parseInt(rooms));
                 return rooms;
             }
