@@ -68,7 +68,8 @@ h4 {
 }
 
 #selected_typology_image img{
-    height: 250px;
+    max-height: 250px;
+    max-width: 250px;
 }
 /**
  * Bootstrap requires a containing element to wrap site contents 
@@ -1123,6 +1124,19 @@ ul.input-list li {
 .header {
     text-align: right;
 } */
+div.paracoords{
+    margin: 2em;
+  }
+  
+  g.inactive path, g.active path{
+    fill: none;
+    stroke: lightgrey;
+    stroke-linecap:"round"
+  }
+  g.active path{
+    stroke:#0081af;
+  }
+  
 
 .sysheader {
     font-size: 15px;
