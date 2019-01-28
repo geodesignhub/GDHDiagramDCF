@@ -110,12 +110,12 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
         var fire_personnel =0;
         var schools = 0;
         var electricity_demand = 0;
-        var water = 0;
+        var water_demand = 0;
         var sewage_demand = 0;
         var road_usage = 0;
         var rail_usage = 0;
 
-
+        bndIDDiags[bndID]['services'] = {};
         bndIDDiags[bndID]['investment'] = {};
         for (var k6 = 0; k6 < number_of_years; k6++) {
             var sYear = (startyear + k6);
@@ -173,17 +173,21 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                                 var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_office'];  
                                 var factored_indirect_employment = indirect_employment * factor;                                
                                 total_indirect_employment += parseInt(factored_indirect_employment); 
-                            }
-
-                            const t_hosp_beds = cur_diagram_asset_details['services']['hospital_beds'] * factor;
-                            const t_police_stations = cur_diagram_asset_details['services']['total_police_stations']* factor;
-                            const t_firestations = cur_diagram_asset_details['services']['total_firestations']* factor;
-                            const t_schools = cur_diagram_asset_details['services']['total_schools']* factor;
-                            const t_energy_demand = cur_diagram_asset_details['services']['total_energy_demand']* factor;
-                            const t_water_demand = cur_diagram_asset_details['services']['total_water_demand']* factor;
-                            const t_sewage_demand = cur_diagram_asset_details['services']['total_sewage_demand']* factor;
-                            const t_total_road = cur_diagram_asset_details['services']['total_road_usage']* factor;
-                            const t_total_rail = cur_diagram_asset_details['services']['total_rail_usage']* factor;
+                            
+                        }
+                       
+                            var diagram_services = cur_diagram_asset_details['metadata']['services'];
+                            
+                            if (typeof diagram_services === 'undefined') {} else {                                
+                            const t_hosp_beds = diagram_services['hospital_beds'] * factor;
+                            const t_police_stations = diagram_services['total_police_stations']* factor;
+                            const t_firestations = diagram_services['total_firestations']* factor;
+                            const t_schools = diagram_services['total_schools']* factor;
+                            const t_energy_demand = diagram_services['total_energy_demand']* factor;
+                            const t_water_demand = diagram_services['total_water_demand']* factor;
+                            const t_sewage_demand = diagram_services['total_sewage_demand']* factor;
+                            const t_total_road = diagram_services['total_road_usage']* factor;
+                            const t_total_rail = diagram_services['total_rail_usage']* factor;
 
                             hospital_beds += t_hosp_beds;
                             police_stations += t_police_stations;
@@ -194,7 +198,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                             sewage_demand += t_sewage_demand;
                             road_usage += t_total_road;
                             rail_usage += t_total_rail;
-
+                        }
 
                         }
                     }
@@ -225,7 +229,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
         bndIDDiags[bndID]['services']['schools'] = schools;
 
         bndIDDiags[bndID]['services']['electricity_demand'] = electricity_demand;
-        bndIDDiags[bndID]['services']['water'] = water;
+        bndIDDiags[bndID]['services']['water_demand'] = water_demand;
         bndIDDiags[bndID]['services']['sewage_demand'] = sewage_demand;
         bndIDDiags[bndID]['services']['road_usage'] = road_usage;
         bndIDDiags[bndID]['services']['rail_usage'] = rail_usage;
