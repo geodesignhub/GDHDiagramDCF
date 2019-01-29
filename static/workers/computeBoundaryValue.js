@@ -238,16 +238,16 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
         bndIDDiags[bndID]['total_indirect_employment'] = total_indirect_employment;
         bndIDDiags[bndID]['total_visitors'] = total_visitors;
 
-        bndIDDiags[bndID]['services']['hospital_beds'] = hospital_beds;
-        bndIDDiags[bndID]['services']['police_stations'] = police_stations;
-        bndIDDiags[bndID]['services']['fire_personnel'] = fire_personnel;
-        bndIDDiags[bndID]['services']['schools'] = schools;
+        bndIDDiags[bndID]['services']['hospital_beds'] = parseInt(hospital_beds);
+        bndIDDiags[bndID]['services']['police_stations'] = parseInt(police_stations);
+        bndIDDiags[bndID]['services']['fire_personnel'] = parseInt(fire_personnel);
+        bndIDDiags[bndID]['services']['schools'] = parseInt(schools);
 
-        bndIDDiags[bndID]['services']['electricity_demand'] = electricity_demand;
-        bndIDDiags[bndID]['services']['water_demand'] = water_demand;
-        bndIDDiags[bndID]['services']['sewage_demand'] = sewage_demand;
-        bndIDDiags[bndID]['services']['road_usage'] = road_usage;
-        bndIDDiags[bndID]['services']['rail_usage'] = rail_usage;
+        bndIDDiags[bndID]['services']['electricity_demand'] = parseInt(electricity_demand);
+        bndIDDiags[bndID]['services']['water_demand'] = parseInt(water_demand);
+        bndIDDiags[bndID]['services']['sewage_demand'] = parseInt(sewage_demand);
+        bndIDDiags[bndID]['services']['road_usage'] = parseInt(road_usage);
+        bndIDDiags[bndID]['services']['rail_usage'] = parseInt(rail_usage);
         
 
         cbndfeat.properties.totalInvestment = totalInvestment;

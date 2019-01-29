@@ -28,10 +28,25 @@ h4 {
 #outputmap {
     height: 290px;
 }
+
 #boundaryChart {
     height: 250px;
 }
-.info { padding: 6px 8px; font: 14px/16px Open Sans, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Open Sans, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
 .map {
     height: 400px;
 
@@ -45,6 +60,7 @@ h4 {
     cursor: pointer;
     border: 1px solid transparent;
 }
+
 .ionslider {
     width: 300px;
     float: right;
@@ -52,7 +68,7 @@ h4 {
 
 .ionslider-left {
     width: 300px;
-   
+
 }
 
 .gray {
@@ -67,10 +83,11 @@ h4 {
     border: 1px solid transparent;
 }
 
-#selected_typology_image img{
+#selected_typology_image img {
     max-height: 250px;
     max-width: 250px;
 }
+
 /**
  * Bootstrap requires a containing element to wrap site contents 
  * and house the grid system. You may choose one of two containers.
@@ -161,6 +178,7 @@ ul.input-list li {
     ul.input-list {
         margin: 0;
     }
+
     ul.input-list li {
         padding: 0;
         width: 100%;
@@ -1032,6 +1050,7 @@ ul.input-list li {
 .c-cd329b-policy {
     background-image: linear-gradient(45deg, transparent 45%, #cd329b 50%, transparent 55%, transparent 100%), linear-gradient(-45deg, transparent 45%, #cd329b 50%, transparent 55%, transparent 100%);
 }
+
 ul.input-list {
     list-style: none;
     margin: 0 -10px;
@@ -1054,6 +1073,7 @@ ul.input-list li {
     ul.input-list {
         margin: 0;
     }
+
     ul.input-list li {
         padding: 0;
         width: 100%;
@@ -1120,23 +1140,26 @@ ul.input-list li {
 .hor-minimalist-b td.initCol {
     text-align: left;
 }
+
 /* 
 .header {
     text-align: right;
 } */
-div.paracoords{
+div.paracoords {
     margin: 2em;
-  }
-  
-  g.inactive path, g.active path{
+}
+
+g.inactive path,
+g.active path {
     fill: none;
     stroke: lightgrey;
-    stroke-linecap:"round"
-  }
-  g.active path{
-    stroke:#0081af;
-  }
-  
+    stroke-linecap: "round"
+}
+
+g.active path {
+    stroke: #0081af;
+}
+
 
 .sysheader {
     font-size: 15px;
@@ -1146,12 +1169,92 @@ tr.group td {
     text-align: left;
     font-size: 14px;
 }
+
 table.dataTable tbody td {
     padding: 4px 4px;
 }
 
-.assetimage img{
+.assetimage img {
     max-height: 100px;
 }
 
-  
+
+
+/* data table styles */
+.paracoords_grid {
+    height: 240px;
+    text-align: center;
+}
+
+.divgrid_row, .divgrid_header { clear: left; font-size: 11px; line-height: 24px; height: 24px; }
+.divgrid_row:nth-child(odd) { background: rgba(0,0,0,0.05); }
+.divgrid_header { font-weight: bold; }
+.divgrid_cell { float: left; overflow: hidden; white-space: nowrap; width: 140px; height: 18px; }
+.divgrid_col-0 { width: 140px; }
+
+
+
+#paracoords_primary,
+#paracoords_secondary {
+    min-height: 300px;
+    /* margin: 12px 0; */
+}
+
+/* parcoords styles */
+.parcoords>svg,
+.parcoords>canvas {
+    font: 11px "Open Sans", Consolas, monaco, monospace;
+    position: absolute;
+}
+
+.parcoords>canvas {
+    pointer-events: none;
+}
+
+.parcoords text.label {
+    cursor: default;
+}
+
+.parcoords rect.background {
+    fill: transparent;
+}
+
+.parcoords rect.background:hover {
+    fill: rgba(120, 120, 120, 0.2);
+}
+
+.parcoords .resize rect {
+    fill: rgba(0, 0, 0, 0.1);
+}
+
+.parcoords rect.extent {
+    fill: rgba(255, 255, 255, 0.25);
+    stroke: rgba(0, 0, 0, 0.6);
+}
+
+.parcoords .axis line,
+.parcoords .axis path {
+    fill: none;
+    stroke: #454545;
+    shape-rendering: crispEdges;
+}
+
+.parcoords canvas {
+    opacity: 1;
+    -moz-transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+}
+
+.parcoords canvas.faded {
+    opacity: 0.25;
+}
+
+.parcoords {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

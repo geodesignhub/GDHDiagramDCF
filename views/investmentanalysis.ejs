@@ -17,7 +17,8 @@
     <link rel="stylesheet" type="text/css" href="assets/css/leaflet.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap4.min.css" />
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">    
+    <link rel="stylesheet" type="text/css" href="assets/css/d3.parcoords.css" />
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <!-- Conditional comment containing JS files for IE6 - 8 -->
@@ -84,7 +85,7 @@
         </div>
         <br>
         <div class="row">
-            <div class="col-md=12">
+            <div class="col-md-12">
                 <h4>Systems</h4>
                 <div id="systemsCBCont" style="display:none">
                     <div id="systemsCB"></div>
@@ -117,9 +118,19 @@
         <br><br>
         <div class="row">
             <div class="col-md-12">
-                <h4>Boundaries Population and Jobs</h4>
+                <h4>Population and Jobs</h4>
                 <br>
-                <div id="boundary_population_paracoords" class="parcoords"></div>               
+                <div id="paracoords_primary" class="parcoords"></div>
+                <div id="parcoords_primary_grid" class="paracoords_grid"></div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Services</h4>
+                <br>
+                <div id="paracoords_secondary" class="parcoords"></div>
+                <div id="parcoords_secondary_grid" class="paracoords_grid"></div>
             </div>
         </div>
         <br><br>
@@ -128,7 +139,7 @@
         <!-- Footer -->
         <footer>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-md-12">
                     <p>&copy; 2019 Geodesignhub, see the <a href="https://geodesignhub.github.io/AssetAnalysis/">Github
                             repository</a> for more information.</p>
                 </div>
@@ -148,11 +159,13 @@
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap-editable.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="assets/js/colors.js"></script>
+    <!-- <script type="text/javascript" src="assets/js/colors.js"></script> -->
     <script type="text/javascript" src="assets/js/leaflet.js"></script>
     <script type="text/javascript" src="assets/js/choropleth.js"></script>
     <script type="text/javascript" src="assets/js/moment.min.js"></script>
     <script type="text/javascript" src="assets/js/d3.min.js"></script>
+    <script type="text/javascript" src="assets/js/d3.parcoords.js"></script>
+    <script type="text/javascript" src="assets/js/divgrid.js"></script>
 
     <script type="text/javascript">
         var incomeGrid;
@@ -422,6 +435,8 @@
                     boundaryStdVar = parseInt(e.data.stdVar);
                     boundaryGeomDetails = JSON.parse(e.data.newboundaries);
                     boundaryValueDetails = JSON.parse(e.data.boundaryValue);
+                    generate_paracoords_primary_chart(e.data.boundaryValue);
+                    generate_paracoords_secondary_chart(e.data.boundaryValue);
                     $("#loadingGIF").hide();
                 }
             }, false);
@@ -787,189 +802,126 @@
             }
         }
 
-        function generate_paracoords_charts() {
+        function generate_paracoords_primary_chart() {
             const boundary_details = boundaryValueDetails;
-    // const data = [
-    // {player: 1, team: 1, distance: 12, time_standing: 2, time_jogging: 2, time_sprinting: 1, fast_distance: 10, sprint_distance: 2, work_to_rest: 1},
-    // {player: 3, team: 2, distance: 13, time_standing: 3, time_jogging:3 , time_sprinting: 1, fast_distance: 7, sprint_distance: 5, work_to_rest: 1},
-    // {player: 12, team: 1, distance: 21, time_standing: 2, time_jogging: 4, time_sprinting: 5, fast_distance: 18, sprint_distance: 3, work_to_rest: 2},
-    // {player: 34, team: 1, distance: 4, time_standing: 3, time_jogging: 1, time_sprinting: 0, fast_distance: 2, sprint_distance: 0, work_to_rest: 1},
-    // {player: 1, team: 1, distance: 9, time_standing: 2, time_jogging: 2.3, time_sprinting: 2.2, fast_distance: 1, sprint_distance: 2, work_to_rest: 1},
-    // {player: 3, team: 2, distance: 3, time_standing: 1, time_jogging: 0.3 , time_sprinting: 2, fast_distance: 17, sprint_distance: 3, work_to_rest: 1},
-    // {player: 12, team: 1, distance: 7, time_standing: 0.5, time_jogging: 2.5, time_sprinting: 4, fast_distance: 8, sprint_distance: 4, work_to_rest: 2},
-    // {player: 34, team: 1, distance: 2, time_standing: 1.2, time_jogging: 1.8, time_sprinting: 0.6, fast_distance: 12, sprint_distance: 1, work_to_rest: 1}
-    // ];
 
-    // const features = [
-    // {name: 'team', range: [1,2]}, 
-    // {name: 'distance', range: [0,21]}, 
-    // {name: 'time_standing', range: [0,3]}, 
-    // {name: 'time_jogging', range: [0,4]}, 
-    // {name: 'time_sprinting', range: [0,5]}, 
-    // {name: 'fast_distance', range: [0,18]}, 
-    // {name: 'sprint_distance', range: [0,5]}, 
-    // {name: 'work_to_rest', range: [0,2]}
-    // ];
-    var data = [];
-    var max_residents = 0;
-    var max_visitors =0;
-    var max_direct_employment = 0;
-    var max_indirect_employment = 0;
-    for (const bnd_id in boundary_details) {
-        if (boundary_details.hasOwnProperty(bnd_id)) {
+            var data = [];
+            for (const bnd_id in boundary_details) {
+                if (boundary_details.hasOwnProperty(bnd_id)) {
+                    const cur_boundary = boundary_details[bnd_id];                   
 
-            const cur_boundary = boundary_details[bnd_id];
-            console.log(cur_boundary.total_population)
-            max_residents = (cur_boundary.total_population > max_residents) ? cur_boundary.total_population : max_residents;
-            console.log(max_residents)
-            max_visitors = (cur_boundary.total_visitors > max_visitors) ? cur_boundary.total_visitors : max_visitors;
-            max_direct_employment = (cur_boundary.total_direct_employment > max_direct_employment) ? cur_boundary.total_direct_employment : max_direct_employment;
-            max_indirect_employment = (cur_boundary.total_indirect_employment > max_indirect_employment) ? cur_boundary.total_indirect_employment : max_indirect_employment;
-
-
-            var cur_bnd_data = {'player':cur_boundary.bname, 'residents':cur_boundary.total_population, 'visitors':cur_boundary.total_visitors, 'direct_employment':cur_boundary.total_direct_employment, 'indirect_employment':cur_boundary.total_indirect_employment};
-
-            data.push(cur_bnd_data);
-        }
-    }
-
-    max_residents = (max_residents * 0.1)+ max_residents;
-    max_visitors = (max_visitors * 0.1)+ max_visitors;
-    max_direct_employment = (max_direct_employment * 0.1)+ max_direct_employment;
-    max_indirect_employment = (max_indirect_employment * 0.1)+ max_indirect_employment;
-
-    const features  = [{name:'residents', range:[0, max_residents]},{name:'visitors', range:[0, max_visitors]}, {name:'direct_employment', range:[0, max_direct_employment]}, {name:'indirect_employment', range:[0, max_indirect_employment]}];
-    // console.log(data)
-    console.log(max_residents)
-        /*
-         * Parameters
-         *****************************/
-        const width = 920, height = 400, padding = 28, brush_width = 20;
-        const filters = {};
-
-        /*
-         * Helper functions
-         *****************************/
-        // Horizontal scale
-        const xScale = d3.scalePoint()
-          .domain(features.map(x=>x.name))
-          .range([padding, width-padding]);
-
-        // Each vertical scale
-        const yScales = {};
-        features.map(x=>{
-          yScales[x.name] = d3.scaleLinear()
-            .domain(x.range)
-            .range([height-padding, padding]);
-        });
-        yScales.team = d3.scaleOrdinal()
-            .domain(features[0].range)
-            .range([height-padding, padding]);
-
-        // Each axis generator
-        const yAxis = {};
-        d3.entries(yScales).map(x=>{
-          yAxis[x.key] = d3.axisLeft(x.value);
-        });
-
-        // Each brush generator
-        const brushEventHandler = function(feature){
-          if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") 
-            return; // ignore brush-by-zoom
-          if(d3.event.selection != null){
-            filters[feature] = d3.event.selection.map(d=>yScales[feature].invert(d));
-          }else{
-            if(feature in filters)
-              delete(filters[feature]);
-          }
-          applyFilters();
-        }
-
-        const applyFilters = function(){
-          d3.select('g.active').selectAll('path')
-            .style('display', d=>(selected(d)?null:'none'));
-        }
-                   
-         const selected = function(d){
-           const _filters = d3.entries(filters);
-           return _filters.every(f=>{
-              return f.value[1] <= d[f.key] && d[f.key] <= f.value[0];
-           });
-         }
-
-        const yBrushes = {};
-        d3.entries(yScales).map(x=>{
-          let extent = [
-            [-(brush_width/2), padding],
-            [brush_width/2, height-padding]
-          ];
-          yBrushes[x.key]= d3.brushY()
-            .extent(extent)
-            .on('brush', ()=>brushEventHandler(x.key))
-            .on('end', ()=>brushEventHandler(x.key));
-        });
-
-        // Paths for data
-        const lineGenerator = d3.line();
-
-        const linePath = function(d){
-          const _data = d3.entries(d).filter(x=>x.key!='player');
-          let points = _data.map(x=>([xScale(x.key),yScales[x.key](x.value)]));
-          return(lineGenerator(points));
-        }
-
-        /*
-         * Parallel Coordinates
-         *****************************/
-        // Main svg container
-        const pcSvg = d3.select('div.parcoords')
-          .append('svg')
-          .attr('width', width)
-          .attr('height', height);
-
-        // Inactive data
-        pcSvg.append('g').attr('class','inactive').selectAll('path')
-          .data(data)
-          .enter()
-            .append('path')
-            .attr('d', d=>linePath(d));
-
-        // Inactive data
-        pcSvg.append('g').attr('class','active').selectAll('path')
-          .data(data)
-          .enter()
-            .append('path')
-            .attr('d', d=>linePath(d));
-
-        // Vertical axis for the features
-        const featureAxisG = pcSvg.selectAll('g.feature')
-          .data(features)
-          .enter()
-            .append('g')
-              .attr('class','feature')
-              .attr('transform',d=>('translate('+xScale(d.name)+',0)'));
-
-        featureAxisG
-              .append('g')
-              .each(function(d){
-                d3.select(this).call(yAxis[d.name]);
-              });
-
-        featureAxisG
-          .each(function(d){
-            d3.select(this)
-              .append('g')
-              .attr('class','brush')
-              .call(yBrushes[d.name]);
-          });
-
-        featureAxisG
-          .append("text")
-          .attr("text-anchor", "middle")
-          .attr('y', padding/2)
-          .text(d=>d.name);
+                    var cur_bnd_data = {'Boundary name':cur_boundary.bname, 'Residents (people)':cur_boundary.total_population, 'Visitors (people)':cur_boundary.total_visitors, 'Direct Employment (jobs)':cur_boundary.total_direct_employment, 'Indirect Employment (jobs)':cur_boundary.total_indirect_employment};
+                    data.push(cur_bnd_data);
                 }
+            }
 
+            const data_len = Object.keys(data).length;
+
+            var green_to_blue = d3.scale.linear()
+                .domain([9, 50])
+                .range(["blue", "green"])
+                .interpolate(d3.interpolateLab);
+
+                var color = function(d) { return green_to_blue(d['Residents (people)']); };
+
+                var parcoords = d3.parcoords()("#paracoords_primary")
+                .color(color)
+                .alpha(0.4);
+
+                // load csv file and create the chart
+                
+                parcoords
+                    .data(data)
+                    .render()
+                    .brushMode("1D-axes");  // enable brushing
+
+                // create data table, row hover highlighting
+                var grid = d3.divgrid();
+                d3.select("#parcoords_primary_grid")
+                    .datum(data.slice(0,data_len))
+                    .call(grid)
+                    .selectAll(".divgrid_row")
+                    .on({
+                    "mouseover": function(d) { parcoords.highlight([d]) },
+                    "mouseout": parcoords.unhighlight
+                    });
+
+                // update data table on brush event
+                parcoords.on("brush", function(d) {
+                    d3.select("#parcoords_primary_grid")
+                    .datum(d.slice(0,data_len))
+                    .call(grid)
+                    .selectAll(".divgrid_row")
+                    .on({
+                        "mouseover": function(d) { parcoords.highlight([d]) },
+                        "mouseout": parcoords.unhighlight
+                    });
+                });
+          
+
+
+        }
+        function generate_paracoords_secondary_chart() {
+            const boundary_details = boundaryValueDetails;
+
+            var data = [];
+            for (const bnd_id in boundary_details) {
+                if (boundary_details.hasOwnProperty(bnd_id)) {
+                    const cur_boundary = boundary_details[bnd_id];                   
+
+                    var cur_bnd_data = {'Boundary name':cur_boundary.bname, 'Electricity Demand (MW)':cur_boundary['services']['electricity_demand'], 'Fire Personnel (people)':cur_boundary['services']['fire_personnel'],  'Hospital Beds':cur_boundary['services']['hospital_beds'], 
+                     'Sewage (m3)':cur_boundary['services']['sewage_demand'], 'Water (m3)':cur_boundary['services']['water_demand'],
+                };
+                    data.push(cur_bnd_data);
+                }
+            }
+
+            const data_len = Object.keys(data).length;
+
+            var green_to_blue = d3.scale.linear()
+                .domain([9, 50])
+                .range(["blue", "green"])
+                .interpolate(d3.interpolateLab);
+
+                var color = function(d) { return green_to_blue(d['Electricity Demand (MW)']); };
+
+                var parcoords = d3.parcoords()("#paracoords_secondary")
+                .color(color)
+                .alpha(0.4);
+
+                // load csv file and create the chart
+                
+                parcoords
+                    .data(data)
+                    .render()
+                    .brushMode("1D-axes");  // enable brushing
+
+                // create data table, row hover highlighting
+                var grid = d3.divgrid();
+                d3.select("#parcoords_secondary_grid")
+                    .datum(data.slice(0,data_len))
+                    .call(grid)
+                    .selectAll(".divgrid_row")
+                    .on({
+                    "mouseover": function(d) { parcoords.highlight([d]) },
+                    "mouseout": parcoords.unhighlight
+                    });
+
+                // update data table on brush event
+                parcoords.on("brush", function(d) {
+                    d3.select("#parcoords_secondary_grid")
+                    .datum(d.slice(0,data_len))
+                    .call(grid)
+                    .selectAll(".divgrid_row")
+                    .on({
+                        "mouseover": function(d) { parcoords.highlight([d]) },
+                        "mouseout": parcoords.unhighlight
+                    });
+                });
+          
+
+
+        }
     </script>
 </body>
 </html>
