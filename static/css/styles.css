@@ -1186,10 +1186,10 @@ table.dataTable tbody td {
     text-align: center;
 }
 
-.divgrid_row, .divgrid_header { clear: left; font-size: 11px; line-height: 24px; height: 24px; }
+.divgrid_row, .divgrid_header { clear: left; font-size: 12px; line-height: 24px; height: 24px; }
 .divgrid_row:nth-child(odd) { background: rgba(0,0,0,0.05); }
 .divgrid_header { font-weight: bold; }
-.divgrid_cell { float: left; overflow: hidden; white-space: nowrap; width: 140px; height: 18px; }
+.divgrid_cell { float: left; overflow: hidden; white-space: nowrap; width: 140px; height: 30px; }
 .divgrid_col-0 { width: 140px; }
 
 
@@ -1258,3 +1258,30 @@ table.dataTable tbody td {
     -ms-user-select: none;
     user-select: none;
 }
+
+.color_box {
+    /* float: left; */
+    width: 20px;
+    
+    height: 20px;
+    margin: 5px;
+    border: 1px solid rgba(0, 0, 0, .2);
+  }
+  
+  .color-1 {
+    background:#f2f0f7;
+  }
+  
+  .color-2 {
+    background: #cbc9e2;
+  }
+  
+  .color-3 {
+    background:#9e9ac8;
+  }
+  .color-4 {
+    background: #756bb1;
+  }
+  .color-5 {
+    background: #54278f;
+  }

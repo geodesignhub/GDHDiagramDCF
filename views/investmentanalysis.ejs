@@ -78,7 +78,11 @@
             <div class="col-md-12">
                 <div class="boundariesCont">
                     <h4>Boundaries Map</h4>
+                    <small>The design is shown at 30% transperency to highlight the boundary overlaps</small><br><br>
                     <div id="boundaryMap" class="map"></div>
+                    <br>
+                    <div class="pull-right">Low Captial Investment <span class="color_box color-1">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-2">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-3">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-4">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-5">&nbsp;&nbsp;&nbsp;&nbsp;</span>High Captial Investment
+                    </div>
                 </div>
             </div>
 
@@ -119,6 +123,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h4>Population and Jobs</h4>
+                <small>Population housed and employment generated per boundary.</small><br>
                 <br>
                 <div id="paracoords_primary" class="parcoords"></div>
                 <div id="parcoords_primary_grid" class="paracoords_grid"></div>
@@ -128,6 +133,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h4>Services</h4>
+                <small>Additional services requried per boundary, see reference  </small><br>
                 <br>
                 <div id="paracoords_secondary" class="parcoords"></div>
                 <div id="parcoords_secondary_grid" class="paracoords_grid"></div>
@@ -163,6 +169,7 @@
     <script type="text/javascript" src="assets/js/leaflet.js"></script>
     <script type="text/javascript" src="assets/js/choropleth.js"></script>
     <script type="text/javascript" src="assets/js/moment.min.js"></script>
+    <script type="text/javascript" src="assets/js/svg.min.js"></script>
     <script type="text/javascript" src="assets/js/d3.min.js"></script>
     <script type="text/javascript" src="assets/js/d3.parcoords.js"></script>
     <script type="text/javascript" src="assets/js/divgrid.js"></script>
@@ -297,7 +304,7 @@
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
                         var npvHTML =
-                            "<tr><th class='header initCol'>Diagram</th><th>Asset Class</th><th>Image</th><th>Population (residents, visitors etc.)</th><th class='aaheader'>Analysis</th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
+                            "<tr><th class='header initCol'>Diagram</th><th>Asset Class</th><th>Image</th><th>Population </th><th class='aaheader'>Analysis</th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
 
                         npvHTML += "</tr>";
 
@@ -494,8 +501,7 @@
                     // m = (m / stdVar) * 100;
                     return m;
                 },
-
-                scale: ['#dadaeb', '#bcbddc', '#9e9ac8', '#756bb1', '#54278f'], //purples
+                scale: ['#f2f0f7', '#cbc9e2', '#9e9ac8', '#756bb1', '#54278f'], //purples
                 steps: 5,
                 mode: 'q',
                 style: {
@@ -618,6 +624,91 @@
         var mB = new L.latLngBounds(southWest, northEast);
 
         boundarymap.fitBounds(mB);
+
+        var design_layer = L.featureGroup().addTo(boundarymap);
+        var svgDrawing = SVG('drawing').size(10, 10);
+
+        function miniMapstyleComp(feature) {
+            // console.log(feature.properties)
+            var curFeature = feature.geometry.type;
+            if (curFeature === 'LineString') {
+                // console.log(feature)
+                return {
+                    weight: 2,
+                    opacity: .3,
+                    color: feature.properties.color,
+                    dashArray: '',
+
+                };
+            } else {
+                // var fillColor = getColor(feature.properties.areatype);
+
+                if (feature.properties.areatype == 'project') {
+                    var fillColor = feature.properties.color;
+                } else { // it is policy
+                    var fillPattern = setSVGStyle(feature.properties.color);
+                    var fillColor = fillPattern;
+                }
+
+                return {
+                    // fillColor: feature.properties.color,
+                    // fillColor:'#333333',
+                    weight: 1,
+                    stroke: true,
+                    opacity: 0.5,
+                    fillColor: fillColor,
+                    color: feature.properties.color,
+                    dashArray: '',
+                    // opacity: 0.2,
+                    fillOpacity: 0.3,
+                };
+            }
+
+        }
+
+        function setSVGStyle(reqColor) {
+            var pattern = svgDrawing.pattern(6, 6, function(add) {
+                // add.rect(5, 5).fill(reqColor)
+                add.line(0, 0, 6, 6).stroke({
+                    width: 1,
+                    color: reqColor
+                })
+                add.line(6, 0, 0, 6).stroke({
+                    width: 1,
+                    color: reqColor
+                })
+            });
+            return pattern.fill();
+        }
+
+        function getColor(type) {
+
+            return type === 'policy' ? '#707070 ' :
+                type === 'project' ? '#a69695 ' :
+                type === 'red2' ? '#bd0026' :
+                type === 'red' ? '#f03b20' :
+                type === 'yellow' ? '#FFFF00' :
+                type === 'green' ? '#74c476' :
+                type === 'green2' ? '#31a354' :
+                type === 'green3' ? '#006d2c' :
+                type === 'purple' ? '#CFACF7' :
+                type === 'purple2' ? '#8D6CBF' :
+                type === 'purple3' ? '#601286' :
+                type === 'orange' ? '#FFA927' :
+                type === 'orange2' ? '#F8872E' :
+                type === 'orange3' ? '#FC6B0A' :
+                type === 'constraints' ? '#343434' :
+                type === 'boundaries' ? '#a6cee3' :
+                type === 'boundaries2' ? '#b2df8a' :
+                '#808080';
+        }
+
+        
+    var design_gj = L.geoJSON(design, {
+        style: miniMapstyleComp,
+        }).addTo(design_layer);
+
+
 
         function getDiagramSystemTitle(diagramid) {
             const ad = systems;
@@ -810,19 +901,22 @@
                 if (boundary_details.hasOwnProperty(bnd_id)) {
                     const cur_boundary = boundary_details[bnd_id];                   
 
-                    var cur_bnd_data = {'Boundary name':cur_boundary.bname, 'Residents (people)':cur_boundary.total_population, 'Visitors (people)':cur_boundary.total_visitors, 'Direct Employment (jobs)':cur_boundary.total_direct_employment, 'Indirect Employment (jobs)':cur_boundary.total_indirect_employment};
+                    var cur_bnd_data = {'Boundary name':cur_boundary.bname, 'Residents':cur_boundary.total_population, 'Visitors':cur_boundary.total_visitors, 'Direct Employment':cur_boundary.total_direct_employment, 'Indirect Employment':cur_boundary.total_indirect_employment};
                     data.push(cur_bnd_data);
                 }
             }
 
             const data_len = Object.keys(data).length;
 
-            var green_to_blue = d3.scale.linear()
-                .domain([9, 50])
-                .range(["blue", "green"])
-                .interpolate(d3.interpolateLab);
+    
+            const colrs =  [ "rgb(250, 250, 110)","rgb(197, 236, 113)","rgb(148, 220, 121)","rgb(105, 201, 129)","rgb(66, 181, 136)", "rgb(35, 159, 138)","rgb(19, 137, 134)","rgb(26, 115, 124)","rgb(37, 93, 108)","rgb(42, 72, 88)"];
 
-                var color = function(d) { return green_to_blue(d['Residents (people)']); };
+            var green_to_blue = d3.scale.linear()
+                .domain([1, Object.keys(boundary_details).length])
+                .range(colrs)
+                .interpolate(d3.interpolateHcl);
+
+                var color = function(d) { return green_to_blue(d['Residents']); };
 
                 var parcoords = d3.parcoords()("#paracoords_primary")
                 .color(color)
@@ -869,7 +963,7 @@
                 if (boundary_details.hasOwnProperty(bnd_id)) {
                     const cur_boundary = boundary_details[bnd_id];                   
 
-                    var cur_bnd_data = {'Boundary name':cur_boundary.bname, 'Electricity Demand (MW)':cur_boundary['services']['electricity_demand'], 'Fire Personnel (people)':cur_boundary['services']['fire_personnel'],  'Hospital Beds':cur_boundary['services']['hospital_beds'], 
+                    var cur_bnd_data = {'Boundary name':cur_boundary.bname, 'Electricity Demand (MW)':cur_boundary['services']['electricity_demand'], 'Fire Personnel':cur_boundary['services']['fire_personnel'],  'Hospital Beds':cur_boundary['services']['hospital_beds'], 
                      'Sewage (m3)':cur_boundary['services']['sewage_demand'], 'Water (m3)':cur_boundary['services']['water_demand'],
                 };
                     data.push(cur_bnd_data);
@@ -878,10 +972,13 @@
 
             const data_len = Object.keys(data).length;
 
-            var green_to_blue = d3.scale.linear()
-                .domain([9, 50])
-                .range(["blue", "green"])
-                .interpolate(d3.interpolateLab);
+    
+            const colrs =  [ "rgb(250, 250, 110)","rgb(197, 236, 113)","rgb(148, 220, 121)","rgb(105, 201, 129)","rgb(66, 181, 136)", "rgb(35, 159, 138)","rgb(19, 137, 134)","rgb(26, 115, 124)","rgb(37, 93, 108)","rgb(42, 72, 88)"];
+
+                var green_to_blue = d3.scale.linear()
+                .domain([1, Object.keys(boundary_details).length])
+                .range(colrs)
+                .interpolate(d3.interpolateHcl);
 
                 var color = function(d) { return green_to_blue(d['Electricity Demand (MW)']); };
 
