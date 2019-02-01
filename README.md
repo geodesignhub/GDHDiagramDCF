@@ -1,8 +1,9 @@
 # Asset and Investment Analysis Library
-This plugin enables multi-scale geodesign This plugin has two parts: Asset Analysis and Investment Visualization. It uses the Geodesign Hub [API](http://www.geodesignhub.com/api/) to download the diagram and systems data and then provides a series of controls to analyze and set potential uses of this asset. 
+This plugin enables multi-scale geodesign, it has two parts: Asset Analysis and Investment Visualization. It uses the [Geodesign Hub API](http://www.geodesignhub.com/api/) to download the diagram and systems data and then provides a series of controls to analyze and set potential uses of this asset and finally conduct a investment analysis. 
 
 ### Asset Analysis Library
 Using this library you can set specific characteristics of a diagram such as people housed, total units and number of floors for a example for a residential diagram, as shown below. 
+
 ![alt text][logo]
 
 In addition you can set a representative image and compute targetted population density. There are other asset types as well such as Tourism, Office, Retail etc. As we progress, we will continue to add additional asset classes. 
