@@ -2,60 +2,44 @@
 This plugin has two parts: Asset Analysis and Investment Visualization. It uses the Geodesign Hub [API](http://www.geodesignhub.com/api/) to download the diagram and systems data and then provides a series of controls to analyze and set potential uses of this asset. 
 
 ![alt text][logo]
+
+![alt text][logo4]
+
+![alt text][logo5]
+
 ![alt text][logo2]
+
 ![alt text][logo3]
 
 [logo]: https://i.imgur.com/npgPPTm.jpg "Geodesign Hub Diagram Discounted Cash Flow"
 [logo2]: https://i.imgur.com/E82qisZ.jpg "Geodesign Hub Diagram Discounted Cash Flow"
+[logo4]: https://i.imgur.com/GRx4gYx.jpg "Geodesign Hub Diagram Discounted Cash Flow"
 [logo3]: https://i.imgur.com/gZDFCV9.jpg "Geodesign Hub Diagram Discounted Cash Flow"
+[logo5]: https://i.imgur.com/2dHdhIK.jpg "Geodesign Hub Diagram Discounted Cash Flow"
     
 
-### Spatial Analysis Library
-In additon to computing the basic financial analysis (Discounted Cash Flow), a spatial anlaysis library is included in this plugin. The library analyzes the location of the diagram and then generates a grid. Once the grid is generated, it allocates the costs and income over that grid. This is useful to visualize how money flows in the design over time and space. 
+### Investment Analysis Library
+This plugin downloads data from Geodesignhub using the [Geodesignhub API](https://www.geodesignhub.com/api/). In additon to helping with  the basic financial analysis demonstrted above, a spatial anlaysis library is included in this plugin. The library analyzes the location of the diagram over the boundary uploaded into Geodesignhub. A boundary is a simple polygon file that can be really any boundary: social, political, economic or administrative. Once the boundary is uploaded, the plugin computes the asset details over that boundary. This is useful to visualize how money flows in the design over time and space. 
 
-## Analyze how investments flow in a design over time and space 
-This plugin downloads a design using the [Geodesignhub API](https://www.geodesignhub.com/api/), computes its area and construction costs and provides a [Discounted Cash Flow](https://en.wikipedia.org/wiki/Discounted_cash_flow) analysis to calculate Net Present Value of the different components of the design. 
-You can adjust the WACC to different settings for a new NPV and cash flow analysis. Generally a value between 5-15 is recommended. Consult a professional to estimate the range. 
-
-![interface][ui]
-
-![interface][ui2]
-
-[ui0]: https://i.imgur.com/vRyxhr6.jpg "User Interface" 
-
-[ui1]: https://i.imgur.com/Zdf0XVG.jpg "Yearly Interface" 
-
-[ui2]: https://i.imgur.com/3zVDFGF.jpg "Boundary Interface" 
-
-[ui]: https://i.imgur.com/ERVGb6z.png "User Interface"
-
-
-Once the WACC and the NPV has been calculated, maps are generated that show how the investemnts are distributed in the study area. The Spatial Analysis library distributes the investments over a grid. 
-
-![Set WACC and Compute][waccandslider]
-
-[waccandslider]: https://i.imgur.com/jkNliPI.png "Design Discounted Cash Flow Analysis"
-
-In addition to showing the total investment, you can choose to see yearly investments and use the slider to see how over the years, your investment will be distributed. 
-
-![alt text][yearlyortotal]
-
+## Results 
+Investment over time per boundary
 ![interface][ui0]
+Chorpleth intensity map of investments demonstrating the across various boundaries. 
+![interface][ui4]
 
+All the asset details "rolled up" in one list
+![interface][ui2]
+Split the allocations across different boundaries so you can see how the distribution of jobs, visitors, population and services are split across the different boundaries. 
 ![interface][ui1]
+![interface][ui3]
 
-While the defualt is to show the Cash flow analysis for every system, you can choose to see just specific systems e.g. Transport and Housing and so on. 
 
-![alt text][filterbysystem]
+[ui0]: https://i.imgur.com/FgoqKbM.jpg "Boundaries chart" 
 
-[filterbysystem]: https://i.imgur.com/T5ccYlb.png "Design Discounted Cash Flow Analysis"
-
-You can select the "Raw" numbers to get the actual number instead of abbreviated on and then directly use it in Excel. Changing the Raw / Pretty Print button will update the tables and the values. 
-
-![alt text][finstatement]
-
-[finstatement]: https://i.imgur.com/U86wL3n.jpg "Design Discounted Cash Flow Analysis"
-
+[ui1]: https://i.imgur.com/RznTWoh.jpg "Population and Jobs" 
+[ui2]: https://i.imgur.com/SYE7z3q.jpg "Rollup" 
+[ui3]: https://i.imgur.com/3kI6ioU.jpg "Yearly Interface" 
+[ui4]: https://i.imgur.com/51dzMca.jpg "Boundary map" 
 
 ### Adding the plugin
 The plugin can be added to your project using the Administration panel. 
