@@ -39,8 +39,10 @@ Also as a simple chart.
 
 Once intervention strategy is finalized, all the asset details "rolled up" in one list with all the totals. 
 ![interface][ui2]
-Split the allocations across different boundaries so you can see how the distribution of jobs, visitors, population and services are split across the different boundaries. 
+
+The plugin splits the allocations proportionally across different boundaries so you can see how the distribution of jobs, visitors, population and services are split across the different boundaries. 
 ![interface][ui1]
+
 ![interface][ui3]
 
 
