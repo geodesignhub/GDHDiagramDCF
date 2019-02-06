@@ -28,11 +28,9 @@ Finally you can then compute the services requried for that asset to understand 
     
 
 ### Investment Analysis Library
-This is the second part of the software. Once you have set the asset details, you can then do very interesting analysis of the interventions. 
+This is the second part of the plugin. Once you have set the asset details per asset, you can then do very interesting analysis of the interventions both financial and temporal as detailed below. The library analyzes the location of the diagram over the boundary uploaded into Geodesignhub. A boundary is a simple polygon file that can be really any boundary: social, political, economic or administrative. Once the boundary is uploaded, the plugin computes the asset details over that boundary. This is useful to visualize how money flows in the design over time and space. 
 
-In additon to helping with  the basic financial analysis demonstrted above, a spatial anlaysis library is included in this plugin. The library analyzes the location of the diagram over the boundary uploaded into Geodesignhub. A boundary is a simple polygon file that can be really any boundary: social, political, economic or administrative. Once the boundary is uploaded, the plugin computes the asset details over that boundary. This is useful to visualize how money flows in the design over time and space. 
-
-## Analysis 
+## Boundary Analysis
 Investment over time per boundary, once the capital investment is set, you can then compute how the investment flows over different boundaries. Below is a chorpleth intensity map of investments demonstrating the across various boundaries. 
 ![interface][ui4]
 Also as a simple chart. 
