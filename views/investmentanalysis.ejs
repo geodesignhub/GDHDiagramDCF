@@ -19,8 +19,8 @@
     <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" href="assets/css/styles.css">    
     <link rel="stylesheet" type="text/css" href="assets/css/d3.parcoords.css" />
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
     <!-- Conditional comment containing JS files for IE6 - 8 -->
     <!--[if lt IE 9]>
             <script src="assets/js/html5.js"></script>
@@ -56,11 +56,7 @@
         <div class="row">
             <div class="col-md-12">
 
-                <p class="description">This plugin shows how investments will flow through your study area over time.
-                    It downloads a design from Geodesignhub, computes its area and construction costs and provides a <a
-                        href="https://en.wikipedia.org/wiki/Discounted_cash_flow" target="_blank">Discounted Cash Flow</a>
-                    analysis to calculate Net Present Value of this design. Choose the WACC and click
-                    on Compute Net Present Value, then you can download computed data as a CSV file.</p><br><br>
+                <p class="description">This plugin shows how investments will flow through your study area over time. Once you have set the asset details per asset, you can then do very interesting analysis of the interventions both financial and temporal as detailed below. The library analyzes the location of the diagram over the boundary uploaded into Geodesignhub. </p><br><br>
             </div>
         </div>
 
@@ -612,6 +608,7 @@
             }
 
             var ctx = $("#boundaryChart");
+            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
             var myLineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -805,22 +802,14 @@
                                 $(".assetimage-" + diagID).html("<img src='assets/img/asset-images/"+asset_details['metadata']['representative_image']+"'/>");
                             }
                             if (ad === 'hospitality') {
-                                $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
-                                    'total_yearly_visitors'
-                                ], 2));
+                                $('.population-' + diagID).html(abbrNum(asset_details['metadata']['total_yearly_visitors'], 2));
                             } else if (ad == 'residential') {
-                                $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
-                                    'number_of_people_residential'
-                                ], 2));
+                                $('.population-' + diagID).html(abbrNum(asset_details['metadata']['number_of_people_residential'], 2));
                                 $(".assetimage-"+diagID).append("<br><small>Density:"+asset_details['metadata']['current_pop_density']+" people / km<sup>2</sup></small>")
                             } else if (ad == 'retail') {
-                                $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
-                                    'total_daily_visitors_retail'
-                                ], 2));
+                                $('.population-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_retail'], 2));
                             } else if (ad == 'office') {
-                                $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
-                                    'total_daily_visitors_office'
-                                ], 2));
+                                $('.population-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_office'], 2));
                             }
 
                         }

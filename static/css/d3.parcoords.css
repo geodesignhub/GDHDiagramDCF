@@ -1,5 +1,5 @@
 .parcoords > svg, .parcoords > canvas {
-  /* font: 12px "Open Sans", Arial, Helvetica, sans-serif; */
+  /* font: 12px "EB Garamond", Arial, Helvetica, sans-serif; */
   position: absolute;
 }
 .parcoords > canvas {
@@ -21,7 +21,7 @@
 .parcoords .axis line, .parcoords .axis path {
   /* fill: gray; */
   stroke-width:2px;
-  stroke: #00;
+  stroke: #000;
   shape-rendering: crispEdges;
 }
 .parcoords canvas {

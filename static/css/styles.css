@@ -21,7 +21,7 @@ h1,
 h2,
 h3,
 h4 {
-    font-family: "Raleway", Times, serif;
+    font-family: "Playfair Display", Times, serif;
 }
 
 #inputmap,
@@ -35,7 +35,7 @@ h4 {
 
 .info {
     padding: 6px 8px;
-    font: 14px/16px Open Sans, Helvetica, sans-serif;
+    font: 14px/16px EB Garamond, Helvetica, sans-serif;
     background: white;
     background: rgba(255, 255, 255, 0.8);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -100,13 +100,13 @@ h4 {
 
 .container-fluid {
     max-width: 1200px;
-    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    font-family: 'EB Garamond', Arial, Helvetica, sans-serif;
 }
 
 .button {
     background-color: #4CAF50;
     /* Green */
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'EB Garamond', sans-serif;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -134,7 +134,7 @@ input[type="text"] {
     display: block;
     margin: 0;
     width: 100%;
-    font-family: "Open Sans", sans-serif;
+    font-family: "EB Garamond", sans-serif;
     font-size: 18px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -207,7 +207,7 @@ ul.input-list li {
 
 .navbar-brand {
     float: none;
-    font-family: "Raleway", Times, serif;
+    font-family: "Playfair Display", Times, serif;
     text-transform: uppercase;
     font-size: 22px;
 }
@@ -1095,7 +1095,7 @@ ul.input-list li {
 
 
 .hor-minimalist-b {
-    font-family: "Open Sans", Sans-Serif;
+    font-family: "EB Garamond", Sans-Serif;
     font-size: 12px;
     background: #fff;
     border-collapse: collapse;
@@ -1176,6 +1176,8 @@ table.dataTable tbody td {
 
 .assetimage img {
     max-height: 100px;
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
 }
 
 
@@ -1203,7 +1205,7 @@ table.dataTable tbody td {
 /* parcoords styles */
 .parcoords>svg,
 .parcoords>canvas {
-    font: 11px "Open Sans", Consolas, monaco, monospace;
+    font: 11px "EB Garamond", Consolas, monaco, monospace;
     position: absolute;
 }
 
