@@ -58,7 +58,7 @@
         <div class="row">
             <div class="col-md-12">
 
-                <p class="description">This plugin downloads a diagram from Geodesignhub, computes its area and construction costs and provides a <a href="https://en.wikipedia.org/wiki/Discounted_cash_flow" target="_blank">Discounted Cash Flow</a> analysis to calculate Net Present Value of this project. In additional detailed what-if asset analysis can also be conducted for this site and project. </p>
+                <p class="description">This plugin downloads a diagram from Geodesignhub, additional properties like its area and set costs and provides tools for a basic <a href="https://en.wikipedia.org/wiki/Discounted_cash_flow" target="_blank">Discounted Cash Flow</a> analysis to calculate Net Present Value of this project. In additional detailed what-if asset analysis can also be conducted for this site and project to specify the population served and services load required. </p>
             </div>
         </div>
         <div class="row">
@@ -104,7 +104,7 @@
                     <h4>Number of floors: <a class="editable" href="#" id="residential_floors" data-type="text"
                             data-title="Enter new residential units e.g. 5">1</a></h4>
                     <br>
-                    <button id="recompute_residential" type="button" class="btn btn-info">Recompute</button><br><br>
+                    <button id="recompute_residential" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button><br><br>
                    
                 </div>
 
@@ -124,7 +124,7 @@
                     <h5>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_tourism" data-type="text" data-title="Enter new ratio">.2</a></h5>
                     <br>
 
-                    <button id="recompute_tourism" type="button" class="btn btn-info">Recompute</button>
+                    <button id="recompute_tourism" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
                 </div>
 
@@ -142,7 +142,7 @@
                     <h5>Indirect employees to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_office" data-type="text" data-title="Enter new ratio">.2</a></h5>
 
                     <br>
-                    <button id="recompute_office" type="button" class="btn btn-info">Recompute</button>
+                    <button id="recompute_office" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
                 </div>
                 <div class='usage_form hidden' id="built_env_form_retail">
@@ -162,7 +162,7 @@
                                 data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>
                     </div>
 
-                    <button id="recompute_retail" type="button" class="btn btn-info">Recompute</button>
+                    <button id="recompute_retail" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
                 </div>
 
@@ -189,9 +189,10 @@
                     <div id="selected_typology_image">
                         <small>No representative image specified, choose asset class and pick image.</small>
                     </div>
-                    <div class="usage_form hidden" id="built_env_form_residential_secondary">
-                        <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> </h6>
-                        <h6>Total Floor area available: <span id="total_floor_area_residential_available">0</span> m2</h6>
+                    <div class="usage_form hidden" id="built_env_form_residential_secondary">                        
+                        <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> </h6>                        
+                        <h6>Total built floor area: <span id="total_floor_area_residential_built">0</span> m2</h6>
+                        <h6>Total available area: <span id="total_floor_area_residential_available">0</span> m2</h6>
                         <br>   
                         
                         <h5>Population Density: <span id="current_pop_density"></span> people per km2</h5>
@@ -214,7 +215,7 @@
                     <div class="usage_form hidden" id="built_env_form_office_secondary">                    
                         <br>
                         <h4>Total Floor area needed:&nbsp;<span id="total_floor_area_office_required">0</span> m2</h4>
-                        <h6>Total Floor area available: <span id="total_floor_area_office_available">0</span> m2</h6>
+                        <h5>Total Floor area available: <span id="total_floor_area_office_available">0</span> m2</h5>
                         <h4>Total direct employment: <span id="total_direct_employment_office">0</span></h6>
                         <h4>Total indirect employment: <span id="total_indirect_employment_office">0</span></h6>
                     <br>
@@ -238,7 +239,7 @@
                         <br>
                         <br>
                         <h4>Total direct employment: <span id="total_direct_employment_retail">0</span></h6>
-                            <h4>Total indirect employment: <span id="total_indirect_employment_retail">0</span></h6>
+                        <h4>Total indirect employment: <span id="total_indirect_employment_retail">0</span></h6>
                             
                     <br>
                     </div>
@@ -1264,6 +1265,7 @@
 
                 var diagram_area = diagramdetail['area'];
                 const area_in_km2 = (diagram_area / 1000000);
+                const max_buildable_area_in_m2 = (diagram_area * floors);
                 const new_population_density = population / area_in_km2;
                 const total_floor_area_residential_available = parseInt((diagram_area * 0.6 * floors));                
                 const avg_area_per_unit = (parseInt(total_floor_area_residential_available) / parseInt(numresidences));
@@ -1271,7 +1273,8 @@
                 const total_floor_area_residential_available_per_floor = parseInt((avg_area_per_unit / floors));
 
                 $("#current_pop_density").html(abbrNum(new_population_density, 2));
-                $("#total_floor_area_residential_available").html(abbrNum(total_floor_area_residential_available, 2));
+                $("#total_floor_area_residential_built").html(abbrNum(total_floor_area_residential_available, 2));
+                $("#total_floor_area_residential_available").html(abbrNum(max_buildable_area_in_m2, 2));
                 $("#avg_area_per_unit").html(abbrNum(parseInt(avg_area_per_unit), 2) + ' m2 / ' + abbrNum(total_floor_area_residential_available_per_floor, 2) + ' m2 per floor');
 
 
