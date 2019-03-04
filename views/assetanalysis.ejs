@@ -103,7 +103,12 @@
 
                     <h4>Number of floors: <a class="editable" href="#" id="residential_floors" data-type="text"
                             data-title="Enter new residential units e.g. 5">1</a></h4>
-                    <br>
+                    
+                    
+                    <h4>Floor Area Ratio: <a class="editable" href="#" id="residential_far" data-type="text"
+                        data-title="Enter new residential units e.g. .7">.6</a></h4>
+                        <br>
+                <br>
                     <button id="recompute_residential" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button><br><br>
                    
                 </div>
@@ -189,67 +194,13 @@
                     <div id="selected_typology_image">
                         <small>No representative image specified, choose asset class and pick image.</small>
                     </div>
-                    <div class="usage_form hidden" id="built_env_form_residential_secondary">                        
-                        <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> </h6>                        
-                        <h6>Total built floor area: <span id="total_floor_area_residential_built">0</span> m2</h6>
-                        <h6>Total available area: <span id="total_floor_area_residential_available">0</span> m2</h6>
-                        <br>   
-                        
-                        <h5>Population Density: <span id="current_pop_density"></span> people per km2</h5>
-                        <br>
-                        <small>Built area is 0.6 of diagram areas. Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small><br><br>
-                    </div>
-
-                    <div class="usage_form hidden" id="built_env_form_tourism_secondary">
-                       
-                    <h4>Total Rooms: <span id="tourism_total_rooms">3</span></h4>
-
-                    <h4>Yearly Visitors: <span id="total_yearly_visitors">3</span></h4>
-                    
-                    <h4>Total direct employment: <span id="total_direct_employment_tourism">0</span></h6>
-                        <h4>Total indirect employment: <span id="total_indirect_employment_tourism">0</span></h6>
-                        <br>
-                    <br>
-                    </div>
-
-                    <div class="usage_form hidden" id="built_env_form_office_secondary">                    
-                        <br>
-                        <h4>Total Floor area needed:&nbsp;<span id="total_floor_area_office_required">0</span> m2</h4>
-                        <h5>Total Floor area available: <span id="total_floor_area_office_available">0</span> m2</h5>
-                        <h4>Total direct employment: <span id="total_direct_employment_office">0</span></h6>
-                        <h4>Total indirect employment: <span id="total_indirect_employment_office">0</span></h6>
-                    <br>
-                    </div>
-
-                    <div class="usage_form hidden" id="built_env_form_retail_secondary">              
-                        <br>
-                        <h5>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_retail" data-type="text" data-title="Enter new ratio">.05</a></h5>
-                        <h5>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_retail" data-type="text" data-title="Enter new ratio">.2</a></h5>
-    
-                        <br>
-                        <h4>Total Floor area needed <span id="total_floor_area_retail_required">0</span> m2.</h4>
-                        <div class="hidden">
-                            <h6>of which Luxury <span id="total_floor_area_retail_luxury_split">0</span> m2</h6>
-                            <h6>of which Support <span id="total_floor_area_retail_support_split">0</span> m2</h6>
-                            <h6>of which FMCG <span id="total_floor_area_retail_fmcg_split">0</span> m2</h6>
-                            <h6>of which other <span id="total_floor_area_retail_other_split">0</span> m2</h6>
-                            <br>
-                        </div>
-                        <small>Total Floor area available <span id="total_floor_area_retail_available">0</span> m2</small>
-                        <br>
-                        <br>
-                        <h4>Total direct employment: <span id="total_direct_employment_retail">0</span></h6>
-                        <h4>Total indirect employment: <span id="total_indirect_employment_retail">0</span></h6>                            
-                    <br>
-                    </div>
-
-
+                
                             
                 </div>
         </div>
         <hr>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div id="services" class="services_form">
                     <h3>Services</h3>
                     <small>A summary of supporting services necessary for this Asset class</small>
@@ -389,8 +340,67 @@
                     </table>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <h3>Land use Distribution</h3>
+                <div id="lu_chart_cont">
+                    <canvas id="lu_chart" height="250"></canvas>
+                </div>
+
+                <div class="usage_form hidden" id="built_env_form_residential_secondary">                        
+                    <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> </h6>                        
+                    <h6>Total built floor area: <span id="total_floor_area_residential_built">0</span> m2</h6>
+                    <h6>Total available area: <span id="total_floor_area_residential_available">0</span> m2</h6>
+                    <br>   
+                    
+                    <h5>Population Density: <span id="current_pop_density"></span> people per km2</h5>
+                    <br>
+                    <small>Built area is 0.6 of diagram areas. Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small><br><br>
+                </div>
+
+                <div class="usage_form hidden" id="built_env_form_tourism_secondary">
+                   
+                <h4>Total Rooms: <span id="tourism_total_rooms">3</span></h4>
+
+                <h4>Yearly Visitors: <span id="total_yearly_visitors">3</span></h4>
+                
+                <h4>Total direct employment: <span id="total_direct_employment_tourism">0</span></h6>
+                    <h4>Total indirect employment: <span id="total_indirect_employment_tourism">0</span></h6>
+                    <br>
+                <br>
+                </div>
+
+                <div class="usage_form hidden" id="built_env_form_office_secondary">                    
+                    <br>
+                    <h4>Total Floor area needed:&nbsp;<span id="total_floor_area_office_required">0</span> m2</h4>
+                    <h5>Total Floor area available: <span id="total_floor_area_office_available">0</span> m2</h5>
+                    <h4>Total direct employment: <span id="total_direct_employment_office">0</span></h6>
+                    <h4>Total indirect employment: <span id="total_indirect_employment_office">0</span></h6>
+                <br>
+                </div>
+
+                <div class="usage_form hidden" id="built_env_form_retail_secondary">              
+                    <br>
+                    <h5>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_retail" data-type="text" data-title="Enter new ratio">.05</a></h5>
+                    <h5>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_retail" data-type="text" data-title="Enter new ratio">.2</a></h5>
+
+                    <br>
+                    <h4>Total Floor area needed <span id="total_floor_area_retail_required">0</span> m2.</h4>
+                    <div class="hidden">
+                        <h6>of which Luxury <span id="total_floor_area_retail_luxury_split">0</span> m2</h6>
+                        <h6>of which Support <span id="total_floor_area_retail_support_split">0</span> m2</h6>
+                        <h6>of which FMCG <span id="total_floor_area_retail_fmcg_split">0</span> m2</h6>
+                        <h6>of which other <span id="total_floor_area_retail_other_split">0</span> m2</h6>
+                        <br>
+                    </div>
+                    <small>Total Floor area available <span id="total_floor_area_retail_available">0</span> m2</small>
+                    <br>
+                    <br>
+                    <h4>Total direct employment: <span id="total_direct_employment_retail">0</span></h6>
+                    <h4>Total indirect employment: <span id="total_indirect_employment_retail">0</span></h6>                            
+                <br>
+                </div>
+
+
             </div>
         </div>
         <hr>
@@ -433,7 +443,7 @@
             </div>
             <div class="col-md-6">
                 <h3>30-year Discounted Cash Flow</h3>
-                <div id="dcfchart">
+                <div id="dcfchart_cont">
                     <canvas id="chart" height="150"></canvas>
                 </div>
                 <br>
@@ -532,7 +542,123 @@
         var ctx = $("#chart");
         var svgDrawing = SVG('drawing').size(10, 10);
         // fx.base = "USD";
+        
+        Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+        
+        Chart.defaults.groupableBar = Chart.helpers.clone(Chart.defaults.bar);
+            var helpers = Chart.helpers;
+            Chart.controllers.groupableBar = Chart.controllers.bar.extend({
+            calculateBarX: function (index, datasetIndex) {
+                // position the bars based on the stack index
+                var stackIndex = this.getMeta().stackIndex;
+                return Chart.controllers.bar.prototype.calculateBarX.apply(this, [index, stackIndex]);
+            },
 
+            hideOtherStacks: function (datasetIndex) {
+                var meta = this.getMeta();
+                var stackIndex = meta.stackIndex;
+
+                this.hiddens = [];
+                for (var i = 0; i < datasetIndex; i++) {
+                var dsMeta = this.chart.getDatasetMeta(i);
+                if (dsMeta.stackIndex !== stackIndex) {
+                    this.hiddens.push(dsMeta.hidden);
+                    dsMeta.hidden = true;
+                }
+                }
+            },
+
+            unhideOtherStacks: function (datasetIndex) {
+                var meta = this.getMeta();
+                var stackIndex = meta.stackIndex;
+
+                for (var i = 0; i < datasetIndex; i++) {
+                var dsMeta = this.chart.getDatasetMeta(i);
+                if (dsMeta.stackIndex !== stackIndex) {
+                    dsMeta.hidden = this.hiddens.unshift();
+                }
+                }
+            },
+
+            calculateBarY: function (index, datasetIndex) {
+                this.hideOtherStacks(datasetIndex);
+                var barY = Chart.controllers.bar.prototype.calculateBarY.apply(this, [index, datasetIndex]);
+                this.unhideOtherStacks(datasetIndex);
+                return barY;
+            },
+
+            calculateBarBase: function (datasetIndex, index) {
+                this.hideOtherStacks(datasetIndex);
+                var barBase = Chart.controllers.bar.prototype.calculateBarBase.apply(this, [datasetIndex, index]);
+                this.unhideOtherStacks(datasetIndex);
+                return barBase;
+            },
+
+            getBarCount: function () {
+                var stacks = [];
+
+                // put the stack index in the dataset meta
+                Chart.helpers.each(this.chart.data.datasets, function (dataset, datasetIndex) {
+                var meta = this.chart.getDatasetMeta(datasetIndex);
+                if (meta.bar && this.chart.isDatasetVisible(datasetIndex)) {
+                    var stackIndex = stacks.indexOf(dataset.stack);
+                    if (stackIndex === -1) {
+                    stackIndex = stacks.length;
+                    stacks.push(dataset.stack);
+                    }
+                    meta.stackIndex = stackIndex;
+                }
+                }, this);
+
+                this.getMeta().stacks = stacks;
+                return stacks.length;
+            },
+            });
+
+        function populate_lu_chart(type, chart_data) {
+            
+            var luctx =  document.getElementById('lu_chart').getContext('2d');
+            
+            var barChartData = {
+                labels:  ['Area Available'],
+                datasets: [{
+                    label: "Area Available",
+                    backgroundColor: ["#e7298a"],
+                    data: [chart_data['area_available']],
+                    stack:1 
+                },{
+                    label: "Built Up",
+                    backgroundColor: ["#984ea3",],
+                    data: [ chart_data['built_up_area']],
+                    stack: 2
+                },{
+                    label: "Green Spaces",
+                    backgroundColor: ["#4daf4a"],
+                    data: [chart_data['green_space']],
+                    stack: 2
+                },{
+                    label: "Parking",
+                    backgroundColor: ["#377eb8"],
+                    data: [chart_data['parking']],
+                    stack: 2
+                }
+            ]
+            };
+
+            var myChart = new Chart(luctx, {
+                type: 'groupableBar',
+                data: barChartData,
+                options: {
+                   
+                    scales: {
+                        yAxes: [{
+                            stacked: true,
+                        }]
+                        }
+                }
+                
+            });
+        }
         function miniMapstyleComp(feature) {
             // console.log(feature.properties)
             var curFeature = feature.geometry.type;
@@ -795,7 +921,6 @@
                 }]
             };
 
-            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: plotData,
@@ -1251,8 +1376,9 @@
                 const numresidences = parseInt($("#residential_units").editable('getValue', true));
                 const population = parseInt($("#number_of_people_residential").editable('getValue', true));
                 const floors = parseInt($("#residential_floors").editable('getValue', true));
+                const far = parseInt($("#residential_far").editable('getValue', true));
                 // const population = $('#number_of_people_residential').editable('setValue', numresidences * 4);
-                this.update(numresidences, population, floors);
+                this.update(numresidences, population, floors, far);
 
             }
             this.initialize = function () {
@@ -1279,6 +1405,16 @@
                 });
 
 
+                $('#residential_far').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a decimal"
+                        }
+                    }
+                });
+
                 $('#number_of_people_residential').editable({
                     validate: function (value) {
                         if ($.trim(value) == '') {
@@ -1296,12 +1432,15 @@
                 const population = parseInt($("#number_of_people_residential").editable('getValue', true));
                 const floors = parseInt($("#residential_floors").editable('getValue', true));
 
+                const far = parseFloat($("#residential_far").editable('getValue', true));
+     
 
                 var diagram_area = diagramdetail['area'];
                 const area_in_km2 = (diagram_area / 1000000);
                 const max_buildable_area_in_m2 = (diagram_area * floors);
                 const new_population_density = population / area_in_km2;
-                const total_floor_area_residential_available = parseInt((diagram_area * 0.6 * floors));                
+                const total_floor_area_residential_available = parseInt((diagram_area * far * floors));                
+                const max_floor_area_available_per_floor = parseInt((diagram_area * far));                
                 const avg_area_per_unit = (parseInt(total_floor_area_residential_available) / parseInt(numresidences));
 
                 const total_floor_area_residential_available_per_floor = parseInt((avg_area_per_unit / floors));
@@ -1310,7 +1449,7 @@
                 $("#total_floor_area_residential_built").html(abbrNum(total_floor_area_residential_available, 2));
                 $("#total_floor_area_residential_available").html(abbrNum(max_buildable_area_in_m2, 2));
                 $("#avg_area_per_unit").html(abbrNum(parseInt(avg_area_per_unit), 2) + ' m2 / ' + abbrNum(total_floor_area_residential_available_per_floor, 2) + ' m2 per floor');
-
+                
 
                 myDisplayUpdater.updateBedsRecompute(population);
                 myDisplayUpdater.updatePoliceStationsRecompute(population);
@@ -1319,10 +1458,10 @@
                 myDisplayUpdater.updateEnergyRecompute(population);
                 myDisplayUpdater.updateWaterRecompute(population);
                 myDisplayUpdater.updateSewageRecompute(population);
-                myDisplayUpdater.updateTransportRecompute(population, 2, 2);
-                
-                myDisplayUpdater.updateGreenSpaceRecompute(population);
-                
+                const total_parking_area  = myDisplayUpdater.updateTransportRecompute(population, 2, 2);                
+                const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(population);
+                const lu_chart_data = {"area_available":diagram_area, "built_up_area":max_floor_area_available_per_floor, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                populate_lu_chart('residential', lu_chart_data);
 
             }
             this.update = function (units, population, floors) {
@@ -1340,6 +1479,7 @@
                             'road': 0.9,
                             'rail': 0.1
                         },
+                        "far":0.6,
                         "green_space":9
                     },
                     "High Priced": {
@@ -1354,6 +1494,7 @@
                             'road': 0.9,
                             'rail': 0.1
                         },
+                        "far":0.6,
                         "green_space":9
                     },
                     "Mid Priced": {
@@ -1368,6 +1509,7 @@
                             'road': 0.3,
                             'rail': 0.7
                         },
+                        "far":0.6,
                         "green_space":9
                     },
                     "Low Priced": {
@@ -1382,6 +1524,7 @@
                             'road': 0.4,
                             'rail': 0.6
                         },
+                        "far":0.6,
                         "green_space":9
                     },
                     "Affordable Housing": {
@@ -1396,6 +1539,7 @@
                             'road': 0.5,
                             'rail': 0.5
                         },
+                        "far":0.6,
                         "green_space":9
                     }
                 };
@@ -1418,7 +1562,7 @@
                 var selected_subclass = $("#base_asset_subclass").val();
 
                 selected_subclass = (selected_subclass) ? selected_subclass : 'Mid Priced';
-                const total_floor_area_residential_available = abbrNum(parseInt((diagram_area * .8 * floors)),
+                const total_floor_area_residential_available = abbrNum(parseInt((diagram_area * residential_class_defaults[selected_subclass]['far'] * floors)),
                     2)
 
                 $("#total_floor_area_residential_available").html(total_floor_area_residential_available);
@@ -1589,7 +1733,10 @@
                 myDisplayUpdater.updateEnergyRecompute(yearly_visitors);
                 myDisplayUpdater.updateWaterRecompute(yearly_visitors);
                 myDisplayUpdater.updateSewageRecompute(yearly_visitors);
-                myDisplayUpdater.updateTransportRecompute(yearly_visitors, 2, 2);
+                const total_parking_area  =  myDisplayUpdater.updateTransportRecompute(yearly_visitors, 2, 2);
+                const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(yearly_visitors);
+                const lu_chart_data = {"area_available":diagram_area, "built_up_area":land_area, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                populate_lu_chart('tourism', lu_chart_data);
 
             }
             this.update = function () {
@@ -1704,8 +1851,6 @@
                 const population = rooms * tourism_class_defaults[selected_subclass]["target_occupancy_rate"] * tourism_class_defaults[selected_subclass]["people_per_room"] * 365;
 
                 $("#total_yearly_visitors").html(parseInt(population));
-
-
                 
                 myTourismDisplayUpdater.updateEmployment(population);
                 myDisplayUpdater = new ServicesDisplayUpdater();
@@ -1716,11 +1861,10 @@
                 myDisplayUpdater.updateEnergy(population, tourism_class_defaults[selected_subclass]['energy']);
                 myDisplayUpdater.updateWater(population, tourism_class_defaults[selected_subclass]['water']);
                 myDisplayUpdater.updateSewage(population, tourism_class_defaults[selected_subclass]['sewage']);
-                myDisplayUpdater.updateTransport(population, tourism_class_defaults[selected_subclass]['transport']['road'], tourism_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
-                myDisplayUpdater.updateGreenSpace(population, tourism_class_defaults[selected_subclass][
-                    'green_space'
-                ]);
-
+                const total_parking_area  = myDisplayUpdater.updateTransport(population, tourism_class_defaults[selected_subclass]['transport']['road'], tourism_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
+                const total_green_space_area = myDisplayUpdater.updateGreenSpace(population, tourism_class_defaults[selected_subclass]['green_space']);
+                
+                
             }
         }
 
@@ -1845,11 +1989,10 @@
                 $("#total_floor_area_retail_support_split").html(abbrNum(parseInt(total_floor_area_support), 2));
                 $("#total_floor_area_retail_fmcg_split").html(abbrNum(parseInt(total_floor_area_fmcg), 2));
                 $("#total_floor_area_retail_other_split").html(abbrNum(parseInt(total_floor_area_other), 2));
-
+                const total_floor_area_retail_available = diagram_area * 0.8 *number_of_floors;
                 $("#total_floor_area_retail_required").html(abbrNum(parseInt(total_floor_area_retail), 2));
                 var diagram_area = diagramdetail['area'];
-                $("#total_floor_area_retail_available").html(abbrNum(parseInt(diagram_area * 0.8 *
-                    number_of_floors), 2)); // only 80% of the area is available, rest for frontage etc. 
+                $("#total_floor_area_retail_available").html(abbrNum(parseInt(total_floor_area_retail_available), 2)); // only 80% of the area is available, rest for frontage etc. 
 
                 $("#total_direct_employment_retail").html(parseInt(direct_employees_to_visitor_ratio_retail * total_daily_visitors));
                 $("#total_indirect_employment_retail").html(parseInt(indirect_to_direct_employees_ratio_retail * total_daily_visitors));
@@ -1863,9 +2006,11 @@
                 myDisplayUpdater.updateEnergyRecompute(total_daily_visitors);
                 myDisplayUpdater.updateWaterRecompute(total_daily_visitors);
                 myDisplayUpdater.updateSewageRecompute(total_daily_visitors);
-                myDisplayUpdater.updateTransportRecompute(total_daily_visitors, 2, 2);                
-                myDisplayUpdater.updateGreenSpaceRecompute(total_daily_visitors);
+                const total_parking_area  =  myDisplayUpdater.updateTransportRecompute(total_daily_visitors, 2, 2);                
+                const total_green_space_area =  myDisplayUpdater.updateGreenSpaceRecompute(total_daily_visitors);
 
+                const lu_chart_data = {"area_available":total_floor_area_retail_available, "built_up_area":total_floor_area_retail, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                populate_lu_chart('retail', lu_chart_data);
 
             }
             this.update = function () {
@@ -1926,11 +2071,12 @@
                 myDisplayUpdater.updateEnergy(population, retail_class_defaults[selected_subclass]['energy']);
                 myDisplayUpdater.updateWater(population, retail_class_defaults[selected_subclass]['water']);
                 myDisplayUpdater.updateSewage(population, retail_class_defaults[selected_subclass]['sewage']);
-                myDisplayUpdater.updateTransport(population, retail_class_defaults[selected_subclass][
+                const total_parking_area  =    myDisplayUpdater.updateTransport(population, retail_class_defaults[selected_subclass][
                     'transport'
                 ]['road'], retail_class_defaults[selected_subclass]['transport']['rail'], 2, 2,0.5);
 
-                myDisplayUpdater.updateGreenSpace(population, retail_class_defaults[selected_subclass]['green_space']);
+                const total_green_space_area = myDisplayUpdater.updateGreenSpace(population, retail_class_defaults[selected_subclass]['green_space']);
+                
             }
 
 
@@ -1997,12 +2143,28 @@
 
                 const total_floor_area_office = ((office_m2_per_visitor * total_daily_visitors_office));
                 $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office), 2));
-                $("#total_floor_area_office_available").html(abbrNum(parseInt(diagram_area * .8 * office_floors),
-                    2));
+                $("#total_floor_area_office_available").html(abbrNum(parseInt(diagram_area * .8 * office_floors),2));
             
                 $("#total_direct_employment_office").html(parseInt(direct_employees_to_visitor_ratio * total_daily_visitors_office),2);
                 $("#total_indirect_employment_office").html(parseInt(indirect_to_direct_employees_ratio_office * total_daily_visitors_office),2);
 
+
+                myDisplayUpdater = new ServicesDisplayUpdater();
+
+
+                myDisplayUpdater.updateBedsRecompute(total_daily_visitors_office);
+                myDisplayUpdater.updatePoliceStationsRecompute(total_daily_visitors_office);
+                myDisplayUpdater.updateFireStationsRecompte(total_daily_visitors_office);
+                myDisplayUpdater.updateSchoolsRecompute(total_daily_visitors_office * 0.05);
+                myDisplayUpdater.updateEnergyRecompute(total_daily_visitors_office);
+                myDisplayUpdater.updateWaterRecompute(total_daily_visitors_office);
+                myDisplayUpdater.updateSewageRecompute(total_daily_visitors_office);
+                const total_parking_area  = myDisplayUpdater.updateTransportRecompute(total_daily_visitors_office, 2, 2);                
+                const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(total_daily_visitors_office);
+                
+                const lu_chart_data = {"area_available":diagram_area, "built_up_area":total_floor_area_office, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                populate_lu_chart('office', lu_chart_data);
+                
             }
 
 
@@ -2069,10 +2231,11 @@
                 myDisplayUpdater.updateEnergy(population, office_class_defaults[selected_subclass]['energy']);
                 myDisplayUpdater.updateWater(population, office_class_defaults[selected_subclass]['water']);
                 myDisplayUpdater.updateSewage(population, office_class_defaults[selected_subclass]['sewage']);
-                myDisplayUpdater.updateTransport(population, office_class_defaults[selected_subclass][
+                const total_parking_area  = myDisplayUpdater.updateTransport(population, office_class_defaults[selected_subclass][
                     'transport'
                 ]['road'], office_class_defaults[selected_subclass]['transport']['rail'], 2, 2,0.5);
-                myDisplayUpdater.updateGreenSpace(population, office_class_defaults[selected_subclass]['green_space']);
+                const total_green_space_area = myDisplayUpdater.updateGreenSpace(population, office_class_defaults[selected_subclass]['green_space']);
+               
 
             }
 
@@ -2224,6 +2387,7 @@
                 const gs = parseInt(population * gs_demand);
                 $("#total_green_space").html(abbrNum(gs, 2));
                 $("#total_green_space_raw").val(gs);
+                return [gs];
             }
 
             this.updateGreenSpaceRecompute = function (population) {
@@ -2231,6 +2395,7 @@
                 const gs = parseInt(population * gs_demand);
                 $("#total_green_space").html(abbrNum(gs, 2));
                 $("#total_green_space_raw").val(gs);
+                return [gs];
             }
 
             this.updateTransport = function (population, percent_road, percent_rail, times_road, times_rail, parking_demand_factor) {
@@ -2250,6 +2415,8 @@
                 $("#total_road_usage_raw").val(t_road);
                 $("#total_parking").html(abbrNum(total_parking, 2));
                 $("#total_parking_raw").val(total_parking);
+                const parking_space = parseInt(total_parking *12.5);
+                return [parking_space];
 
             }
 
@@ -2269,6 +2436,9 @@
                 
                 $("#total_parking").html(abbrNum(total_parking, 2));
                 $("#total_parking_raw").val(total_parking);
+                
+                const parking_space = parseInt(total_parking *12.5);
+                return [parking_space];
             }
         };
         myResidentialControl = new ResidentialCalaulator();
@@ -2296,6 +2466,7 @@
                         'getValue', true));
                     metadata['residential_units'] = parseInt($("#residential_units").editable('getValue', true));
                     metadata['residential_floors'] = parseInt($("#residential_floors").editable('getValue',true));
+                    metadata['residential_far'] = parseInt($("#residential_far").editable('getValue',true));
                     metadata['current_pop_density'] = $("#current_pop_density").html();
                 } else if (base_asset_class == 'hospitality') {
                     metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
@@ -2414,6 +2585,11 @@
                 $("#number_of_people_residential").editable('setValue', class_default_values['metadata']['number_of_people_residential']);
                 $("#residential_units").editable('setValue', class_default_values['metadata']['residential_units']);
                 $("#residential_floors").editable('setValue', class_default_values['metadata']['residential_floors']);
+                if(class_default_values['metadata'].hasOwnProperty('residential_far')) {
+                $("#residential_far").editable('setValue', class_default_values['metadata']['residential_far']);
+                } else{
+                    $("#residential_far").editable('setValue', 0.6);
+                }
                 $("#current_pop_density").html(class_default_values['metadata']['current_pop_density']);
             } else if (asset_class == 'hospitality') {
                 $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
