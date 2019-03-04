@@ -67,7 +67,7 @@
         <div class="row">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="col-md-4">
-                <h3>Input Diagram</h3>
+                <h3>Diagram</h3>
                 <div id="inputmap"></div>
                 <h4 id="diagName"></h4>
                 <h5 id="diagAreaLength"></h5>
@@ -239,8 +239,7 @@
                         <br>
                         <br>
                         <h4>Total direct employment: <span id="total_direct_employment_retail">0</span></h6>
-                        <h4>Total indirect employment: <span id="total_indirect_employment_retail">0</span></h6>
-                            
+                        <h4>Total indirect employment: <span id="total_indirect_employment_retail">0</span></h6>                            
                     <br>
                     </div>
 
@@ -250,9 +249,155 @@
         </div>
         <hr>
         <div class="row">
+            <div class="col-md-8">
+                <div id="services" class="services_form">
+                    <h3>Services</h3>
+                    <small>A summary of supporting services necessary for this Asset class</small>
+                    <h4>Community</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Hospital Beds per capita</th>
+                                <td>
+                                    <span id="beds_per_capita"></span>
+                                </td>
+                                <td>Total beds: <span id='total_hospital_beds'></span><input type='hidden' id='total_hospital_beds_raw'></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Policestations (cells) per capita</th>
+                                <td>
+                                    <span id="police_station_per_capita"></span>
+                                </td>
+                                <td>Total police stations (cells): <span id='total_police_stations'></span><input type='hidden' id='total_police_stations_raw'></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Fire personnel per capita</th>
+                                <td>
+                                    <span id="fire_station_per_capita"></span>
+                                </td>
+                                <td>Total fire personnel: <span id='total_firestations'></span><input type='hidden' id='total_firestations_raw'></td>
+                            </tr>
+
+
+                            <tr>
+                                <th scope="row">K12 Schools (m2) per student (5% of population)</th>
+                                <td>
+                                    <span id="school_per_capita"></span>
+                                </td>
+                                <td>Total school area required: <span id='total_schools'></span> m2<input type='hidden' id='total_schools_raw'> </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                    <h4>Energy</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Electricity demand per person (MWh / year) </th>
+                                <td>
+                                    <span id="energy_per_capita"></span>
+
+                                </td>
+                                <td>Total electricity demand: <span id='total_energy_demand'></span> MW <input type='hidden' id='total_energy_demand_raw'></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <h4>Water</h4>
+
+                    <table class="table table-bordered">
+                        <tbody>
+
+                            <th scope="row">Water demand (m3/year/person) </th>
+                            <td>
+                                <span id="water_per_capita"></span>
+                            </td>
+                            <td>Total water demand: <span id='total_water_demand'></span> m3 <input type='hidden' id='total_water_demand_raw'></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <h4>Sewage</h4>
+
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Sewage demand (m3/year/person)</th>
+                                <td>
+                                    <span id="sewage_per_capita"></span>
+                                </td>
+                                <td>Total sewage demand: <span id='total_sewage_demand'></span> m3 <input type='hidden' id='total_sewage_demand_raw'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4>Transport</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">% using Road (twice a day)</th>
+                                <td>
+                                    <span id="percent_road_usage"></span>
+                                </td>
+
+                                <td>Usage (people)</td>
+                                <td><span id='total_road_usage'></span><input type='hidden' id='total_road_usage_raw'></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">% using Rail (twice a day)</th>
+                                <td>
+                                    <span id="percent_rail_usage"></span>
+                                </td>
+
+                                <td> Usage (people)</td>
+                                <td><span id='total_rail_usage'></span><input type='hidden' id='total_rail_usage_raw'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4>Parking</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Recommended parking spaces ( 2 people per car, 50% of total cars)</th>
+                                <td>
+                                    <span id="parking_factor"></span>
+                                </td>
+
+                                <td>Total</td>
+                                <td><span id='total_parking'></span><input type='hidden' id='total_parking_raw'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4>Green Spaces</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Per capita green space (m2)</th>
+                                <td>
+                                    <span id="per_capita_green_space"></span>
+                                </td>
+
+                                <td>Total</td>
+                                <td><span id='total_green_space'></span><input type='hidden' id='total_green_space_raw'></td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h3>Land use Distribution</h3>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
             <div class="col-md-6">
 
-                <h3>Parameters</h3>
+                <h3>Financial Parameters</h3>
                 <h5>Capital Expenditure / Initial Investment</h5>
                 <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
                 <div class="row">
@@ -321,118 +466,6 @@
         <!-- /.col-md-4 -->
         <!-- /.row -->
         <br>
-        <div class="row">
-            <div class="col-md-8">
-                <div id="services" class="services_form">
-                    <h3>Services</h3>
-                    <small>A summary of supporting services necessary for this Asset class</small>
-                    <h4>Community</h4>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Hospital Beds per capita</th>
-                                <td>
-                                    <span id="beds_per_capita"></span>
-                                </td>
-                                <td>Total beds: <span id='total_hospital_beds'></span><input type='hidden' id='total_hospital_beds_raw'></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Policestations (cells) per capita</th>
-                                <td>
-                                    <span id="police_station_per_capita"></span>
-                                </td>
-                                <td>Total police stations (cells): <span id='total_police_stations'></span><input type='hidden' id='total_police_stations_raw'></td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">Fire personnel per capita</th>
-                                <td>
-                                    <span id="fire_station_per_capita"></span>
-                                </td>
-                                <td>Total fire personnel: <span id='total_firestations'></span><input type='hidden' id='total_firestations_raw'></td>
-                            </tr>
-
-
-                            <tr>
-                                <th scope="row">K12 Schools (m2) per student (5% of population)</th>
-                                <td>
-                                    <span id="school_per_capita"></span>
-                                </td>
-                                <td>Total school area required: <span id='total_schools'></span> m2<input type='hidden' id='total_schools_raw'> </td>
-                            </tr>
-
-
-                        </tbody>
-                    </table>
-
-                    <h4>Energy</h4>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Electricity demand per person (MWh / year) </th>
-                                <td>
-                                    <span id="energy_per_capita"></span>
-
-                                </td>
-                                <td>Total electricity demand: <span id='total_energy_demand'></span> MW <input type='hidden' id='total_energy_demand_raw'></td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    <h4>Water</h4>
-
-                    <table class="table table-bordered">
-                        <tbody>
-
-                            <th scope="row">Water demand (m3/year/person) </th>
-                            <td>
-                                <span id="water_per_capita"></span>
-                            </td>
-                            <td>Total water: <span id='total_water_demand'></span> m3 <input type='hidden' id='total_water_demand_raw'></td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    <h4>Sewage</h4>
-
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Sewage demand (m3/year/person)</th>
-                                <td>
-                                    <span id="sewage_per_capita"></span>
-                                </td>
-                                <td>Total sewage demand: <span id='total_sewage_demand'></span> m3 <input type='hidden' id='total_sewage_demand_raw'></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <h4>Transport</h4>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th scope="row">% using Road (twice a day)</th>
-                                <td>
-                                    <span id="percent_road_usage"></span>
-                                </td>
-
-                                <td>Usage</td>
-                                <td><span id='total_road_usage'></span><input type='hidden' id='total_road_usage_raw'></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">% using Rail (twice a day)</th>
-                                <td>
-                                    <span id="percent_rail_usage"></span>.
-                                </td>
-
-                                <td> Usage</td>
-                                <td><span id='total_rail_usage'></span><input type='hidden' id='total_rail_usage_raw'></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
         <div class="row">
             <div class="col-md-6">
                 <h3>Remember parameters</h3>
@@ -1071,6 +1104,7 @@
             $('#base_asset_subclass_image').on('select2:select', function (e) {
                 var data = e.params.data;
                 const image_path = data['image_path'];
+              
                 $("#selected_typology_image").html("<img src='assets/img/asset-images/"+image_path+"'/>");
                 representative_image = image_path;
             });
@@ -1286,6 +1320,9 @@
                 myDisplayUpdater.updateWaterRecompute(population);
                 myDisplayUpdater.updateSewageRecompute(population);
                 myDisplayUpdater.updateTransportRecompute(population, 2, 2);
+                
+                myDisplayUpdater.updateGreenSpaceRecompute(population);
+                
 
             }
             this.update = function (units, population, floors) {
@@ -1302,7 +1339,8 @@
                         "transport": {
                             'road': 0.9,
                             'rail': 0.1
-                        }
+                        },
+                        "green_space":9
                     },
                     "High Priced": {
                         "beds": 0.0025,
@@ -1315,7 +1353,8 @@
                         "transport": {
                             'road': 0.9,
                             'rail': 0.1
-                        }
+                        },
+                        "green_space":9
                     },
                     "Mid Priced": {
                         "beds": 0.0035,
@@ -1328,7 +1367,8 @@
                         "transport": {
                             'road': 0.3,
                             'rail': 0.7
-                        }
+                        },
+                        "green_space":9
                     },
                     "Low Priced": {
                         "beds": 0.0045,
@@ -1341,7 +1381,8 @@
                         "transport": {
                             'road': 0.4,
                             'rail': 0.6
-                        }
+                        },
+                        "green_space":9
                     },
                     "Affordable Housing": {
                         "beds": 0.0055,
@@ -1354,7 +1395,8 @@
                         "transport": {
                             'road': 0.5,
                             'rail': 0.5
-                        }
+                        },
+                        "green_space":9
                     }
                 };
 
@@ -1405,8 +1447,11 @@
                 ]);
                 myDisplayUpdater.updateTransport(population, residential_class_defaults[selected_subclass][
                     'transport'
-                ]['road'], residential_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
+                ]['road'], residential_class_defaults[selected_subclass]['transport']['rail'], 2, 2,0.5);
 
+                myDisplayUpdater.updateGreenSpace(population, residential_class_defaults[selected_subclass][
+                    'green_space'
+                ]);
 
             }
         }
@@ -1569,7 +1614,8 @@
                         "transport": {
                             'road': 0.9,
                             'rail': 0.1
-                        }
+                        },
+                        "green_space":3
                     },
                     "Upscale Hotel": {
                         "tourism_m2_per_guest": 50,
@@ -1590,7 +1636,8 @@
                         "transport": {
                             'road': 0.9,
                             'rail': 0.1
-                        }
+                        },
+                        "green_space":3
                     },
                     "Midscale Hotel": {
                         "tourism_m2_per_guest": 40,
@@ -1611,7 +1658,8 @@
                         "transport": {
                             'road': 0.9,
                             'rail': 0.1
-                        }
+                        },
+                        "green_space":3
                     },
                     "Budget Hotel": {
                         "tourism_m2_per_guest": 30,
@@ -1632,7 +1680,8 @@
                         "transport": {
                             'road': 0.9,
                             'rail': 0.1
-                        }
+                        },                        
+                        "green_space":3
                     }
                 };
 
@@ -1668,6 +1717,9 @@
                 myDisplayUpdater.updateWater(population, tourism_class_defaults[selected_subclass]['water']);
                 myDisplayUpdater.updateSewage(population, tourism_class_defaults[selected_subclass]['sewage']);
                 myDisplayUpdater.updateTransport(population, tourism_class_defaults[selected_subclass]['transport']['road'], tourism_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
+                myDisplayUpdater.updateGreenSpace(population, tourism_class_defaults[selected_subclass][
+                    'green_space'
+                ]);
 
             }
         }
@@ -1811,7 +1863,8 @@
                 myDisplayUpdater.updateEnergyRecompute(total_daily_visitors);
                 myDisplayUpdater.updateWaterRecompute(total_daily_visitors);
                 myDisplayUpdater.updateSewageRecompute(total_daily_visitors);
-                myDisplayUpdater.updateTransportRecompute(total_daily_visitors, 2, 2);
+                myDisplayUpdater.updateTransportRecompute(total_daily_visitors, 2, 2);                
+                myDisplayUpdater.updateGreenSpaceRecompute(total_daily_visitors);
 
 
             }
@@ -1836,7 +1889,9 @@
                         "transport": {
                             'road': 0.9,
                             'rail': 0.1
-                        }
+                        },
+                        
+                        "green_space":1
                     }
                 };
 
@@ -1873,8 +1928,9 @@
                 myDisplayUpdater.updateSewage(population, retail_class_defaults[selected_subclass]['sewage']);
                 myDisplayUpdater.updateTransport(population, retail_class_defaults[selected_subclass][
                     'transport'
-                ]['road'], retail_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
+                ]['road'], retail_class_defaults[selected_subclass]['transport']['rail'], 2, 2,0.5);
 
+                myDisplayUpdater.updateGreenSpace(population, retail_class_defaults[selected_subclass]['green_space']);
             }
 
 
@@ -1969,7 +2025,8 @@
                         "transport": {
                             'road': 0.9,
                             'rail': 0.1
-                        }
+                        }, 
+                        "green_space":1
                     }
                 };
 
@@ -2014,7 +2071,8 @@
                 myDisplayUpdater.updateSewage(population, office_class_defaults[selected_subclass]['sewage']);
                 myDisplayUpdater.updateTransport(population, office_class_defaults[selected_subclass][
                     'transport'
-                ]['road'], office_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
+                ]['road'], office_class_defaults[selected_subclass]['transport']['rail'], 2, 2,0.5);
+                myDisplayUpdater.updateGreenSpace(population, office_class_defaults[selected_subclass]['green_space']);
 
             }
 
@@ -2138,9 +2196,6 @@
                 const sewage = parseInt(population * demand);
                 $("#total_sewage_demand").html(abbrNum(sewage, 2));
                 $("#total_sewage_demand_raw").val(sewage);
-
-          
-                
             }
 
             this.updateSewageRecompute = function (population) {
@@ -2149,33 +2204,71 @@
                 $("#total_sewage_demand").html(abbrNum(sewage, 2));
                 $("#total_sewage_demand_raw").val(sewage);
             }
+            
+            // this.updateParking = function (cars, demand_factor) {
+            //     $("#parking_factor").editable('setValue', demand_factor);
+            //     const total_parking = parseInt(cars * demand_factor);
+            //     $("#total_parking").html(abbrNum(total_parking, 2));
+            //     $("#total_parking_raw").val(total_parking);
+            // }
 
-            this.updateTransport = function (population, percent_road, percent_rail, times_road, times_rail) {
+            // this.updateParkingRecompute = function (cars) {
+            //     const demand_factor = $("#parking_factor").editable('getValue', true);
+            //     const total_parking = parseInt(cars * demand_factor);
+            //     $("#total_parking").html(abbrNum(total_parking, 2));
+            //     $("#total_parking_raw").val(total_parking);
+            // }
+
+            this.updateGreenSpace = function (population, gs_demand) {
+                $("#per_capita_green_space").editable('setValue', gs_demand);
+                const gs = parseInt(population * gs_demand);
+                $("#total_green_space").html(abbrNum(gs, 2));
+                $("#total_green_space_raw").val(gs);
+            }
+
+            this.updateGreenSpaceRecompute = function (population) {
+                const gs_demand = $("#per_capita_green_space").editable('getValue', true);
+                const gs = parseInt(population * gs_demand);
+                $("#total_green_space").html(abbrNum(gs, 2));
+                $("#total_green_space_raw").val(gs);
+            }
+
+            this.updateTransport = function (population, percent_road, percent_rail, times_road, times_rail, parking_demand_factor) {
                 $("#percent_road_usage").editable('setValue', percent_road);
                 $("#percent_rail_usage").editable('setValue', percent_rail);
+                $("#parking_factor").editable('setValue', parking_demand_factor);
+                
 
                 $("#road_terminal_freq").html(times_road);
                 $("#rail_terminal_freq").html(times_rail);
                 const t_rail = parseInt(population * percent_rail * times_rail);
-                const t_road = parseInt(population * percent_road * times_road);
-               
+                const t_road = parseInt(population * percent_road * times_road); 
+                const total_parking = parseInt((t_road /2) * parking_demand_factor);
                 $("#total_rail_usage").html(abbrNum(t_rail, 2));
                 $("#total_rail_usage_raw").val(t_rail);
                 $("#total_road_usage").html(abbrNum(t_road, 2));
                 $("#total_road_usage_raw").val(t_road);
+                $("#total_parking").html(abbrNum(total_parking, 2));
+                $("#total_parking_raw").val(total_parking);
 
             }
 
             this.updateTransportRecompute = function (population, times_road, times_rail) {
                 const percent_road = $("#percent_road_usage").editable('getValue', true);
-                const percent_rail = $("#percent_rail_usage").editable('getValue', true);
+                const percent_rail = $("#percent_rail_usage").editable('getValue', true);                
+                
                 const t_rail = parseInt(population * percent_rail * times_rail);
                 const t_road = parseInt(population * percent_road * times_road);
           
+                const demand_factor = $("#parking_factor").editable('getValue', true);
+                const total_parking = parseInt((t_road /2) * demand_factor);
                 $("#total_rail_usage").html(abbrNum(t_rail, 2));
                 $("#total_rail_usage_raw").val(t_rail);
                 $("#total_road_usage").html(abbrNum(t_road, 2));
                 $("#total_road_usage_raw").val(t_road);
+                
+                $("#total_parking").html(abbrNum(total_parking, 2));
+                $("#total_parking_raw").val(total_parking);
             }
         };
         myResidentialControl = new ResidentialCalaulator();
@@ -2239,8 +2332,7 @@
                     metadata['office_m2_per_visitor'] = parseInt($("#office_m2_per_visitor").editable('getValue', true));
                     metadata['office_floors'] = parseInt($("#office_floors").editable('getValue', true));
                     metadata['total_daily_visitors_office'] = parseInt($("#total_daily_visitors_office").editable('getValue', true));
-                    metadata['total_floor_area_office_required'] = $("#total_floor_area_office_required").val();
-                   
+                    metadata['total_floor_area_office_required'] = $("#total_floor_area_office_required").val();                   
                     metadata['indirect_to_direct_employees_ratio'] = $("#indirect_to_direct_employees_ratio_office").html();
                     metadata['direct_employees_to_visitor_ratio'] = $("#direct_employees_to_visitor_ratio_office").html();
                     metadata['total_direct_employment_office'] = $("#total_direct_employment_office").html();
@@ -2253,7 +2345,9 @@
                 metadata['services']['total_schools']= $("#total_schools_raw").val();
                 metadata['services']['total_energy_demand']= $("#total_energy_demand_raw").val();
                 metadata['services']['total_water_demand']= $("#total_water_demand_raw").val();
-                metadata['services']['total_sewage_demand']= $("#total_sewage_demand_raw").val();
+                metadata['services']['total_green_spaces']= $("#total_green_space_raw").val();
+                metadata['services']['total_sewage_demand']= $("#total_sewage_demand_raw").val();                
+                metadata['services']['total_parking']= $("#total_parking_raw").val();
                 metadata['services']['total_road_usage']= $("#total_road_usage_raw").val();
                 metadata['services']['total_rail_usage']= $("#total_rail_usage_raw").val();
 
@@ -2384,7 +2478,7 @@
 
             if(class_default_values['metadata'].hasOwnProperty('representative_image')) {
                 const img = "<img src='assets/img/asset-images/"+class_default_values['metadata']['representative_image']+"'/>";
-                
+   
                 $("#selected_typology_image").html(img);
             }      
         }
