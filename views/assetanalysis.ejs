@@ -114,19 +114,19 @@
                 </div>
 
                 <div class='usage_form hidden' id="built_env_form_tourism">
-                    <h5>Average m2 per guest: <a class="editable" href="#" id="tourism_m2_per_guest" data-type="text" data-title="Enter new room size e.g. 5">58</a></h5>
+                    <h4>Average m2 per guest: <a class="editable" href="#" id="tourism_m2_per_guest" data-type="text" data-title="Enter new room size e.g. 5">58</a></h4>
 
-                    <h5>Floors: <a class="editable" href="#" id="tourism_floors" data-type="text" data-title="Enter new floors e.g. 5">2</a></h5>
+                    <h4>Floors: <a class="editable" href="#" id="tourism_floors" data-type="text" data-title="Enter new floors e.g. 5">2</a></h4>
 
-                    <h5>Land Area Factor: <a class="editable" href="#" id="tourism_land_area" data-type="text" data-title="Enter new land consumption factor  e.g. 5">3</a></h5>
+                    <h4>Land Area Factor: <a class="editable" href="#" id="tourism_land_area" data-type="text" data-title="Enter new land consumption factor  e.g. 5">3</a></h4>
 
-                    <h5>Avg. People per room: <a class="editable" href="#" id="tourism_people_per_room" data-type="text" ata-title="Enter new people per room">3</a></h5>
+                    <h4>Avg. People per room: <a class="editable" href="#" id="tourism_people_per_room" data-type="text" ata-title="Enter new people per room">3</a></h4>
 
-                    <h5>Target Occupancy Rate: <span id="target_occupancy_rate_SPAN"><a class="editable" href="#" id="target_occupancy_rate" data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></span></h5>
+                    <h4>Target Occupancy Rate: <span id="target_occupancy_rate_SPAN"><a class="editable" href="#" id="target_occupancy_rate" data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></span></h4>
                     <br>
                    
-                    <h5>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_tourism" data-type="text" data-title="Enter new ratio">.01</a></h5>
-                    <h5>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_tourism" data-type="text" data-title="Enter new ratio">.2</a></h5>
+                    <h4>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_tourism" data-type="text" data-title="Enter new ratio">.01</a></h4>
+                    <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_tourism" data-type="text" data-title="Enter new ratio">.2</a></h4>
                     <br>
 
                     <button id="recompute_tourism" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
@@ -135,7 +135,7 @@
 
                 <div class='usage_form hidden' id="built_env_form_office">
 
-                    <h6>Usage</h6>
+                    
                     <h4>Per capita space required in m2: <a class="editable" href="#" id="office_m2_per_visitor"
                             data-type="text" data-title="Enter new room size e.g. 5">12</a></h4>
                     <h4>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
@@ -347,14 +347,12 @@
                 </div>
 
                 <div class="usage_form hidden" id="built_env_form_residential_secondary">                        
-                    <h6>Avg. Area per unit: <span id="avg_area_per_unit">0</span> </h6>                        
-                    <h6>Total built floor area: <span id="total_floor_area_residential_built">0</span> m2</h6>
-                    <h6>Total available area: <span id="total_floor_area_residential_available">0</span> m2</h6>
-                    <br>   
-                    
+                    <h5>Avg. Area per unit: <span id="avg_area_per_unit">0</span> </h5>                        
+                    <h5>Total built floor area: <span id="total_floor_area_residential_built">0</span> m2</h5>
+                    <h5>Total available area: <span id="total_floor_area_residential_available">0</span> m2</h5>
                     <h5>Population Density: <span id="current_pop_density"></span> people per km2</h5>
                     <br>
-                    <small>Built area is 0.6 of diagram areas. Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small><br><br>
+                    <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small><br><br>
                 </div>
 
                 <div class="usage_form hidden" id="built_env_form_tourism_secondary">
@@ -1440,10 +1438,12 @@
                 const max_buildable_area_in_m2 = (diagram_area * floors);
                 const new_population_density = population / area_in_km2;
                 const total_floor_area_residential_available = parseInt((diagram_area * far * floors));                
-                const max_floor_area_available_per_floor = parseInt((diagram_area * far));                
-                const avg_area_per_unit = (parseInt(total_floor_area_residential_available) / parseInt(numresidences));
+                const max_floor_area_available_per_floor = parseInt((diagram_area * far));   
+                const residences_per_floor =  numresidences / floors;          
+                
 
-                const total_floor_area_residential_available_per_floor = parseInt((avg_area_per_unit / floors));
+                const total_floor_area_residential_available_per_floor = parseInt((total_floor_area_residential_available / floors));
+                const avg_area_per_unit = (parseInt(total_floor_area_residential_available_per_floor) / parseInt(numresidences));
 
                 $("#current_pop_density").html(abbrNum(new_population_density, 2));
                 $("#total_floor_area_residential_built").html(abbrNum(total_floor_area_residential_available, 2));
@@ -2142,6 +2142,7 @@
                 const diagram_area = diagramdetail['area']
 
                 const total_floor_area_office = ((office_m2_per_visitor * total_daily_visitors_office));
+                const total_floor_area_office_per_floor = (total_floor_area_office / office_floors);
                 $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office), 2));
                 $("#total_floor_area_office_available").html(abbrNum(parseInt(diagram_area * .8 * office_floors),2));
             
@@ -2162,7 +2163,7 @@
                 const total_parking_area  = myDisplayUpdater.updateTransportRecompute(total_daily_visitors_office, 2, 2);                
                 const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(total_daily_visitors_office);
                 
-                const lu_chart_data = {"area_available":diagram_area, "built_up_area":total_floor_area_office, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                const lu_chart_data = {"area_available":diagram_area, "built_up_area":total_floor_area_office_per_floor, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
                 populate_lu_chart('office', lu_chart_data);
                 
             }
