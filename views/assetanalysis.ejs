@@ -133,9 +133,7 @@
 
                 </div>
 
-                <div class='usage_form hidden' id="built_env_form_office">
-
-                    
+                <div class='usage_form hidden' id="built_env_form_office">                    
                     <h4>Per capita space required in m2: <a class="editable" href="#" id="office_m2_per_visitor"
                             data-type="text" data-title="Enter new room size e.g. 5">12</a></h4>
                     <h4>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
@@ -143,8 +141,8 @@
                             data-type="text" data-title="Enter a new office workers">300</a></h4>
                     <br>
                     
-                    <h5>Direct employees to office workers ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_office" data-type="text" data-title="Enter new ratio">.01</a></h5>
-                    <h5>Indirect employees to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_office" data-type="text" data-title="Enter new ratio">.2</a></h5>
+                    <h4>Direct employees to office workers ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_office" data-type="text" data-title="Enter new ratio">.01</a></h4>
+                    <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_office" data-type="text" data-title="Enter new ratio">.2</a></h4>
 
                     <br>
                     <button id="recompute_office" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
@@ -155,8 +153,13 @@
                             data-title="Enter new room size e.g. 5">4</a></h4>
                     <h4>Number of floors: <a class="editable" href="#" id="retail_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
                     <h4>Expected visitors in area: <a class="editable" href="#" id="total_daily_visitors_retail"
-                            data-type="text" data-title="Enter a new visitor number">3000</a></h4><br>
-                    <div class="">
+                            data-type="text" data-title="Enter a new visitor number">3000</a></h4>
+                    <br>
+                    <h4>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_retail" data-type="text" data-title="Enter new ratio">.05</a></h4>
+                    <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_retail" data-type="text" data-title="Enter new ratio">.2</a></h4>        
+                        
+                    <br>
+                    <div class="hidden">
                         <h5>% interested in Luxury Retail (e.g. name brands): <a class="editable" href="#" id="percent_interested_in_luxury_retail"
                                 data-type="text" data-title="Enter percentage e.g. 0.15">.1</a></h5>
                         <h5>% interested in Support Retail (e.g office supplies): <a class="editable" href="#" id="percent_interested_in_support_retail"
@@ -165,7 +168,9 @@
                                 data-type="text" data-title="Enter percentage e.g. 0.5">.3</a></h5>
                         <h5>% interested in other retail (e.g. food / restaurant): <a class="editable" href="#" id="percent_interested_in_food_retail"
                                 data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>
+                    
                     </div>
+                    <br>
 
                     <button id="recompute_retail" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
@@ -369,19 +374,16 @@
 
                 <div class="usage_form hidden" id="built_env_form_office_secondary">                    
                     <br>
+                    <h4>Total Floor area available:&nbsp;<span id="total_floor_area_office_available">0</span> m2</h4>                    
                     <h4>Total Floor area needed:&nbsp;<span id="total_floor_area_office_required">0</span> m2</h4>
-                    <h5>Total Floor area available: <span id="total_floor_area_office_available">0</span> m2</h5>
-                    <h4>Total direct employment: <span id="total_direct_employment_office">0</span></h6>
-                    <h4>Total indirect employment: <span id="total_indirect_employment_office">0</span></h6>
+                    <br>
+                    <h4>Total direct employment:&nbsp;<span id="total_direct_employment_office">0</span></h6>
+                    <h4>Total indirect employment:&nbsp;<span id="total_indirect_employment_office">0</span></h6>
                 <br>
                 </div>
 
                 <div class="usage_form hidden" id="built_env_form_retail_secondary">              
-                    <br>
-                    <h5>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_retail" data-type="text" data-title="Enter new ratio">.05</a></h5>
-                    <h5>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_retail" data-type="text" data-title="Enter new ratio">.2</a></h5>
-
-                    <br>
+                
                     <h4>Total Floor area needed <span id="total_floor_area_retail_required">0</span> m2.</h4>
                     <div class="hidden">
                         <h6>of which Luxury <span id="total_floor_area_retail_luxury_split">0</span> m2</h6>
@@ -390,7 +392,7 @@
                         <h6>of which other <span id="total_floor_area_retail_other_split">0</span> m2</h6>
                         <br>
                     </div>
-                    <small>Total Floor area available <span id="total_floor_area_retail_available">0</span> m2</small>
+                    <h4>Total Floor area available <span id="total_floor_area_retail_available">0</span> m2</h4>
                     <br>
                     <br>
                     <h4>Total direct employment: <span id="total_direct_employment_retail">0</span></h6>
@@ -613,7 +615,7 @@
             },
             });
 
-        function populate_lu_chart(type, chart_data) {
+        function populate_lu_chart(type, chart_data) {           
             
             var luctx =  document.getElementById('lu_chart').getContext('2d');
             
@@ -1460,7 +1462,7 @@
                 myDisplayUpdater.updateSewageRecompute(population);
                 const total_parking_area  = myDisplayUpdater.updateTransportRecompute(population, 2, 2);                
                 const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(population);
-                const lu_chart_data = {"area_available":diagram_area, "built_up_area":max_floor_area_available_per_floor, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                const lu_chart_data = {"area_available":max_buildable_area_in_m2, "built_up_area":total_floor_area_residential_available, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
                 populate_lu_chart('residential', lu_chart_data);
 
             }
@@ -1733,9 +1735,8 @@
                 myDisplayUpdater.updateEnergyRecompute(yearly_visitors);
                 myDisplayUpdater.updateWaterRecompute(yearly_visitors);
                 myDisplayUpdater.updateSewageRecompute(yearly_visitors);
-                const total_parking_area  =  myDisplayUpdater.updateTransportRecompute(yearly_visitors, 2, 2);
-                const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(yearly_visitors);
-                const lu_chart_data = {"area_available":diagram_area, "built_up_area":land_area, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+
+                
                 populate_lu_chart('tourism', lu_chart_data);
 
             }
@@ -1960,6 +1961,8 @@
 
             }
             this.recompute = function () {
+                const diagram_area = diagramdetail['area']
+
                 const retail_m2_per_visitor = $("#retail_m2_per_visitor").editable('getValue', true);
                 const total_daily_visitors = $("#total_daily_visitors_retail").editable('getValue', true);
                 const number_of_floors = $("#retail_floors").editable('getValue', true);
@@ -1989,9 +1992,10 @@
                 $("#total_floor_area_retail_support_split").html(abbrNum(parseInt(total_floor_area_support), 2));
                 $("#total_floor_area_retail_fmcg_split").html(abbrNum(parseInt(total_floor_area_fmcg), 2));
                 $("#total_floor_area_retail_other_split").html(abbrNum(parseInt(total_floor_area_other), 2));
-                const total_floor_area_retail_available = diagram_area * 0.8 *number_of_floors;
+                const total_floor_area_retail_available = diagram_area * 0.8 * number_of_floors;
                 $("#total_floor_area_retail_required").html(abbrNum(parseInt(total_floor_area_retail), 2));
-                var diagram_area = diagramdetail['area'];
+ 
+                
                 $("#total_floor_area_retail_available").html(abbrNum(parseInt(total_floor_area_retail_available), 2)); // only 80% of the area is available, rest for frontage etc. 
 
                 $("#total_direct_employment_retail").html(parseInt(direct_employees_to_visitor_ratio_retail * total_daily_visitors));
@@ -2009,7 +2013,7 @@
                 const total_parking_area  =  myDisplayUpdater.updateTransportRecompute(total_daily_visitors, 2, 2);                
                 const total_green_space_area =  myDisplayUpdater.updateGreenSpaceRecompute(total_daily_visitors);
 
-                const lu_chart_data = {"area_available":total_floor_area_retail_available, "built_up_area":total_floor_area_retail, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                const lu_chart_data = {"area_available":total_floor_area_retail_available, "built_up_area":total_floor_area_retail, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};               
                 populate_lu_chart('retail', lu_chart_data);
 
             }
@@ -2142,9 +2146,15 @@
                 const diagram_area = diagramdetail['area']
 
                 const total_floor_area_office = ((office_m2_per_visitor * total_daily_visitors_office));
-                const total_floor_area_office_per_floor = (total_floor_area_office / office_floors);
+                // const total_floor_area_office_per_floor = (total_floor_area_office / office_floors);
+
+
+                const total_floor_area_available = parseInt(diagram_area * 0.8 * office_floors);
+
+                console.log(total_floor_area_office, total_floor_area_available)
+
                 $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office), 2));
-                $("#total_floor_area_office_available").html(abbrNum(parseInt(diagram_area * .8 * office_floors),2));
+                $("#total_floor_area_office_available").html(abbrNum(total_floor_area_available,2));
             
                 $("#total_direct_employment_office").html(parseInt(direct_employees_to_visitor_ratio * total_daily_visitors_office),2);
                 $("#total_indirect_employment_office").html(parseInt(indirect_to_direct_employees_ratio_office * total_daily_visitors_office),2);
@@ -2163,7 +2173,7 @@
                 const total_parking_area  = myDisplayUpdater.updateTransportRecompute(total_daily_visitors_office, 2, 2);                
                 const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(total_daily_visitors_office);
                 
-                const lu_chart_data = {"area_available":diagram_area, "built_up_area":total_floor_area_office_per_floor, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                const lu_chart_data = {"area_available":total_floor_area_available, "built_up_area":total_floor_area_office, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
                 populate_lu_chart('office', lu_chart_data);
                 
             }
@@ -2201,6 +2211,7 @@
                 $("#office_m2_per_visitor").editable('setValue', office_class_defaults[selected_subclass]['office_m2_per_visitor']);
                 $("#total_daily_visitors_office").editable('setValue',  office_class_defaults[selected_subclass]['total_daily_visitors_office']);
                 $("#office_floors").editable('setValue', office_class_defaults[selected_subclass]['office_floors']);
+                const office_floors = office_class_defaults[selected_subclass]['office_floors'];
                 $("#direct_employees_to_visitor_ratio_office").editable('setValue', office_class_defaults[selected_subclass]['direct_employees_to_visitor_ratio']);
                 $("#indirect_to_direct_employees_ratio_office").editable('setValue', office_class_defaults[selected_subclass]['direct_employees_to_visitor_ratio']);
                 const population = parseInt(office_class_defaults[selected_subclass]['total_daily_visitors_office']);
@@ -2208,10 +2219,9 @@
 
                 const total_floor_area_office = (( office_class_defaults[selected_subclass]['office_m2_per_visitor'] * office_class_defaults[selected_subclass]['total_daily_visitors_office']));
                 $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office), 2));
-                $("#total_floor_area_office_available").html(abbrNum(parseInt(diagram_area * .8 * office_floors),
-                    2));
+                $("#total_floor_area_office_available").html(abbrNum(parseInt(diagram_area * 0.8 * office_floors),2));
             
-                    const direct_employees_to_visitor_ratio = $("#direct_employees_to_visitor_ratio_office").editable('getValue', true);
+                const direct_employees_to_visitor_ratio = $("#direct_employees_to_visitor_ratio_office").editable('getValue', true);
                 const indirect_to_direct_employees_ratio_office = $("#indirect_to_direct_employees_ratio_office").editable('getValue', true);
                 $("#total_direct_employment_office").html(parseInt(direct_employees_to_visitor_ratio * office_class_defaults[selected_subclass]['total_daily_visitors_office']),2);
                 $("#total_indirect_employment_office").html(parseInt(indirect_to_direct_employees_ratio_office * office_class_defaults[selected_subclass]['total_daily_visitors_office']),2);
@@ -2648,9 +2658,7 @@
                 $("#total_daily_visitors_office").editable('setValue', class_default_values['metadata'][
                     'total_daily_visitors_office'
                 ]);
-                $("#total_floor_area_office_required").html(class_default_values['metadata'][
-                    'total_floor_area_office_required'
-                ]);
+                $("#total_floor_area_office_required").html(class_default_values['metadata']['total_floor_area_office_required']);
             }
 
             if(class_default_values['metadata'].hasOwnProperty('representative_image')) {
