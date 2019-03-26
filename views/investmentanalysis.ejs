@@ -63,7 +63,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="boundariesCont">
-                    <h4>Boundaries and Investments</h4>
+                    <h4>Boundaries and Financials</h4>
+                    <br><span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
                     <canvas id="boundaryChart"></canvas>
                 </div>
             </div>
@@ -344,10 +345,7 @@
             $("#procstatus").html(" " + data + "% complete");
         }
 
-        // function updateMapsWorkerStatus(data) {
-        //     $("#procstatusMap").html(" " + data + "% complete");
-        // }
-
+        
         function populateTableDataInit() {
             destroyTables();
             var areaWorker = new Worker('/assets/workers/computeAreas.js');
@@ -432,7 +430,7 @@
                 if (e.data.mode === 'status') {
                     updateWorkerStatus(e.data.percentcomplete);
                 } else {
-
+                    
                     renderBoundaryInvestmentMap(JSON.parse(e.data.newboundaries), parseInt(e.data.stdVar));
                     renderBoundaryInvestmentChart(JSON.parse(e.data.boundaryValue));
                     boundaryStdVar = parseInt(e.data.stdVar);
@@ -546,23 +544,36 @@
             });
 
             var b_investment_dataset = [];
+            var b_income_dataset = [];
             var labels = [];
             for (var g1 = 0; g1 < numYears; g1++) {
                 var cYear = (startyear + g1);
                 labels.push(cYear);
             }
+            // console.log(bdata)
 
             for (var x = 0; x < bdata.length; x++) {
                 var curBoundaryValue = bdata[x];
                 var cur_b_investment = {};
-                cur_b_investment['label'] = curBoundaryValue.bname;
+                var cur_b_income = {};
+                cur_b_investment['label'] = curBoundaryValue.bname + ' Investments';
+                cur_b_income['label'] = curBoundaryValue.bname + ' Income';
                 cur_b_investment['data'] = [];
+                cur_b_income['data'] =[];
                 for (var g1 = 0; g1 < numYears; g1++) {
                     var cYear = (startyear + g1);
                     cur_b_investment['data'].push(parseInt(curBoundaryValue['investment'][cYear]));
+                    
+                    cur_b_income['data'].push(parseInt(curBoundaryValue['income'][cYear]));
                 }
+
+
+
                 b_investment_dataset.push(cur_b_investment);
+                b_income_dataset.push(cur_b_income);
             }
+
+            // console.log(b_income_dataset, b_investment_dataset);
 
             var options = {
                 responsive: true,
@@ -613,7 +624,7 @@
                 type: 'line',
                 data: {
                     'labels': labels,
-                    'datasets': b_investment_dataset
+                    'datasets': b_income_dataset
                 },
                 options: options
             });
@@ -814,9 +825,7 @@
 
                         }
                     }
-
                 }
-
             }
         }
 

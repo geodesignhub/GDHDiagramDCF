@@ -132,6 +132,13 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
             } else {
                 numYears = 2;
             }
+            
+            var capex_start = sd_details['capex_start'];
+            var capex_end =  sd_details['capex_end'];
+            
+            var numYears = capex_end - capex_start; 
+            // console.log(sd_details);
+        
             // if the diagram exists get the number of years 
             // else default is 2
 
@@ -144,39 +151,52 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
 
             yearlyCost = parseFloat(totalCost / numYears);
             maxYearlyCost = (yearlyCost > maxYearlyCost) ? yearlyCost : maxYearlyCost;
-            var tenpercentIncome = (yeild * totalCost) / 100;
-            var lastIncome;
-            for (var k4 = 0; k4 < numYears; k4++) {
-               
-                    var sYear = (startyear + k4);
-                    curDiagDetails['investment'][sYear] = yearlyCost;
-                
+            var acf;
+            if ("acf" in sd_details) {
+                acf = parseInt(sd_details["acf"]);
+            }
+            else{
+             acf = (yeild * totalCost) / 100;
+            }
+            // console.log(acf, sd_details);
+            // var lastIncome;
+            for (var k4 = 0; k4 < numYears; k4++) {               
+                    var sYear = (startyear + k4+ parseInt(capex_start));                    
+                    curDiagDetails['investment'][sYear] = yearlyCost;                
             }
             var totalIncome = 0;
             for (var k = 0; k < number_of_years; k++) {
-                if (k == 0) {
-                    lastIncome = tenpercentIncome;
-                }
-
-                var incomeIncrease = (tenpercentIncome * 0.03);
-                var newIncome = incomeIncrease + lastIncome;
+                // if (k == 0) {
+                //     lastIncome = acf;
+                // }
+                // var incomeIncrease = (acf * 0.03);
+                // var newIncome = incomeIncrease + lastIncome;
                 var sYear = (startyear + k);
-                curDiagDetails['income'][sYear] = newIncome;
-                curDiagDetails['income']['yearly'] = tenpercentIncome;
-                totalIncome += lastIncome;
-                lastIncome = newIncome;
-
+                curDiagDetails['income'][sYear] = acf;
+                curDiagDetails['income']['yearly'] = acf;
+                totalIncome += acf;
+                // lastIncome = newIncome;
             }
             curDiagDetails['income']['total'] = totalIncome;
             var totalMaintainence = 0;
             // var threepercentMaintainece = -1 * yearlyCost * 0.03;
-            var threepercentMaintainece = yearlyCost * 0.03;
-            var lastIncome;
+            var all_opex_asga = 0;
+            if ("opex" in sd_details){
+                const opex = parseInt(sd_details['opex']);
+                const asga = parseInt(sd_details['asga']);
+                all_opex_asga = opex+ asga;
+            }
+            else{
+
+             all_opex_asga = yearlyCost * 0.03;
+            }
+
+            // var lastIncome;
             for (var k7 = 0; k7 < number_of_years; k7++) {
                 if (k7 < number_of_years - 1) {
                     var sYear = (startyear + k7);
-                    curDiagDetails['maintainence'][sYear] = threepercentMaintainece;
-                    totalMaintainence += threepercentMaintainece;
+                    curDiagDetails['maintainence'][sYear] = all_opex_asga;
+                    totalMaintainence += all_opex_asga;
                 }
             }
             curDiagDetails['area'] = totArea;

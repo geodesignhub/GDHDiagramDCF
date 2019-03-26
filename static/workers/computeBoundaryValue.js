@@ -117,9 +117,12 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
 
         bndIDDiags[bndID]['services'] = {};
         bndIDDiags[bndID]['investment'] = {};
+        bndIDDiags[bndID]['income'] = {};
+
         for (var k6 = 0; k6 < number_of_years; k6++) {
             var sYear = (startyear + k6);
             bndIDDiags[bndID]['investment'][sYear] = 0;
+            bndIDDiags[bndID]['income'][sYear] = 0;
         }
 
         // get the items in the grid that intersect the boundary. 
@@ -127,6 +130,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
             var curData = investmentdata[i1]; // current investment data
             var diagID = curData.id; // diagram id of the current investment
             var sysID = curData.sysid;
+            // console.log(curData)
            
             if (diagramIDs.includes(diagID) && (selectedsystems.includes(sysID))) {    
                 for (let p1 = 0; p1 < saved_asset_details.length; p1++) {                    
@@ -135,6 +139,8 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                     if (diag_id == diagID) {
                         const saved_bnd_diag_id = bndID +'-'+diag_id;
                         const cur_diagram_asset_details = cur_diagram_saved_details['asset_details'];
+                       
+
                         if (Object.keys(cur_diagram_asset_details).length === 0 && cur_diagram_asset_details.constructor === Object) {
                             
                         } else if (Object.keys(cur_diagram_asset_details).length > 0 && cur_diagram_asset_details.constructor === Object) {
@@ -222,10 +228,18 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
               
                 totalInvestment += curData['totalInvestment'];
                 const yearly_investment = curData['investment'];
+                const yearly_income = curData['income'];
+                
                 for (let cur_year in yearly_investment) {
                     const tmp_yrl_investemnt = yearly_investment[cur_year];
                     maxYearlyCost = (tmp_yrl_investemnt > maxYearlyCost) ? tmp_yrl_investemnt : tmp_yrl_investemnt;
-                    bndIDDiags[bndID]['investment'][cur_year] += tmp_yrl_investemnt;
+                    bndIDDiags[bndID]['investment'][cur_year] += tmp_yrl_investemnt*factor;
+                }
+                maxYearlyCost= 0;
+                for (let cur_year in yearly_income) {
+                    const tmp_yrl_income = yearly_income[cur_year];
+                    maxYearlyCost = (tmp_yrl_income > maxYearlyCost) ? tmp_yrl_income : tmp_yrl_income;
+                    bndIDDiags[bndID]['income'][cur_year] += tmp_yrl_income*factor;
                 }
             }
         }
