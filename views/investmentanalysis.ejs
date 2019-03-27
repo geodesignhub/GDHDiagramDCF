@@ -65,7 +65,15 @@
                 <div class="boundariesCont">
                     <h4>Boundaries and Financials</h4>
                     <br><span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
-                    <canvas id="boundaryChart"></canvas>
+                    <div height="300">
+                    <canvas id="boundary_investment_chart"></canvas>
+                </div>
+                <div height="300">
+                <canvas id="boundary_opex_chart"></canvas>
+                </div>
+                <div height="300">
+                    <canvas id="boundary_income_chart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -545,6 +553,8 @@
 
             var b_investment_dataset = [];
             var b_income_dataset = [];
+            var b_maintainence_dataset = [];
+
             var labels = [];
             for (var g1 = 0; g1 < numYears; g1++) {
                 var cYear = (startyear + g1);
@@ -556,30 +566,33 @@
                 var curBoundaryValue = bdata[x];
                 var cur_b_investment = {};
                 var cur_b_income = {};
-                cur_b_investment['label'] = curBoundaryValue.bname + ' Investments';
+                var cur_b_maintainence = {};
+                cur_b_investment['label'] = curBoundaryValue.bname + ' Capex';
+                cur_b_maintainence['label'] = curBoundaryValue.bname + ' Opex';
                 cur_b_income['label'] = curBoundaryValue.bname + ' Income';
+                
                 cur_b_investment['data'] = [];
                 cur_b_income['data'] =[];
+                cur_b_maintainence['data'] =[];
                 for (var g1 = 0; g1 < numYears; g1++) {
                     var cYear = (startyear + g1);
-                    cur_b_investment['data'].push(parseInt(curBoundaryValue['investment'][cYear]));
-                    
+                    cur_b_investment['data'].push(parseInt(curBoundaryValue['investment'][cYear]));                    
                     cur_b_income['data'].push(parseInt(curBoundaryValue['income'][cYear]));
+                    cur_b_maintainence['data'].push(parseInt(curBoundaryValue['maintainence'][cYear]));
+
                 }
-
-
 
                 b_investment_dataset.push(cur_b_investment);
                 b_income_dataset.push(cur_b_income);
+                b_maintainence_dataset.push(cur_b_maintainence);
             }
 
             // console.log(b_income_dataset, b_investment_dataset);
 
-            var options = {
-                responsive: true,
+            var options = { 
+                maintainAspectRatio: false,
                 title: {
-                    display: false,
-                    text: 'Year investment by boundary'
+                    display: false,                   
                 },
                 tooltips: {
                     mode: 'index',
@@ -618,9 +631,31 @@
                 }
             }
 
-            var ctx = $("#boundaryChart");
+            var investment_ctx = $("#boundary_investment_chart");
             Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
-            var myLineChart = new Chart(ctx, {
+            var myLineChart = new Chart(investment_ctx, {
+                type: 'line',
+                data: {
+                    'labels': labels,
+                    'datasets': b_investment_dataset
+                },
+                options: options
+            });
+            
+            
+            var maintainence_ctx = $("#boundary_opex_chart");
+            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            var myLineChart = new Chart(maintainence_ctx, {
+                type: 'line',
+                data: {
+                    'labels': labels,
+                    'datasets': b_maintainence_dataset
+                },
+                options: options
+            });
+            var income_ctx = $("#boundary_income_chart");
+            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            var myLineChart = new Chart(income_ctx, {
                 type: 'line',
                 data: {
                     'labels': labels,
@@ -628,6 +663,7 @@
                 },
                 options: options
             });
+            
         }
 
         var boundarymap = L.map('boundaryMap', {

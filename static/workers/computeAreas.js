@@ -173,11 +173,11 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
                 // var newIncome = incomeIncrease + lastIncome;
                 var sYear = (startyear + k);
                 curDiagDetails['income'][sYear] = acf;
-                curDiagDetails['income']['yearly'] = acf;
+                // curDiagDetails['income']['yearly'] = acf;
                 totalIncome += acf;
                 // lastIncome = newIncome;
             }
-            curDiagDetails['income']['total'] = totalIncome;
+            // curDiagDetails['income']['total'] = totalIncome;
             var totalMaintainence = 0;
             // var threepercentMaintainece = -1 * yearlyCost * 0.03;
             var all_opex_asga = 0;
@@ -200,7 +200,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
                 }
             }
             curDiagDetails['area'] = totArea;
-            curDiagDetails['maintainence']['total'] = totalMaintainence;
+            // curDiagDetails['maintainence']['total'] = totalMaintainence;
             diagCosts.push(curDiagDetails);
         }
     }

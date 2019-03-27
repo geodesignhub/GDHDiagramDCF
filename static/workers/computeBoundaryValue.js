@@ -118,11 +118,13 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
         bndIDDiags[bndID]['services'] = {};
         bndIDDiags[bndID]['investment'] = {};
         bndIDDiags[bndID]['income'] = {};
+        bndIDDiags[bndID]['maintainence'] = {};
 
         for (var k6 = 0; k6 < number_of_years; k6++) {
             var sYear = (startyear + k6);
             bndIDDiags[bndID]['investment'][sYear] = 0;
             bndIDDiags[bndID]['income'][sYear] = 0;
+            bndIDDiags[bndID]['maintainence'][sYear] = 0;
         }
 
         // get the items in the grid that intersect the boundary. 
@@ -229,6 +231,9 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                 totalInvestment += curData['totalInvestment'];
                 const yearly_investment = curData['investment'];
                 const yearly_income = curData['income'];
+                const yearly_opex = curData['maintainence'];
+
+                
                 
                 for (let cur_year in yearly_investment) {
                     const tmp_yrl_investemnt = yearly_investment[cur_year];
@@ -241,6 +246,13 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                     maxYearlyCost = (tmp_yrl_income > maxYearlyCost) ? tmp_yrl_income : tmp_yrl_income;
                     bndIDDiags[bndID]['income'][cur_year] += tmp_yrl_income*factor;
                 }
+                maxYearlyCost= 0;
+                for (let cur_year in yearly_opex) {
+                    const tmp_yrl_opex = yearly_opex[cur_year];
+                    maxYearlyCost = (tmp_yrl_opex > maxYearlyCost) ? tmp_yrl_opex : tmp_yrl_opex;
+                    bndIDDiags[bndID]['maintainence'][cur_year] += tmp_yrl_opex*factor;
+                }
+
             }
         }
         

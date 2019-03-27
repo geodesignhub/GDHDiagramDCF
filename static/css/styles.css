@@ -29,9 +29,14 @@ h4 {
     height: 290px;
 }
 
-#boundaryChart {
-    height: 250px;
+#boundary_investment_chart,
+#boundary_income_chart,
+#boundary_opex_chart
+{
+
+    height: 200px;
 }
+
 
 .info {
     padding: 6px 8px;
