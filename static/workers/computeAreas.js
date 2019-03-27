@@ -1,4 +1,3 @@
-
 importScripts('../js/turf.min.js');
 importScripts('../js/moment.min.js');
 
@@ -20,11 +19,11 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
     for (var x = 0; x < syslen; x++) {
         var cSys = systems[x];
         var allDiagrams = cSys.diagrams;
-      
+
         var allDiaglen = allDiagrams.length;
-     
+
         var yeild;
-      
+
         for (var y = 0; y < allDiaglen; y++) {
             var sysCost = 0;
             var cDiag = allDiagrams[y];
@@ -59,23 +58,23 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
 
             if (whiteListedSysName.indexOf(sysName) >= 0) { // system is whitelisted
                 if ((sysName === 'HDH') || (sysName === 'HSNG') || (sysName === 'HSG')) {
-                    yeild =10;
+                    yeild = 10;
                 } else if (sysName === 'MXD') {
                     yeild = 16;
                 } else if (sysName === 'LDH') {
 
-                    yeild =12;
+                    yeild = 12;
                 } else if ((sysName === 'COM') || (sysName === 'COMIND') || (sysName === 'IND')) {
-                    yeild =18;
+                    yeild = 18;
                 }
             } else if ((sysTag === 'Large buildings, Industry, commerce')) { // system not whitelisted
-                yeild =16;
+                yeild = 16;
             } else if ((sysTag === 'Small buildings, low density housing')) { // system not whitelisted 
 
-                yeild =  16;
+                yeild = 16;
             } else {
 
-                yeild =12;
+                yeild = 12;
             }
 
 
@@ -91,7 +90,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
                     break;
                 }
             }
-            
+
 
             for (var h = 0; h < sysdetlen; h++) {
                 var cSys = systemdetails[h];
@@ -132,13 +131,13 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
             } else {
                 numYears = 2;
             }
-            
+
             var capex_start = sd_details['capex_start'];
-            var capex_end =  sd_details['capex_end'];
-            
-            var numYears = capex_end - capex_start; 
+            var capex_end = sd_details['capex_end'];
+
+            var numYears = capex_end - capex_start;
             // console.log(sd_details);
-        
+
             // if the diagram exists get the number of years 
             // else default is 2
 
@@ -151,18 +150,18 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
 
             yearlyCost = parseFloat(totalCost / numYears);
             maxYearlyCost = (yearlyCost > maxYearlyCost) ? yearlyCost : maxYearlyCost;
-            var acf;
-            if ("acf" in sd_details) {
-                acf = parseInt(sd_details["acf"]);
+            var acf = parseInt(sd_details["acf"]);
+
+            if (acf == 0) {
+                acf = (yeild * totalCost) / 100;
+
             }
-            else{
-             acf = (yeild * totalCost) / 100;
-            }
-            // console.log(acf, sd_details);
+            // console.log(acf)
+
             // var lastIncome;
-            for (var k4 = 0; k4 < numYears; k4++) {               
-                    var sYear = (startyear + k4+ parseInt(capex_start));                    
-                    curDiagDetails['investment'][sYear] = yearlyCost;                
+            for (var k4 = 0; k4 < numYears; k4++) {
+                var sYear = (startyear + k4 + parseInt(capex_start));
+                curDiagDetails['investment'][sYear] = yearlyCost;
             }
             var totalIncome = 0;
             for (var k = 0; k < number_of_years; k++) {
@@ -181,15 +180,16 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
             var totalMaintainence = 0;
             // var threepercentMaintainece = -1 * yearlyCost * 0.03;
             var all_opex_asga = 0;
-            if ("opex" in sd_details){
-                const opex = parseInt(sd_details['opex']);
-                const asga = parseInt(sd_details['asga']);
-                all_opex_asga = opex+ asga;
-            }
-            else{
 
-             all_opex_asga = yearlyCost * 0.03;
+            const opex = parseInt(sd_details['opex']);
+            const asga = parseInt(sd_details['asga']);
+
+            if (opex === 0 && asga === 0) {
+                all_opex_asga = yearlyCost * 0.03;
+            } else {
+                all_opex_asga = opex + asga;
             }
+
 
             // var lastIncome;
             for (var k7 = 0; k7 < number_of_years; k7++) {
@@ -204,7 +204,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
             diagCosts.push(curDiagDetails);
         }
     }
-
+    // console.log(diagCosts)
     // send investment
     self.postMessage({
         'output': JSON.stringify(diagCosts),

@@ -65,13 +65,13 @@
                 <div class="boundariesCont">
                     <h4>Boundaries and Financials</h4>
                     <br><span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
-                    <div height="300">
+                    <div height="500">
                     <canvas id="boundary_investment_chart"></canvas>
                 </div>
-                <div height="300">
+                <div height="500">
                 <canvas id="boundary_opex_chart"></canvas>
                 </div>
-                <div height="300">
+                <div height="500">
                     <canvas id="boundary_income_chart"></canvas>
                     </div>
                 </div>
@@ -542,14 +542,15 @@
             }
 
         function renderBoundaryInvestmentChart(boundarydata) {
+            console.log(boundarydata)
             var bdata = [];
             for (var k in boundarydata) {
                 var v = boundarydata[k];
                 bdata.push(v);
             }
-            var bdata = bdata.sort(function (a, b) {
-                return parseFloat(a.totalInvestment) - parseFloat(b.totalInvestment);
-            });
+            // var bdata = bdata.sort(function (a, b) {
+            //     return parseFloat(a.totalInvestment) - parseFloat(b.totalInvestment);
+            // });
 
             var b_investment_dataset = [];
             var b_income_dataset = [];
@@ -564,6 +565,7 @@
 
             for (var x = 0; x < bdata.length; x++) {
                 var curBoundaryValue = bdata[x];
+             
                 var cur_b_investment = {};
                 var cur_b_income = {};
                 var cur_b_maintainence = {};
@@ -587,7 +589,7 @@
                 b_maintainence_dataset.push(cur_b_maintainence);
             }
 
-            // console.log(b_income_dataset, b_investment_dataset);
+            // console.log(b_income_dataset, b_investment_dataset, cur_b_maintainence);
 
             var options = { 
                 maintainAspectRatio: false,

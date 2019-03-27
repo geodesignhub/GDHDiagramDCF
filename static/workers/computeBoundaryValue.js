@@ -133,7 +133,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
             var diagID = curData.id; // diagram id of the current investment
             var sysID = curData.sysid;
             // console.log(curData)
-           
+            var factor = 1;
             if (diagramIDs.includes(diagID) && (selectedsystems.includes(sysID))) {    
                 for (let p1 = 0; p1 < saved_asset_details.length; p1++) {                    
                     const cur_diagram_saved_details = saved_asset_details[p1];
@@ -147,7 +147,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                             
                         } else if (Object.keys(cur_diagram_asset_details).length > 0 && cur_diagram_asset_details.constructor === Object) {
                             // check the intersection 
-                            var factor = bnd_diagram_intersects[saved_bnd_diag_id]['factor'];
+                            factor = bnd_diagram_intersects[saved_bnd_diag_id]['factor'];
                             if (cur_diagram_asset_details['class'] =='residential') {
                                 var population = cur_diagram_asset_details['metadata']['number_of_people_residential'];                                
                                
@@ -232,25 +232,30 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                 const yearly_investment = curData['investment'];
                 const yearly_income = curData['income'];
                 const yearly_opex = curData['maintainence'];
-
+                console.log(yearly_income)
                 
                 
                 for (let cur_year in yearly_investment) {
-                    const tmp_yrl_investemnt = yearly_investment[cur_year];
+                    const c_year = parseInt(cur_year);
+                    const tmp_yrl_investemnt = yearly_investment[c_year];
                     maxYearlyCost = (tmp_yrl_investemnt > maxYearlyCost) ? tmp_yrl_investemnt : tmp_yrl_investemnt;
-                    bndIDDiags[bndID]['investment'][cur_year] += tmp_yrl_investemnt*factor;
+                    bndIDDiags[bndID]['investment'][c_year] += tmp_yrl_investemnt*factor;
                 }
                 maxYearlyCost= 0;
                 for (let cur_year in yearly_income) {
-                    const tmp_yrl_income = yearly_income[cur_year];
+                    
+                    const c_year = parseInt(cur_year);
+                    const tmp_yrl_income = yearly_income[c_year];
                     maxYearlyCost = (tmp_yrl_income > maxYearlyCost) ? tmp_yrl_income : tmp_yrl_income;
-                    bndIDDiags[bndID]['income'][cur_year] += tmp_yrl_income*factor;
+                    console.log(tmp_yrl_income,factor);
+                    bndIDDiags[bndID]['income'][c_year] += tmp_yrl_income*factor;
                 }
                 maxYearlyCost= 0;
                 for (let cur_year in yearly_opex) {
-                    const tmp_yrl_opex = yearly_opex[cur_year];
+                    const c_year = parseInt(cur_year);
+                    const tmp_yrl_opex = yearly_opex[c_year];
                     maxYearlyCost = (tmp_yrl_opex > maxYearlyCost) ? tmp_yrl_opex : tmp_yrl_opex;
-                    bndIDDiags[bndID]['maintainence'][cur_year] += tmp_yrl_opex*factor;
+                    bndIDDiags[bndID]['maintainence'][c_year] += tmp_yrl_opex*factor;
                 }
 
             }
