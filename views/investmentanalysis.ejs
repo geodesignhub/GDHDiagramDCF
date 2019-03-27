@@ -615,7 +615,11 @@
                         ticks: {
                 beginAtZero:true,
                 callback: function(value, index, values) {
-                        return 'EUR ' +value / 1e6 + 'M';
+                        if (value > 100000)
+                            return 'EUR ' +value / 1e6 + 'M';
+                        else {
+                            return 'EUR ' + value;
+                        }
                     }
             },
             tooltips: {
