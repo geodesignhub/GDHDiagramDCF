@@ -227,12 +227,13 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                     }
                 }
 
-                console.log(factor , curData['totalInvestment'])
+                // console.log(factor , curData['totalInvestment'])
                 totalInvestment += (curData['totalInvestment']*factor);
                 const yearly_investment = curData['investment'];
                 const yearly_income = curData['income'];
                 const yearly_opex = curData['maintainence'];
-                // console.log(yearly_income)
+      
+                
                 
                 
                 for (let cur_year in yearly_investment) {
@@ -255,6 +256,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                     const c_year = parseInt(cur_year);
                     const tmp_yrl_opex = yearly_opex[c_year];
                     maxYearlyCost = (tmp_yrl_opex > maxYearlyCost) ? tmp_yrl_opex : tmp_yrl_opex;
+                   
                     bndIDDiags[bndID]['maintainence'][c_year] += tmp_yrl_opex*factor;
                 }
 

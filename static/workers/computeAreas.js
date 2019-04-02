@@ -134,6 +134,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
                 if (parseInt(diagID) in timeline) {
                     var start = moment(timeline[diagID].start).year();
                     var end = moment(timeline[diagID].end).year();
+                    
                     capex_start = (start- startyear);
                     capex_end = (end-startyear);
                     numYears = end - start;
@@ -179,7 +180,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
                 // }
                 // var incomeIncrease = (acf * 0.03);
                 // var newIncome = incomeIncrease + lastIncome;
-                var sYear = (startyear + k+ capex_end);
+                var sYear = (startyear + k+  parseInt(capex_end));
                 curDiagDetails['income'][sYear] = acf;
                 // curDiagDetails['income']['yearly'] = acf;
                 totalIncome += acf;
@@ -201,7 +202,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
             // var lastIncome;
             for (var k7 = 0; k7 < number_of_years; k7++) {
                 if (k7 < number_of_years - 1) {
-                    var sYear = (startyear + k7+capex_end);
+                    var sYear = (startyear + k7+ parseInt(capex_end));
                     curDiagDetails['maintainence'][sYear] = all_opex_asga;
                     totalMaintainence += all_opex_asga;
                 }
