@@ -93,9 +93,10 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
     for (var j3 = 0; j3 < bfeatlen; j3++) {
         var cbndfeat = newboundaries.features[j3];
         
+        
         var bndID = cbndfeat.properties.id;
         var diagramIDs = bndIDDiags[bndID]['diagrams'];
-      
+        
         var totalInvestment = 0;
         var yearlyInvestment = {}
         
@@ -131,8 +132,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
         for (var i1 = 0; i1 < investmentdata.length; i1++) { // loop over the investment data. 
             var curData = investmentdata[i1]; // current investment data
             var diagID = curData.id; // diagram id of the current investment
-            var sysID = curData.sysid;
-            // console.log(curData)
+            var sysID = curData.sysid;            
             var factor = 1;
             if (diagramIDs.includes(diagID) && (selectedsystems.includes(sysID))) {    
                 for (let p1 = 0; p1 < saved_asset_details.length; p1++) {                    
@@ -142,12 +142,12 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                         const saved_bnd_diag_id = bndID +'-'+diag_id;
                         const cur_diagram_asset_details = cur_diagram_saved_details['asset_details'];
                        
+                        factor = bnd_diagram_intersects[saved_bnd_diag_id]['factor'];
 
                         if (Object.keys(cur_diagram_asset_details).length === 0 && cur_diagram_asset_details.constructor === Object) {
                             
                         } else if (Object.keys(cur_diagram_asset_details).length > 0 && cur_diagram_asset_details.constructor === Object) {
-                            // check the intersection 
-                            factor = bnd_diagram_intersects[saved_bnd_diag_id]['factor'];
+                            // check the intersection                             
                             if (cur_diagram_asset_details['class'] =='residential') {
                                 var population = cur_diagram_asset_details['metadata']['number_of_people_residential'];                                
                                
@@ -227,12 +227,12 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                     }
                 }
 
-              
-                totalInvestment += curData['totalInvestment'];
+                console.log(factor , curData['totalInvestment'])
+                totalInvestment += (curData['totalInvestment']*factor);
                 const yearly_investment = curData['investment'];
                 const yearly_income = curData['income'];
                 const yearly_opex = curData['maintainence'];
-                console.log(yearly_income)
+                // console.log(yearly_income)
                 
                 
                 for (let cur_year in yearly_investment) {
@@ -247,7 +247,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                     const c_year = parseInt(cur_year);
                     const tmp_yrl_income = yearly_income[c_year];
                     maxYearlyCost = (tmp_yrl_income > maxYearlyCost) ? tmp_yrl_income : tmp_yrl_income;
-                    console.log(tmp_yrl_income,factor);
+                    // console.log(tmp_yrl_income,factor);
                     bndIDDiags[bndID]['income'][c_year] += tmp_yrl_income*factor;
                 }
                 maxYearlyCost= 0;
