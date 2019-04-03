@@ -352,12 +352,15 @@
                 </div>
 
                 <div class="usage_form hidden" id="built_env_form_residential_secondary">                        
+                    <h3>Population Density: <span id="current_pop_density"></span> people per km2</h3>
+                    <br>
+                    
                     <h4>Avg. Area per unit: <span id="avg_area_per_unit">0</span> </h4>                        
                     <h4>Total built floor area: <span id="total_floor_area_residential_built">0</span> m2</h4>
                     <h4>Total available area: <span id="total_floor_area_residential_available">0</span> m2</h4><br>
-                    <h4>Population Density: <span id="current_pop_density"></span> people per km2</h4>
-                    <br>
-                    <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small><br><br>
+                    
+                    <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small>
+                    <br><br>
                 </div>
 
                 <div class="usage_form hidden" id="built_env_form_tourism_secondary">
@@ -619,15 +622,15 @@
             var luctx =  document.getElementById('lu_chart').getContext('2d');
             
             var barChartData = {
-                labels:  ['Area Available'],
+                labels:  ['Area Available   -   Area taken'],
                 datasets: [{
                     label: "Area Available",
-                    backgroundColor: ["#e7298a"],
+                    backgroundColor: ["#003f5c"],
                     data: [chart_data['area_available']],
                     stack:1 
                 },{
                     label: "Built Up",
-                    backgroundColor: ["#984ea3",],
+                    backgroundColor: ["#58508d",],
                     data: [ chart_data['built_up_area']],
                     stack: 2
                 },{
