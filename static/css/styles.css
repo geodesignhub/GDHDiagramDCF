@@ -33,7 +33,7 @@ h4 {
 #boundary_income_chart,
 #boundary_opex_chart
 {
-    height: 400px;
+    height: 220px;
 }
 
 
@@ -52,7 +52,7 @@ h4 {
 }
 
 .map {
-    height: 400px;
+    height: 600px;
 
     border: 1px solid #ddd;
 }

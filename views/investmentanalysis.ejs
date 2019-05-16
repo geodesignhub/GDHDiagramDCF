@@ -63,35 +63,37 @@
         <div class="row">
             <div class="col-md-12">
                 <span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
-                <!-- <div class="boundariesCont">
-                    <h4>Boundaries and Financials</h4>
-                    <br>
-                    <div height="500">
-                    <canvas id="boundary_investment_chart"></canvas>
-                </div>
-                <div height="500">
-                <canvas id="boundary_opex_chart"></canvas>
-                </div>
-                <div height="500">
-                    <canvas id="boundary_income_chart"></canvas>
-                    </div>
-                </div> -->
+               
             </div>
         </div>
 
         <div class="row">
 
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="boundariesCont">
                     <h4>Boundaries Map</h4>
-                    <small>The design is shown at 30% transperency to highlight the boundary overlaps</small><br><br>
+                    <small>The design is shown at 30% transperency to highlight the boundary overlaps, click on a boundary show financial analysis</small><br><br>
                     <div id="boundaryMap" class="map"></div>
                     <br>
                     <div class="pull-right">Low Captial Investment <span class="color_box color-1">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-2">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-3">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-4">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-5">&nbsp;&nbsp;&nbsp;&nbsp;</span>High Captial Investment
                     </div>
                 </div>
             </div>
-
+            <div class="col-md-6">
+             <div class="boundariesCont">
+                    <h4>Boundaries and Financials</h4>
+                    <br>
+                    <div height="200">
+                    <canvas id="boundary_investment_chart"></canvas>
+                </div>
+                <div height="200">
+                <canvas id="boundary_opex_chart"></canvas>
+                </div>
+                <div height="200">
+                    <canvas id="boundary_income_chart"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
         <br>
         <div class="row">
@@ -483,7 +485,8 @@
             });
         }
 
-        function zoomToFeature(e) {
+        function zoomToFeature(e) {           
+            renderBoundaryInvestmentChart(boundaryValueDetails, e.target.feature.properties.id);
             boundarymap.fitBounds(e.target.getBounds());
         }
 
@@ -542,136 +545,138 @@
                 return s.join(dec);
             }
 
-        // function renderBoundaryInvestmentChart(boundarydata) {
+        function renderBoundaryInvestmentChart(boundarydata, boundary_of_interest) {
             
-        //     var bdata = [];
-        //     for (var k in boundarydata) {
-        //         var v = boundarydata[k];
-        //         bdata.push(v);
-        //     }
-        //     // var bdata = bdata.sort(function (a, b) {
-        //     //     return parseFloat(a.totalInvestment) - parseFloat(b.totalInvestment);
-        //     // });
+            var bdata = [];
+            for (var k in boundarydata) {
+                var v = boundarydata[k];
+                if (boundary_of_interest ==k) {
+                bdata.push(v);
+                }
+            }
+            // var bdata = bdata.sort(function (a, b) {
+            //     return parseFloat(a.totalInvestment) - parseFloat(b.totalInvestment);
+            // });
+            
+            var b_investment_dataset = [];
+            var b_income_dataset = [];
+            var b_maintainence_dataset = [];
 
-        //     var b_investment_dataset = [];
-        //     var b_income_dataset = [];
-        //     var b_maintainence_dataset = [];
+            var labels = [];
+            for (var g1 = 0; g1 < numYears; g1++) {
+                var cYear = (startyear + g1);
+                labels.push(cYear);
+            }
+            // // console.log(bdata)
 
-        //     var labels = [];
-        //     for (var g1 = 0; g1 < numYears; g1++) {
-        //         var cYear = (startyear + g1);
-        //         labels.push(cYear);
-        //     }
-        //     // console.log(bdata)
-
-        //     for (var x = 0; x < bdata.length; x++) {
-        //         var curBoundaryValue = bdata[x];
+            for (var x = 0; x < bdata.length; x++) {
+                var curBoundaryValue = bdata[x];
              
-        //         var cur_b_investment = {};
-        //         var cur_b_income = {};
-        //         var cur_b_maintainence = {};
-        //         cur_b_investment['label'] = curBoundaryValue.bname + ' Capex';
-        //         cur_b_maintainence['label'] = curBoundaryValue.bname + ' Opex';
-        //         cur_b_income['label'] = curBoundaryValue.bname + ' Income';
+                var cur_b_investment = {};
+                var cur_b_income = {};
+                var cur_b_maintainence = {};
+                cur_b_investment['label'] = curBoundaryValue.bname + ' Capex';
+                cur_b_maintainence['label'] = curBoundaryValue.bname + ' Opex';
+                cur_b_income['label'] = curBoundaryValue.bname + ' Income';
                 
-        //         cur_b_investment['data'] = [];
-        //         cur_b_income['data'] =[];
-        //         cur_b_maintainence['data'] =[];
-        //         for (var g1 = 0; g1 < numYears; g1++) {
-        //             var cYear = (startyear + g1);
-        //             cur_b_investment['data'].push(parseInt(curBoundaryValue['investment'][cYear]));                    
-        //             cur_b_income['data'].push(parseInt(curBoundaryValue['income'][cYear]));
-        //             cur_b_maintainence['data'].push(parseInt(curBoundaryValue['maintainence'][cYear]));
+                cur_b_investment['data'] = [];
+                cur_b_income['data'] =[];
+                cur_b_maintainence['data'] =[];
+                for (var g1 = 0; g1 < numYears; g1++) {
+                    var cYear = (startyear + g1);
+                    cur_b_investment['data'].push(parseInt(curBoundaryValue['investment'][cYear]));                    
+                    cur_b_income['data'].push(parseInt(curBoundaryValue['income'][cYear]));
+                    cur_b_maintainence['data'].push(parseInt(curBoundaryValue['maintainence'][cYear]));
 
-        //         }
+                }
 
-        //         b_investment_dataset.push(cur_b_investment);
-        //         b_income_dataset.push(cur_b_income);
-        //         b_maintainence_dataset.push(cur_b_maintainence);
-        //     }
+                b_investment_dataset.push(cur_b_investment);
+                b_income_dataset.push(cur_b_income);
+                b_maintainence_dataset.push(cur_b_maintainence);
+            }
 
-        //     // console.log(b_income_dataset, b_investment_dataset, cur_b_maintainence);
+            // console.log(b_income_dataset, b_investment_dataset, cur_b_maintainence);
 
-        //     var options = { 
-        //         maintainAspectRatio: false,
-        //         title: {
-        //             display: false,                   
-        //         },
-        //         tooltips: {
-        //             mode: 'index',
-        //             intersect: false,
-        //         },
-        //         hover: {
-        //             mode: 'nearest',
-        //             intersect: true
-        //         },
-        //         scales: {
-        //             xAxes: [{
-        //                 display: true,
-        //                 scaleLabel: {
-        //                     display: true,
-        //                     labelString: 'Year'
-        //                 }
-        //             }],
-        //             yAxes: [{
-        //                 display: true, 
-        //                 ticks: {
-        //         beginAtZero:true,
-        //         callback: function(value, index, values) {
-        //                 if (value > 100000)
-        //                     return 'EUR ' +value / 1e6 + 'M';
-        //                 else {
-        //                     return 'EUR ' + value;
-        //                 }
-        //             }
-        //     },
-        //     tooltips: {
-        //             callbacks: {
-        //                 label: function(tooltipItem, chart){
-        //                     var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-        //                     return datasetLabel + ': EUR ' + number_format(tooltipItem.yLabel, 2);
-        //                 }
-        //             }
-        //         },
+            var options = { 
+                maintainAspectRatio: false,
+                title: {
+                    display: false,                   
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Year'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true, 
+                        ticks: {
+                beginAtZero:true,
+                callback: function(value, index, values) {
+                        if (value > 100000)
+                            return 'EUR ' +value / 1e6 + 'M';
+                        else {
+                            return 'EUR ' + value;
+                        }
+                    }
+            },
+            tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, chart){
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            return datasetLabel + ': EUR ' + number_format(tooltipItem.yLabel, 2);
+                        }
+                    }
+                },
             
-        //     }]
-        //         }
-        //     }
+            }]
+                }
+            }
 
-        //     var investment_ctx = $("#boundary_investment_chart");
-        //     Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
-        //     var myLineChart = new Chart(investment_ctx, {
-        //         type: 'line',
-        //         data: {
-        //             'labels': labels,
-        //             'datasets': b_investment_dataset
-        //         },
-        //         options: options
-        //     });
+            var investment_ctx = $("#boundary_investment_chart");
+            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            var myLineChart = new Chart(investment_ctx, {
+                type: 'line',
+                data: {
+                    'labels': labels,
+                    'datasets': b_investment_dataset
+                },
+                options: options
+            });
             
             
-        //     var maintainence_ctx = $("#boundary_opex_chart");
-        //     Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
-        //     var myLineChart = new Chart(maintainence_ctx, {
-        //         type: 'line',
-        //         data: {
-        //             'labels': labels,
-        //             'datasets': b_maintainence_dataset
-        //         },
-        //         options: options
-        //     });
-        //     var income_ctx = $("#boundary_income_chart");
-        //     Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
-        //     var myLineChart = new Chart(income_ctx, {
-        //         type: 'line',
-        //         data: {
-        //             'labels': labels,
-        //             'datasets': b_income_dataset
-        //         },
-        //         options: options
-        //     });
+            var maintainence_ctx = $("#boundary_opex_chart");
+            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            var myLineChart = new Chart(maintainence_ctx, {
+                type: 'line',
+                data: {
+                    'labels': labels,
+                    'datasets': b_maintainence_dataset
+                },
+                options: options
+            });
+            var income_ctx = $("#boundary_income_chart");
+            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            var myLineChart = new Chart(income_ctx, {
+                type: 'line',
+                data: {
+                    'labels': labels,
+                    'datasets': b_income_dataset
+                },
+                options: options
+            });
             
-        // }
+        }
 
         var boundarymap = L.map('boundaryMap', {
             'zoomControl': false,
@@ -696,6 +701,7 @@
 
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
+            
             this._div.innerHTML = '<h4>Total Investment</h4>' + (props ?
                 '<b>' + props.bname + '</b><br />' + abbrNum(props.totalInvestment, 2) + ' EUR' :
                 'Hover over a boundary');
