@@ -317,7 +317,7 @@
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
-                                <th scope="row">Recommended parking spaces ( 2 people per car, 50% of total cars)</th>
+                                <th scope="row">Recommended parking spaces ( 2 people per car, 50% usage)</th>
                                 <td>
                                     <span id="parking_factor"></span>
                                 </td>
@@ -368,6 +368,8 @@
                 <h4>Total Rooms: <span id="tourism_total_rooms">3</span></h4>
 
                 <h4>Yearly Visitors: <span id="total_yearly_visitors">3</span></h4>
+                
+                <h4>Daily Visitors: <span id="total_daily_visitors">3</span></h4>
                 
                 <h4>Total direct employment: <span id="total_direct_employment_tourism">0</span></h6>
                     <h4>Total indirect employment: <span id="total_indirect_employment_tourism">0</span></h6>
@@ -1484,7 +1486,8 @@
                             'rail': 0.1
                         },
                         "far":0.6,
-                        "green_space":9
+                        "green_space":9,
+                        "parking_demand":0.5
                     },
                     "High Priced": {
                         "beds": 0.0025,
@@ -1499,7 +1502,8 @@
                             'rail': 0.1
                         },
                         "far":0.6,
-                        "green_space":9
+                        "green_space":9,
+                        "parking_demand":0.5
                     },
                     "Mid Priced": {
                         "beds": 0.0035,
@@ -1514,7 +1518,8 @@
                             'rail': 0.7
                         },
                         "far":0.6,
-                        "green_space":9
+                        "green_space":9,
+                        "parking_demand":0.5
                     },
                     "Low Priced": {
                         "beds": 0.0045,
@@ -1529,7 +1534,8 @@
                             'rail': 0.6
                         },
                         "far":0.6,
-                        "green_space":9
+                        "green_space":9,
+                        "parking_demand":0.5
                     },
                     "Affordable Housing": {
                         "beds": 0.0055,
@@ -1544,7 +1550,8 @@
                             'rail': 0.5
                         },
                         "far":0.6,
-                        "green_space":9
+                        "green_space":9,
+                        "parking_demand":0.5
                     }
                 };
 
@@ -1601,6 +1608,10 @@
                     'green_space'
                 ]);
 
+                myDisplayUpdater.updateParking(population*.5, residential_class_defaults[selected_subclass][
+                    'parking_demand'
+                ]);
+
             }
         }
         var TourismDisplayUpdater = function () {
@@ -1615,7 +1626,7 @@
                 $("#tourism_total_rooms").html(parseInt(rooms));
                 return rooms;
             }
-
+        
             this.updateEmployment = function (total_daily_visitors) {
                 
                 const direct_employees_to_visitor_ratio_tourism = $("#direct_employees_to_visitor_ratio_tourism").editable('getValue', true);
@@ -1715,14 +1726,16 @@
 
                 const rooms = myTourismDisplayUpdater.updateRooms(diagram_area);
 
-
+                
                 const direct_employees_to_visitor_ratio_tourism = $("#direct_employees_to_visitor_ratio_tourism").editable('getValue', true);
                 const indirect_to_direct_employees_ratio_tourism = $("#indirect_to_direct_employees_ratio_tourism").editable('getValue', true);
 
                 $("#tourism_total_rooms").html(parseInt(rooms));
-
-                const yearly_visitors = rooms * target_occupancy_rate * people_per_room * 365;
+                const daily_visitors = rooms * target_occupancy_rate * people_per_room;
+                const yearly_visitors =  daily_visitors* 365;
+                
                 $("#total_yearly_visitors").html(parseInt(yearly_visitors));
+                $("#total_daily_visitors").html(parseInt(daily_visitors));
 
                 $("#total_direct_employment_tourism").html(parseInt(direct_employees_to_visitor_ratio_tourism * yearly_visitors));
                 $("#total_indirect_employment_tourism").html(parseInt(indirect_to_direct_employees_ratio_tourism* yearly_visitors));
@@ -1738,6 +1751,10 @@
                 myDisplayUpdater.updateWaterRecompute(yearly_visitors);
                 myDisplayUpdater.updateSewageRecompute(yearly_visitors);
 
+                const land_usage = myDisplayUpdater.updateLandUsageRecompute(diagram_area);
+                const green_space = myDisplayUpdater.updateGreenSpaceRecompute(daily_visitors);
+                
+                const lu_chart_data = {"area_available":diagram_area, "built_up_area":land_usage, "green_space":green_space[0], "parking":0};    
                 
                 populate_lu_chart('tourism', lu_chart_data);
 
@@ -1765,7 +1782,8 @@
                             'road': 0.9,
                             'rail': 0.1
                         },
-                        "green_space":3
+                        "green_space":3,
+                        "parking_demand":0.5
                     },
                     "Upscale Hotel": {
                         "tourism_m2_per_guest": 50,
@@ -1787,7 +1805,8 @@
                             'road': 0.9,
                             'rail': 0.1
                         },
-                        "green_space":3
+                        "green_space":3,
+                        "parking_demand":0.5
                     },
                     "Midscale Hotel": {
                         "tourism_m2_per_guest": 40,
@@ -1809,7 +1828,8 @@
                             'road': 0.9,
                             'rail': 0.1
                         },
-                        "green_space":3
+                        "green_space":3,
+                        "parking_demand":0.5
                     },
                     "Budget Hotel": {
                         "tourism_m2_per_guest": 30,
@@ -1831,7 +1851,8 @@
                             'road': 0.9,
                             'rail': 0.1
                         },                        
-                        "green_space":3
+                        "green_space":3,
+                        "parking_demand":0.5
                     }
                 };
 
@@ -1852,8 +1873,9 @@
                 $('#indirect_to_direct_employees_ratio_tourism').editable('setValue', tourism_class_defaults[selected_subclass]["indirect_to_direct_employees_ratio"]);
 
                 const population = rooms * tourism_class_defaults[selected_subclass]["target_occupancy_rate"] * tourism_class_defaults[selected_subclass]["people_per_room"] * 365;
-
+                const daily_population = population / 365;
                 $("#total_yearly_visitors").html(parseInt(population));
+                $("#total_daily_visitors").html(parseInt(daily_population));
                 
                 myTourismDisplayUpdater.updateEmployment(population);
                 myDisplayUpdater = new ServicesDisplayUpdater();
@@ -1866,7 +1888,9 @@
                 myDisplayUpdater.updateSewage(population, tourism_class_defaults[selected_subclass]['sewage']);
                 const total_parking_area  = myDisplayUpdater.updateTransport(population, tourism_class_defaults[selected_subclass]['transport']['road'], tourism_class_defaults[selected_subclass]['transport']['rail'], 2, 2);
                 const total_green_space_area = myDisplayUpdater.updateGreenSpace(population, tourism_class_defaults[selected_subclass]['green_space']);
-                
+                myDisplayUpdater.updateParking(population*.5, tourism_class_defaults[selected_subclass][
+                    'parking_demand'
+                ]);
                 
             }
         }
@@ -2012,10 +2036,10 @@
                 myDisplayUpdater.updateEnergyRecompute(total_daily_visitors);
                 myDisplayUpdater.updateWaterRecompute(total_daily_visitors);
                 myDisplayUpdater.updateSewageRecompute(total_daily_visitors);
-                const total_parking_area  =  myDisplayUpdater.updateTransportRecompute(total_daily_visitors, 2, 2);                
+                // const total_parking_area  =  myDisplayUpdater.updateTransportRecompute(total_daily_visitors, 2, 2);                
                 const total_green_space_area =  myDisplayUpdater.updateGreenSpaceRecompute(total_daily_visitors);
-
-                const lu_chart_data = {"area_available":total_floor_area_retail_available, "built_up_area":total_floor_area_retail, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};               
+                const total_parking_area = myDisplayUpdater.updateParkingRecompute(total_daily_visitors*0.5);
+                const lu_chart_data = {"area_available":total_floor_area_retail_available, "built_up_area":total_floor_area_retail, "green_space":total_green_space_area[0], "parking":total_parking_area};               
                 populate_lu_chart('retail', lu_chart_data);
 
             }
@@ -2042,7 +2066,8 @@
                             'rail': 0.1
                         },
                         
-                        "green_space":1
+                        "green_space":1,
+                        "parking_demand":0.5
                     }
                 };
 
@@ -2150,10 +2175,7 @@
                 const total_floor_area_office = ((office_m2_per_visitor * total_daily_visitors_office));
                 // const total_floor_area_office_per_floor = (total_floor_area_office / office_floors);
 
-
                 const total_floor_area_available = parseInt(diagram_area * 0.8 * office_floors);
-
-                console.log(total_floor_area_office, total_floor_area_available)
 
                 $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office), 2));
                 $("#total_floor_area_office_available").html(abbrNum(total_floor_area_available,2));
@@ -2161,9 +2183,7 @@
                 $("#total_direct_employment_office").html(parseInt(direct_employees_to_visitor_ratio * total_daily_visitors_office),2);
                 $("#total_indirect_employment_office").html(parseInt(indirect_to_direct_employees_ratio_office * total_daily_visitors_office),2);
 
-
                 myDisplayUpdater = new ServicesDisplayUpdater();
-
 
                 myDisplayUpdater.updateBedsRecompute(total_daily_visitors_office);
                 myDisplayUpdater.updatePoliceStationsRecompute(total_daily_visitors_office);
@@ -2201,7 +2221,8 @@
                             'road': 0.9,
                             'rail': 0.1
                         }, 
-                        "green_space":1
+                        "green_space":1,
+                        "parking_demand":0.5
                     }
                 };
 
@@ -2248,7 +2269,7 @@
                     'transport'
                 ]['road'], office_class_defaults[selected_subclass]['transport']['rail'], 2, 2,0.5);
                 const total_green_space_area = myDisplayUpdater.updateGreenSpace(population, office_class_defaults[selected_subclass]['green_space']);
-               
+               myDisplayUpdater.updateParking(population*0.5, office_class_defaults[selected_subclass]['parking_demand'])
 
             }
 
@@ -2381,19 +2402,30 @@
                 $("#total_sewage_demand_raw").val(sewage);
             }
             
-            // this.updateParking = function (cars, demand_factor) {
-            //     $("#parking_factor").editable('setValue', demand_factor);
-            //     const total_parking = parseInt(cars * demand_factor);
-            //     $("#total_parking").html(abbrNum(total_parking, 2));
-            //     $("#total_parking_raw").val(total_parking);
-            // }
+            this.updateLandUsageRecompute = function (area) {
+                const land_area = $("#tourism_land_area").editable('getValue', true);
+                // const floors = $("#tourism_floors").editable('getValue', true);
+                // const m2_per_guest = $("#tourism_m2_per_guest").editable('getValue', true);
+                // const people_per_room = $("#tourism_people_per_room").editable('getValue', true);
 
-            // this.updateParkingRecompute = function (cars) {
-            //     const demand_factor = $("#parking_factor").editable('getValue', true);
-            //     const total_parking = parseInt(cars * demand_factor);
-            //     $("#total_parking").html(abbrNum(total_parking, 2));
-            //     $("#total_parking_raw").val(total_parking);
-            // }
+                const land_usage = parseInt(area / (land_area));
+                
+                return land_usage;
+            }
+
+            this.updateParking = function (cars, demand_factor) {
+                $("#parking_factor").editable('setValue', demand_factor);
+                const total_parking = parseInt(cars * demand_factor);
+                $("#total_parking").html(abbrNum(total_parking, 2));
+                $("#total_parking_raw").val(total_parking);
+            }
+
+            this.updateParkingRecompute = function (cars) {
+                const demand_factor = $("#parking_factor").editable('getValue', true);
+                const total_parking = parseInt(cars * demand_factor);
+                $("#total_parking").html(abbrNum(total_parking, 2));
+                $("#total_parking_raw").val(total_parking);
+            }
 
             this.updateGreenSpace = function (population, gs_demand) {
                 $("#per_capita_green_space").editable('setValue', gs_demand);
