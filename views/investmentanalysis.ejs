@@ -441,12 +441,12 @@
                 if (e.data.mode === 'status') {
                     updateWorkerStatus(e.data.percentcomplete);
                 } else {
-                    
+                    // console.log(JSON.parse(e.data.boundaryValue));
                     renderBoundaryInvestmentMap(JSON.parse(e.data.newboundaries), parseInt(e.data.stdVar));
                     // renderBoundaryInvestmentChart(JSON.parse(e.data.boundaryValue));
                     boundaryStdVar = parseInt(e.data.stdVar);
                     boundaryGeomDetails = JSON.parse(e.data.newboundaries);
-                    boundaryValueDetails = JSON.parse(e.data.boundaryValue);
+                    boundaryValueDetails = JSON.parse(e.data.boundaryValue); 
                     generate_paracoords_primary_chart(e.data.boundaryValue);
                     generate_paracoords_secondary_chart(e.data.boundaryValue);
                     $("#loadingGIF").hide();

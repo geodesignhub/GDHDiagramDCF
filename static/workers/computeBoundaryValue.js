@@ -58,10 +58,15 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
             var project_or_policy = curIFeatGrid.properties.areatype;
             if (project_or_policy == 'project') {
                 var curIFeatDiagramID = curIFeatGrid.properties.diagramid;
-                var cur_feat_area = turf.area(curIFeatGrid);            
-                const bnd_diag_id = curbndid +'-'+curIFeatDiagramID;
+                var cur_feat_area = turf.area(curIFeatGrid);  
+                
                 var ifeat;
                 var intersect_area = 0;
+                
+                cur_feat_area = isNaN(cur_feat_area)? 0 : cur_feat_area;          
+                
+                const bnd_diag_id = curbndid +'-'+curIFeatDiagramID;
+                var factor = 1;
                 try {
                     ifeat = turf.intersect(curbnd, curIFeatGrid);
                     intersect_area = turf.area(ifeat);
@@ -72,7 +77,8 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                 } // catch ends
                 if (ifeat) {
                     
-                    var factor = (intersect_area / cur_feat_area);
+                    factor = (intersect_area / cur_feat_area);
+                    factor = isNaN(factor) ? 0 : factor;
                     
                     bnd_diagram_intersects[bnd_diag_id] = {'factor':factor};                    
                     diags.push(curIFeatDiagramID);
@@ -141,8 +147,11 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                     if (diag_id == diagID) {
                         const saved_bnd_diag_id = bndID +'-'+diag_id;
                         const cur_diagram_asset_details = cur_diagram_saved_details['asset_details'];
-                       
+                        // console.log(factor);
+                        // console.log('---')
                         factor = bnd_diagram_intersects[saved_bnd_diag_id]['factor'];
+                        // console.log(factor);
+                        // console.log('**')
 
                         if (Object.keys(cur_diagram_asset_details).length === 0 && cur_diagram_asset_details.constructor === Object) {
                             
@@ -150,10 +159,8 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                             // check the intersection                             
                             if (cur_diagram_asset_details['class'] =='residential') {
                                 var population = cur_diagram_asset_details['metadata']['number_of_people_residential'];                                
-                               
                                 var factored_population = population * factor;                                
                                 total_population += parseInt(factored_population);
-
                             }
                             else if (cur_diagram_asset_details['class'] =='hospitality') {
                                 var visitors = cur_diagram_asset_details['metadata']['total_yearly_visitors'];  
@@ -211,7 +218,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                             const t_sewage_demand = diagram_services['total_sewage_demand']* factor;
                             const t_total_road = diagram_services['total_road_usage']* factor;
                             const t_total_rail = diagram_services['total_rail_usage']* factor;
-
+                            // console.log(diagram_services['hospital_beds'] , factor);
                             hospital_beds += t_hosp_beds;
                             police_stations += t_police_stations;
                             fire_personnel += t_firestations;
