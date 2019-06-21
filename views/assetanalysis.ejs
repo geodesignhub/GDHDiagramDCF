@@ -2637,6 +2637,7 @@
                     $("#residential_far").editable('setValue', 0.6);
                 }
                 $("#current_pop_density").html(class_default_values['metadata']['current_pop_density']);
+                $("#recompute_residential").click();
             } else if (asset_class == 'hospitality') {
                 $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
                 $("#tourism_m2_per_guest").editable('setValue', class_default_values['metadata'][
@@ -2650,7 +2651,7 @@
                 ]);
                 $("#tourism_total_rooms").html(class_default_values['metadata']['tourism_total_rooms']);
                 $("#total_yearly_visitors").html(class_default_values['metadata']['total_yearly_visitors']);
-
+                $("#recompute_tourism").click();
 
             } else if (asset_class == 'retail') {
                 $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
@@ -2683,6 +2684,7 @@
                 $("#total_floor_area_retail_required").html(class_default_values['metadata'][
                     'total_floor_area_retail_required'
                 ]);
+                $("#recompute_retail").click();
 
             } else if (asset_class == 'office') {
                 $("#base_asset_subclass").val(class_default_values['base_asset_subclass']);
@@ -2694,13 +2696,15 @@
                     'total_daily_visitors_office'
                 ]);
                 $("#total_floor_area_office_required").html(class_default_values['metadata']['total_floor_area_office_required']);
+                $("#recompute_office").click();
             }
 
             if(class_default_values['metadata'].hasOwnProperty('representative_image')) {
                 const img = "<img src='assets/img/asset-images/"+class_default_values['metadata']['representative_image']+"'/>";
    
                 $("#selected_typology_image").html(img);
-            }      
+            }
+            $("#computeNPVButton").click();
         }
     </script>
 </body>
