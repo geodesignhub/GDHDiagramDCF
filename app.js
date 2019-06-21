@@ -1,6 +1,6 @@
 var express = require("express");
 var req = require('request');
-const fs = require('fs');
+// const fs = require('fs');
 var async = require('async');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');

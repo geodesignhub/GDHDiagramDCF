@@ -103,7 +103,7 @@
                         data-title="Enter new residential units e.g. .7">.6</a></h4>
                         <br>
                 <br>
-                    <button id="recompute_residential" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button><br><br>
+                    <button id="recompute_residential" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button><br><br>
                    
                 </div>
 
@@ -123,7 +123,7 @@
                     <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_tourism" data-type="text" data-title="Enter new ratio">.2</a></h4>
                     <br>
 
-                    <button id="recompute_tourism" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+                    <button id="recompute_tourism" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
                 </div>
 
@@ -139,7 +139,7 @@
                     <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_office" data-type="text" data-title="Enter new ratio">.2</a></h4>
 
                     <br>
-                    <button id="recompute_office" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+                    <button id="recompute_office" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
                 </div>
                 <div class='usage_form hidden' id="built_env_form_retail">
@@ -166,7 +166,7 @@
                     </div>
                     <br>
 
-                    <button id="recompute_retail" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+                    <button id="recompute_retail" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
                 </div>
 
@@ -1030,7 +1030,7 @@
             $("#acfg-slider").ionRangeSlider({
                 min: 0,
                 max: 20,
-                step: 0.5,
+                step: 0.05,
                 postfix: "%",
                 grid: true,
                 prettify_enabled: true
@@ -1038,7 +1038,7 @@
             $("#wacc-slider").ionRangeSlider({
                 min: 0,
                 max: 20,
-                step: 0.5,
+                step: 0.05,
                 postfix: "%",
                 grid: true,
                 prettify_enabled: true
