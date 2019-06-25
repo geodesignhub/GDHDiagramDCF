@@ -757,6 +757,7 @@
 
         var totalcost;
         $("#diagName").html(diagramdetail['description']);
+       
         if (diagramdetail['length'] == 0) {
             $("#diagAreaLength").html("Area: " + parseFloat((diagramdetail['area'] / 10000)).toFixed(2) + " ha.");
             if (diagramdetail['cost_override'] !== 0) {
@@ -771,7 +772,9 @@
             }
 
         } else if (diagramdetail['area'] == 0) {
-            $("#diagAreaLength").html("Length: " + parseFloat((diagramdetail['length'] / 1000)).toFixed(2) + " km.");
+            
+            $("#diagAreaLength").html("Length: " + diagramdetail['length'] + " km.");
+            totalcost = parseFloat(diagramdetail['length']) * systemdetail['syscost'];
         }
 
         $("#sysCost").html("Total cost: " + abbrNum(totalcost, 2) + " EUR");
@@ -1048,10 +1051,10 @@
         initpercentSliders();
         //built and non-built environment
         const data = {
-            "residential": "Luxury,High Priced,Mid Priced,Low Priced,Affordable Housing",
-            "hospitality": "Upscale Hotel,Midscale Hotel,Budget Hotel",
-            "community": "Hospital,Police Station,Fire Station,School,Community Center,Playground",
-            "tourism": "Eco Tourism,Low Density Attraction,High Density Attraction",
+            "residential": "Luxury,High Priced,Mid Priced,Low Priced,Affordable Housing,Full Rennovation,Medium Rennovation,Low Rennovation",
+            "hospitality": "Upscale Hotel,Midscale Hotel,Budget Hotel,Full Rennovation,Medium Rennovation,Low Rennovation",
+            "community": "Hospital,Police Station,Fire Station,School,Community Center,Playground,Full Rennovation,Medium Rennovation,Low Rennovation",
+            "tourism": "Eco Tourism,Low Density Attraction,High Density Attraction,Full Rennovation,Medium Rennovation,Low Rennovation",
             "retail": "",
             "office": "",
             "agriculture": "Crop Farmland,Grassland,Orchard",
@@ -1472,7 +1475,6 @@
 
             }
             this.update = function (units, population, floors) {
-
                 const residential_class_defaults = {
                     "Luxury": {
                         "beds": 0.0025,
@@ -1539,6 +1541,54 @@
                         "parking_demand":0.5
                     },
                     "Affordable Housing": {
+                        "beds": 0.0055,
+                        "police_stations": 0.0055,
+                        "fire_stations": 0.0055,
+                        "schools": 10,
+                        "energy": 8,
+                        "water": 160,
+                        "sewage": 60,
+                        "transport": {
+                            'road': 0.5,
+                            'rail': 0.5
+                        },
+                        "far":0.6,
+                        "green_space":9,
+                        "parking_demand":0.5
+                    },
+                    "Full Rennovation": {
+                        "beds": 0.0055,
+                        "police_stations": 0.0055,
+                        "fire_stations": 0.0055,
+                        "schools": 10,
+                        "energy": 8,
+                        "water": 160,
+                        "sewage": 60,
+                        "transport": {
+                            'road': 0.5,
+                            'rail': 0.5
+                        },
+                        "far":0.6,
+                        "green_space":9,
+                        "parking_demand":0.5
+                    },
+                    "Medium Rennovation": {
+                        "beds": 0.0055,
+                        "police_stations": 0.0055,
+                        "fire_stations": 0.0055,
+                        "schools": 10,
+                        "energy": 8,
+                        "water": 160,
+                        "sewage": 60,
+                        "transport": {
+                            'road': 0.5,
+                            'rail': 0.5
+                        },
+                        "far":0.6,
+                        "green_space":9,
+                        "parking_demand":0.5
+                    },
+                    "Low Rennovation": {
                         "beds": 0.0055,
                         "police_stations": 0.0055,
                         "fire_stations": 0.0055,
@@ -1833,6 +1883,75 @@
                         "parking_demand":0.5
                     },
                     "Budget Hotel": {
+                        "tourism_m2_per_guest": 30,
+                        "tourism_floors": 6,
+                        "tourism_land_area": 1.5,
+                        "target_occupancy_rate": .75,
+                        "people_per_room": 1,
+                        "avg_length_of_stay": 1,
+                        "beds": 0.0045,
+                        "police_stations": 0.0045,
+                        "direct_employees_to_visitor_ratio":0.1,
+                        "indirect_to_direct_employees_ratio":.05,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        },                        
+                        "green_space":3,
+                        "parking_demand":0.5
+                    },
+                    "Full Rennovation": {
+                        "tourism_m2_per_guest": 30,
+                        "tourism_floors": 6,
+                        "tourism_land_area": 1.5,
+                        "target_occupancy_rate": .75,
+                        "people_per_room": 1,
+                        "avg_length_of_stay": 1,
+                        "beds": 0.0045,
+                        "police_stations": 0.0045,
+                        "direct_employees_to_visitor_ratio":0.1,
+                        "indirect_to_direct_employees_ratio":.05,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        },                        
+                        "green_space":3,
+                        "parking_demand":0.5
+                    },
+                    "Medium Rennovation": {
+                        "tourism_m2_per_guest": 30,
+                        "tourism_floors": 6,
+                        "tourism_land_area": 1.5,
+                        "target_occupancy_rate": .75,
+                        "people_per_room": 1,
+                        "avg_length_of_stay": 1,
+                        "beds": 0.0045,
+                        "police_stations": 0.0045,
+                        "direct_employees_to_visitor_ratio":0.1,
+                        "indirect_to_direct_employees_ratio":.05,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        },                        
+                        "green_space":3,
+                        "parking_demand":0.5
+                    },
+                    "Low Rennovation": {
                         "tourism_m2_per_guest": 30,
                         "tourism_floors": 6,
                         "tourism_land_area": 1.5,
