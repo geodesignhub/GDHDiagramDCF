@@ -206,6 +206,25 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                             
                         }
                        
+                        else if (cur_diagram_asset_details['class'] =='mixuse') {
+
+                            var population = cur_diagram_asset_details['metadata']['number_of_people_residential_mixuse'];                                
+                            var factored_population = population * factor;                                
+                            total_population += parseInt(factored_population);
+                            var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors_retail_mixuse']; 
+                            var factored_visitors = visitors * factor;                                
+                            total_visitors += parseInt(factored_visitors); 
+
+                            var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_retail_mixuse'];  
+                            var factored_direct_employment = direct_employment * factor;                                
+                            total_direct_employment += parseInt(factored_direct_employment); 
+
+                            var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_retail_mixuse'];  
+                            var factored_indirect_employment = indirect_employment * factor;
+                            total_indirect_employment += parseInt(factored_indirect_employment); 
+                        
+                    }
+                   
                             var diagram_services = cur_diagram_asset_details['metadata']['services'];
                             
                             if (typeof diagram_services === 'undefined') {} else {                                

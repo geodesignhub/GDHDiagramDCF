@@ -312,7 +312,7 @@
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
                         var npvHTML =
-                            "<tr><th class='header initCol'>Diagram</th><th>Asset Class</th><th>Image</th><th>Population </th><th class='aaheader'>Analysis</th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
+                            "<tr><th class='header initCol'>Diagram</th><th>Asset Class</th><th>Image</th><th>Population </th><th class='fundingheader'>Funding</th><th class='aaheader'>Analysis</th><th class='systemheader'>System</th>";
 
                         npvHTML += "</tr>";
 
@@ -322,7 +322,7 @@
 
                     // add system row 
                     var diaglen = cursys.diagrams.length;
-
+                    
                     for (var p = 0; p < diaglen; p++) {
                         var curdiag = cursys.diagrams[p];
                         if (curdiag.features.length > 0) {
@@ -333,10 +333,10 @@
                                 curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" +
                                 "'assetdetails-" + curdiagid + "'" + "></td>" +"<td class=" +
                                 "'assetimage assetimage-" + curdiagid + "'" + "></td>" + "<td class=" +
-                                "'population-" + curdiagid + "'" + "></td>" + "<td class=" +
-                                "'aa-" + curdiagid + "'" + "></td>" + "<td class=" + "funding-" +
+                                "'population-" + curdiagid + "'" + "></td>" + "<td class=" + "funding-" +
                                 curdiagid + "'" +
-                                ">" + curdiagprops.fundingtype + "</td>" + "<td class=" + "system-" +
+                                ">" + curdiagprops.fundingtype + "</td>" + "<td class=" +
+                                "'aa-" + curdiagid + "'" + "></td>" + "<td class=" + "system-" +
                                 curdiagid + "'" +
                                 ">" + cursys.sysname + "<sup class=" + "'yeild-" + cursys.id + "'" + "></sup></td>";
                             yrCounter = 0;
@@ -850,7 +850,7 @@
                     const diag_id = parseInt(cur_ele['key'].split('-')[1]);
                     if (diag_id == diagID) {
                         const asset_details = cur_ele['asset_details'];
-                        
+                        console.log(asset_details)
                         if (Object.keys(asset_details).length === 0 && asset_details.constructor === Object) {
                             $(".assetdetails-" + diagID).html('Not set');
                             $(".assetimage-" + diagID).html('Not set');
@@ -870,6 +870,10 @@
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_retail'], 2));
                             } else if (ad == 'office') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_office'], 2));
+                            }
+                            else if (ad == 'mixuse') {
+                                $('.population-' + diagID).html(abbrNum(asset_details['metadata']['number_of_people_residential_mixuse'], 2));
+                                $(".assetimage-"+diagID).append("<br><small>Density:"+asset_details['metadata']['current_pop_density_mixuse']+" people / km<sup>2</sup></small>")
                             }
 
                         }
