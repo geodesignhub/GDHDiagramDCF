@@ -208,10 +208,11 @@
         var projectid = "<%= projectid %>";
         var projectdetails = <%- projectdetails %>;
         var syndiagrams = <%- syndiagrams %>;
-        var timeline = <%- timeline %>;
+        
         var bounds = <%- bounds %>;
         var boundaries = <%- boundaries %>;
         var saved_diagram_details = <%- saved_diagram_details %>;
+        var sequence = <%- sequence %>;
         var investmentdata;
 
         if (boundaries.features.length > 0) {
@@ -371,7 +372,8 @@
             areaWorker.postMessage({
                 'systemdetails': JSON.stringify(systemdetail),
                 'systems': JSON.stringify(systems),
-                'timeline': JSON.stringify(timeline),
+                
+                'sequence': JSON.stringify(sequence),
                 'startyear': JSON.stringify(startyear),
                 'bounds': bounds['bounds'],
                 'years': numYears,
@@ -567,7 +569,7 @@
                 var cYear = (startyear + g1);
                 labels.push(cYear);
             }
-            // // console.log(bdata)
+            // console.log(bdata)
 
             for (var x = 0; x < bdata.length; x++) {
                 var curBoundaryValue = bdata[x];
@@ -850,7 +852,7 @@
                     const diag_id = parseInt(cur_ele['key'].split('-')[1]);
                     if (diag_id == diagID) {
                         const asset_details = cur_ele['asset_details'];
-                        console.log(asset_details)
+                        // console.log(asset_details)
                         if (Object.keys(asset_details).length === 0 && asset_details.constructor === Object) {
                             $(".assetdetails-" + diagID).html('Not set');
                             $(".assetimage-" + diagID).html('Not set');

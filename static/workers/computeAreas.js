@@ -2,13 +2,34 @@ importScripts('../js/turf.min.js');
 importScripts('../js/moment.min.js');
 
 
-function computeAreas(systemdetails, systems, timeline, startyear, numYears, saved_diagram_details) {
+function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram_details, board_sequence) {
     var whiteListedSysName = ['HDH', 'LDH', 'IND', 'COM', 'COMIND', 'HSNG', 'HSG', 'MXD'];
     var systemdetails = JSON.parse(systemdetails);
     var systems = JSON.parse(systems);
-    var timeline = JSON.parse(timeline);
+
     var startyear = parseInt(startyear);
     const sdd = JSON.parse(saved_diagram_details);
+    const sequence = JSON.parse(board_sequence);
+    // if (Object.entries(sequence['gantt_data']).length === 0 && sequence['gantt_data'].constructor === Object) {
+    //     var seq = sequence['gantt_data']['data'];
+    // }
+
+    var timeline = {};
+    try {
+        var seq_data = sequence['gantt_data']['data'];
+
+        for (let u7 = 0; u7 < seq_data.length; u7++) {
+            const cur_seq = seq_data[u7];
+
+            if (cur_seq.parent == 0 && Number.isInteger(cur_seq.id)) {
+                timeline[cur_seq.id] = { "start": moment(cur_seq.start_date, "DD-MM-YYYY").year(), "end": moment(cur_seq.end_date, "DD-MM-YYYY").year() };
+            }
+
+        }
+    } catch (err) {
+        // console.log(err)
+    }
+    // console.log(timeline);
     var maxYearlyCost = 0;
     diagCosts = [];
     var number_of_years = numYears;
@@ -121,36 +142,48 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
 
             // check if diagram existsin in timeline.
             var numYears = 0;
-           
-            
+
+
             var capex_start = sd_details['capex_start'];
             var capex_end = sd_details['capex_end'];
+            var capex_num_years = capex_end - capex_start;
+            // try {
 
-            var numYears = capex_end - capex_start;
+            //     capex_num_years = capex_end - capex_start;
+            // }
+            // catch{
+            //     capex_num_years = 2;
+            // }
             // console.log(sd_details);
-            // console.log(capex_start, capex_end, numYears);
-            if (capex_start==0 && capex_end ==1)
-            {
-                if (parseInt(diagID) in timeline) {
-                    var start = moment(timeline[diagID].start).year();
-                    var end = moment(timeline[diagID].end).year();
-                    
-                    capex_start = (start- startyear);
-                    capex_end = (end-startyear);
-                    numYears = end - start;
-                    if (numYears == 1) {
-                        numYears = 2;
-                    }
-                } else {
-                    
-                    numYears = 2;
-                }
+            // console.log(diagID,capex_start, capex_end, startyear);
+            // if (capex_start == 0 && capex_end == 1) {
+            if (parseInt(diagID) in timeline) {
+                var diagram_start = timeline[diagID].start;
+                var diagram_end = timeline[diagID].end;
+
+                //         capex_start = (start - startyear);
+                //         capex_num_years = (end - startyear);
+                //         console.log(start, end, startyear)
+                //         capex_num_years = end - start;
+                //         if (capex_num_years == 1) {
+                //             capex_num_years = 2;
+                //         }
+            } else {
+                var diagram_start = startyear;
+                var diagram_end = startyear + 2;
             }
-            // console.log(capex_start, capex_end, numYears);
+
+            //         capex_num_years = 2;
+            //     }
+            // }
+            // else {
+            //     capex_num_years = capex_end - capex_start;
+            // }
+            // console.log(capex_start, capex_end, number_of_years);
 
             // if the diagram exists get the number of years 
             // else default is 2
-            
+
             curDiagDetails['totalInvestment'] = totalCost;
             curDiagDetails['investment'] = {};
             curDiagDetails['income'] = {};
@@ -158,7 +191,7 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
             curDiagDetails['yeild'] = yeild;
 
 
-            yearlyCost = parseFloat(totalCost / numYears);
+            yearlyCost = parseFloat(totalCost / capex_num_years);
             maxYearlyCost = (yearlyCost > maxYearlyCost) ? yearlyCost : maxYearlyCost;
             var acf = parseInt(sd_details["acf"]);
 
@@ -166,26 +199,46 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
                 acf = (yeild * totalCost) / 100;
 
             }
+
             // console.log(acf)
 
+            // console.log(startyear)
             // var lastIncome;
-            for (var k4 = 0; k4 < numYears; k4++) {
-                var sYear = (startyear + k4 + parseInt(capex_start));
-                curDiagDetails['investment'][sYear] = yearlyCost;
+            var capex_begin_year = startyear + parseInt(capex_start);
+            var capex_end_year = capex_begin_year + capex_num_years;
+            // console.log(capex_begin_year)
+            for (var k4 = 0; k4 < number_of_years; k4++) {
+                var cur_year = startyear + k4;
+
+                if (cur_year <= diagram_end && cur_year > diagram_start) {
+                    var sYear = (startyear + k4 + parseInt(capex_start));
+                    curDiagDetails['investment'][cur_year] = yearlyCost;
+                }
+                else {
+                    curDiagDetails['investment'][cur_year] = 0;
+                }
             }
             var totalIncome = 0;
+            // console.log(capex_end_year)
             for (var k = 0; k < number_of_years; k++) {
+                var cur_year = startyear + k;
+                
                 // if (k == 0) {
                 //     lastIncome = acf;
                 // }
                 // var incomeIncrease = (acf * 0.03);
                 // var newIncome = incomeIncrease + lastIncome;
-                var sYear = (startyear + k+  parseInt(capex_end));
-                curDiagDetails['income'][sYear] = acf;
+                if (cur_year <= diagram_end) {
+                    curDiagDetails['income'][cur_year] = 0;
+                }
+                else {
+                    curDiagDetails['income'][cur_year] = acf;
+                    totalIncome += acf;
+                }
                 // curDiagDetails['income']['yearly'] = acf;
-                totalIncome += acf;
                 // lastIncome = newIncome;
             }
+            // console.log(curDiagDetails['income'])
             // curDiagDetails['income']['total'] = totalIncome;
             var totalMaintainence = 0;
             // var threepercentMaintainece = -1 * yearlyCost * 0.03;
@@ -200,16 +253,22 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
                 all_opex_asga = opex + asga;
             }
             // var lastIncome;
+            
             for (var k7 = 0; k7 < number_of_years; k7++) {
-                if (k7 < number_of_years - 1) {
-                    var sYear = (startyear + k7+ parseInt(capex_end));
-                    curDiagDetails['maintainence'][sYear] = all_opex_asga;
+                var cur_year = startyear + k7;
+                if (cur_year > diagram_end) {
+                    // var sYear = (startyear + k7 + parseInt(capex_end));
+                    curDiagDetails['maintainence'][cur_year] = all_opex_asga;
                     totalMaintainence += all_opex_asga;
+                }
+                else {
+                    curDiagDetails['maintainence'][cur_year] = 0;
                 }
             }
             curDiagDetails['area'] = totArea;
             // curDiagDetails['maintainence']['total'] = totalMaintainence;
             diagCosts.push(curDiagDetails);
+            
         }
     }
     // console.log(diagCosts)
@@ -224,5 +283,5 @@ function computeAreas(systemdetails, systems, timeline, startyear, numYears, sav
 }
 
 self.onmessage = function (e) {
-    computeAreas(e.data.systemdetails, e.data.systems, e.data.timeline, e.data.startyear, e.data.years, e.data.saved_diagram_details);
+    computeAreas(e.data.systemdetails, e.data.systems, e.data.startyear, e.data.years, e.data.saved_diagram_details, e.data.sequence);
 }

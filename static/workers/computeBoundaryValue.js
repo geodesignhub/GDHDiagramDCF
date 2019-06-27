@@ -10,8 +10,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
     var investmentdata = JSON.parse(investmentdata);
     var selectedsystems = JSON.parse(selectedsystems);
     var saved_asset_details = JSON.parse(saved_asset_details);
-
-
+    
     var number_of_years = numYears;
     var maxYearlyCost = 0;
     // loop over boundaries
@@ -70,7 +69,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                 try {
                     ifeat = turf.intersect(curbnd, curIFeatGrid);
                     intersect_area = turf.area(ifeat);
-                    
+                   
                 } catch (err) { //throw JSON.stringify(err)
                     // console.log(err);
                     cur_feat_area = 0;
@@ -134,16 +133,20 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
             bndIDDiags[bndID]['maintainence'][sYear] = 0;
         }
 
+
         // get the items in the grid that intersect the boundary. 
         for (var i1 = 0; i1 < investmentdata.length; i1++) { // loop over the investment data. 
             var curData = investmentdata[i1]; // current investment data
             var diagID = curData.id; // diagram id of the current investment
             var sysID = curData.sysid;            
             var factor = 1;
+            
             if (diagramIDs.includes(diagID) && (selectedsystems.includes(sysID))) {    
                 for (let p1 = 0; p1 < saved_asset_details.length; p1++) {                    
                     const cur_diagram_saved_details = saved_asset_details[p1];
+                    // console.log('aser asr')
                     const diag_id = parseInt(cur_diagram_saved_details['key'].split('-')[1]);
+                    // console.log(diagID, diag_id)
                     if (diag_id == diagID) {
                         const saved_bnd_diag_id = bndID +'-'+diag_id;
                         const cur_diagram_asset_details = cur_diagram_saved_details['asset_details'];
@@ -253,7 +256,6 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                     }
                 }
 
-                // console.log(factor , curData['totalInvestment'])
                 totalInvestment += (curData['totalInvestment']*factor);
                 const yearly_investment = curData['investment'];
                 const yearly_income = curData['income'];
@@ -319,6 +321,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
             'mode': 'status',
         });
     }
+    // console.log(opboundaries)
 
     self.postMessage({
         'boundaryValue': JSON.stringify(bndIDDiags),

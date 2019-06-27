@@ -250,21 +250,23 @@ app.get('/', function (request, response) {
 
         });
 
-    } else if (request.query.apitoken && request.query.projectid && request.query.synthesisid && request.query.cteamid) {
+    } else if (request.query.apitoken && request.query.projectid && request.query.synthesisid && request.query.cteamid && request.query.boardid) {
 
-        var apikey = request.query.apitoken;
-        var cred = "Token " + apikey;
-        var projectid = request.query.projectid;
-        var cteamid = request.query.cteamid;
-        var synthesisid = request.query.synthesisid;
-        var synprojectsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/';
-        var timelineurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/timeline/';
-        var systemsurl = baseurl + projectid + '/systems/';
-        var boundsurl = baseurl + projectid + '/bounds/';
-        var boundaryurl = baseurl + projectid + '/boundaries/';
-        var syndiagramsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/diagrams/';
-        var projecturl = baseurl + projectid + '/';
-        var URLS = [synprojectsurl, boundsurl, timelineurl, systemsurl, projecturl, syndiagramsurl, boundaryurl];
+        const apikey = request.query.apitoken;
+        const cred = "Token " + apikey;
+        const projectid = request.query.projectid;
+        const cteamid = request.query.cteamid;
+        const synthesisid = request.query.synthesisid;
+        const boardid = request.query.boardid;
+        const synprojectsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/';
+        const timelineurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/timeline/';
+        const systemsurl = baseurl + projectid + '/systems/';
+        const boundsurl = baseurl + projectid + '/bounds/';
+        const boundaryurl = baseurl + projectid + '/boundaries/';
+        const syndiagramsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/diagrams/';
+        const boardsurl = baseurl + projectid + '/boards/' + boardid + '/gantt/';
+        const projecturl = baseurl + projectid + '/';
+        const URLS = [synprojectsurl, boundsurl, systemsurl, projecturl, syndiagramsurl, boundaryurl, boardsurl];
 
         async.map(URLS, function (url, done) {
             req({
@@ -283,14 +285,14 @@ app.get('/', function (request, response) {
             if (err) return response.sendStatus(500);
 
             var sURls = [];
-            var systems = results[3];
+            var systems = results[2];
             for (x = 0; x < systems.length; x++) {
                 var curSys = systems[x];
                 var systemdetailurl = baseurl + projectid + '/systems/' + curSys['id'] + '/';
                 sURls.push(systemdetailurl);
             }
 
-            var syn_diag_list = results[5];
+            var syn_diag_list = results[4];
 
             var redis_keys = [];
             for (var i = syn_diag_list['diagrams'].length - 1; i >= 0; i--) {
@@ -313,7 +315,7 @@ app.get('/', function (request, response) {
                 });
             }, function (err, sysdetails) {
                 if (err) return response.sendStatus(500);
-                var timeline = results[2]['timeline'];
+                // var timeline = results[2]['timeline'];
 
                 var keyDetails = {};
 
@@ -352,12 +354,13 @@ app.get('/', function (request, response) {
                             "status": 1,
                             "design": JSON.stringify(results[0]),
                             "bounds": JSON.stringify(results[1]),
-                            "systems": JSON.stringify(results[3]),
-                            "timeline": JSON.stringify(timeline),
-                            "projectdetails": JSON.stringify(results[4]),
-                            "syndiagrams": JSON.stringify(results[5]),
-                            "boundaries": JSON.stringify(results[6].geojson),
+                            "systems": JSON.stringify(results[2]),
+                            // "timeline": JSON.stringify(timeline),
+                            "projectdetails": JSON.stringify(results[3]),
+                            "syndiagrams": JSON.stringify(results[4]),
+                            "boundaries": JSON.stringify(results[5].geojson),
                             "systemdetail": JSON.stringify(sysdetails),
+                            "sequence": JSON.stringify(results[6]),
                             "saved_diagram_details": JSON.stringify(op)
                         };
                         response.render('investmentanalysis', opts);
