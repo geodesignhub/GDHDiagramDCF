@@ -111,7 +111,16 @@ const image_files = [ 'commecial-office.jpg',
 'tourism-hotel-4.jpg',
 'tourism-hotel-5.jpg',
 'tourism-hotel-8.jpg',
-'tourism-hotel-9.jpg' ];
+'tourism-hotel-9.jpg',
+'transport-road-1.jpg',
+'transport-road-2.jpg',
+'transport-road-3.jpg',
+'transport-road-4.jpg',
+'transport-road-5.jpg',
+'transport-road-8.jpg',
+'transport-road-9.jpg',
+'transport-road-10.jpg',
+'transport-road-11.jpg' ];
 
 app.post('/setdefaults', function (request, response) {
 

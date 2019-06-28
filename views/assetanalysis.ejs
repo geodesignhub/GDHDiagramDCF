@@ -78,6 +78,7 @@
                             <option data-value='retail'>Retail</option>
                             <option data-value='office'>Office</option>
                             <option data-value='mixuse'>Mix Use</option>
+                            <option data-value='transport'>Transport</option>
                             <!-- <option data-value='community'>Community</option>
                                 <option data-value='tourism'>Tourism</option>
                                 <option data-value='commercial'>Commercial</option>
@@ -125,6 +126,16 @@
                     <br>
 
                     <button id="recompute_tourism" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+
+                </div>
+
+
+                <div class='usage_form hidden' id="built_env_form_transport">                    
+                    <h4>Passenger-trips/day: <a class="editable" href="#" id="transport_passenger_trips"
+                            data-type="text" data-title="Enter new room size e.g. 5">12</a></h4>
+
+                    <button id="recompute_transport" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+
 
                 </div>
 
@@ -1120,6 +1131,7 @@
             "retail": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
             "mixuse": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
             "office": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
+            "transport": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
             "agriculture": "Crop Farmland,Grassland,Orchard",
             "green-infrastruture": "Public Park,Garden Land,Woodland,Tree line",
             "blue-infrastructure": "Dikes,Barrier walls"
@@ -1136,6 +1148,8 @@
                 myOfficeControl.update(0, 0);
             }else if ($("#base_asset_class").find("option:selected").attr('data-value') == 'mixuse') {
                 myMixedUseControl.update(0, 0);
+            }else if ($("#base_asset_class").find("option:selected").attr('data-value') == 'transport') {
+                myTransportControl.update(0, 0);
             }
         });
         $('#recompute_residential').on('click', function (e) {
@@ -1157,6 +1171,10 @@
         
         $('#recompute_mixuse').on('click', function (e) {
             myMixedUseControl.recompute();
+            //your awesome code here
+        });
+        $('#recompute_transport').on('click', function (e) {
+            myTransportControl.recompute();
             //your awesome code here
         });
         $('#base_asset_class').on('change', function (e) {
@@ -1270,6 +1288,23 @@
                     myOfficeControl.update();
                     break;
                     
+                case 'transport':
+                    vals = data.transport.split(",");
+                    $(".usage_form").hide();
+                    $("#built_env_form_transport").show();
+                    
+                    $("#services").show();
+                    var $secondChoice = $("#base_asset_subclass");
+                    $secondChoice.empty();
+                    $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
+                    $.each(vals, function (index, value) {
+                        $secondChoice.append("<option >" + value + "</option>");
+                    });
+            
+            
+                    myTransportControl.initialize();
+                    myTransportControl.update();
+                    break;
                 // case 'community':
                 //     vals = data.community.split(",");
                 //     $(".usage_form").hide();
@@ -1302,15 +1337,15 @@
             
             } 
             else if (base_class_type ==='mixuse' || base_class_type=== 'office') {
-                
                 filtered_images =  all_images.filter(function (str) { return str.includes('mix')});
-                
-
+            
+            } 
+            else if (base_class_type ==='transport') {
+                filtered_images =  all_images.filter(function (str) { return str.includes('transport')});
             
             } 
             else if (base_class_type ==='hospitality') {
-                const tourism_filtered_images = all_images.filter(function (str) { return str.includes('tourism')});
-                
+                const tourism_filtered_images = all_images.filter(function (str) { return str.includes('tourism')});                
                 const com_filtered_images =  all_images.filter(function (str) { return str.includes('commercial')});
                 filtered_images = tourism_filtered_images.concat(com_filtered_images);
             }
@@ -3244,6 +3279,150 @@
             }
         }
 
+
+        var TransportCalculator = function () {
+            this.initialize = function () {
+
+                $('#transport_passenger_trips').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+            }
+            this.recompute = function () {
+                const transport_passenger_trips = $("#transport_passenger_trips").editable('getValue', true);
+                
+                
+                const population = parseInt(transport_passenger_trips)*2;
+
+                
+                myDisplayUpdater = new ServicesDisplayUpdater();
+
+                myDisplayUpdater.updateBedsRecompute(population);
+                myDisplayUpdater.updatePoliceStationsRecompute(population);
+                myDisplayUpdater.updateFireStationsRecompte(population);
+                myDisplayUpdater.updateSchoolsRecompute(population * 0.05);
+                myDisplayUpdater.updateEnergyRecompute(population);
+                myDisplayUpdater.updateWaterRecompute(population);
+                myDisplayUpdater.updateSewageRecompute(population);
+                const total_parking_area  = myDisplayUpdater.updateTransportRecompute(population, 2, 2);                
+                const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(population);
+                
+                const lu_chart_data = {"area_available":0, "built_up_area":0, "green_space":0, "parking":0};
+                populate_lu_chart('transport', lu_chart_data);
+                
+            }
+
+
+            this.update = function () {
+
+                const transport_class_defaults = {
+                    "New Build": {
+                        "transport_passenger_trips": 12,
+                        "beds": 0.0055,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }, 
+                        "green_space":1,
+                        "parking_demand":0.5
+                    },
+                    "Full Rennovation": {
+                        "transport_passenger_trips": 12,
+                        "beds": 0.0055,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }, 
+                        "green_space":1,
+                        "parking_demand":0.5
+                    },
+                    "Medium Rennovation": {
+                        "transport_passenger_trips": 12,
+                        "beds": 0.0055,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }, 
+                        "green_space":1,
+                        "parking_demand":0.5
+                    },
+                    "Low Rennovation": {
+                        "transport_passenger_trips": 12,
+                        "beds": 0.0055,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }, 
+                        "green_space":1,
+                        "parking_demand":0.5
+                    }
+                };
+
+
+                var selected_subclass = $("#base_asset_subclass").val();
+                selected_subclass = (selected_subclass) ? selected_subclass : 'New Build';
+                var diagram_area = diagramdetail['area'];
+
+                $("#transport_passenger_trips").editable('setValue', transport_class_defaults[selected_subclass]['transport_passenger_trips']);
+                const population = parseInt(transport_class_defaults[selected_subclass]['transport_passenger_trips'])*2;
+
+                
+                myDisplayUpdater = new ServicesDisplayUpdater();
+                myDisplayUpdater.updateBeds(population, transport_class_defaults[selected_subclass]['beds']);
+                myDisplayUpdater.updatePoliceStations(population, transport_class_defaults[selected_subclass][
+                    'police_stations'
+                ]);
+                myDisplayUpdater.updateFireStations(population, transport_class_defaults[selected_subclass][
+                    'fire_stations'
+                ]);
+                myDisplayUpdater.updateSchools(population * 0.05, transport_class_defaults[selected_subclass][
+                    'schools'
+                ]);
+                myDisplayUpdater.updateEnergy(population, transport_class_defaults[selected_subclass]['energy']);
+                myDisplayUpdater.updateWater(population, transport_class_defaults[selected_subclass]['water']);
+                myDisplayUpdater.updateSewage(population, transport_class_defaults[selected_subclass]['sewage']);
+                const total_parking_area  = myDisplayUpdater.updateTransport(population, transport_class_defaults[selected_subclass][
+                    'transport'
+                ]['road'], transport_class_defaults[selected_subclass]['transport']['rail'], 2, 2,0.5);
+                const total_green_space_area = myDisplayUpdater.updateGreenSpace(population, transport_class_defaults[selected_subclass]['green_space']);
+               myDisplayUpdater.updateParking(population*0.5, transport_class_defaults[selected_subclass]['parking_demand'])
+
+            }
+
+
+        }
+
+
         var ServicesDisplayUpdater = function () {
 
             this.updateBeds = function (population, demand) {
@@ -3459,6 +3638,7 @@
         myRetailControl = new RetailCalaulator();
         myOfficeControl = new OfficeCalaulator();
         myMixedUseControl = new MixedUseCalaulator();
+        myTransportControl = new TransportCalculator();
         $(".services_form").hide();
         $('#savevalues').on('click', function (e) {
             const capex = initCost;
@@ -3522,7 +3702,11 @@
                     metadata['direct_employees_to_visitor_ratio'] = $("#direct_employees_to_visitor_ratio_office").html();
                     metadata['total_direct_employment_office'] = $("#total_direct_employment_office").html();
                     metadata['total_indirect_employment_office'] = $("#total_indirect_employment_office").html();
-                } else if (base_asset_class == 'mixuse') {
+                }else if (base_asset_class == 'transport') {
+                    metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+                    metadata['transport_passenger_trips'] = parseInt($("#transport_passenger_trips").editable('getValue', true));
+                }  
+                else if (base_asset_class == 'mixuse') {
 
                     metadata['base_asset_subclass'] = $("#base_asset_subclass").val();                    
                     metadata['number_of_people_residential_mixuse'] = parseInt($("#number_of_people_residential_mixuse").editable('getValue', true));
@@ -3579,7 +3763,7 @@
                 "_csrf": csrf,
                 "asset_details": JSON.stringify(asset_details)
             };
-            // console.log(data)
+            console.log(data)
             var url = '/setdefaults/';
             
             var promise = $.ajax({
@@ -3688,6 +3872,12 @@
                     'total_daily_visitors_office'
                 ]);
                 $("#total_floor_area_office_required").html(class_default_values['metadata']['total_floor_area_office_required']);
+                $("#recompute_office").click();
+            }
+            else if (asset_class == 'transport') {
+                $("#base_asset_subclass").val(class_default_values['base_asset_subclass']);
+                $("#transport_passenger_trips").editable('setValue', class_default_values['metadata']['transport_passenger_trips']);
+                
                 $("#recompute_office").click();
             }
             else if (asset_class='mixuse') {
