@@ -860,6 +860,7 @@
                         } else {
                             const ad = asset_details['class'];
                             $(".assetdetails-" + diagID).html(ad);
+                            
                             if(asset_details['metadata']['representative_image'].length > 0){
                                 $(".assetimage-" + diagID).html("<img src='assets/img/asset-images/"+asset_details['metadata']['representative_image']+"'/>");
                             }

@@ -3763,7 +3763,7 @@
                 "_csrf": csrf,
                 "asset_details": JSON.stringify(asset_details)
             };
-            console.log(data)
+            // console.log(data)
             var url = '/setdefaults/';
             
             var promise = $.ajax({
@@ -3876,9 +3876,8 @@
             }
             else if (asset_class == 'transport') {
                 $("#base_asset_subclass").val(class_default_values['base_asset_subclass']);
-                $("#transport_passenger_trips").editable('setValue', class_default_values['metadata']['transport_passenger_trips']);
-                
-                $("#recompute_office").click();
+                $("#transport_passenger_trips").editable('setValue', class_default_values['metadata']['transport_passenger_trips']);                
+                $("#recompute_transport").click();
             }
             else if (asset_class='mixuse') {
                 

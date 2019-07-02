@@ -268,7 +268,7 @@ app.get('/', function (request, response) {
         const synthesisid = request.query.synthesisid;
         const boardid = request.query.boardid;
         const synprojectsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/';
-        const timelineurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/timeline/';
+        // const timelineurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/timeline/';
         const systemsurl = baseurl + projectid + '/systems/';
         const boundsurl = baseurl + projectid + '/bounds/';
         const boundaryurl = baseurl + projectid + '/boundaries/';
@@ -376,6 +376,10 @@ app.get('/', function (request, response) {
                     });
             });
         });
+    }
+    else{
+        response.sendStatus(400);
+
     }
 
 });
