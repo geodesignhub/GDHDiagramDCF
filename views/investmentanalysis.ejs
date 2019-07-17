@@ -259,11 +259,13 @@
 
         function generateInitTables() {
             destroyTables();
-            var allDiagrams = syndiagrams.diagrams;
+            var allDiagrams = syndiagrams.diagrams;           
+
+
             var sys = systems;
             var syslen = sys.length;
             for (var x = 0; x < syslen; x++) {
-                sys[x]['diagrams'] = [];
+                sys[x]['diagrams'] = [];                
                 // sysDiags.push({cursys.name:{"id":cursys.id, "color":cursys.syscolor, "diagrams":[]}});
             }
             var diagGJ = {};
@@ -274,6 +276,7 @@
                     "features": []
                 };
             }
+
             for (var j = 0; j < design.features.length; j++) {
                 var curFeat = design.features[j];
                 var curFeatProp = curFeat.properties;
@@ -310,6 +313,7 @@
             for (var h = 0; h < syslen; h++) {
                 var cursys = sys[h];
                 if (cursys.diagrams.length > 0) {
+                    
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
                         var npvHTML =
@@ -328,7 +332,7 @@
                         var curdiag = cursys.diagrams[p];
                         if (curdiag.features.length > 0) {
                             var curdiagprops = curdiag.features[0].properties;
-                            var curdiagid = curdiag.features[0].properties.diagramid;
+                            var curdiagid = curdiag.features[0].properties.diagramid;                                                            
                             var projectorpolicy = curdiag.features[0].properties.areatype;
                             var diagrowHTMLnpv = "<tr class=" + "'" + cursys.id + "'" + "><td class='initCol'>" +
                                 curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" +
@@ -341,11 +345,8 @@
                                 curdiagid + "'" +
                                 ">" + cursys.sysname + "<sup class=" + "'yeild-" + cursys.id + "'" + "></sup></td>";
                             yrCounter = 0;
-
                             diagrowHTMLnpv += "</tr>";
                             $('#npv > tbody').append(diagrowHTMLnpv);
-
-
                         }
                     }
                 }
@@ -371,8 +372,7 @@
             };
             areaWorker.postMessage({
                 'systemdetails': JSON.stringify(systemdetail),
-                'systems': JSON.stringify(systems),
-                
+                'systems': JSON.stringify(systems),                
                 'sequence': JSON.stringify(sequence),
                 'startyear': JSON.stringify(startyear),
                 'bounds': bounds['bounds'],
@@ -447,10 +447,11 @@
                     renderBoundaryInvestmentMap(JSON.parse(e.data.newboundaries), parseInt(e.data.stdVar));
                     // renderBoundaryInvestmentChart(JSON.parse(e.data.boundaryValue));
                     boundaryStdVar = parseInt(e.data.stdVar);
-                    boundaryGeomDetails = JSON.parse(e.data.newboundaries);
+                    // boundaryGeomDetails = JSON.parse(e.data.newboundaries);
                     boundaryValueDetails = JSON.parse(e.data.boundaryValue); 
-                    generate_paracoords_primary_chart(e.data.boundaryValue);
-                    generate_paracoords_secondary_chart(e.data.boundaryValue);
+                    
+                    generate_paracoords_primary_chart(JSON.parse(e.data.boundaryValue));
+                    generate_paracoords_secondary_chart(JSON.parse(e.data.boundaryValue));
                     $("#loadingGIF").hide();
                 }
             }, false);
@@ -868,7 +869,7 @@
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata']['total_yearly_visitors'], 2));
                             } else if (ad == 'residential') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata']['number_of_people_residential'], 2));
-                                $(".assetimage-"+diagID).append("<br><small>Density:"+asset_details['metadata']['current_pop_density']+" people / km<sup>2</sup></small>")
+                                $(".assetimage-"+diagID).append("<br><small>Density: "+asset_details['metadata']['current_pop_density']+" people / km<sup>2</sup></small>")
                             } else if (ad == 'retail') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_retail'], 2));
                             } else if (ad == 'office') {
@@ -876,7 +877,7 @@
                             }
                             else if (ad == 'mixuse') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata']['number_of_people_residential_mixuse'], 2));
-                                $(".assetimage-"+diagID).append("<br><small>Density:"+asset_details['metadata']['current_pop_density_mixuse']+" people / km<sup>2</sup></small>")
+                                $(".assetimage-"+diagID).append("<br><small>Density: "+asset_details['metadata']['current_pop_density_mixuse']+" people / km<sup>2</sup></small>")
                             }
 
                         }
@@ -982,9 +983,8 @@
             }
         }
 
-        function generate_paracoords_primary_chart() {
-            const boundary_details = boundaryValueDetails;
-
+        function generate_paracoords_primary_chart(boundary_details) {
+            // const boundary_details = boundaryValueDetails;
             var data = [];
             for (const bnd_id in boundary_details) {
                 if (boundary_details.hasOwnProperty(bnd_id)) {
@@ -1044,8 +1044,8 @@
 
 
         }
-        function generate_paracoords_secondary_chart() {
-            const boundary_details = boundaryValueDetails;
+        function generate_paracoords_secondary_chart(boundary_details) {
+            // const boundary_details = boundaryValueDetails;
 
             var data = [];
             for (const bnd_id in boundary_details) {
