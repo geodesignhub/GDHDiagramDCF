@@ -79,8 +79,8 @@
                             <option data-value='office'>Office</option>
                             <option data-value='mixuse'>Mix Use</option>
                             <option data-value='transport'>Transport</option>
-                            <!-- <option data-value='community'>Community</option>
-                                <option data-value='tourism'>Tourism</option>
+                            <option data-value='community'>Community</option>
+                            <!--     <option data-value='tourism'>Tourism</option>
                                 <option data-value='commercial'>Commercial</option>
                                 <option data-value='agriculture'>Agirculture</option>
                                 <option data-value='green-infrastruture'>Green Infrastruture</option> -->
@@ -131,8 +131,7 @@
 
 
                 <div class='usage_form hidden' id="built_env_form_transport">                    
-                    <h4>Passenger-trips/day: <a class="editable" href="#" id="transport_passenger_trips"
-                            data-type="text" data-title="Enter new room size e.g. 5">12</a></h4>
+                    <h4>Passenger-trips/day: <a class="editable" href="#" id="transport_passenger_trips" data-type="text" data-title="Enter new room size e.g. 5">12</a></h4><br>
 
                     <button id="recompute_transport" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
@@ -158,7 +157,7 @@
                     <h4>Per capita retail space <a class="editable" href="#" id="retail_m2_per_visitor" data-type="text"
                             data-title="Enter new room size e.g. 5">4</a></h4>
                     <h4>Number of floors: <a class="editable" href="#" id="retail_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
-                    <h4>Expected visitors in area: <a class="editable" href="#" id="total_daily_visitors_retail"
+                    <h4>Expected daily visitors: <a class="editable" href="#" id="total_daily_visitors_retail"
                             data-type="text" data-title="Enter a new visitor number">3000</a></h4>
                     <br>
                     <h4>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_retail" data-type="text" data-title="Enter new ratio">.05</a></h4>
@@ -217,8 +216,15 @@
 
 
                 <div class='usage_form hidden' id="built_env_form_community">
-                    <h4>Visitors</h4>
-                    <h4>Peak Demand</h4>
+
+                    <h4>Number of people using daily (visitors): <a class="editable" href="#" id="community_visitors" data-type="text" data-title="Enter new number ">12</a></h4>
+                    <h4>Number of people using daily (residents): <a class="editable" href="#" id="community_residents" data-type="text" data-title="Enter new number ">12</a></h4><br>
+
+
+                    <button id="recompute_community" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+
+
+
                 </div>
                 <div class='usage_form hidden' id="built_env_form_agriculture">
                 </div>
@@ -694,7 +700,7 @@
             });
 
         function populate_lu_chart(type, chart_data) {           
-            
+            console.log(chart_data)
             var luctx =  document.getElementById('lu_chart').getContext('2d');
             
             var barChartData = {
@@ -1126,7 +1132,7 @@
         const data = {
             "residential": "Luxury,High Priced,Mid Priced,Low Priced,Affordable Housing,Full Rennovation,Medium Rennovation,Low Rennovation",
             "hospitality": "Upscale Hotel,Midscale Hotel,Budget Hotel,Full Rennovation,Medium Rennovation,Low Rennovation",
-            "community": "Hospital,Police Station,Fire Station,School,Community Center,Playground,Full Rennovation,Medium Rennovation,Low Rennovation",
+            "community": "Community Center,Playground,Amenity,Full Rennovation,Medium Rennovation,Low Rennovation",
             "tourism": "Eco Tourism,Low Density Attraction,High Density Attraction,Full Rennovation,Medium Rennovation,Low Rennovation",
             "retail": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
             "mixuse": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
@@ -1150,6 +1156,8 @@
                 myMixedUseControl.update(0, 0);
             }else if ($("#base_asset_class").find("option:selected").attr('data-value') == 'transport') {
                 myTransportControl.update(0, 0);
+            }else if ($("#base_asset_class").find("option:selected").attr('data-value') == 'community') {
+                myCommunityControl.update(0, 0);
             }
         });
         $('#recompute_residential').on('click', function (e) {
@@ -1175,6 +1183,11 @@
         });
         $('#recompute_transport').on('click', function (e) {
             myTransportControl.recompute();
+            //your awesome code here
+        });
+        
+        $('#recompute_community').on('click', function (e) {
+            myCommunityControl.recompute();
             //your awesome code here
         });
         $('#base_asset_class').on('change', function (e) {
@@ -1305,11 +1318,22 @@
                     myTransportControl.initialize();
                     myTransportControl.update();
                     break;
-                // case 'community':
-                //     vals = data.community.split(",");
-                //     $(".usage_form").hide();
-                //     $("#built_env_form_community").show();
-                //     break;
+                case 'community':
+                    vals = data.community.split(",");
+                    $(".usage_form").hide();
+                    $("#built_env_form_community").show();
+                    
+                    $("#services").show();
+                    var $secondChoice = $("#base_asset_subclass");
+                    $secondChoice.empty();
+                    $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
+                    $.each(vals, function (index, value) {
+                        $secondChoice.append("<option >" + value + "</option>");
+                    });
+            
+                    myCommunityControl.initialize();
+                    myCommunityControl.update();
+                    break;
                 // case 'agriculture':
                 //     vals = data.retail.split(",");
                 //     $(".usage_form").hide();
@@ -1349,6 +1373,10 @@
                 const com_filtered_images =  all_images.filter(function (str) { return str.includes('commercial')});
                 filtered_images = tourism_filtered_images.concat(com_filtered_images);
             }
+
+            // else if (base_class_type ==='community') {
+                // filtered_images =  all_images.filter(function (str) { return str.includes('community')});
+            // }
 
             var d = [];
             
@@ -1586,8 +1614,7 @@
                 const new_population_density = population / area_in_km2;
                 const total_floor_area_residential_available = parseInt((diagram_area * far * floors));                
                 const max_floor_area_available_per_floor = parseInt((diagram_area * far));   
-                const residences_per_floor =  numresidences / floors;          
-                
+                const residences_per_floor =  numresidences / floors;                
 
                 const total_floor_area_residential_available_per_floor = parseInt((total_floor_area_residential_available / floors));
                 const avg_area_per_unit = (parseInt(total_floor_area_residential_available_per_floor) / parseInt(numresidences));
@@ -1595,8 +1622,7 @@
                 $("#current_pop_density").html(abbrNum(new_population_density, 2));
                 $("#total_floor_area_residential_built").html(abbrNum(total_floor_area_residential_available, 2));
                 $("#total_floor_area_residential_available").html(abbrNum(max_buildable_area_in_m2, 2));
-                $("#avg_area_per_unit").html(abbrNum(parseInt(avg_area_per_unit), 2) + ' m2 / ' + abbrNum(total_floor_area_residential_available_per_floor, 2) + ' m2 per floor');
-                
+                $("#avg_area_per_unit").html(abbrNum(parseInt(avg_area_per_unit), 2) + ' m2 / ' + abbrNum(total_floor_area_residential_available_per_floor, 2) + ' m2 per floor');                
 
                 myDisplayUpdater.updateBedsRecompute(population);
                 myDisplayUpdater.updatePoliceStationsRecompute(population);
@@ -3423,6 +3449,204 @@
         }
 
 
+        var CommunityCalculator = function () {
+            this.initialize = function () {
+                $('#community_visitors').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+                $('#community_residents').editable({
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return 'This field is required';
+                        } else if ($.isNumeric(value) == '') {
+                            return "Input must be a integer"
+                        }
+                    }
+                });
+
+            }
+            
+            this.recompute = function () {
+                const community_residents = $("#community_residents").editable('getValue', true);
+                const community_visitors = $("#community_visitors").editable('getValue', true);                
+                
+                const population = parseInt(community_visitors);
+
+                var diagram_area = diagramdetail['area'];
+                const area_in_km2 = (diagram_area / 1000000);                
+                myDisplayUpdater = new ServicesDisplayUpdater();
+
+                myDisplayUpdater.updateBedsRecompute(population);
+                myDisplayUpdater.updatePoliceStationsRecompute(population);
+                myDisplayUpdater.updateFireStationsRecompte(population);
+                myDisplayUpdater.updateSchoolsRecompute(population * 0.05);
+                myDisplayUpdater.updateEnergyRecompute(population);
+                myDisplayUpdater.updateWaterRecompute(population);
+                myDisplayUpdater.updateSewageRecompute(population);
+                const total_parking_area  = myDisplayUpdater.updateTransportRecompute(population, 2, 2);                
+                const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(population);
+                
+                const lu_chart_data = {"area_available":diagram_area, "built_up_area":0, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                populate_lu_chart('community', lu_chart_data);
+                
+            }
+
+
+            this.update = function () {
+
+                const community_class_defaults = {
+                    "Community Center": {
+                        "community_residents": 20,
+                        "community_visitors": 20,                        
+                        "beds": 0.0055,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }, 
+                        "green_space":1,
+                        "parking_demand":0.5
+                    },
+                    "Playground": {
+                        "community_residents": 20,
+                        "community_visitors": 20,    
+                        "beds": 0.0055,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }, 
+                        "green_space":1,
+                        "parking_demand":0.5
+                    },
+                    "Amenity": {
+                        "community_residents": 20,
+                        "community_visitors": 20,    
+                        "beds": 0.0055,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }, 
+                        "green_space":1,
+                        "parking_demand":0.5
+                    },
+                    "Full Rennovation": {
+                        "community_residents": 20,
+                        "community_visitors": 20,    
+                        "beds": 0.0055,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }, 
+                        "green_space":1,
+                        "parking_demand":0.5
+                    },
+                    "New Build": {
+                        "community_residents": 20,
+                        "community_visitors": 20,    
+                        "beds": 0.0055,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }, 
+                        "green_space":1,
+                        "parking_demand":0.5
+                    },
+                    "Medium Rennovation": {
+                        "community_residents": 20,
+                        "community_visitors": 20,    
+                        "beds": 0.0055,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }, 
+                        "green_space":1,
+                        "parking_demand":0.5
+                    },
+                    "Low Rennovation": {
+                        "community_residents": 20,
+                        "community_visitors": 20,    
+                        "beds": 0.0055,
+                        "police_stations": 0.0045,
+                        "fire_stations": 0.0045,
+                        "schools": 0,
+                        "energy": 14,
+                        "water": 220,
+                        "sewage": 102,
+                        "transport": {
+                            'road': 0.9,
+                            'rail': 0.1
+                        }, 
+                        "green_space":1,
+                        "parking_demand":0.5
+                    }
+                };
+
+
+                var selected_subclass = $("#base_asset_subclass").val();
+                selected_subclass = (selected_subclass) ? selected_subclass : 'New Build';
+                var diagram_area = diagramdetail['area'];
+                
+                $("#community_residents").editable('setValue', community_class_defaults[selected_subclass]['community_residents']);                               
+                $("#community_visitors").editable('setValue', community_class_defaults[selected_subclass]['community_visitors']);
+                const population = parseInt(community_class_defaults[selected_subclass]['community_visitors']);
+                
+                myDisplayUpdater = new ServicesDisplayUpdater();
+                myDisplayUpdater.updateBeds(population, community_class_defaults[selected_subclass]['beds']);
+                myDisplayUpdater.updatePoliceStations(population, community_class_defaults[selected_subclass]['police_stations']);
+                myDisplayUpdater.updateFireStations(population, community_class_defaults[selected_subclass]['fire_stations']);
+                myDisplayUpdater.updateSchools(population * 0.05, community_class_defaults[selected_subclass]['schools']);
+                myDisplayUpdater.updateEnergy(population, community_class_defaults[selected_subclass]['energy']);
+                myDisplayUpdater.updateWater(population, community_class_defaults[selected_subclass]['water']);
+                myDisplayUpdater.updateSewage(population, community_class_defaults[selected_subclass]['sewage']);
+                const total_parking_area  = myDisplayUpdater.updateTransport(population, community_class_defaults[selected_subclass]['transport']['road'], community_class_defaults[selected_subclass]['transport']['rail'], 2, 2,0.5);
+                const total_green_space_area = myDisplayUpdater.updateGreenSpace(population, community_class_defaults[selected_subclass]['green_space']);
+                myDisplayUpdater.updateParking(population*0.5, community_class_defaults[selected_subclass]['parking_demand'])
+
+            }
+        }
+
         var ServicesDisplayUpdater = function () {
 
             this.updateBeds = function (population, demand) {
@@ -3485,7 +3709,6 @@
                 const sch = parseInt((population * demand));
                 $("#total_schools").html(abbrNum(sch), 2);
                 $("#total_schools_raw").val(sch);
-
 
                 // $('.schools_editable').on('update', function (e, editable) {
                 //     const population = $("#number_of_people_residential").val() * .05;
@@ -3590,11 +3813,11 @@
                 return [gs];
             }
 
+            
             this.updateTransport = function (population, percent_road, percent_rail, times_road, times_rail, parking_demand_factor) {
                 $("#percent_road_usage").editable('setValue', percent_road);
                 $("#percent_rail_usage").editable('setValue', percent_rail);
                 $("#parking_factor").editable('setValue', parking_demand_factor);
-                
 
                 $("#road_terminal_freq").html(times_road);
                 $("#rail_terminal_freq").html(times_rail);
@@ -3639,6 +3862,7 @@
         myOfficeControl = new OfficeCalaulator();
         myMixedUseControl = new MixedUseCalaulator();
         myTransportControl = new TransportCalculator();
+        myCommunityControl = new CommunityCalculator();
         $(".services_form").hide();
         $('#savevalues').on('click', function (e) {
             const capex = initCost;
@@ -3702,19 +3926,23 @@
                     metadata['direct_employees_to_visitor_ratio'] = $("#direct_employees_to_visitor_ratio_office").html();
                     metadata['total_direct_employment_office'] = $("#total_direct_employment_office").html();
                     metadata['total_indirect_employment_office'] = $("#total_indirect_employment_office").html();
-                }else if (base_asset_class == 'transport') {
+                }
+                else if (base_asset_class == 'transport') {
                     metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
                     metadata['transport_passenger_trips'] = parseInt($("#transport_passenger_trips").editable('getValue', true));
                 }  
+                else if (base_asset_class == 'community') {
+                    metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+                    metadata['community_residents'] = parseInt($("#community_residents").editable('getValue', true));
+                    metadata['community_visitors'] = parseInt($("#community_visitors").editable('getValue', true));
+                }
                 else if (base_asset_class == 'mixuse') {
-
                     metadata['base_asset_subclass'] = $("#base_asset_subclass").val();                    
                     metadata['number_of_people_residential_mixuse'] = parseInt($("#number_of_people_residential_mixuse").editable('getValue', true));
                     metadata['residential_units_mixuse'] = parseInt($("#residential_units_mixuse").editable('getValue', true));
                     metadata['residential_floors_mixuse'] = parseInt($("#residential_floors_mixuse").editable('getValue',true));
                     metadata['residential_far_mixuse'] = parseFloat($("#residential_far_mixuse").editable('getValue',true));
                     metadata['current_pop_density_mixuse'] = $("#current_pop_density_mixuse").html();
-
                     metadata['retail_m2_per_visitor_mixuse'] = parseInt($("#retail_m2_per_visitor_mixuse").editable('getValue', true));
                     metadata['retail_floors_mixuse'] = parseInt($("#retail_floors_mixuse").editable('getValue', true));
                     metadata['total_daily_visitors_retail_mixuse'] = parseInt($("#total_daily_visitors_retail_mixuse").editable('getValue', true));
@@ -3835,49 +4063,40 @@
                     'retail_m2_per_visitor'
                 ]);
                 $("#retail_floors").editable('setValue', class_default_values['metadata']['retail_floors']);
-                $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata'][
-                    'total_daily_visitors_retail'
-                ]);
+                $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata']['total_daily_visitors_retail']);
 
-                $("#percent_interested_in_luxury_retail").editable('setValue', class_default_values['metadata'][
-                    'percent_interested_in_luxury_retail'
-                ]);
+                $("#percent_interested_in_luxury_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_luxury_retail']);
                 $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata'][
                     'total_daily_visitors_retail'
                 ]);
-                $("#percent_interested_in_support_retail").editable('setValue', class_default_values['metadata'][
-                    'percent_interested_in_support_retail'
+                $("#percent_interested_in_support_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_support_retail']);
+                $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata']['total_daily_visitors_retail'
                 ]);
-                $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata'][
-                    'total_daily_visitors_retail'
+                $("#percent_interested_in_fmcg_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_fmcg_retail'
                 ]);
-                $("#percent_interested_in_fmcg_retail").editable('setValue', class_default_values['metadata'][
-                    'percent_interested_in_fmcg_retail'
+                $("#percent_interested_in_food_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_food_retail'
                 ]);
-                $("#percent_interested_in_food_retail").editable('setValue', class_default_values['metadata'][
-                    'percent_interested_in_food_retail'
-                ]);
-                $("#total_floor_area_retail_required").html(class_default_values['metadata'][
-                    'total_floor_area_retail_required'
-                ]);
+                $("#total_floor_area_retail_required").html(class_default_values['metadata']['total_floor_area_retail_required']);
                 $("#recompute_retail").click();
-
             } else if (asset_class == 'office') {
                 $("#base_asset_subclass").val(class_default_values['base_asset_subclass']);
-                $("#office_m2_per_visitor").editable('setValue', class_default_values['metadata'][
-                    'office_m2_per_visitor'
-                ]);
+                $("#office_m2_per_visitor").editable('setValue', class_default_values['metadata']['office_m2_per_visitor']);
                 $("#office_floors").editable('setValue', class_default_values['metadata']['office_floors']);
-                $("#total_daily_visitors_office").editable('setValue', class_default_values['metadata'][
-                    'total_daily_visitors_office'
-                ]);
+                $("#total_daily_visitors_office").editable('setValue', class_default_values['metadata']['total_daily_visitors_office']);
                 $("#total_floor_area_office_required").html(class_default_values['metadata']['total_floor_area_office_required']);
                 $("#recompute_office").click();
             }
             else if (asset_class == 'transport') {
                 $("#base_asset_subclass").val(class_default_values['base_asset_subclass']);
-                $("#transport_passenger_trips").editable('setValue', class_default_values['metadata']['transport_passenger_trips']);                
+                $("#transport_passenger_trips").editable('setValue', class_default_values['metadata']['transport_passenger_trips']);               
                 $("#recompute_transport").click();
+            }
+            
+            else if (asset_class == 'community') {
+                $("#base_asset_subclass").val(class_default_values['base_asset_subclass']);
+                $("#community_visitors").editable('setValue', class_default_values['metadata']['community_visitors']);     
+                $("#community_residents").editable('setValue', class_default_values['metadata']['community_residents']);                
+                $("#recompute_community").click();
             }
             else if (asset_class='mixuse') {
                 
@@ -3900,12 +4119,8 @@
                 $("#total_daily_visitors_retail_mixuse").editable('setValue', class_default_values['metadata']['total_daily_visitors_retail_mixuse']);
 
                 $("#percent_interested_in_luxury_retail_mixuse").editable('setValue', class_default_values['metadata']['percent_interested_in_luxury_retail_mixuse']);
-                $("#total_daily_visitors_retail_mixuse").editable('setValue', class_default_values['metadata'][
-                    'total_daily_visitors_retail_mixuse'
-                ]);
-                $("#percent_interested_in_support_retail_mixuse").editable('setValue', class_default_values['metadata'][
-                    'percent_interested_in_support_retail_mixuse'
-                ]);
+                $("#total_daily_visitors_retail_mixuse").editable('setValue', class_default_values['metadata']['total_daily_visitors_retail_mixuse']);
+                $("#percent_interested_in_support_retail_mixuse").editable('setValue', class_default_values['metadata']['percent_interested_in_support_retail_mixuse']);
                 $("#total_daily_visitors_retail_mixuse").editable('setValue', class_default_values['metadata']['total_daily_visitors_retail_mixuse']);
                 $("#percent_interested_in_fmcg_retail_mixuse").editable('setValue', class_default_values['metadata']['percent_interested_in_fmcg_retail_mixuse']);
                 $("#percent_interested_in_food_retail_mixuse").editable('setValue', class_default_values['metadata']['percent_interested_in_food_retail_mixuse']);
