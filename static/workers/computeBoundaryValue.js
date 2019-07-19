@@ -164,6 +164,11 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                                 var population = cur_diagram_asset_details['metadata']['number_of_people_residential'];                                
                                 var factored_population = population * factor;                                
                                 total_population += parseInt(factored_population);
+                            }                
+                            else if (cur_diagram_asset_details['class'] =='community') {
+                                var visitors = cur_diagram_asset_details['metadata']['community_visitors'];  
+                                var factored_visitors = visitors * factor;                                
+                                total_visitors += parseInt(factored_visitors); 
                             }
                             else if (cur_diagram_asset_details['class'] =='hospitality') {
                                 var visitors = cur_diagram_asset_details['metadata']['total_yearly_visitors'];  
