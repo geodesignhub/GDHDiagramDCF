@@ -1109,18 +1109,18 @@
             }
 
 
-            $("#total_population").html(abbrNum(total_population) + ' ppl');
-            $("#total_visitors").html(abbrNum(total_visitors) + ' ppl');
-            $("#total_direct_employment").html(abbrNum(total_direct_employment) + '  ppl');
-            $("#total_indirect_employment").html(abbrNum(total_indirect_employment) + ' ppl');
+            $("#total_population").html(abbrNum(total_population,0) + ' ppl');
+            $("#total_visitors").html(abbrNum(total_visitors,0) + ' ppl');
+            $("#total_direct_employment").html(abbrNum(total_direct_employment,0) + '  ppl');
+            $("#total_indirect_employment").html(abbrNum(total_indirect_employment,0) + ' ppl');
 
 
-            $("#total_electricity_demand").html(abbrNum(annual_electricity_demand) + ' MW');
-            $("#total_water_demand").html(abbrNum(annual_water_demand) + ' m3');
-            $("#total_sewage_demand").html(abbrNum(annual_sewage) + ' m3');
-            $("#total_fire_personnel").html(abbrNum(total_fire_personnel) + ' ppl');
-            $("#total_police_personnel").html(abbrNum(total_police_personnel) + ' ppl');
-            $("#total_hosptial_beds").html(abbrNum(annual_electricity_demand) + ' beds');
+            $("#total_electricity_demand").html(abbrNum(annual_electricity_demand,2) + ' MW');
+            $("#total_water_demand").html(abbrNum(annual_water_demand,2) + ' m3');
+            $("#total_sewage_demand").html(abbrNum(annual_sewage,2) + ' m3');
+            $("#total_fire_personnel").html(abbrNum(total_fire_personnel,2) + ' ppl');
+            $("#total_police_personnel").html(abbrNum(total_police_personnel,2) + ' ppl');
+            $("#total_hosptial_beds").html(abbrNum(annual_electricity_demand,2) + ' beds');
             
         }
         function generate_paracoords_secondary_chart(boundary_details) {
