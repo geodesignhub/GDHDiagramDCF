@@ -79,26 +79,6 @@
         </div>
         <br>
         <!-- /.col-md-4 -->
-        <div class="row">
-            <div class="col-md-12">
-                <h3>Diagrams and Asset Details</h3>
-                <br>
-                <table id="npv" class="hor-minimalist-b">
-                    <thead>
-                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
-                    </thead>
-                    <tbody>
-                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
-                    </tbody>
-                    <tfoot>
-                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
-                    </tfoot>
-                </table>
-
-            </div>
-        </div>
-        <br><br>
-        <hr>
         
         <div class="row">
             <div class="col-md-12">
@@ -130,6 +110,27 @@
             </div>
         </div>
         
+        <br><br>
+        <hr>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Diagrams and Asset Details</h3>
+                <br>
+                <table id="npv" class="hor-minimalist-b">
+                    <thead>
+                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
+                    </thead>
+                    <tbody>
+                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
+                    </tbody>
+                    <tfoot>
+                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
         <br><br>
         <hr>
         
@@ -1097,7 +1098,7 @@
                     total_population += parseInt(cur_boundary.total_population);
                     total_visitors+= parseInt(cur_boundary.total_visitors);
                     total_direct_employment+= parseInt(cur_boundary.total_direct_employment);
-                    total_indirect_employment+= parseInt(cur_boundary.total_direct_employment);
+                    total_indirect_employment+= parseInt(cur_boundary.total_indirect_employment);
                     
                     annual_electricity_demand += parseInt(cur_boundary['services']['electricity_demand']);
                     annual_water_demand+= parseInt(cur_boundary['services']['water_demand']);
