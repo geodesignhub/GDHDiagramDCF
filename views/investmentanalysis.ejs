@@ -66,9 +66,41 @@
                
             </div>
         </div>
-
+        
         <div class="row">
+            <div class="col-md-12">
+                <h4>Systems</h4>
+                <div id="systemsCBCont" style="display:none">
+                    <div id="systemsCB"></div>
+                    <br>
 
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- /.col-md-4 -->
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Diagrams and Asset Details</h4>
+                <br>
+                <table id="npv" class="hor-minimalist-b">
+                    <thead>
+                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
+                    </thead>
+                    <tbody>
+                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
+                    </tbody>
+                    <tfoot>
+                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
+        <br><br>
+        <hr>
+        <div class="row">
+            <br>
             <div class="col-md-6">
                 <div class="boundariesCont">
                     <h4>Boundaries Map</h4>
@@ -95,38 +127,7 @@
                 </div>
             </div>
         </div>
-        <br>
-        <div class="row">
-            <div class="col-md-12">
-                <h4>Systems</h4>
-                <div id="systemsCBCont" style="display:none">
-                    <div id="systemsCB"></div>
-                    <br>
 
-                </div>
-            </div>
-        </div>
-        <br><br>
-        <hr>
-        <!-- /.col-md-4 -->
-        <div class="row">
-            <div class="col-md-12">
-                <h4>Diagrams and Asset Details</h4>
-                <br>
-                <table id="npv" class="hor-minimalist-b">
-                    <thead>
-                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
-                    </thead>
-                    <tbody>
-                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
-                    </tbody>
-                    <tfoot>
-                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
-                    </tfoot>
-                </table>
-
-            </div>
-        </div>
         <br><br>
         <div class="row">
             <div class="col-md-12">
@@ -261,7 +262,6 @@
             destroyTables();
             var allDiagrams = syndiagrams.diagrams;           
 
-
             var sys = systems;
             var syslen = sys.length;
             for (var x = 0; x < syslen; x++) {
@@ -317,7 +317,7 @@
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
                         var npvHTML =
-                            "<tr><th class='header initCol'>Diagram</th><th>Asset Class</th><th>Image</th><th>Population </th><th class='fundingheader'>Funding</th><th class='aaheader'>Analysis</th><th class='systemheader'>System</th>";
+                            "<tr><th class='header initCol'>Diagram</th><th>Image</th><th>Asset Class</th><th>Population</th><th class='fundingheader'>Funding</th><th class='aaheader'>Analysis</th><th class='systemheader'>System</th>";
 
                         npvHTML += "</tr>";
 
@@ -335,9 +335,9 @@
                             var curdiagid = curdiag.features[0].properties.diagramid;                                                            
                             var projectorpolicy = curdiag.features[0].properties.areatype;
                             var diagrowHTMLnpv = "<tr class=" + "'" + cursys.id + "'" + "><td class='initCol'>" +
-                                curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" +
-                                "'assetdetails-" + curdiagid + "'" + "></td>" +"<td class=" +
-                                "'assetimage assetimage-" + curdiagid + "'" + "></td>" + "<td class=" +
+                                curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" +"<td class=" +
+                                "'assetimage assetimage-" + curdiagid + "'" + "></td>"+ "<td class=" +
+                                "'assetdetails-" + curdiagid + "'" + "></td>"  + "<td class=" +
                                 "'population-" + curdiagid + "'" + "></td>" + "<td class=" + "funding-" +
                                 curdiagid + "'" +
                                 ">" + curdiagprops.fundingtype + "</td>" + "<td class=" +
@@ -989,14 +989,13 @@
             for (const bnd_id in boundary_details) {
                 if (boundary_details.hasOwnProperty(bnd_id)) {
                     const cur_boundary = boundary_details[bnd_id];                   
-
                     var cur_bnd_data = {'Boundary name':cur_boundary.bname, 'Residents':cur_boundary.total_population, 'Visitors':cur_boundary.total_visitors, 'Direct Employment':cur_boundary.total_direct_employment, 'Indirect Employment':cur_boundary.total_indirect_employment};
                     data.push(cur_bnd_data);
                 }
             }
 
             const data_len = Object.keys(data).length;
-
+            console.log(data)
     
             const colrs =  [ "rgb(250, 250, 110)","rgb(197, 236, 113)","rgb(148, 220, 121)","rgb(105, 201, 129)","rgb(66, 181, 136)", "rgb(35, 159, 138)","rgb(19, 137, 134)","rgb(26, 115, 124)","rgb(37, 93, 108)","rgb(42, 72, 88)"];
 

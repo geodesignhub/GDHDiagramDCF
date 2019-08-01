@@ -1179,9 +1179,9 @@ table.dataTable tbody td {
 }
 
 .assetimage img {
-    max-height: 100px;
+    max-height: 80px;
     -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
-  filter: grayscale(100%);
+    filter: grayscale(100%);
 }
 
 
