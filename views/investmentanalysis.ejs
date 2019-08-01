@@ -1030,7 +1030,7 @@
             }
 
             const data_len = Object.keys(data).length;
-            console.log(data)
+            
     
             const colrs =  [ "rgb(250, 250, 110)","rgb(197, 236, 113)","rgb(148, 220, 121)","rgb(105, 201, 129)","rgb(66, 181, 136)", "rgb(35, 159, 138)","rgb(19, 137, 134)","rgb(26, 115, 124)","rgb(37, 93, 108)","rgb(42, 72, 88)"];
 
@@ -1094,17 +1094,17 @@
             for (const bnd_id in boundary_details) {
                 if (boundary_details.hasOwnProperty(bnd_id)) {
                     const cur_boundary = boundary_details[bnd_id];                  
-                    total_population +=cur_boundary.total_population;
-                    total_visitors+=cur_boundary.total_visitors;
-                    total_direct_employment+=cur_boundary.total_direct_employment;
-                    total_indirect_employment+=cur_boundary.total_direct_employment;
+                    total_population += parseInt(cur_boundary.total_population);
+                    total_visitors+= parseInt(cur_boundary.total_visitors);
+                    total_direct_employment+= parseInt(cur_boundary.total_direct_employment);
+                    total_indirect_employment+= parseInt(cur_boundary.total_direct_employment);
                     
-                    annual_electricity_demand += cur_boundary['services']['electricity_demand'];
-                    annual_water_demand+=cur_boundary['services']['water_demand'];
-                    annual_sewage+=cur_boundary['services']['sewage_demand'];
+                    annual_electricity_demand += parseInt(cur_boundary['services']['electricity_demand']);
+                    annual_water_demand+= parseInt(cur_boundary['services']['water_demand']);
+                    annual_sewage+= parseInt(cur_boundary['services']['sewage_demand']);
 
-                    total_fire_personnel += cur_boundary['services']['fire_personnel'];
-                    total_police_personnel +=cur_boundary['services']['police_stations'];
+                    total_fire_personnel += parseInt(cur_boundary['services']['fire_personnel']);
+                    total_police_personnel += parseInt(cur_boundary['services']['police_stations']);
                 }
             }
 
