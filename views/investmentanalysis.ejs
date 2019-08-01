@@ -69,7 +69,7 @@
         
         <div class="row">
             <div class="col-md-12">
-                <h4>Systems</h4>
+                <h3>Systems</h3>
                 <div id="systemsCBCont" style="display:none">
                     <div id="systemsCB"></div>
                     <br>
@@ -81,7 +81,7 @@
         <!-- /.col-md-4 -->
         <div class="row">
             <div class="col-md-12">
-                <h4>Diagrams and Asset Details</h4>
+                <h3>Diagrams and Asset Details</h3>
                 <br>
                 <table id="npv" class="hor-minimalist-b">
                     <thead>
@@ -99,11 +99,45 @@
         </div>
         <br><br>
         <hr>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Summary <small>Total population, visitors and services required</small></h3>
+                <br>
+                <p class="lead" id="contribution_summary"></p>       
+               
+                <div class="col-md-4">                                
+                    
+                    <p class="lead" id="">Total Residents: <span id="total_population"></span></p>
+                    <p class="lead" id="">Total Visitors: <span id="total_visitors"></span></p>
+                    <p class="lead" id="">Total Direct Employment: <span id="total_direct_employment"></span></p>
+                    <p class="lead" id="">Total Indirect Employment: <span id="total_indirect_employment"></span></p>
+                    <br>                    
+                </div>
+                <div class="col-md-8">                    
+                    <div>
+                        <p class="lead" id="">Annual Electricity Demand: <span id="total_electricity_demand"></span></p>        
+                        <p class="lead" id="">Annual Water demand: <span id="total_water_demand"></span></p>
+                        <p class="lead" id="">Annual Sewage: <span id="total_sewage_demand"></span></p>
+                        <p class="lead" id="">Total Fire Personnel: <span id="total_fire_personnel"></span></p>
+                        <p class="lead" id="">Additional Police Personnel: <span id="total_police_personnel"></span></p>
+                        <p class="lead" id="">Total Hospital Beds: <span id="total_hosptial_beds"></span></p>
+                        <p class="lead" id="">Annual Sewage: <span id="total_sewage"></span></p>
+                        <br>                    
+                        
+                    </div>
+                </div>                
+            </div>
+        </div>
+        
+        <br><br>
+        <hr>
+        
         <div class="row">
             <br>
             <div class="col-md-6">
                 <div class="boundariesCont">
-                    <h4>Boundaries Map</h4>
+                    <h3>Boundaries Map</h3>
                     <small>The design is shown at 30% transperency to highlight the boundary overlaps, click on a boundary show financial analysis</small><br><br>
                     <div id="boundaryMap" class="map"></div>
                     <br>
@@ -113,7 +147,7 @@
             </div>
             <div class="col-md-6">
              <div class="boundariesCont">
-                    <h4>Boundaries and Financials</h4>
+                    <h3>Boundaries and Financials</h3>
                     <br>
                     <div height="200">
                     <canvas id="boundary_investment_chart"></canvas>
@@ -131,7 +165,7 @@
         <br><br>
         <div class="row">
             <div class="col-md-12">
-                <h4>Population and Jobs</h4>
+                <h3>Population and Jobs</h3>
                 <small>Population housed and employment generated per boundary.</small><br>
                 <br>
                 <div id="paracoords_primary" class="parcoords"></div>
@@ -141,7 +175,7 @@
         <br><br>
         <div class="row">
             <div class="col-md-12">
-                <h4>Services</h4>
+                <h3>Services</h3>
                 <small>Yearly, additional services requried per boundary, see reference  </small><br>
                 <br>
                 <div id="paracoords_secondary" class="parcoords"></div>
@@ -443,15 +477,16 @@
                 if (e.data.mode === 'status') {
                     updateWorkerStatus(e.data.percentcomplete);
                 } else {
-                    // console.log(JSON.parse(e.data.boundaryValue));
+                    
                     renderBoundaryInvestmentMap(JSON.parse(e.data.newboundaries), parseInt(e.data.stdVar));
                     // renderBoundaryInvestmentChart(JSON.parse(e.data.boundaryValue));
                     boundaryStdVar = parseInt(e.data.stdVar);
                     // boundaryGeomDetails = JSON.parse(e.data.newboundaries);
                     boundaryValueDetails = JSON.parse(e.data.boundaryValue); 
                     
-                    generate_paracoords_primary_chart(JSON.parse(e.data.boundaryValue));
-                    generate_paracoords_secondary_chart(JSON.parse(e.data.boundaryValue));
+                    generate_paracoords_primary_chart(boundaryValueDetails);
+                    generate_paracoords_secondary_chart(boundaryValueDetails);
+                    aggregate_boundary_services_populations(boundaryValueDetails)
                     $("#loadingGIF").hide();
                 }
             }, false);
@@ -1042,6 +1077,51 @@
           
 
 
+        }
+
+        function aggregate_boundary_services_populations(boundary_details) {
+            var total_population = 0;
+            var total_visitors = 0;
+            var total_direct_employment =0;
+            var total_indirect_employment = 0;
+
+            var annual_electricity_demand = 0;
+            var annual_water_demand = 0;
+            var annual_sewage = 0;
+
+            var total_fire_personnel =0;
+            var total_police_personnel =0;
+            for (const bnd_id in boundary_details) {
+                if (boundary_details.hasOwnProperty(bnd_id)) {
+                    const cur_boundary = boundary_details[bnd_id];                  
+                    total_population +=cur_boundary.total_population;
+                    total_visitors+=cur_boundary.total_visitors;
+                    total_direct_employment+=cur_boundary.total_direct_employment;
+                    total_indirect_employment+=cur_boundary.total_direct_employment;
+                    
+                    annual_electricity_demand += cur_boundary['services']['electricity_demand'];
+                    annual_water_demand+=cur_boundary['services']['water_demand'];
+                    annual_sewage+=cur_boundary['services']['sewage_demand'];
+
+                    total_fire_personnel += cur_boundary['services']['fire_personnel'];
+                    total_police_personnel +=cur_boundary['services']['police_stations'];
+                }
+            }
+
+
+            $("#total_population").html(abbrNum(total_population) + ' ppl');
+            $("#total_visitors").html(abbrNum(total_visitors) + ' ppl');
+            $("#total_direct_employment").html(abbrNum(total_direct_employment) + '  ppl');
+            $("#total_indirect_employment").html(abbrNum(total_indirect_employment) + ' ppl');
+
+
+            $("#total_electricity_demand").html(abbrNum(annual_electricity_demand) + ' MW');
+            $("#total_water_demand").html(abbrNum(annual_water_demand) + ' m3');
+            $("#total_sewage_demand").html(abbrNum(annual_sewage) + ' m3');
+            $("#total_fire_personnel").html(abbrNum(total_fire_personnel) + ' ppl');
+            $("#total_police_personnel").html(abbrNum(total_police_personnel) + ' ppl');
+            $("#total_hosptial_beds").html(abbrNum(annual_electricity_demand) + ' beds');
+            
         }
         function generate_paracoords_secondary_chart(boundary_details) {
             // const boundary_details = boundaryValueDetails;
