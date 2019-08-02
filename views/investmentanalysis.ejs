@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -69,18 +68,41 @@
         
         <div class="row">
             <div class="col-md-12">
-                <h3>Systems</h3>
-                <div id="systemsCBCont" style="display:none">
-                    <div id="systemsCB"></div>
-                    <br>
-
+                <h3>Summary <small>Total population, visitors and services required</small></h3>
+                <br>
+                <p class="lead" id="contribution_summary"></p>       
+                
+                <div class="col-md-4">                    
+                    <div>
+                        <h4><span id="total_capex"></span> <small>Total Capex</small><h4>
+                        <h4><span id="total_opex_sga"></span> <small>Total OpEx + SG&A</small><h4>
+                        <h4><span id="total_ebtia"></span> <small>Total EBTIA</small><h4>
+                        <!-- <h4><span id="total_irr"></span> <small>IRR<small><h4> -->
+                        <br>                        
+                    </div>
+                </div>  
+                <div class="col-md-4">                                                    
+                    <h4><span id="total_population"></span> <small>Total Residents</small></h4>
+                    <h4><span id="total_visitors"></span> <small>Total Visitors</small></h4>
+                    <h4><span id="total_direct_employment"></span> <small>Total Direct Employment</small></h4>
+                    <h4><span id="total_indirect_employment"></span> <small>Total Indirect Employment</small></h4>
+                    <br>                    
                 </div>
+                <div class="col-md-4">                    
+                    <div>
+                        <h4><span id="total_electricity_demand"></span> <small>Annual Electricity Demand</small><h4>
+                        <h4><span id="total_water_demand"></span> <small>Annual Water demand</small><h4>
+                        <h4><span id="total_sewage_demand"></span> <small>Annual Sewage</small><h4>
+                        <h4><span id="total_fire_personnel"></span> <small>Total Fire Personnel</small><h4>
+                        <h4><span id="total_police_personnel"></span> <small>Additional Police Personnel</small><h4>
+                        <h4><span id="total_hosptial_beds"></span> <small>Total Hospital Beds</small><h4>
+                        <br>                        
+                    </div>
+                </div>             
             </div>
         </div>
-        <br>
-        <!-- /.col-md-4 -->
-        
-        
+        <br><br>
+        <hr>
         <div class="row">
             <div class="col-md-12">
                 <h3>Diagrams and Asset Details</h3>
@@ -101,38 +123,18 @@
         </div>
         <br><br>
         <hr>
-        
         <div class="row">
             <div class="col-md-12">
-                <h3>Summary <small>Total population, visitors and services required</small></h3>
-                <br>
-                <p class="lead" id="contribution_summary"></p>       
-               
-                <div class="col-md-4">                                
-                    
-                    <p class="lead" id="">Total Residents: <span id="total_population"></span></p>
-                    <p class="lead" id="">Total Visitors: <span id="total_visitors"></span></p>
-                    <p class="lead" id="">Total Direct Employment: <span id="total_direct_employment"></span></p>
-                    <p class="lead" id="">Total Indirect Employment: <span id="total_indirect_employment"></span></p>
-                    <br>                    
+                <h3>Systems</h3>
+                <div id="systemsCBCont" style="display:none">
+                    <div id="systemsCB"></div>
+                    <br>
+
                 </div>
-                <div class="col-md-8">                    
-                    <div>
-                        <p class="lead" id="">Annual Electricity Demand: <span id="total_electricity_demand"></span></p>        
-                        <p class="lead" id="">Annual Water demand: <span id="total_water_demand"></span></p>
-                        <p class="lead" id="">Annual Sewage: <span id="total_sewage_demand"></span></p>
-                        <p class="lead" id="">Total Fire Personnel: <span id="total_fire_personnel"></span></p>
-                        <p class="lead" id="">Additional Police Personnel: <span id="total_police_personnel"></span></p>
-                        <p class="lead" id="">Total Hospital Beds: <span id="total_hosptial_beds"></span></p>
-                        <p class="lead" id="">Annual Sewage: <span id="total_sewage"></span></p>
-                        <br>                    
-                        
-                    </div>
-                </div>                
             </div>
         </div>
-        <br><br>
-        <hr>
+        <br>
+        <!-- /.col-md-4 -->
         
         <div class="row">
             <br>
@@ -351,9 +353,7 @@
                     
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
-                        var npvHTML =
-                            "<tr><th class='header initCol'>Diagram</th><th>Image</th><th>Asset Class</th><th>Population</th><th class='fundingheader'>Funding</th><th class='aaheader'>Analysis</th><th class='systemheader'>System</th>";
-
+                        var npvHTML ="<tr><th class='header initCol'>Diagram</th><th>Image</th><th>Asset Class</th><th>Population</th><th class='fundingheader'>Funding</th><th class='aaheader'>Analysis</th><th class='systemheader'>System</th>";
                         npvHTML += "</tr>";
 
                         $('#npv  > thead').append(npvHTML);
@@ -393,6 +393,23 @@
             $("#procstatus").html(" " + data + "% complete");
         }
 
+        function aggregate_capex_opex(investmentdata){
+            var totalOpex_sga = 0;
+            var totalCapex = 0;
+            var total_NOPAT = 0;
+
+            for (var i = investmentdata.length - 1; i >= 0; i--) {
+                var current_investment = investmentdata[i];
+                totalOpex_sga += current_investment['totalMaintainence'];
+                totalCapex+= current_investment['totalInvestment'];
+                totalIncome =current_investment['totalIncome'];
+            }
+            $("#total_capex").html("EUR " +abbrNum(totalCapex,2));
+            $("#total_opex_sga").html("EUR " +abbrNum(totalOpex_sga,2));
+            $("#total_ebtia").html("EUR " +abbrNum(totalIncome,2));
+
+
+        }
         
         function populateTableDataInit() {
             destroyTables();
@@ -434,7 +451,7 @@
                     populateIncomeInvestment(investmentdata);
                     // computeDCFNPV(investmentdata);
                     generateSystemCB(systemdetail);
-
+                    aggregate_capex_opex(investmentdata);
                     $("#loadingGIF").hide();
                     $('#systemsCBCont').show();
                     if (boundaries.features.length > 0) {
@@ -487,7 +504,7 @@
                     
                     generate_paracoords_primary_chart(boundaryValueDetails);
                     generate_paracoords_secondary_chart(boundaryValueDetails);
-                    aggregate_boundary_services_populations(boundaryValueDetails)
+                    aggregate_boundary_services_populations(boundaryValueDetails);
                     $("#loadingGIF").hide();
                 }
             }, false);
@@ -552,7 +569,7 @@
                 style: {
                     color: '#fff',
                     weight: 2,
-                    fillOpacity: 0.8
+                    fillOpacity: 0.5
                 },
                 onEachFeature: onEachFeature
             }).addTo(boundaryLayer);
@@ -791,7 +808,7 @@
                     color: feature.properties.color,
                     dashArray: '',
                     // opacity: 0.2,
-                    fillOpacity: 0.3,
+                    fillOpacity: 0.75
                 };
             }
 
@@ -1110,17 +1127,17 @@
             }
 
 
-            $("#total_population").html(abbrNum(total_population,0) + ' ppl');
-            $("#total_visitors").html(abbrNum(total_visitors,0) + ' ppl');
-            $("#total_direct_employment").html(abbrNum(total_direct_employment,0) + '  ppl');
-            $("#total_indirect_employment").html(abbrNum(total_indirect_employment,0) + ' ppl');
+            $("#total_population").html(abbrNum(total_population,0) + ' inhabitants');
+            $("#total_visitors").html(abbrNum(total_visitors,0) + ' people');
+            $("#total_direct_employment").html(abbrNum(total_direct_employment,0) + '  people');
+            $("#total_indirect_employment").html(abbrNum(total_indirect_employment,0) + ' people');
 
 
-            $("#total_electricity_demand").html(abbrNum(annual_electricity_demand,2) + ' MW');
-            $("#total_water_demand").html(abbrNum(annual_water_demand,2) + ' m3');
-            $("#total_sewage_demand").html(abbrNum(annual_sewage,2) + ' m3');
-            $("#total_fire_personnel").html(abbrNum(total_fire_personnel,2) + ' ppl');
-            $("#total_police_personnel").html(abbrNum(total_police_personnel,2) + ' ppl');
+            $("#total_electricity_demand").html(abbrNum(annual_electricity_demand,2) + ' MW/year');
+            $("#total_water_demand").html(abbrNum(annual_water_demand,2) + ' m3/year');
+            $("#total_sewage_demand").html(abbrNum(annual_sewage,2) + ' m3/year');
+            $("#total_fire_personnel").html(abbrNum(total_fire_personnel,2) + ' people');
+            $("#total_police_personnel").html(abbrNum(total_police_personnel,2) + ' people');
             $("#total_hosptial_beds").html(abbrNum(annual_electricity_demand,2) + ' beds');
             
         }

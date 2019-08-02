@@ -240,6 +240,8 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             }
             // console.log(curDiagDetails['income'])
             // curDiagDetails['income']['total'] = totalIncome;
+            
+            curDiagDetails['totalIncome'] =totalIncome;
             var totalMaintainence = 0;
             // var threepercentMaintainece = -1 * yearlyCost * 0.03;
             var all_opex_asga = 0;
@@ -266,6 +268,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 }
             }
             curDiagDetails['area'] = totArea;
+            curDiagDetails['totalMaintainence'] =totalMaintainence;
             // curDiagDetails['maintainence']['total'] = totalMaintainence;
             diagCosts.push(curDiagDetails);
             
