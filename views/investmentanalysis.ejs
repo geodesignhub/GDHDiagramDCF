@@ -68,7 +68,7 @@
         
         <div class="row">
             <div class="col-md-12">
-                <h3>Summary <small>Total population, visitors and services required</small></h3>
+                <h3>Population and Services <small>Total inhabitants, visitors and services required</small></h3>
                 <br>
                 <p class="lead" id="contribution_summary"></p>       
                 
@@ -101,6 +101,66 @@
                 </div>             
             </div>
         </div>
+        
+        
+        <div class="row">
+                <div class="col-md-12">
+                    <h3>Capex and NOPAT <small>Per system investements, land use and profits</small></h3>
+                    <br>
+                    <p class="lead" id=""></p>       
+                    
+                    <div class="col-md-6">                    
+                        <div>
+                            <h4><span id=""></span> <small>Total Capex (Construction)</small><h4>                                
+                            <br>                   
+                                <% var s = JSON.parse(systemdetail); for(var i=0; i < s.length; i++) { %>                                    
+                                        <p><span class="square <%= s[i].syscolor %>"></span>&nbsp;<%= s[i].sysname %></p>
+                                        
+                                        <hr>
+
+                                <% } %>
+                        </div>
+                    </div>  
+                    <div class="col-md-6">                                                    
+                        <h4><span id=""></span> <small>Total Direct and Indirect Jobs</small></h4>
+    
+                        <img src="//placehold.it/400">
+    
+                        <br>                    
+                    </div>
+                    <div class="col-md-4">                    
+                        <div>
+                            
+                            <br>                        
+                        </div>
+                    </div>             
+                </div>
+            </div>
+            <br><br>
+            
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Jobs and Population<small>Total investments, jobs created </small></h3>
+                <br>
+                <p class="lead" id="population_summary"></p>       
+                
+                <div class="col-md-6">                    
+                        <h4><span id="job_summary"></span> <small>Total Residents and visitors</small></h4>
+                    <div>
+                        <img src="//placehold.it/400">                
+                    </div>
+                </div>  
+                <div class="col-md-6">                                                    
+                    <h4><span id="job_summary"></span> <small>Total Direct and Indirect Jobs</small></h4>
+
+                    <img src="//placehold.it/400">
+
+                    <br>                    
+                </div>
+                            
+            </div>
+        </div>
+        <br><br>
         <br><br>
         <hr>
         <div class="row">
@@ -1127,17 +1187,17 @@
             }
 
 
-            $("#total_population").html(abbrNum(total_population,0) + ' inhabitants');
-            $("#total_visitors").html(abbrNum(total_visitors,0) + ' people');
-            $("#total_direct_employment").html(abbrNum(total_direct_employment,0) + '  people');
-            $("#total_indirect_employment").html(abbrNum(total_indirect_employment,0) + ' people');
+            $("#total_population").html(abbrNum(total_population,0) + ' ');
+            $("#total_visitors").html(abbrNum(total_visitors,0) + ' ');
+            $("#total_direct_employment").html(abbrNum(total_direct_employment,0) + ' ');
+            $("#total_indirect_employment").html(abbrNum(total_indirect_employment,0) + ' ');
 
 
             $("#total_electricity_demand").html(abbrNum(annual_electricity_demand,2) + ' MW/year');
             $("#total_water_demand").html(abbrNum(annual_water_demand,2) + ' m3/year');
             $("#total_sewage_demand").html(abbrNum(annual_sewage,2) + ' m3/year');
-            $("#total_fire_personnel").html(abbrNum(total_fire_personnel,2) + ' people');
-            $("#total_police_personnel").html(abbrNum(total_police_personnel,2) + ' people');
+            $("#total_fire_personnel").html(abbrNum(total_fire_personnel,2) + ' ');
+            $("#total_police_personnel").html(abbrNum(total_police_personnel,2) + ' ');
             $("#total_hosptial_beds").html(abbrNum(annual_electricity_demand,2) + ' beds');
             
         }
