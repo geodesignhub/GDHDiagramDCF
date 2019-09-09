@@ -109,29 +109,25 @@
                     <br>
                     <p class="lead" id=""></p>       
                     
-                    <div class="col-md-6">                    
-                        <div>
-                            <h4><span id=""></span> <small>Total Capex (Construction)</small><h4>                                
-                            <br>                   
-                                <% var s = JSON.parse(systemdetail); for(var i=0; i < s.length; i++) { %>                                    
-                                        <p><span class="square <%= s[i].syscolor %>"></span>&nbsp;<%= s[i].sysname %></p>
-                                        
-                                        <hr>
-
-                                <% } %>
-                        </div>
-                    </div>  
                     <div class="col-md-6">                                                    
-                        <h4><span id=""></span> <small>Total Direct and Indirect Jobs</small></h4>
+                        <h4><span id="overall_economics">Overview</span>&nbsp;<small>Total investment per year</small></h4>
     
-                        <img src="//placehold.it/400">
-    
+                    <div>
+                    <canvas id="system_investment_chart"></canvas>
+                </div>
+
                         <br>                    
                     </div>
-                    <div class="col-md-4">                    
+
+                    <div class="col-md-6">                    
                         <div>
-                            
-                            <br>                        
+                            <h4><span id=""></span> <small>Total Capex (Construction)</small><h4>                        
+                            <br>                   
+                                <% var s = JSON.parse(systemdetail); for(var i=0; i < s.length; i++) { %>
+                                
+                                <h4><span class="square c-<%= s[i].syscolor.substring(1).toLowerCase() %>"></span>&nbsp;&nbsp;<%= s[i].sysname %>&nbsp;<span id="<%= s[i].id %>-capex"></span>&nbsp;<small>Total Capex</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-income"></span>&nbsp;<small>Total Income</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-sga"></span>&nbsp;<small>Total SG&A</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-ebita"></span>&nbsp;<small>Total EBITA</small></h4>
+                                <hr>
+                                <% } %>
                         </div>
                     </div>             
                 </div>
@@ -312,6 +308,7 @@
         var saved_diagram_details = <%- saved_diagram_details %>;
         var sequence = <%- sequence %>;
         var investmentdata;
+        var aggregated_investment_data;
 
         if (boundaries.features.length > 0) {
             $(".boundariesCont").show();
@@ -506,10 +503,12 @@
                     // diagGrids = JSON.parse(e.data.diagGrids);
 
                     investmentdata = JSON.parse(e.data.output);
-
+                    aggregated_investment_data = JSON.parse(e.data.system_aggregates);
                     showallTables();
                     populateIncomeInvestment(investmentdata);
-                    // computeDCFNPV(investmentdata);
+                    update_system_investments(aggregated_investment_data);
+                    render_system_investment(aggregated_investment_data);
+                    
                     generateSystemCB(systemdetail);
                     aggregate_capex_opex(investmentdata);
                     $("#loadingGIF").hide();
@@ -521,6 +520,106 @@
                 }
             }, false);
 
+        }
+        function render_system_investment(system_totals)
+            {
+                
+                var total_investment_dataset = [];
+                // console.log(system_totals)
+                for (var csys in system_totals) {
+                        var cur_sys_investment = {};
+                        var c_system_tot  = system_totals[csys];
+                        cur_sys_investment['label'] = c_system_tot['system_name'] + ' Capex';
+
+                        cur_sys_investment['backgroundColor'] = c_system_tot['color'];
+                        cur_sys_investment['data'] = [];
+                        for (var h1 = 0; h1 < numYears; h1++) {
+                            var cYear = (startyear + h1);
+                            cur_sys_investment['data'].push(parseInt(c_system_tot['yearly_investment'][cYear]));  
+                        }
+                        total_investment_dataset.push(cur_sys_investment);
+                    }
+              
+
+
+                var options = { 
+                    maintainAspectRatio: false,
+                    title: {
+                        display: false,                   
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Year'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true, 
+                            ticks: {
+                    beginAtZero:true,
+                    callback: function(value, index, values) {
+                            if (value > 100000)
+                                return 'EUR ' +value / 1e6 + 'M';
+                            else {
+                                return 'EUR ' + value;
+                            }
+                        }
+                },
+                tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, chart){
+                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                                return datasetLabel + ': EUR ' + number_format(tooltipItem.yLabel, 2);
+                            }
+                        }
+                    },
+                
+                }]
+                    }
+                }
+
+                var labels = [];
+                for (var g1 = 0; g1 < numYears; g1++) {
+                    var cYear = (startyear + g1);
+                    labels.push(cYear);
+                }
+                var investment_ctx = $("#system_investment_chart");
+                Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+                var myLineChart = new Chart(investment_ctx, {
+                    type: 'line',
+                    data: {
+                        'labels': labels,
+                        'datasets': total_investment_dataset
+                    },
+                    options: options
+                });
+
+        }
+
+        function update_system_investments(system_totals){
+           
+            for (var cur_sys in system_totals){
+                var c_s = system_totals[cur_sys];
+                var income =c_s['total_income']
+                var investment = c_s['total_investment'];
+                var sga=  c_s['total_sga'];
+                $("#"+ cur_sys+"-capex").html(abbrNum(income,2));
+                $("#"+ cur_sys+"-income").html(abbrNum(investment,2));
+                $("#"+ cur_sys+"-sga").html(abbrNum(sga,2));
+                var ebita = investment - income - sga;
+                $("#"+ cur_sys+"-ebita").html(abbrNum(ebita,2));
+
+            }
         }
 
         function updateBoundaries() {
@@ -711,7 +810,6 @@
                 b_maintainence_dataset.push(cur_b_maintainence);
             }
 
-            // console.log(b_income_dataset, b_investment_dataset, cur_b_maintainence);
 
             var options = { 
                 maintainAspectRatio: false,

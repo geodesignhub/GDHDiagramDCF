@@ -22,7 +22,10 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             const cur_seq = seq_data[u7];
 
             if (cur_seq.parent == 0 && Number.isInteger(cur_seq.id)) {
-                timeline[cur_seq.id] = { "start": moment(cur_seq.start_date, "DD-MM-YYYY").year(), "end": moment(cur_seq.end_date, "DD-MM-YYYY").year() };
+                timeline[cur_seq.id] = {
+                    "start": moment(cur_seq.start_date, "DD-MM-YYYY").year(),
+                    "end": moment(cur_seq.end_date, "DD-MM-YYYY").year()
+                };
             }
 
         }
@@ -37,10 +40,37 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
     var syslen = systems.length;
     var sysdetlen = systemdetails.length;
 
+
+    var sys_totals_lookups = {};
+    for (var i = sysdetlen - 1; i >= 0; i--) {
+        var cur_system = systems[i];
+        var system_annual_income = {};
+        var system_annual_investment = {};
+        var system_annual_sga = {};
+        for (var k9 = 0; k9 < number_of_years; k9++) {
+            var c_year = startyear + k9;
+            system_annual_income[c_year] = 0;
+            system_annual_investment[c_year] = 0;
+            system_annual_sga[c_year] = 0;
+        }
+        sys_totals_lookups[cur_system['id']] = {
+            'total_investment': 0,
+            'total_income': 0,
+            'total_sga': 0,
+            'yearly_investment': system_annual_income,
+            'yearly_income': system_annual_investment,
+            'yearly_sga': system_annual_investment, 
+            'system_name':cur_system['sysname'], 
+            'color':cur_system['syscolor']
+        };
+
+    }
+
+
     for (var x = 0; x < syslen; x++) {
         var cSys = systems[x];
         var allDiagrams = cSys.diagrams;
-
+        var cur_sys = cSys['id'];
         var allDiaglen = allDiagrams.length;
 
         var yeild;
@@ -190,16 +220,15 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             curDiagDetails['maintainence'] = {};
             curDiagDetails['yeild'] = yeild;
 
+            // update aggregartes
+            sys_totals_lookups[cur_sys]['total_investment'] += totalCost;
 
             yearlyCost = parseFloat(totalCost / capex_num_years);
             maxYearlyCost = (yearlyCost > maxYearlyCost) ? yearlyCost : maxYearlyCost;
             var acf = parseInt(sd_details["acf"]);
-
             if (acf == 0) {
                 acf = (yeild * totalCost) / 100;
-
             }
-
             // console.log(acf)
 
             // console.log(startyear)
@@ -213,8 +242,8 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 if (cur_year <= diagram_end && cur_year > diagram_start) {
                     var sYear = (startyear + k4 + parseInt(capex_start));
                     curDiagDetails['investment'][cur_year] = yearlyCost;
-                }
-                else {
+                    sys_totals_lookups[cur_sys]['yearly_investment'][cur_year] += yearlyCost
+                } else {
                     curDiagDetails['investment'][cur_year] = 0;
                 }
             }
@@ -222,26 +251,18 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             // console.log(capex_end_year)
             for (var k = 0; k < number_of_years; k++) {
                 var cur_year = startyear + k;
-                
-                // if (k == 0) {
-                //     lastIncome = acf;
-                // }
-                // var incomeIncrease = (acf * 0.03);
-                // var newIncome = incomeIncrease + lastIncome;
                 if (cur_year <= diagram_end) {
                     curDiagDetails['income'][cur_year] = 0;
-                }
-                else {
+                } else {
                     curDiagDetails['income'][cur_year] = acf;
+                    sys_totals_lookups[cur_sys]['yearly_income'][cur_year] += acf;
                     totalIncome += acf;
                 }
-                // curDiagDetails['income']['yearly'] = acf;
-                // lastIncome = newIncome;
+
             }
-            // console.log(curDiagDetails['income'])
-            // curDiagDetails['income']['total'] = totalIncome;
-            
-            curDiagDetails['totalIncome'] =totalIncome;
+            curDiagDetails['totalIncome'] = totalIncome;
+            // update aggregartes
+            sys_totals_lookups[cur_sys]['total_income'] += totalCost;
             var totalMaintainence = 0;
             // var threepercentMaintainece = -1 * yearlyCost * 0.03;
             var all_opex_asga = 0;
@@ -255,23 +276,27 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 all_opex_asga = opex + asga;
             }
             // var lastIncome;
-            
+
             for (var k7 = 0; k7 < number_of_years; k7++) {
                 var cur_year = startyear + k7;
                 if (cur_year > diagram_end) {
                     // var sYear = (startyear + k7 + parseInt(capex_end));
                     curDiagDetails['maintainence'][cur_year] = all_opex_asga;
+
+                    sys_totals_lookups[cur_sys]['yearly_sga'][cur_year] += all_opex_asga;
                     totalMaintainence += all_opex_asga;
-                }
-                else {
+                } else {
                     curDiagDetails['maintainence'][cur_year] = 0;
+
                 }
             }
             curDiagDetails['area'] = totArea;
-            curDiagDetails['totalMaintainence'] =totalMaintainence;
+            curDiagDetails['totalMaintainence'] = totalMaintainence;
+
+            sys_totals_lookups[cur_sys]['total_sga'] += totalMaintainence;
             // curDiagDetails['maintainence']['total'] = totalMaintainence;
             diagCosts.push(curDiagDetails);
-            
+
         }
     }
     // console.log(diagCosts)
@@ -279,12 +304,13 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
     self.postMessage({
         'output': JSON.stringify(diagCosts),
         'maxYearlyCost': maxYearlyCost,
+        'system_aggregates': JSON.stringify(sys_totals_lookups)
     });
 
     // close the worker
     self.close();
 }
 
-self.onmessage = function (e) {
+self.onmessage = function(e) {
     computeAreas(e.data.systemdetails, e.data.systems, e.data.startyear, e.data.years, e.data.saved_diagram_details, e.data.sequence);
 }
