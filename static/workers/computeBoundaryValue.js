@@ -97,8 +97,6 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
 
     for (var j3 = 0; j3 < bfeatlen; j3++) {
         var cbndfeat = newboundaries.features[j3];
-        
-        
         var bndID = cbndfeat.properties.id;
         var diagramIDs = bndIDDiags[bndID]['diagrams'];
         
@@ -266,8 +264,6 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                 const yearly_income = curData['income'];
                 const yearly_opex = curData['maintainence'];
       
-                
-                
                 
                 for (let cur_year in yearly_investment) {
                     const c_year = parseInt(cur_year);

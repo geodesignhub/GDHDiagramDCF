@@ -36,7 +36,9 @@ h4 {
     height: 220px;
 }
 
-#system_investment_chart
+#system_investment_chart,
+#residents_visitors_chart,
+#direct_indirect_jobs_chart
 {
     height: 600px;
 }

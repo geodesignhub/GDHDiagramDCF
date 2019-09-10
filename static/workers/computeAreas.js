@@ -40,6 +40,10 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
     var syslen = systems.length;
     var sysdetlen = systemdetails.length;
 
+    var annual_direct_jobs = {};
+    var annual_indirect_jobs = {};
+    var annual_residents = {};
+    var annual_visitors = {}
 
     var sys_totals_lookups = {};
     for (var i = sysdetlen - 1; i >= 0; i--) {
@@ -52,16 +56,21 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             system_annual_income[c_year] = 0;
             system_annual_investment[c_year] = 0;
             system_annual_sga[c_year] = 0;
+            annual_direct_jobs[c_year] = 0;
+            annual_indirect_jobs[c_year] = 0;
+            annual_residents[c_year] = 0;
+            annual_visitors[c_year] = 0;
         }
+
         sys_totals_lookups[cur_system['id']] = {
             'total_investment': 0,
             'total_income': 0,
             'total_sga': 0,
             'yearly_investment': system_annual_income,
             'yearly_income': system_annual_investment,
-            'yearly_sga': system_annual_investment, 
-            'system_name':cur_system['sysname'], 
-            'color':cur_system['syscolor']
+            'yearly_sga': system_annual_investment,
+            'system_name': cur_system['sysname'],
+            'color': cur_system['syscolor']
         };
 
     }
@@ -142,6 +151,8 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 }
             }
 
+            var cur_diagram_asset_details = sdd['asset_details'];
+
 
             for (var h = 0; h < sysdetlen; h++) {
                 var cSys = systemdetails[h];
@@ -177,42 +188,14 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             var capex_start = sd_details['capex_start'];
             var capex_end = sd_details['capex_end'];
             var capex_num_years = capex_end - capex_start;
-            // try {
 
-            //     capex_num_years = capex_end - capex_start;
-            // }
-            // catch{
-            //     capex_num_years = 2;
-            // }
-            // console.log(sd_details);
-            // console.log(diagID,capex_start, capex_end, startyear);
-            // if (capex_start == 0 && capex_end == 1) {
             if (parseInt(diagID) in timeline) {
                 var diagram_start = timeline[diagID].start;
                 var diagram_end = timeline[diagID].end;
-
-                //         capex_start = (start - startyear);
-                //         capex_num_years = (end - startyear);
-                //         console.log(start, end, startyear)
-                //         capex_num_years = end - start;
-                //         if (capex_num_years == 1) {
-                //             capex_num_years = 2;
-                //         }
             } else {
                 var diagram_start = startyear;
                 var diagram_end = startyear + 2;
             }
-
-            //         capex_num_years = 2;
-            //     }
-            // }
-            // else {
-            //     capex_num_years = capex_end - capex_start;
-            // }
-            // console.log(capex_start, capex_end, number_of_years);
-
-            // if the diagram exists get the number of years 
-            // else default is 2
 
             curDiagDetails['totalInvestment'] = totalCost;
             curDiagDetails['investment'] = {};
@@ -220,7 +203,6 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             curDiagDetails['maintainence'] = {};
             curDiagDetails['yeild'] = yeild;
 
-            // update aggregartes
             sys_totals_lookups[cur_sys]['total_investment'] += totalCost;
 
             yearlyCost = parseFloat(totalCost / capex_num_years);
@@ -229,22 +211,74 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             if (acf == 0) {
                 acf = (yeild * totalCost) / 100;
             }
-            // console.log(acf)
 
-            // console.log(startyear)
-            // var lastIncome;
             var capex_begin_year = startyear + parseInt(capex_start);
             var capex_end_year = capex_begin_year + capex_num_years;
+            var end_year = startyear + number_of_years
             // console.log(capex_begin_year)
+          
+
+
             for (var k4 = 0; k4 < number_of_years; k4++) {
                 var cur_year = startyear + k4;
 
                 if (cur_year <= diagram_end && cur_year > diagram_start) {
                     var sYear = (startyear + k4 + parseInt(capex_start));
                     curDiagDetails['investment'][cur_year] = yearlyCost;
-                    sys_totals_lookups[cur_sys]['yearly_investment'][cur_year] += yearlyCost
+                    sys_totals_lookups[cur_sys]['yearly_investment'][cur_year] += yearlyCost;
+                    // }
+
                 } else {
                     curDiagDetails['investment'][cur_year] = 0;
+                    // 
+                      if (cur_diagram_asset_details && cur_year >= diagram_end) {
+                     
+                        if (Object.keys(cur_diagram_asset_details).length === 0 && cur_diagram_asset_details.constructor === Object) {
+                        } else if (Object.keys(cur_diagram_asset_details).length > 0 && cur_diagram_asset_details.constructor === Object) {
+                            if (cur_diagram_asset_details['class'] == 'residential') {
+                                var population = cur_diagram_asset_details['metadata']['number_of_people_residential'];
+                                annual_residents[cur_year] += population;
+
+                            } else if (cur_diagram_asset_details['class'] == 'community') {
+                                var visitors = cur_diagram_asset_details['metadata']['community_visitors'];
+                               annual_visitors[cur_year] += visitors;
+                            } else if (cur_diagram_asset_details['class'] == 'hospitality') {
+                                var visitors = cur_diagram_asset_details['metadata']['total_yearly_visitors'];
+                                annual_visitors[cur_year] += visitors;
+                                var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_tourism'];
+                                annual_direct_jobs[cur_year] += direct_employment;
+                                var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_tourism'];
+                                annual_indirect_jobs[cur_year] += indirect_employment;
+                            } else if (cur_diagram_asset_details['class'] == 'retail') {
+                                var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors_retail'];
+
+                                var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_retail'];
+                                var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_retail'];
+
+                                annual_visitors[cur_year] += visitors;
+                                annual_direct_jobs[cur_year] += direct_employment;
+                                annual_indirect_jobs[cur_year] += indirect_employment;
+
+                            } else if (cur_diagram_asset_details['class'] == 'office') {
+                                var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors_office'];
+                                var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_office'];
+                                var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_office'];
+                                annual_visitors[cur_year] += visitors;
+                                annual_direct_jobs[cur_year] += direct_employment;
+                                annual_indirect_jobs[cur_year] += indirect_employment;
+                            } else if (cur_diagram_asset_details['class'] == 'mixuse') {
+                                var population = cur_diagram_asset_details['metadata']['number_of_people_residential_mixuse'];
+                                var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors_retail_mixuse'];
+                                var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_retail_mixuse'];
+                                var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_retail_mixuse'];
+                                annual_visitors[cur_year] += visitors;
+                                annual_direct_jobs[cur_year] += direct_employment;
+                                annual_indirect_jobs[cur_year] += indirect_employment;
+                            }
+                        }
+                    }
+
+
                 }
             }
             var totalIncome = 0;
@@ -299,12 +333,14 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
 
         }
     }
+    var annual_population_jobs = {'annual_visitors':annual_visitors, 'annual_residents':annual_residents, 'annual_direct_jobs':annual_direct_jobs, 'annual_indirect_jobs':annual_indirect_jobs};
     // console.log(diagCosts)
     // send investment
     self.postMessage({
         'output': JSON.stringify(diagCosts),
         'maxYearlyCost': maxYearlyCost,
-        'system_aggregates': JSON.stringify(sys_totals_lookups)
+        'system_aggregates': JSON.stringify(sys_totals_lookups), 
+        'annual_population_jobs': JSON.stringify(annual_population_jobs)
     });
 
     // close the worker
