@@ -261,6 +261,7 @@
 
 
     <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
+    <script type="text/javascript" src="assets/js/utils.min.js"></script>
     <!-- Bootstrap Core scripts -->
     <script type="text/javascript" src="assets/js/ion.rangeSlider.min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
@@ -531,7 +532,8 @@
             var population_chart_data = {};
             population_chart_data['label'] = 'Residents';
             visitor_chart_data['label'] = 'Visitors';
-
+            population_chart_data['backgroundColor']= '#f53794',
+            visitor_chart_data['backgroundColor'] = '#537bc4',
             population_chart_data['data'] = [];
             visitor_chart_data['data'] = [];
             for (var h1 = 0; h1 < numYears; h1++) {
@@ -547,6 +549,8 @@
             var direct_jobs_data = {};
             var indirect_jobs_data = {};
             indirect_jobs_data['label'] = 'Indirect Jobs';
+            indirect_jobs_data['backgroundColor']='#f67019';
+            direct_jobs_data['backgroundColor'] = '#4dc9f6';            
             direct_jobs_data['label'] = 'Direct jobs';
 
             indirect_jobs_data['data'] = [];
@@ -577,6 +581,7 @@
                 scales: {
                     xAxes: [{
                         display: true,
+                        stacked:true,
                         scaleLabel: {
                             display: true,
                             labelString: 'Year'
@@ -584,21 +589,22 @@
                     }],
                     yAxes: [{
                         display: true, 
+                        stacked:true,
                         ticks: {
-                beginAtZero:true,
-                callback: function(value, index, values) {
-                        if (value > 100000)
-                            return 'EUR ' +value / 1e6 + 'M';
-                        else {
-                            return 'EUR ' + value;
-                        }
+                            beginAtZero:true,
+                            callback: function(value, index, values) {
+                                    if (value > 100000)
+                                        return value / 1e6 + 'M People';
+                                    else {
+                                        return  value +' People';
+                                    }
                     }
             },
             tooltips: {
                     callbacks: {
                         label: function(tooltipItem, chart){
                             var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                            return datasetLabel + ': EUR ' + number_format(tooltipItem.yLabel, 2);
+                            return datasetLabel +  number_format(tooltipItem.yLabel, 2) + ' people';
                         }
                     }
                 },

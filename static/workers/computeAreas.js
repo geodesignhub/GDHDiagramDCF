@@ -143,15 +143,15 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 'title': diagName
             };
             var sd_details = {};
+            var cur_diagram_asset_details = {};
             for (let l1 = 0; l1 < sdd.length; l1++) {
                 const element = sdd[l1];
                 if (element['key'].split('-')[1] == diagID) {
-                    sd_details = element;
+                    sd_details = element;                    
+                    cur_diagram_asset_details = element['asset_details'];
                     break;
                 }
             }
-
-            var cur_diagram_asset_details = sdd['asset_details'];
 
 
             for (var h = 0; h < sysdetlen; h++) {
@@ -231,7 +231,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 } else {
                     curDiagDetails['investment'][cur_year] = 0;
                     // 
-                    if ((cur_diagram_asset_details) && (cur_year > diagram_end)) {
+                    if ((cur_diagram_asset_details) && (cur_year = diagram_end+1)) {
                         if (Object.keys(cur_diagram_asset_details).length === 0 && cur_diagram_asset_details.constructor === Object) {} else if (Object.keys(cur_diagram_asset_details).length > 0 && cur_diagram_asset_details.constructor === Object) {
                             if (cur_diagram_asset_details['class'] == 'residential') {
                                 var population = cur_diagram_asset_details['metadata']['number_of_people_residential'];
