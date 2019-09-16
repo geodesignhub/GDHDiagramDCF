@@ -231,7 +231,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 } else {
                     curDiagDetails['investment'][cur_year] = 0;
                     // 
-                    if ((cur_diagram_asset_details) && (cur_year = diagram_end+1)) {
+                    if ((cur_diagram_asset_details) && (cur_year == diagram_end+1)) {
                         if (Object.keys(cur_diagram_asset_details).length === 0 && cur_diagram_asset_details.constructor === Object) {} else if (Object.keys(cur_diagram_asset_details).length > 0 && cur_diagram_asset_details.constructor === Object) {
                             if (cur_diagram_asset_details['class'] == 'residential') {
                                 var population = cur_diagram_asset_details['metadata']['number_of_people_residential'];
@@ -269,6 +269,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                                 var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors_retail_mixuse'];
                                 var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_retail_mixuse'];
                                 var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_retail_mixuse'];
+                                
                                 annual_visitors[cur_year] += visitors;
                                 annual_direct_jobs[cur_year] += direct_employment;
                                 annual_indirect_jobs[cur_year] += indirect_employment;

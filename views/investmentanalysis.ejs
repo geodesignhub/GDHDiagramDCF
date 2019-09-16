@@ -596,7 +596,7 @@
                                     if (value > 100000)
                                         return value / 1e6 + 'M People';
                                     else {
-                                        return  value +' People';
+                                        return  value +' jobs';
                                     }
                     }
             },
@@ -604,7 +604,8 @@
                     callbacks: {
                         label: function(tooltipItem, chart){
                             var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                            return datasetLabel +  number_format(tooltipItem.yLabel, 2) + ' people';
+                            // console.log(tooltipItem.yLabel)
+                            return datasetLabel +  number_format(parseInt(tooltipItem.yLabel), 2,'.',' ') + ' people';
                         }
                     }
                 },
@@ -629,7 +630,22 @@
                 },
                 options: options
             });
+            console.log(direct_indirect_jobs_dataset)
             var options_secondary = options;
+            options_secondary['scales']['yAxes'] = [{
+                        display: true, 
+                        stacked:true,
+                        ticks: {
+                            beginAtZero:true,
+                            callback: function(value, index, values) {                                
+                                    if (value > 100000)
+                                        return value / 1e6 + 'M jobs';
+                                    else {
+                                        return  value +' jobs';
+                                    }
+                    }
+            }
+            }];
             var labels_secondary = labels;
 
             var direct_indirect_jobs_ctx = $("#direct_indirect_jobs_chart");
@@ -663,8 +679,6 @@
                         }
                         total_investment_dataset.push(cur_sys_investment);
                     }
-              
-
 
                 var options = { 
                     maintainAspectRatio: false,
@@ -703,7 +717,7 @@
                         callbacks: {
                             label: function(tooltipItem, chart){
                                 var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                                return datasetLabel + ': EUR ' + number_format(tooltipItem.yLabel, 2);
+                                return datasetLabel + ': EUR ' + number_format(parseInt(tooltipItem.yLabel), 2,'.',' ');
                             }
                         }
                     },
@@ -972,7 +986,8 @@
                     callbacks: {
                         label: function(tooltipItem, chart){
                             var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                            return datasetLabel + ': EUR ' + number_format(tooltipItem.yLabel, 2);
+                            console.log(tooltipItem.yLabel)
+                            return datasetLabel + ': EUR ' + number_format(parseInt(tooltipItem.yLabel), 2,'.',' ');
                         }
                     }
                 },
@@ -1483,9 +1498,6 @@
                         "mouseout": parcoords.unhighlight
                     });
                 });
-          
-
-
         }
     </script>
 </body>
