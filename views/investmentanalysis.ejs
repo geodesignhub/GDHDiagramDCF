@@ -631,7 +631,7 @@
                 options: options
             });
             var options_secondary = options;
-            options_secondary['scales']['yAxes']['toolstips'] = {
+            options_secondary['scales']['yAxes']['tooltips'] = {
                     callbacks: {
                         label: function(tooltipItem, chart){
                             var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
