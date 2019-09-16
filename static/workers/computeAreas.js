@@ -244,9 +244,9 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                                 var visitors = cur_diagram_asset_details['metadata']['total_yearly_visitors'];
                                 annual_visitors[cur_year] += visitors;
                                 var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_tourism'];
-                                annual_direct_jobs[cur_year] += direct_employment;
+                                annual_direct_jobs[cur_year] += parseInt(direct_employment);
                                 var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_tourism'];
-                                annual_indirect_jobs[cur_year] += indirect_employment;
+                                annual_indirect_jobs[cur_year] += parseInt(indirect_employment);
                             } else if (cur_diagram_asset_details['class'] == 'retail') {
                                 var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors_retail'];
 
@@ -254,16 +254,16 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                                 var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_retail'];
 
                                 annual_visitors[cur_year] += visitors;
-                                annual_direct_jobs[cur_year] += direct_employment;
-                                annual_indirect_jobs[cur_year] += indirect_employment;
+                                annual_direct_jobs[cur_year] += parseInt(direct_employment);
+                                annual_indirect_jobs[cur_year] += parseInt(indirect_employment);
 
                             } else if (cur_diagram_asset_details['class'] == 'office') {
                                 var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors_office'];
                                 var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_office'];
                                 var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_office'];
                                 annual_visitors[cur_year] += visitors;
-                                annual_direct_jobs[cur_year] += direct_employment;
-                                annual_indirect_jobs[cur_year] += indirect_employment;
+                                annual_direct_jobs[cur_year] += parseInt(direct_employment);
+                                annual_indirect_jobs[cur_year] += parseInt(indirect_employment);
                             } else if (cur_diagram_asset_details['class'] == 'mixuse') {
                                 var population = cur_diagram_asset_details['metadata']['number_of_people_residential_mixuse'];
                                 var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors_retail_mixuse'];
@@ -271,8 +271,8 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                                 var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_retail_mixuse'];
                                 
                                 annual_visitors[cur_year] += visitors;
-                                annual_direct_jobs[cur_year] += direct_employment;
-                                annual_indirect_jobs[cur_year] += indirect_employment;
+                                annual_direct_jobs[cur_year] += parseInt(direct_employment);
+                                annual_indirect_jobs[cur_year] += parseInt(indirect_employment);
                             }
                         }
                     }
