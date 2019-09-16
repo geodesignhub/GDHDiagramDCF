@@ -644,7 +644,17 @@
                                         return  value +' jobs';
                                     }
                     }
-            }
+            },
+            tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, chart){
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            // console.log(tooltipItem.yLabel)
+                            return datasetLabel +  number_format(parseInt(tooltipItem.yLabel), 2,'.',' ') + ' jobs';
+                        }
+                    }
+                },
+            
             }];
             var labels_secondary = labels;
 
