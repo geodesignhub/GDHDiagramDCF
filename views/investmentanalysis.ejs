@@ -594,9 +594,9 @@
                             beginAtZero:true,
                             callback: function(value, index, values) {
                                     if (value > 100000)
-                                        return value / 1e6 + 'M People';
+                                        return value / 1e6 + 'M';
                                     else {
-                                        return  value +' people';
+                                        return  value +' ';
                                     }
                     }
             },
@@ -605,7 +605,7 @@
                         label: function(tooltipItem, chart){
                             var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
                             // console.log(tooltipItem.yLabel)
-                            return datasetLabel +  number_format(parseInt(tooltipItem.yLabel), 2,'.',' ') + ' people';
+                            return datasetLabel +  number_format(parseInt(tooltipItem.yLabel), 2,'.',' ') + ' ';
                         }
                     }
                 },
@@ -630,32 +630,9 @@
                 },
                 options: options
             });
-            console.log(direct_indirect_jobs_dataset)
-            var options_secondary = options;
-            options_secondary['scales']['yAxes'] = [{
-                        display: true, 
-                        stacked:true,
-                        ticks: {
-                            beginAtZero:true,
-                            callback: function(value, index, values) {                                
-                                    if (value > 100000)
-                                        return value / 1e6 + 'M jobs';
-                                    else {
-                                        return  value +' jobs';
-                                    }
-                    }
-            },
-            tooltips: {
-                    callbacks: {
-                        label: function(tooltipItem, chart){
-                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                            // console.log(tooltipItem.yLabel)
-                            return datasetLabel +  number_format(parseInt(tooltipItem.yLabel), 2,'.',' ') + ' jobs';
-                        }
-                    }
-                },
             
-            }];
+            var options_secondary = options;
+            
             var labels_secondary = labels;
 
             var direct_indirect_jobs_ctx = $("#direct_indirect_jobs_chart");
