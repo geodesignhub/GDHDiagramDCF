@@ -235,14 +235,14 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                         if (Object.keys(cur_diagram_asset_details).length === 0 && cur_diagram_asset_details.constructor === Object) {} else if (Object.keys(cur_diagram_asset_details).length > 0 && cur_diagram_asset_details.constructor === Object) {
                             if (cur_diagram_asset_details['class'] == 'residential') {
                                 var population = cur_diagram_asset_details['metadata']['number_of_people_residential'];
-                                annual_residents[cur_year] += population;
+                                annual_residents[cur_year] += parseInt(population);
 
                             } else if (cur_diagram_asset_details['class'] == 'community') {
                                 var visitors = cur_diagram_asset_details['metadata']['community_visitors'];
-                                annual_visitors[cur_year] += visitors;
+                                annual_visitors[cur_year] += parseInt(visitors);
                             } else if (cur_diagram_asset_details['class'] == 'hospitality') {
                                 var visitors = cur_diagram_asset_details['metadata']['total_yearly_visitors'];
-                                annual_visitors[cur_year] += visitors;
+                                annual_visitors[cur_year] += parseInt(visitors);
                                 var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_tourism'];
                                 annual_direct_jobs[cur_year] += parseInt(direct_employment);
                                 var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_tourism'];
@@ -253,7 +253,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                                 var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_retail'];
                                 var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_retail'];
 
-                                annual_visitors[cur_year] += visitors;
+                                annual_visitors[cur_year] += parseInt(visitors);
                                 annual_direct_jobs[cur_year] += parseInt(direct_employment);
                                 annual_indirect_jobs[cur_year] += parseInt(indirect_employment);
 
@@ -261,7 +261,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                                 var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors_office'];
                                 var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_office'];
                                 var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_office'];
-                                annual_visitors[cur_year] += visitors;
+                                annual_visitors[cur_year] += parseInt(visitors);
                                 annual_direct_jobs[cur_year] += parseInt(direct_employment);
                                 annual_indirect_jobs[cur_year] += parseInt(indirect_employment);
                             } else if (cur_diagram_asset_details['class'] == 'mixuse') {
@@ -270,7 +270,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                                 var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_retail_mixuse'];
                                 var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_retail_mixuse'];
                                 
-                                annual_visitors[cur_year] += visitors;
+                                annual_visitors[cur_year] += parseInt(visitors);
                                 annual_direct_jobs[cur_year] += parseInt(direct_employment);
                                 annual_indirect_jobs[cur_year] += parseInt(indirect_employment);
                             }
