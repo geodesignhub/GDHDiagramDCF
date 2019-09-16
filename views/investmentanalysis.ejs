@@ -596,7 +596,7 @@
                                     if (value > 100000)
                                         return value / 1e6 + 'M People';
                                     else {
-                                        return  value +' jobs';
+                                        return  value +' people';
                                     }
                     }
             },
@@ -765,7 +765,14 @@
                 $("#"+ cur_sys+"-income").html(abbrNum(investment,2));
                 $("#"+ cur_sys+"-sga").html(abbrNum(sga,2));
                 var ebita = investment - income - sga;
-                $("#"+ cur_sys+"-ebita").html(abbrNum(ebita,2));
+                if (ebita < 0) {
+                    var e = ebita_neg = Math.abs(ebita);
+                    $("#"+ cur_sys+"-ebita").html("-" + abbrNum(e,2));
+                }
+                else {
+                    $("#"+ cur_sys+"-ebita").html(abbrNum(ebita,2));
+                }
+                
 
             }
         }
