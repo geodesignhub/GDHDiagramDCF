@@ -700,7 +700,7 @@
             });
 
         function populate_lu_chart(type, chart_data) {           
-            console.log(chart_data)
+            
             var luctx =  document.getElementById('lu_chart').getContext('2d');
             
             var barChartData = {
@@ -1840,7 +1840,6 @@
                 
                 const direct_employees_to_visitor_ratio_tourism = $("#direct_employees_to_visitor_ratio_tourism").editable('getValue', true);
                 const indirect_to_direct_employees_ratio_tourism = $("#indirect_to_direct_employees_ratio_tourism").editable('getValue', true);
-
                 $("#total_direct_employment_tourism").html(parseInt(direct_employees_to_visitor_ratio_tourism * total_daily_visitors));
                 $("#total_indirect_employment_tourism").html(parseInt(indirect_to_direct_employees_ratio_tourism* total_daily_visitors));
 
@@ -1946,8 +1945,8 @@
                 $("#total_yearly_visitors").html(parseInt(yearly_visitors));
                 $("#total_daily_visitors").html(parseInt(daily_visitors));
 
-                $("#total_direct_employment_tourism").html(parseInt(direct_employees_to_visitor_ratio_tourism * yearly_visitors));
-                $("#total_indirect_employment_tourism").html(parseInt(indirect_to_direct_employees_ratio_tourism* yearly_visitors));
+                $("#total_direct_employment_tourism").html(parseInt(direct_employees_to_visitor_ratio_tourism * daily_visitors));
+                $("#total_indirect_employment_tourism").html(parseInt(indirect_to_direct_employees_ratio_tourism* daily_visitors));
 
 
                 myDisplayUpdater = new ServicesDisplayUpdater();
@@ -2153,6 +2152,7 @@
                 const population = rooms * tourism_class_defaults[selected_subclass]["target_occupancy_rate"] * tourism_class_defaults[selected_subclass]["people_per_room"] * 365;
                 const daily_population = population / 365;
                 $("#total_yearly_visitors").html(parseInt(population));
+                
                 $("#total_daily_visitors").html(parseInt(daily_population));
                 
                 myTourismDisplayUpdater.updateEmployment(population);

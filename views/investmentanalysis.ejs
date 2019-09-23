@@ -410,7 +410,7 @@
                     
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
-                        var npvHTML ="<tr><th class='header initCol'>Diagram</th><th>Image</th><th>Asset Class</th><th>Population</th><th class='fundingheader'>Funding</th><th class='aaheader'>Analysis</th><th class='systemheader'>System</th>";
+                        var npvHTML ="<tr><th class='header initCol'>Diagram</th><th>Image</th><th>Asset Class</th><th>Population (daily visitors / residents) </th><th class='fundingheader'>Funding</th><th class='aaheader'>Analysis</th><th class='systemheader'>System</th>";
                         npvHTML += "</tr>";
 
                         $('#npv  > thead').append(npvHTML);
@@ -630,6 +630,7 @@
                 },
                 options: options
             });
+
             var options_secondary = options;
             options_secondary['scales']['yAxes']['tooltips'] = {
                     callbacks: {
@@ -987,7 +988,7 @@
                     callbacks: {
                         label: function(tooltipItem, chart){
                             var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                            console.log(tooltipItem.yLabel)
+                            
                             return datasetLabel + ': EUR ' + number_format(parseInt(tooltipItem.yLabel), 2,'.',' ');
                         }
                     }
@@ -1217,7 +1218,7 @@
                                 $(".assetimage-" + diagID).html("<img src='assets/img/asset-images/"+asset_details['metadata']['representative_image']+"'/>");
                             }
                             if (ad === 'hospitality') {
-                                $('.population-' + diagID).html(abbrNum(asset_details['metadata']['total_yearly_visitors'], 2));
+                                $('.population-' + diagID).html(abbrNum((asset_details['metadata']['total_yearly_visitors']/365), 2));
                             } else if (ad == 'residential') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata']['number_of_people_residential'], 2));
                                 $(".assetimage-"+diagID).append("<br><small>Density: "+asset_details['metadata']['current_pop_density']+" people / km<sup>2</sup></small>")
