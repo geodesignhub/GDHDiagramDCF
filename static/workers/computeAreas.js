@@ -330,6 +330,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
 
         }
     }
+    
     var annual_population_jobs = {
         'annual_visitors': annual_visitors,
         'annual_residents': annual_residents,
