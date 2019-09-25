@@ -803,9 +803,8 @@
                     // console.log(yearly_cashflow)
                     cashflow.push(yearly_cashflow);
                 }
-                // console.log({'depth' :total_investment,'cashFlow' : cashflow});
-                
-                if (investment > 0){
+                // console.log({'depth' :total_investment,'cashFlow' : cashflow});                
+                if (investment > 0) {
                     // console.log(c_s);
                     // console.log( investment, cashflow);
                     const irr = compute_irr({'depth' :investment,'cashFlow' : cashflow});
@@ -822,8 +821,6 @@
                 // else {
                 //     $("#"+ cur_sys+"-ebita").html(abbrNum(ebita,2));
                 // }
-                
-
             }
         }
 
