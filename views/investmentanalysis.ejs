@@ -351,7 +351,7 @@
                 }
                 return npv;
             }
-            return Math.round(seekZero(npv) * 100) / 100;
+            return (seekZero(npv) * 100) / 100;
             };
 
         function abbrNum(number, decPlaces) {
@@ -809,7 +809,7 @@
                     // console.log( investment, cashflow);
                     const irr = compute_irr({'depth' :investment,'cashFlow' : cashflow});
                     // console.log(irr)
-                    $("#"+ cur_sys+"-irr").html("-" + abbrNum(irr,2));
+                    $("#"+ cur_sys+"-irr").html(abbrNum(irr,2));
                 }
                 // $("#"+ cur_sys+"-ebita").html("-" + abbrNum(e,2));
 
