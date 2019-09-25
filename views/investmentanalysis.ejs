@@ -124,7 +124,7 @@
                             <br>                   
                                 <% var s = JSON.parse(systemdetail); for(var i=0; i < s.length; i++) { %>
                                 
-                                <h4><span class="square c-<%= s[i].syscolor.substring(1).toLowerCase() %>"></span>&nbsp;&nbsp;<%= s[i].sysname %>&nbsp;<span id="<%= s[i].id %>-capex"></span>&nbsp;<small>Total Capex</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-income"></span>&nbsp;<small>Total Income</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-sga"></span>&nbsp;<small>Total SG&A</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-ebita"></span>&nbsp;<small>Total EBITA</small></h4>
+                                <h4><span class="square c-<%= s[i].syscolor.substring(1).toLowerCase() %>"></span>&nbsp;&nbsp;<%= s[i].sysname %>&nbsp;&nbsp;&nbsp;&nbsp;<span id="<%= s[i].id %>-capex"></span>&nbsp;<small>Total Capex</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-income"></span>&nbsp;<small>Total Income</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-sga"></span>&nbsp;<small>Total SG&A</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-irr"></span>&nbsp;<small>IRR</small></h4>
                                 <hr>
                                 <% } %>
                         </div>
@@ -262,8 +262,6 @@
 
     <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
     <script type="text/javascript" src="assets/js/utils.min.js"></script>
-
-    <script type="text/javascript" src="assets/js/finance.js"></script>
     <!-- Bootstrap Core scripts -->
     <script type="text/javascript" src="assets/js/ion.rangeSlider.min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
@@ -317,6 +315,44 @@
         }
         var startyear = moment(projectdetails['startdate']).year();
 
+        // Source: https://github.com/ebradyjobory/finance.js/blob/master/finance.js 
+        // seekZero seeks the zero point of the function fn(x), accurate to within x \pm 0.01. fn(x) must be decreasing with x.
+        function seekZero(fn) {
+            var x = 1;
+            while (fn(x) > 0) {
+                x += 1;
+            }
+            while (fn(x) < 0) {
+                x -= 0.01
+            }
+            return x + 0.01;
+            }
+
+        function compute_irr(cfs) {
+            var depth = cfs.depth;
+            var args = cfs.cashFlow;
+            var numberOfTries = 1;
+            // Cash flow values must contain at least one positive value and one negative value
+            var positive, negative;
+            Array.prototype.slice.call(args).forEach(function (value) {
+                if (value > 0) positive = true;
+                if (value < 0) negative = true;
+            })
+            if (!positive || !negative) throw new Error('IRR requires at least one positive value and one negative value');
+            function npv(rate) {
+                numberOfTries++;
+                if (numberOfTries > depth) {
+                throw new Error('IRR can\'t find a result');
+                }
+                var rrate = (1 + rate/100);
+                var npv = args[0];
+                for (var i = 1; i < args.length; i++) {
+                npv += (args[i] / Math.pow(rrate, i));
+                }
+                return npv;
+            }
+            return Math.round(seekZero(npv) * 100) / 100;
+            };
 
         function abbrNum(number, decPlaces) {
             if (number < 1000) {
@@ -742,30 +778,50 @@
         }
 
         function update_system_investments(system_totals){
-            console.log(system_totals)
-           
+            
             for (var cur_sys in system_totals){
                 var c_s = system_totals[cur_sys];
                 var income =c_s['total_income']
                 var investment = c_s['total_investment'];
                 var sga=  c_s['total_sga'];
-
+                
                 var yearly_investment = c_s['yearly_investment'];
                 var yearly_income = c_s['yearly_income'];
                 var yearly_sga = c_s['yearly_sga']
-                $("#"+ cur_sys+"-capex").html(abbrNum(income,2));
-                $("#"+ cur_sys+"-income").html(abbrNum(investment,2));
+                $("#"+ cur_sys+"-capex").html(abbrNum(investment,2));
+                $("#"+ cur_sys+"-income").html(abbrNum(income,2));
                 $("#"+ cur_sys+"-sga").html(abbrNum(sga,2));
+                var cashflow = [];
                 
 
-                var ebita = investment - income - sga;
-                if (ebita < 0) {
-                    var e = ebita_neg = Math.abs(ebita);
-                    $("#"+ cur_sys+"-ebita").html("-" + abbrNum(e,2));
+                for (var cur_year in yearly_investment) {
+                    var cur_year_income = c_s['yearly_income'][cur_year];
+                    var cur_year_investment = c_s['yearly_investment'][cur_year];
+                    var cur_year_sga = c_s['yearly_sga'][cur_year];
+                    // console.log(cur_year_income, cur_year_sga, cur_year_investment);
+                    var yearly_cashflow = cur_year_income - cur_year_sga - cur_year_investment;
+                    // console.log(yearly_cashflow)
+                    cashflow.push(yearly_cashflow);
                 }
-                else {
-                    $("#"+ cur_sys+"-ebita").html(abbrNum(ebita,2));
+                // console.log({'depth' :total_investment,'cashFlow' : cashflow});
+                
+                if (investment > 0){
+                    // console.log(c_s);
+                    // console.log( investment, cashflow);
+                    const irr = compute_irr({'depth' :investment,'cashFlow' : cashflow});
+                    // console.log(irr)
+                    $("#"+ cur_sys+"-irr").html("-" + abbrNum(irr,2));
                 }
+                // $("#"+ cur_sys+"-ebita").html("-" + abbrNum(e,2));
+
+                // var ebita = investment - income - sga;
+                // if (ebita < 0) {
+                //     var e = ebita_neg = Math.abs(ebita);
+                //     $("#"+ cur_sys+"-ebita").html("-" + abbrNum(e,2));
+                // }
+                // else {
+                //     $("#"+ cur_sys+"-ebita").html(abbrNum(ebita,2));
+                // }
                 
 
             }

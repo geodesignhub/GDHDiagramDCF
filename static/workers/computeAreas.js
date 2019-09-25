@@ -61,18 +61,16 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             annual_residents[c_year] = 0;
             annual_visitors[c_year] = 0;
         }
-
         sys_totals_lookups[cur_system['id']] = {
             'total_investment': 0,
             'total_income': 0,
             'total_sga': 0,
             'yearly_investment': system_annual_income,
             'yearly_income': system_annual_investment,
-            'yearly_sga': system_annual_investment,
+            'yearly_sga': system_annual_sga,
             'system_name': cur_system['sysname'],
             'color': cur_system['syscolor']
         };
-
     }
 
 
@@ -81,7 +79,6 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
         var allDiagrams = cSys.diagrams;
         var cur_sys = cSys['id'];
         var allDiaglen = allDiagrams.length;
-
         var yeild;
 
         for (var y = 0; y < allDiaglen; y++) {
@@ -147,7 +144,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             for (let l1 = 0; l1 < sdd.length; l1++) {
                 const element = sdd[l1];
                 if (element['key'].split('-')[1] == diagID) {
-                    sd_details = element;                    
+                    sd_details = element;
                     cur_diagram_asset_details = element['asset_details'];
                     break;
                 }
@@ -184,7 +181,6 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             // check if diagram existsin in timeline.
             var numYears = 0;
 
-
             var capex_start = sd_details['capex_start'];
             var capex_end = sd_details['capex_end'];
             var capex_num_years = capex_end - capex_start;
@@ -193,8 +189,9 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 var diagram_start = timeline[diagID].start;
                 var diagram_end = timeline[diagID].end;
             } else {
+
                 var diagram_start = startyear;
-                var diagram_end = startyear + 2;
+                var diagram_end = startyear + capex_num_years;
             }
 
             curDiagDetails['totalInvestment'] = totalCost;
@@ -217,12 +214,10 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             var end_year = startyear + number_of_years
             // console.log(capex_begin_year)
 
-
-
             for (var k4 = 0; k4 < number_of_years; k4++) {
                 var cur_year = startyear + k4;
-
-                if (cur_year <= diagram_end && cur_year > diagram_start) {
+                if (cur_year < diagram_end && cur_year >= diagram_start) {
+                    // console.log(cur_year, diagram_start, diagram_end);
                     var sYear = (startyear + k4 + parseInt(capex_start));
                     curDiagDetails['investment'][cur_year] = yearlyCost;
                     sys_totals_lookups[cur_sys]['yearly_investment'][cur_year] += yearlyCost;
@@ -231,8 +226,8 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 } else {
                     curDiagDetails['investment'][cur_year] = 0;
                     // 
-                    if ((cur_diagram_asset_details) && (cur_year == diagram_end+1)) {
-                        if (Object.keys(cur_diagram_asset_details).length === 0 && cur_diagram_asset_details.constructor === Object) {} else if (Object.keys(cur_diagram_asset_details).length > 0 && cur_diagram_asset_details.constructor === Object) {
+                    if ((cur_diagram_asset_details) && (cur_year == diagram_end + 1)) {
+                        if (Object.keys(cur_diagram_asset_details).length === 0 && cur_diagram_asset_details.constructor === Object) { } else if (Object.keys(cur_diagram_asset_details).length > 0 && cur_diagram_asset_details.constructor === Object) {
                             if (cur_diagram_asset_details['class'] == 'residential') {
                                 var population = cur_diagram_asset_details['metadata']['number_of_people_residential'];
                                 annual_residents[cur_year] += parseInt(population);
@@ -269,7 +264,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                                 var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors_retail_mixuse'];
                                 var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_retail_mixuse'];
                                 var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_retail_mixuse'];
-                                
+
                                 annual_visitors[cur_year] += parseInt(visitors);
                                 annual_direct_jobs[cur_year] += parseInt(direct_employment);
                                 annual_indirect_jobs[cur_year] += parseInt(indirect_employment);
@@ -289,11 +284,10 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                     sys_totals_lookups[cur_sys]['yearly_income'][cur_year] += acf;
                     totalIncome += acf;
                 }
-
             }
             curDiagDetails['totalIncome'] = totalIncome;
             // update aggregartes
-            sys_totals_lookups[cur_sys]['total_income'] += totalCost;
+            sys_totals_lookups[cur_sys]['total_income'] += totalIncome;
             var totalMaintainence = 0;
             // var threepercentMaintainece = -1 * yearlyCost * 0.03;
             var all_opex_asga = 0;
@@ -307,37 +301,36 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 all_opex_asga = opex + asga;
             }
             // var lastIncome;
-
+            // console.log(acf, all_opex_asga);
             for (var k7 = 0; k7 < number_of_years; k7++) {
                 var cur_year = startyear + k7;
                 if (cur_year > diagram_end) {
                     // var sYear = (startyear + k7 + parseInt(capex_end));
+                    // console.log(all_opex_asga);
                     curDiagDetails['maintainence'][cur_year] = all_opex_asga;
 
                     sys_totals_lookups[cur_sys]['yearly_sga'][cur_year] += all_opex_asga;
                     totalMaintainence += all_opex_asga;
                 } else {
                     curDiagDetails['maintainence'][cur_year] = 0;
-
                 }
             }
             curDiagDetails['area'] = totArea;
             curDiagDetails['totalMaintainence'] = totalMaintainence;
-
             sys_totals_lookups[cur_sys]['total_sga'] += totalMaintainence;
             // curDiagDetails['maintainence']['total'] = totalMaintainence;
             diagCosts.push(curDiagDetails);
 
+            // console.log(sys_totals_lookups[cur_sys]);
         }
     }
-    
+
     var annual_population_jobs = {
         'annual_visitors': annual_visitors,
         'annual_residents': annual_residents,
         'annual_direct_jobs': annual_direct_jobs,
         'annual_indirect_jobs': annual_indirect_jobs
     };
-    // console.log(diagCosts)
     // send investment
     self.postMessage({
         'output': JSON.stringify(diagCosts),
@@ -345,11 +338,10 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
         'system_aggregates': JSON.stringify(sys_totals_lookups),
         'annual_population_jobs': JSON.stringify(annual_population_jobs)
     });
-
     // close the worker
     self.close();
 }
 
-self.onmessage = function(e) {
+self.onmessage = function (e) {
     computeAreas(e.data.systemdetails, e.data.systems, e.data.startyear, e.data.years, e.data.saved_diagram_details, e.data.sequence);
 }
