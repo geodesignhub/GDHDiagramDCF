@@ -81,9 +81,9 @@
                             <option data-value='transport'>Transport</option>
                             <option data-value='community'>Community</option>
                             <!--     <option data-value='tourism'>Tourism</option>
-                                <option data-value='commercial'>Commercial</option>
-                                <option data-value='agriculture'>Agirculture</option>
-                                <option data-value='green-infrastruture'>Green Infrastruture</option> -->
+                                <option data-value='commercial'>Commercial</option>-->
+                            <option data-value='agriculture'>Agirculture</option> 
+                            <option data-value='green_infrastructure'>Green Infrastructure</option>
                         </select><br><br>
                         <select id="base_asset_subclass" class="form-control">
                             <option selected disabled>Select Subclass</option>
@@ -138,6 +138,12 @@
 
                 </div>
 
+                <div class='usage_form hidden' id="built_env_form_agriculture">        
+                </div>
+
+                <div class='usage_form hidden' id="built_env_form_green_infrastructure">        
+                    </div>
+    
                 <div class='usage_form hidden' id="built_env_form_office">                    
                     <h4>Per capita space required in m2: <a class="editable" href="#" id="office_m2_per_visitor"
                             data-type="text" data-title="Enter new room size e.g. 5">12</a></h4>
@@ -206,47 +212,32 @@
                     <h5>% interested in Luxury Retail (e.g. name brands): <a class="editable" href="#" id="percent_interested_in_luxury_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.15">.1</a></h5>
                     <h5>% interested in Support Retail (e.g office supplies): <a class="editable" href="#" id="percent_interested_in_support_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.1">.4</a></h5>
                     <h5>% interested in FMCG Retail (e.g. groceries, medicines): <a class="editable" href="#" id="percent_interested_in_fmcg_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.5">.3</a></h5>
-                    <h5>% interested in other retail (e.g. food / restaurant): <a class="editable" href="#" id="percent_interested_in_food_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>
-                
+                    <h5>% interested in other retail (e.g. food / restaurant): <a class="editable" href="#" id="percent_interested_in_food_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>                
                 </div>
                 <br>
-                <button id="recompute_mixuse" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>              
-                   
+                <button id="recompute_mixuse" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
                 </div>
-
 
                 <div class='usage_form hidden' id="built_env_form_community">
-
                     <h4>Number of people using daily (visitors): <a class="editable" href="#" id="community_visitors" data-type="text" data-title="Enter new number ">12</a></h4>
                     <h4>Number of people using daily (residents): <a class="editable" href="#" id="community_residents" data-type="text" data-title="Enter new number ">12</a></h4><br>
-
-
                     <button id="recompute_community" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
-
-
-
                 </div>
-                <div class='usage_form hidden' id="built_env_form_agriculture">
-                </div>
-
-                <div class='usage_form hidden' id="built_env_form_green-infrastructure">
-                </div>
+                <div class='usage_form hidden' id="built_env_form_agriculture"></div>
+                <div class='usage_form hidden' id="built_env_form_green-infrastructure"></div>
                 <br>
 
             </div>
             
             <div class="col-md-4">            
-                    <h3>Representative Image</h3>
-                        
+                    <h3>Representative Image</h3>                        
                     <select id="base_asset_subclass_image" class="form-control">
                         <option selected disabled>Change Image</option>
                     </select>
                     <br> <br><br>
                     <div id="selected_typology_image">
                         <small>No representative image specified, choose asset class and pick image.</small>
-                    </div>
-                
-                            
+                    </div>      
                 </div>
         </div>
         <hr>
@@ -272,7 +263,6 @@
                                 </td>
                                 <td>Total police stations (cells): <span id='total_police_stations'></span><input type='hidden' id='total_police_stations_raw'></td>
                             </tr>
-
                             <tr>
                                 <th scope="row">Fire personnel per capita</th>
                                 <td>
@@ -280,8 +270,6 @@
                                 </td>
                                 <td>Total fire personnel: <span id='total_firestations'></span><input type='hidden' id='total_firestations_raw'></td>
                             </tr>
-
-
                             <tr>
                                 <th scope="row">K12 Schools (m2) per student (5% of population)</th>
                                 <td>
@@ -289,8 +277,6 @@
                                 </td>
                                 <td>Total school area required: <span id='total_schools'></span> m2<input type='hidden' id='total_schools_raw'> </td>
                             </tr>
-
-
                         </tbody>
                     </table>
 
@@ -301,7 +287,6 @@
                                 <th scope="row">Electricity demand per person (MWh / year) </th>
                                 <td>
                                     <span id="energy_per_capita"></span>
-
                                 </td>
                                 <td>Total electricity demand: <span id='total_energy_demand'></span> MW <input type='hidden' id='total_energy_demand_raw'></td>
                             </tr>
@@ -392,8 +377,9 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <h3>Land use Distribution</h3>
+               
                 <div id="lu_chart_cont">
+                    <h3>Land use Distribution</h3>
                     <canvas id="lu_chart" height="250"></canvas>
                 </div>
 
@@ -459,7 +445,7 @@
                 <br>
                 </div>
 
-                <div class="usage_form hidden" id="built_env_form_retail_secondary">              
+                <div class="usage_form hidden"  id="built_env_form_retail_secondary">              
                 
                     <h4>Total Floor area needed <span id="total_floor_area_retail_required">0</span> m2.</h4>
                     <div class="hidden">
@@ -1129,6 +1115,7 @@
         initCostSliders();
         initpercentSliders();
         //built and non-built environment
+        // Agriculture source: https://owlcation.com/agriculture/Types-of-Agriculture
         const data = {
             "residential": "Luxury,High Priced,Mid Priced,Low Priced,Affordable Housing,Full Rennovation,Medium Rennovation,Low Rennovation",
             "hospitality": "Upscale Hotel,Midscale Hotel,Budget Hotel,Full Rennovation,Medium Rennovation,Low Rennovation",
@@ -1137,10 +1124,10 @@
             "retail": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
             "mixuse": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
             "office": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
-            "transport": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
-            "agriculture": "Crop Farmland,Grassland,Orchard",
-            "green-infrastruture": "Public Park,Garden Land,Woodland,Tree line",
-            "blue-infrastructure": "Dikes,Barrier walls"
+            "transport": "Bikes, Car, Buses, Train, Airport, Sea port, Highway, Street, Ferries",
+            "agriculture": "Nomadic Herding,Livestock Ranching,Shifting Cultivation,Rudimentary Sedentary Tillage, Subsistence Farming with Rice Dominant, Subsistence Farming without Rice Dominant, Commercial Plantations, Mediterranean Agriculture, Commercial Grain Farming, Livestock and Grain Farming, Subsistence Crop and Stock Farming, Dairy Framing, Specialized Horticulture",
+            "green_infrastructure": "Park,Garden,Woodland,Tree line, Forest",
+            "blue_infrastructure": "Dikes,Barrier walls"
         };
 
         $('#base_asset_subclass').on('change', function (e) {
@@ -1214,7 +1201,7 @@
                     $("#built_env_form_residential_secondary").show();
                     
                     $("#services").show();
-                            
+                    $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -1233,7 +1220,7 @@
                     $("#built_env_form_mixuse_secondary").show();
                     
                     $("#services").show();
-                            
+                    $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -1251,7 +1238,7 @@
                     $("#built_env_form_tourism").show();
                     $("#built_env_form_tourism_secondary").show();
                     $("#services").show();
-                            
+                    $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -1267,7 +1254,7 @@
                     vals = data.retail.split(",");
                     $(".usage_form").hide();
                     $("#services").show();
-                            
+                    $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -1285,15 +1272,13 @@
                     vals = data.office.split(",");
                     $(".usage_form").hide();
                     $("#services").show();
-                            
+                    $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
                     $.each(vals, function (index, value) {
                         $secondChoice.append("<option >" + value + "</option>");
                     });
-            
-            
 
                     $("#built_env_form_office").show();
                     $("#built_env_form_office_secondary").show();
@@ -1304,17 +1289,17 @@
                 case 'transport':
                     vals = data.transport.split(",");
                     $(".usage_form").hide();
-                    $("#built_env_form_transport").show();
+                    $("#built_env_form_transport").show();                    
+                    $("#services").hide();
+                    $("#lu_chart_cont").hide();
                     
-                    $("#services").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
                     $.each(vals, function (index, value) {
                         $secondChoice.append("<option >" + value + "</option>");
                     });
-            
-            
+
                     myTransportControl.initialize();
                     myTransportControl.update();
                     break;
@@ -1324,6 +1309,7 @@
                     $("#built_env_form_community").show();
                     
                     $("#services").show();
+                    $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -1334,16 +1320,42 @@
                     myCommunityControl.initialize();
                     myCommunityControl.update();
                     break;
-                // case 'agriculture':
-                //     vals = data.retail.split(",");
-                //     $(".usage_form").hide();
-                //     $("#built_env_form_agriculture").show();
-                //     break;
                 // case 'green-infrastruture':
                 //     vals = data.retail.split(",");
                 //     $(".usage_form").hide();
                 //     $("#built_env_form_green-infrastructure").show();
                 //     break;
+
+                case 'agriculture':
+                    vals = data.agriculture.split(",");
+                    $(".usage_form").hide();
+                    $("#services").hide();
+                    $("#lu_chart_cont").hide();
+                    $("#built_env_form_agriculture").show();
+                    var $secondChoice = $("#base_asset_subclass");
+                    $secondChoice.empty();
+                    $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
+                    $.each(vals, function (index, value) {
+                        $secondChoice.append("<option >" + value + "</option>");
+                    });
+            
+                    break;                    
+            
+                case 'green_infrastructure':
+                    vals = data.green_infrastructure.split(",");
+                    $(".usage_form").hide();
+                    $("#services").hide();
+                    $("#lu_chart_cont").hide();
+                    $("#built_env_form_green_infrastructure").show();
+                    var $secondChoice = $("#base_asset_subclass");
+                    $secondChoice.empty();
+                    $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
+                    $.each(vals, function (index, value) {
+                        $secondChoice.append("<option >" + value + "</option>");
+                    });
+            
+                    break;                    
+            
                 case 'base':
                     vals = ['Please choose from above'];
             }
@@ -3931,6 +3943,12 @@
                     metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
                     metadata['transport_passenger_trips'] = parseInt($("#transport_passenger_trips").editable('getValue', true));
                 }  
+                else if (base_asset_class == 'agriculture') {
+                    metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+                }
+                else if (base_asset_class == 'green_infrastructure') {
+                    metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+                }
                 else if (base_asset_class == 'community') {
                     metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
                     metadata['community_residents'] = parseInt($("#community_residents").editable('getValue', true));
@@ -3973,6 +3991,7 @@
 
                 metadata["representative_image"]= representative_image;
                 asset_details = {
+                    'scenario':1, 
                     'class': base_asset_class,
                     'metadata': metadata
                 };
