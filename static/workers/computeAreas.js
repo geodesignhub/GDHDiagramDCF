@@ -149,8 +149,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                     break;
                 }
             }
-
-
+            
             for (var h = 0; h < sysdetlen; h++) {
                 var cSys = systemdetails[h];
                 var sName = cSys['sysname'];

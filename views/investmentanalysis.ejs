@@ -135,7 +135,7 @@
             
         <div class="row">
             <div class="col-md-12">
-                <h3>Population and Jobs&nbsp;&nbsp;<small>Annual investments, jobs created </small></h3>
+                <h3>Population and Jobs&nbsp;&nbsp;<small>Cummulative annual investments, jobs created </small></h3>
                 <br>
                 <p class="lead" id="population_summary"></p>       
                 
@@ -448,9 +448,8 @@
                     
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
-                        var npvHTML ="<tr><th class='header initCol'>Diagram</th><th>Image</th><th>Asset Class</th><th>Population (daily visitors / residents) </th><th class='fundingheader'>Funding</th><th class='aaheader'>Analysis</th><th class='systemheader'>System</th>";
+                        var npvHTML ="<tr><th class='header initCol'>Diagram</th><th>Image</th><th>Asset Class</th><th>Population (yearly visitors OR residents) </th><th class='fundingheader'>Funding</th><th class='aaheader'>Analysis</th><th class='systemheader'>System</th>";
                         npvHTML += "</tr>";
-
                         $('#npv  > thead').append(npvHTML);
                         headcounter += 1;
                     } // header is added. 
@@ -574,10 +573,24 @@
             visitor_chart_data['backgroundColor'] = '#537bc4',
             population_chart_data['data'] = [];
             visitor_chart_data['data'] = [];
+
+            var tmp_population_data = [];
+            var tmp_visitor_data = [];
+
             for (var h1 = 0; h1 < numYears; h1++) {
                 var cYear = (startyear + h1);
-                population_chart_data['data'].push(parseInt(annual_population_jobs['annual_residents'][cYear]));
-                visitor_chart_data['data'].push(parseInt(annual_population_jobs['annual_visitors'][cYear]));   
+
+                const cur_year_population = parseInt(annual_population_jobs['annual_residents'][cYear]);
+                const cur_year_visitor = parseInt(annual_population_jobs['annual_visitors'][cYear]);
+
+                tmp_population_data.push(cur_year_population);
+                tmp_visitor_data.push(cur_year_visitor);
+                
+                const cummulative_popuation = tmp_population_data.reduce((a, b) => a + b, 0);
+                const cummulative_visitors = tmp_visitor_data.reduce((a, b) => a + b, 0);
+
+                population_chart_data['data'].push(cummulative_popuation);
+                visitor_chart_data['data'].push(cummulative_visitors);   
             }
 
             population_visitors_dataset.push(population_chart_data);
@@ -594,10 +607,23 @@
             indirect_jobs_data['data'] = [];
             direct_jobs_data['data'] = [];
 
+            var tmp_direct_jobs = [];
+            var tmp_indirect_jobs = [];
+
             for (var h1 = 0; h1 < numYears; h1++) {
                 var cYear = (startyear + h1);
-                indirect_jobs_data['data'].push(parseInt(annual_population_jobs['annual_indirect_jobs'][cYear]));
-                direct_jobs_data['data'].push(parseInt(annual_population_jobs['annual_direct_jobs'][cYear]));   
+
+                const cur_year_indirect_jobs = parseInt(annual_population_jobs['annual_indirect_jobs'][cYear]);
+                const cur_year_direct_jobs = parseInt(annual_population_jobs['annual_direct_jobs'][cYear]);
+
+                tmp_direct_jobs.push(cur_year_direct_jobs);
+                tmp_indirect_jobs.push(cur_year_indirect_jobs);
+
+                const cummulative_direct_jobs = tmp_direct_jobs.reduce((a, b) => a + b, 0);
+                const cummulative_indirect_jobs = tmp_indirect_jobs.reduce((a, b) => a + b, 0);
+
+                indirect_jobs_data['data'].push(cummulative_indirect_jobs);
+                direct_jobs_data['data'].push(cummulative_direct_jobs);   
             }
 
             direct_indirect_jobs_dataset.push(indirect_jobs_data);
@@ -1280,7 +1306,7 @@
                                 $(".assetimage-" + diagID).html("<img src='assets/img/asset-images/"+asset_details['metadata']['representative_image']+"'/>");
                             }
                             if (ad === 'hospitality') {
-                                $('.population-' + diagID).html(abbrNum((asset_details['metadata']['total_yearly_visitors']/365), 2));
+                                $('.population-' + diagID).html(abbrNum((asset_details['metadata']['total_yearly_visitors']), 2));
                             } else if (ad == 'residential') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata']['number_of_people_residential'], 2));
                                 $(".assetimage-"+diagID).append("<br><small>Density: "+asset_details['metadata']['current_pop_density']+" people / km<sup>2</sup></small>")
