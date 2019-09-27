@@ -133,6 +133,8 @@ app.post('/setdefaults', function (request, response) {
     const capex_start = request.body.capex_start;
     const capex_end = request.body.capex_end;
     const representative_image = request.body.representative_image;
+    const acfg = request.body.acfg;
+    const wacc = request.body.wacc;
     const acf_start = request.body.acf_start;
     const asset_details = JSON.parse(request.body.asset_details);
 
@@ -143,6 +145,8 @@ app.post('/setdefaults', function (request, response) {
         "acf": acf,
         "opex": opex,
         "asga": asga,
+        "acfg":acfg,
+        "wacc":wacc,
         "capex_start": capex_start,
         "representative_image":representative_image, 
         "capex_end": capex_end,

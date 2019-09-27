@@ -118,7 +118,7 @@
 
                     <h4>Avg. People per room: <a class="editable" href="#" id="tourism_people_per_room" data-type="text" ata-title="Enter new people per room">3</a></h4>
 
-                    <h4>Target Occupancy Rate: <span id="target_occupancy_rate_SPAN"><a class="editable" href="#" id="target_occupancy_rate" data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></span></h4>
+                    <h4>Target Occupancy Rate: <a class="editable" href="#" id="target_occupancy_rate" data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></h4>
                     <br>
                    
                     <h4>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_tourism" data-type="text" data-title="Enter new ratio">.01</a></h4>
@@ -1049,6 +1049,7 @@
             const acf_start = (defaultvalues.hasOwnProperty("acf_start")) ? defaultvalues["acf_start"] : 0;
 
 
+
             $("#initcost-slider").val(totalcost);
             $("#acf-slider").val(acf);
             $("#aopex-slider").val(opex);
@@ -1095,9 +1096,16 @@
         }
 
         function initpercentSliders() {
+
+            
+            const acfg = (defaultvalues.hasOwnProperty("acfg")) ? defaultvalues["acfg"]*100 : 0;
+            
+            const wacc = (defaultvalues.hasOwnProperty("wacc")) ? defaultvalues["wacc"]*100 : 0;
+
             $("#acfg-slider").ionRangeSlider({
                 min: 0,
                 max: 20,
+                from:acfg, 
                 step: 0.05,
                 postfix: "%",
                 grid: true,
@@ -1107,6 +1115,7 @@
                 min: 0,
                 max: 20,
                 step: 0.05,
+                from: wacc,
                 postfix: "%",
                 grid: true,
                 prettify_enabled: true
@@ -1414,9 +1423,9 @@
             $('#base_asset_subclass_image').on('select2:select', function (e) {
                 var data = e.params.data;
                 const image_path = data['image_path'];
-              
-                $("#selected_typology_image").html("<img src='assets/img/asset-images/"+image_path+"'/>");
                 representative_image = image_path;
+                $("#selected_typology_image").html("<img src='assets/img/asset-images/"+image_path+"'/>");
+                
             });
 
         }
@@ -3881,6 +3890,8 @@
             const acf = acfCost;
             const opex = aopexCost;
             const asga = asgaCost;
+            const acfg = (parseFloat($("#acfg-slider").val()) / 100).toFixed(2);
+            const wacc = (parseFloat($("#wacc-slider").val()) / 100).toFixed(2);
 
             const capex_start = isNumeric($("#initcost-syear").val()) ? $("#initcost-syear").val() : 0;
             const capex_end = isNumeric($("#initcost-eyear").val()) ? $("#initcost-eyear").val() : 1;
@@ -3892,8 +3903,7 @@
             if (base_asset_class) {
                 if (base_asset_class == 'residential') {
                     metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
-                    metadata['number_of_people_residential'] = parseInt($("#number_of_people_residential").editable(
-                        'getValue', true));
+                    metadata['number_of_people_residential'] = parseInt($("#number_of_people_residential").editable('getValue', true));
                     metadata['residential_units'] = parseInt($("#residential_units").editable('getValue', true));
                     metadata['residential_floors'] = parseInt($("#residential_floors").editable('getValue',true));
                     metadata['residential_far'] = parseFloat($("#residential_far").editable('getValue',true));
@@ -3904,7 +3914,7 @@
                     metadata['tourism_floors'] = parseInt($("#tourism_floors").editable('getValue', true));
                     metadata['tourism_land_area'] = parseInt($("#tourism_land_area").editable('getValue', true));
                     metadata['tourism_people_per_room'] = parseInt($("#tourism_people_per_room").editable('getValue', true));
-                    metadata['target_occupancy_rate'] = parseInt($("#target_occupancy_rate").editable('getValue', true));
+                    metadata['target_occupancy_rate'] = parseFloat($("#target_occupancy_rate").editable('getValue', true));
                     metadata['tourism_total_rooms'] = parseInt($("#tourism_total_rooms").html());
                     metadata['total_yearly_visitors'] = parseInt($("#total_yearly_visitors").html());
                     metadata['direct_employees_to_visitor_ratio_tourism'] = parseFloat($("#direct_employees_to_visitor_ratio_tourism").editable('getValue', true));
@@ -4007,6 +4017,8 @@
                 "capex_start": capex_start,
                 "capex_end": capex_end,
                 "acf_start": acf_start,
+                "acfg":acfg,
+                "wacc":wacc,
                 "_csrf": csrf,
                 "asset_details": JSON.stringify(asset_details)
             };
@@ -4045,7 +4057,7 @@
         }
 
         if (asset_class) {
-
+          
             $("#base_asset_class option[data-value='" + asset_class + "']").attr("selected", "selected");
 
             updateClassControls(asset_class);
@@ -4062,6 +4074,7 @@
                 $("#current_pop_density").html(class_default_values['metadata']['current_pop_density']);
                 $("#recompute_residential").click();
             } else if (asset_class == 'hospitality') {
+                
                 $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
                 $("#tourism_m2_per_guest").editable('setValue', class_default_values['metadata'][
                     'tourism_m2_per_guest'
@@ -4069,32 +4082,24 @@
                 $("#tourism_floors").editable('setValue', class_default_values['metadata']['tourism_floors']);
                 $("#tourism_land_area").editable('setValue', class_default_values['metadata']['tourism_land_area']);
                 $("#tourism_people_per_room").editable('setValue', class_default_values['metadata']['tourism_people_per_room']);
-                $("#target_occupancy_rate").editable('setValue', class_default_values['metadata'][
-                    'target_occupancy_rate'
-                ]);
+                $("#target_occupancy_rate").editable('setValue', class_default_values['metadata']['target_occupancy_rate']);
                 $("#tourism_total_rooms").html(class_default_values['metadata']['tourism_total_rooms']);
                 $("#total_yearly_visitors").html(class_default_values['metadata']['total_yearly_visitors']);
                 $("#recompute_tourism").click();
 
             } else if (asset_class == 'retail') {
                 $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
-                $("#retail_m2_per_visitor").editable('setValue', class_default_values['metadata'][
-                    'retail_m2_per_visitor'
-                ]);
+                $("#retail_m2_per_visitor").editable('setValue', class_default_values['metadata']['retail_m2_per_visitor']);
                 $("#retail_floors").editable('setValue', class_default_values['metadata']['retail_floors']);
                 $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata']['total_daily_visitors_retail']);
 
                 $("#percent_interested_in_luxury_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_luxury_retail']);
-                $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata'][
-                    'total_daily_visitors_retail'
-                ]);
+                $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata']['total_daily_visitors_retail']);
                 $("#percent_interested_in_support_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_support_retail']);
                 $("#total_daily_visitors_retail").editable('setValue', class_default_values['metadata']['total_daily_visitors_retail'
                 ]);
-                $("#percent_interested_in_fmcg_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_fmcg_retail'
-                ]);
-                $("#percent_interested_in_food_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_food_retail'
-                ]);
+                $("#percent_interested_in_fmcg_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_fmcg_retail']);
+                $("#percent_interested_in_food_retail").editable('setValue', class_default_values['metadata']['percent_interested_in_food_retail']);
                 $("#total_floor_area_retail_required").html(class_default_values['metadata']['total_floor_area_retail_required']);
                 $("#recompute_retail").click();
             } else if (asset_class == 'office') {
@@ -4146,8 +4151,9 @@
                 $("#total_floor_area_retail_required_mixuse").html(class_default_values['metadata']['total_floor_area_retail_required_mixuse']);
                 $("#recompute_mixuse").click();
             }
-
+            
             if(class_default_values['metadata'].hasOwnProperty('representative_image')) {
+                
                 const img = "<img src='assets/img/asset-images/"+class_default_values['metadata']['representative_image']+"'/>";
    
                 $("#selected_typology_image").html(img);
