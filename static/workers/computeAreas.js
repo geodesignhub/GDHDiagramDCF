@@ -65,8 +65,8 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             'total_investment': 0,
             'total_income': 0,
             'total_sga': 0,
-            'yearly_investment': system_annual_income,
-            'yearly_income': system_annual_investment,
+            'yearly_investment': system_annual_investment,
+            'yearly_income': system_annual_income,
             'yearly_sga': system_annual_sga,
             'system_name': cur_system['sysname'],
             'color': cur_system['syscolor']
@@ -149,7 +149,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                     break;
                 }
             }
-            
+
             for (var h = 0; h < sysdetlen; h++) {
                 var cSys = systemdetails[h];
                 var sName = cSys['sysname'];
@@ -183,14 +183,14 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             var capex_start = sd_details['capex_start'];
             var capex_end = sd_details['capex_end'];
             var capex_num_years = capex_end - capex_start;
+       
 
             if (parseInt(diagID) in timeline) {
                 var diagram_start = timeline[diagID].start;
                 var diagram_end = timeline[diagID].end;
             } else {
-
                 var diagram_start = startyear;
-                var diagram_end = startyear + capex_num_years;
+                var diagram_end = diagram_start + capex_num_years;
             }
 
             curDiagDetails['totalInvestment'] = totalCost;
@@ -200,7 +200,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             curDiagDetails['yeild'] = yeild;
 
             sys_totals_lookups[cur_sys]['total_investment'] += totalCost;
-
+            
             yearlyCost = parseFloat(totalCost / capex_num_years);
             maxYearlyCost = (yearlyCost > maxYearlyCost) ? yearlyCost : maxYearlyCost;
             var acf = parseInt(sd_details["acf"]);
@@ -210,13 +210,14 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
 
             var capex_begin_year = startyear + parseInt(capex_start);
             var capex_end_year = capex_begin_year + capex_num_years;
-            var end_year = startyear + number_of_years
+            // var end_year = startyear + number_of_years;
             // console.log(capex_begin_year)
 
             for (var k4 = 0; k4 < number_of_years; k4++) {
                 var cur_year = startyear + k4;
-                if (cur_year < diagram_end && cur_year >= diagram_start) {
-                    // console.log(cur_year, diagram_start, diagram_end);
+                if (cur_year < capex_end_year && cur_year >= capex_begin_year) {
+                    // console.log(totalCost, capex_num_years, startyear,capex_begin_year,capex_end_year, diagram_start, diagram_end);
+                    
                     var sYear = (startyear + k4 + parseInt(capex_start));
                     curDiagDetails['investment'][cur_year] = yearlyCost;
                     sys_totals_lookups[cur_sys]['yearly_investment'][cur_year] += yearlyCost;

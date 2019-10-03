@@ -120,7 +120,7 @@
 
                     <div class="col-md-6">                    
                         <div>
-                            <h4><span id=""></span> <small>Total Capex (Construction)</small><h4>                        
+                            <h4><span id="total_capex"></span> <small>Total Capex (Construction)</small><h4>                        
                             <br>                   
                                 <% var s = JSON.parse(systemdetail); for(var i=0; i < s.length; i++) { %>
                                 
@@ -543,6 +543,7 @@
                     aggregated_investment_data = JSON.parse(e.data.system_aggregates);
                     var annual_population_jobs = JSON.parse(e.data.annual_population_jobs);
                     showallTables();
+                    
                     populateIncomeInvestment(investmentdata);
                     update_system_investments(aggregated_investment_data);
                     render_system_investment(aggregated_investment_data);
@@ -813,7 +814,8 @@
                 
                 var yearly_investment = c_s['yearly_investment'];
                 var yearly_income = c_s['yearly_income'];
-                var yearly_sga = c_s['yearly_sga']
+                var yearly_sga = c_s['yearly_sga'];
+                
                 $("#"+ cur_sys+"-capex").html(abbrNum(investment,2));
                 $("#"+ cur_sys+"-income").html(abbrNum(income,2));
                 $("#"+ cur_sys+"-sga").html(abbrNum(sga,2));
@@ -836,6 +838,7 @@
                     const irr = compute_irr({'depth' :investment,'cashFlow' : cashflow});
                     // console.log(irr)
                     $("#"+ cur_sys+"-irr").html(abbrNum(irr,2));
+                    
                 }
                 // $("#"+ cur_sys+"-ebita").html("-" + abbrNum(e,2));
 
