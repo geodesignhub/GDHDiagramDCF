@@ -10,6 +10,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
     var startyear = parseInt(startyear);
     const sdd = JSON.parse(saved_diagram_details);
     const sequence = JSON.parse(board_sequence);
+    // console.log(sequence);
     // if (Object.entries(sequence['gantt_data']).length === 0 && sequence['gantt_data'].constructor === Object) {
     //     var seq = sequence['gantt_data']['data'];
     // }
@@ -32,7 +33,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
     } catch (err) {
         // console.log(err)
     }
-    // console.log(timeline);
+
     var maxYearlyCost = 0;
     diagCosts = [];
     var number_of_years = numYears;
@@ -192,6 +193,11 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 var diagram_start = startyear;
                 var diagram_end = diagram_start + capex_num_years;
             }
+            var diagram_schedule = diagram_end - diagram_start;
+
+            if (diagram_schedule > capex_num_years) {
+                capex_num_years = diagram_schedule;
+            }
 
             curDiagDetails['totalInvestment'] = totalCost;
             curDiagDetails['investment'] = {};
@@ -208,7 +214,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 acf = (yeild * totalCost) / 100;
             }
 
-            var capex_begin_year = startyear + parseInt(capex_start);
+            var capex_begin_year = diagram_start + parseInt(capex_start);
             var capex_end_year = capex_begin_year + capex_num_years;
             // var end_year = startyear + number_of_years;
             // console.log(capex_begin_year)
@@ -216,7 +222,8 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             for (var k4 = 0; k4 < number_of_years; k4++) {
                 var cur_year = startyear + k4;
                 if (cur_year < capex_end_year && cur_year >= capex_begin_year) {
-                    // console.log(totalCost, capex_num_years, startyear,capex_begin_year,capex_end_year, diagram_start, diagram_end);
+                    // console.log(totalCost, capex_num_years, startyear,capex_begin_year,capex_end_year,diagram_start, diagram_end);
+                    // console.log(capex_num_years, diagram_schedule);
                     
                     var sYear = (startyear + k4 + parseInt(capex_start));
                     curDiagDetails['investment'][cur_year] = yearlyCost;
