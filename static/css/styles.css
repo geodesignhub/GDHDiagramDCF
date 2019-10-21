@@ -29,11 +29,11 @@ h4 {
     height: 290px;
 }
 
-#boundary_investment_chart,
-#boundary_income_chart,
-#boundary_opex_chart
+#boundary_investment_chart
+/* #boundary_income_chart,
+#boundary_opex_chart */
 {
-    height: 220px;
+    height: 620px;
 }
 
 #system_investment_chart

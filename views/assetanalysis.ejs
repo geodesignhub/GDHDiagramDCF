@@ -2542,7 +2542,6 @@
 
                 const total_floor_area_office = ((office_m2_per_visitor * total_daily_visitors_office));
                 // const total_floor_area_office_per_floor = (total_floor_area_office / office_floors);
-
                 const total_floor_area_available = parseInt(diagram_area * 0.8 * office_floors);
 
                 $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office), 2));
@@ -4022,27 +4021,27 @@
                 "_csrf": csrf,
                 "asset_details": JSON.stringify(asset_details)
             };
-            // console.log(data)
-            var url = '/setdefaults/';
+            console.log(data)
+            // var url = '/setdefaults/';
             
-            var promise = $.ajax({
-                url: url,
-                type: 'POST',
-                data: data
-            });
+            // var promise = $.ajax({
+            //     url: url,
+            //     type: 'POST',
+            //     data: data
+            // });
 
 
-            promise.done(function (data) {
-                humane.log("Data successufully saved", {
-                    addnCls: 'humane-flatty-success'
-                });
-            });
+            // promise.done(function (data) {
+            //     humane.log("Data successufully saved", {
+            //         addnCls: 'humane-flatty-success'
+            //     });
+            // });
 
-            promise.fail(function (data) {
-                humane.log("Error in saving data, the administrators have been notified", {
-                    addnCls: 'humane-flatty-error'
-                });
-            });
+            // promise.fail(function (data) {
+            //     humane.log("Error in saving data, the administrators have been notified", {
+            //         addnCls: 'humane-flatty-error'
+            //     });
+            // });
 
         });
         var asset_class = "";

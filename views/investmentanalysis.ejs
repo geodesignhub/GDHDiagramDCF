@@ -205,17 +205,11 @@
             <div class="col-md-6">
              <div class="boundariesCont">
                     <h3>Boundaries and Financials</h3>
-                    <br>
-                    <div height="200">
+                    <br><br><br>
+                    <div>
                     <canvas id="boundary_investment_chart"></canvas>
-                </div>
-                <div height="200">
-                <canvas id="boundary_opex_chart"></canvas>
-                </div>
-                <div height="200">
-                    <canvas id="boundary_income_chart"></canvas>
                     </div>
-                </div>
+              
             </div>
         </div>
 
@@ -447,12 +441,12 @@
                     
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
-                        var npvHTML ="<tr><th class='header initCol'>Diagram</th><th>Image</th><th>Asset Class</th><th>Population (yearly visitors OR residents) </th><th class='fundingheader'>Funding</th><th class='aaheader'>Analysis</th><th class='systemheader'>System</th>";
+                        var npvHTML ="<tr><th class='header initCol'>Diagram</th><th>Image</th><th>Asset Class</th><th>Residents</th><th class='visitor-detail'>Visitors</th><th class='fundingheader'>Funding</th><th class='aaheader'>Analysis</th><th class='systemheader'>System</th>";
                         npvHTML += "</tr>";
                         $('#npv  > thead').append(npvHTML);
                         headcounter += 1;
                     } // header is added. 
-
+                    // console.log(npvHTML)
                     // add system row 
                     var diaglen = cursys.diagrams.length;
                     
@@ -466,12 +460,13 @@
                                 curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" +"<td class=" +
                                 "'assetimage assetimage-" + curdiagid + "'" + "></td>"+ "<td class=" +
                                 "'assetdetails-" + curdiagid + "'" + "></td>"  + "<td class=" +
-                                "'population-" + curdiagid + "'" + "></td>" + "<td class=" + "funding-" +
+                                "'population-" + curdiagid + "'" + "></td>"+ "<td class=" +
+                                "'visitors-" + curdiagid + "'" + "></td>" + "<td class=" + "funding-" +
                                 curdiagid + "'" +
                                 ">" + curdiagprops.fundingtype + "</td>" + "<td class=" +
                                 "'aa-" + curdiagid + "'" + "></td>" + "<td class=" + "system-" +
                                 curdiagid + "'" +
-                                ">" + cursys.sysname + "<sup class=" + "'yeild-" + cursys.id + "'" + "></sup></td>";
+                                ">" + cursys.sysname + "</td>";
                             yrCounter = 0;
                             diagrowHTMLnpv += "</tr>";
                             $('#npv > tbody').append(diagrowHTMLnpv);
@@ -593,6 +588,7 @@
                 visitor_chart_data['data'].push(cummulative_visitors);   
             }
 
+            
             population_visitors_dataset.push(population_chart_data);
             population_visitors_dataset.push(visitor_chart_data);
         
@@ -623,13 +619,14 @@
                 const cummulative_indirect_jobs = tmp_indirect_jobs.reduce((a, b) => a + b, 0);
 
                 indirect_jobs_data['data'].push(cummulative_indirect_jobs);
+                
                 direct_jobs_data['data'].push(cummulative_direct_jobs);   
             }
-
+            
             direct_indirect_jobs_dataset.push(indirect_jobs_data);
             direct_indirect_jobs_dataset.push(direct_jobs_data);
 
-            var options = { 
+            var options = {                
                 maintainAspectRatio: false,
                 title: {
                     display: false,                   
@@ -690,6 +687,7 @@
                 type: 'bar',
                 data: {
                     'labels': labels,
+                   
                     'datasets': population_visitors_dataset
                 },
                 options: options
@@ -713,6 +711,7 @@
                 type: 'bar',
                 data: {
                     'labels': labels_secondary,
+                    'fill':false,
                     'datasets': direct_indirect_jobs_dataset
                 },
                 options: options_secondary
@@ -728,7 +727,7 @@
                         var cur_sys_investment = {};
                         var c_system_tot  = system_totals[csys];
                         cur_sys_investment['label'] = c_system_tot['system_name'] + ' Capex';
-
+                        
                         cur_sys_investment['backgroundColor'] = c_system_tot['color'];
                         cur_sys_investment['data'] = [];
                         for (var h1 = 0; h1 < numYears; h1++) {
@@ -740,6 +739,7 @@
                     }
 
                 var options = { 
+                    
                     maintainAspectRatio: false,
                     title: {
                         display: false,                   
@@ -1003,9 +1003,10 @@
             //     return parseFloat(a.totalInvestment) - parseFloat(b.totalInvestment);
             // });
             
-            var b_investment_dataset = [];
-            var b_income_dataset = [];
-            var b_maintainence_dataset = [];
+            var all_financials_dataset = [];
+            // var b_investment_dataset = [];
+            // var b_income_dataset = [];
+            // var b_maintainence_dataset = [];
 
             var labels = [];
             for (var g1 = 0; g1 < numYears; g1++) {
@@ -1014,30 +1015,65 @@
             }
             // console.log(bdata)
 
+
+            var chartColors = {
+                red: 'rgb(255, 99, 132)',
+                orange: 'rgb(255, 159, 64)',
+                yellow: 'rgb(255, 205, 86)',
+                green: 'rgb(75, 192, 192)',
+                blue: 'rgb(54, 162, 235)',
+                purple: 'rgb(153, 102, 255)',
+                grey: 'rgb(201, 203, 207)'
+            };
             for (var x = 0; x < bdata.length; x++) {
                 var curBoundaryValue = bdata[x];
              
                 var cur_b_investment = {};
                 var cur_b_income = {};
                 var cur_b_maintainence = {};
+
+                var cur_b_roi = {};
+
                 cur_b_investment['label'] = curBoundaryValue.bname + ' Capex';
                 cur_b_maintainence['label'] = curBoundaryValue.bname + ' Opex';
                 cur_b_income['label'] = curBoundaryValue.bname + ' Income';
+                cur_b_roi['label'] = curBoundaryValue.bname + ' Cash flow';
+                cur_b_roi['fill'] = false;
                 
+				cur_b_roi['backgroundColor']= window.chartColors.purple;
+				cur_b_roi['borderColor']= window.chartColors.purple;
+
                 cur_b_investment['data'] = [];
                 cur_b_income['data'] =[];
                 cur_b_maintainence['data'] =[];
+
+                cur_b_roi['data'] = [];
+
+                var cum_income = 0;
+                var cum_opex = 0;
+                var cum_total = 0;
+
                 for (var g1 = 0; g1 < numYears; g1++) {
                     var cYear = (startyear + g1);
-                    cur_b_investment['data'].push(parseInt(curBoundaryValue['investment'][cYear]));                    
-                    cur_b_income['data'].push(parseInt(curBoundaryValue['income'][cYear]));
-                    cur_b_maintainence['data'].push(parseInt(curBoundaryValue['maintainence'][cYear]));
+
+                    var cur_year_income = parseInt(curBoundaryValue['income'][cYear]);
+                    var cur_year_investment = parseInt(curBoundaryValue['investment'][cYear]);
+                    var cur_year_maintainence = parseInt(curBoundaryValue['maintainence'][cYear]);
+
+                    cum_total += (cur_year_income - cur_year_maintainence - cur_year_investment);
+
+
+                    cur_b_investment['data'].push(cur_year_investment);                    
+                    cur_b_income['data'].push(cur_year_income);
+                    cur_b_maintainence['data'].push(-1 * cur_year_maintainence);
+                    cur_b_roi['data'].push(cum_total);
 
                 }
 
-                b_investment_dataset.push(cur_b_investment);
-                b_income_dataset.push(cur_b_income);
-                b_maintainence_dataset.push(cur_b_maintainence);
+                all_financials_dataset.push(cur_b_investment);
+                all_financials_dataset.push(cur_b_income);
+                all_financials_dataset.push(cur_b_maintainence);
+                all_financials_dataset.push(cur_b_roi);
             }
 
 
@@ -1094,32 +1130,32 @@
                 type: 'line',
                 data: {
                     'labels': labels,
-                    'datasets': b_investment_dataset
+                    'datasets': all_financials_dataset
                 },
                 options: options
             });
             
             
-            var maintainence_ctx = $("#boundary_opex_chart");
-            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
-            var myLineChart = new Chart(maintainence_ctx, {
-                type: 'line',
-                data: {
-                    'labels': labels,
-                    'datasets': b_maintainence_dataset
-                },
-                options: options
-            });
-            var income_ctx = $("#boundary_income_chart");
-            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
-            var myLineChart = new Chart(income_ctx, {
-                type: 'line',
-                data: {
-                    'labels': labels,
-                    'datasets': b_income_dataset
-                },
-                options: options
-            });
+            // var maintainence_ctx = $("#boundary_opex_chart");
+            // Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            // var myLineChart = new Chart(maintainence_ctx, {
+            //     type: 'line',
+            //     data: {
+            //         'labels': labels,
+            //         'datasets': b_maintainence_dataset
+            //     },
+            //     options: options
+            // });
+            // var income_ctx = $("#boundary_income_chart");
+            // Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            // var myLineChart = new Chart(income_ctx, {
+            //     type: 'line',
+            //     data: {
+            //         'labels': labels,
+            //         'datasets': b_income_dataset
+            //     },
+            //     options: options
+            // });
             
         }
 
@@ -1300,6 +1336,7 @@
                             $(".assetdetails-" + diagID).html('Not set');
                             $(".assetimage-" + diagID).html('Not set');
                             $('.population-' + diagID).html('-');
+                            $('.visitors-' + diagID).html('-');
                         } else {
                             const ad = asset_details['class'];
                             $(".assetdetails-" + diagID).html(ad);
@@ -1308,17 +1345,22 @@
                                 $(".assetimage-" + diagID).html("<img src='assets/img/asset-images/"+asset_details['metadata']['representative_image']+"'/>");
                             }
                             if (ad === 'hospitality') {
-                                $('.population-' + diagID).html(abbrNum((asset_details['metadata']['total_yearly_visitors']), 2));
+                                $('.population-' + diagID).html('-');
+                                $('.visitors-' + diagID).html(abbrNum((asset_details['metadata']['total_yearly_visitors']), 2));
                             } else if (ad == 'residential') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata']['number_of_people_residential'], 2));
+                                $('.visitors-' + diagID).html('-');
                                 $(".assetimage-"+diagID).append("<br><small>Density: "+asset_details['metadata']['current_pop_density']+" people / km<sup>2</sup></small>")
                             } else if (ad == 'retail') {
-                                $('.population-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_retail'], 2));
+                                $('.population-' + diagID).html('-');
+                                $('.visitors-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_retail'], 2));
                             } else if (ad == 'office') {
-                                $('.population-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_office'], 2));
+                                $('.population-' + diagID).html('-');
+                                $('.visitors-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_office'], 2));
                             }
                             else if (ad == 'mixuse') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata']['number_of_people_residential_mixuse'], 2));
+                                $('.visitors-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_retail_mixuse'], 2));
                                 $(".assetimage-"+diagID).append("<br><small>Density: "+asset_details['metadata']['current_pop_density_mixuse']+" people / km<sup>2</sup></small>")
                             }
 
@@ -1379,7 +1421,7 @@
 
         function initializeTables() {
             var tableGenerator = function (domid) {
-                var groupColumn = 6;
+                var groupColumn = 7;
                 var t = $('#' + domid).DataTable({
                     "columnDefs": [{
                         "visible": false,
@@ -1405,7 +1447,7 @@
                         }).data().each(function (group, i) {
                             if (last !== group) {
                                 $(rows).eq(i).before(
-                                    '<tr class="group"><td colspan="5">' + group +
+                                    '<tr class="group"><td colspan="">' + group +
                                     '</td></tr>'
                                 );
 
