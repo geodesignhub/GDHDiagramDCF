@@ -28,7 +28,6 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                     "end": moment(cur_seq.end_date, "DD-MM-YYYY").year()
                 };
             }
-
         }
     } catch (err) {
         // console.log(err)
@@ -73,7 +72,6 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             'color': cur_system['syscolor']
         };
     }
-
 
     for (var x = 0; x < syslen; x++) {
         var cSys = systems[x];
@@ -135,7 +133,6 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 yeild = 12;
             }
 
-
             var curDiagDetails = {
                 'id': diagID,
                 'title': diagName
@@ -184,7 +181,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             var capex_start = sd_details['capex_start'];
             var capex_end = sd_details['capex_end'];
             var capex_num_years = capex_end - capex_start;
-       
+
 
             if (parseInt(diagID) in timeline) {
                 var diagram_start = timeline[diagID].start;
@@ -206,7 +203,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             curDiagDetails['yeild'] = yeild;
 
             sys_totals_lookups[cur_sys]['total_investment'] += totalCost;
-            
+
             yearlyCost = parseFloat(totalCost / capex_num_years);
             maxYearlyCost = (yearlyCost > maxYearlyCost) ? yearlyCost : maxYearlyCost;
             var acf = parseInt(sd_details["acf"]);
@@ -224,7 +221,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                 if (cur_year < capex_end_year && cur_year >= capex_begin_year) {
                     // console.log(totalCost, capex_num_years, startyear,capex_begin_year,capex_end_year,diagram_start, diagram_end);
                     // console.log(capex_num_years, diagram_schedule);
-                    
+
                     var sYear = (startyear + k4 + parseInt(capex_start));
                     curDiagDetails['investment'][cur_year] = yearlyCost;
                     sys_totals_lookups[cur_sys]['yearly_investment'][cur_year] += yearlyCost;

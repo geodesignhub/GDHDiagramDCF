@@ -2548,8 +2548,8 @@
                 $("#total_floor_area_office_required").html(abbrNum(parseInt(total_floor_area_office), 2));
                 $("#total_floor_area_office_available").html(abbrNum(total_floor_area_available,2));
             
-                $("#total_direct_employment_office").html(parseInt(direct_employees_to_visitor_ratio * total_daily_visitors_office),2);
-                $("#total_indirect_employment_office").html(parseInt(indirect_to_direct_employees_ratio_office * total_daily_visitors_office),2);
+                $("#total_direct_employment_office").html(parseInt(direct_employees_to_visitor_ratio * total_daily_visitors_office));
+                $("#total_indirect_employment_office").html(parseInt(indirect_to_direct_employees_ratio_office * total_daily_visitors_office));
 
                 myDisplayUpdater = new ServicesDisplayUpdater();
 
