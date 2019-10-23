@@ -4021,27 +4021,27 @@
                 "_csrf": csrf,
                 "asset_details": JSON.stringify(asset_details)
             };
-            console.log(data)
-            // var url = '/setdefaults/';
+            // console.log(data)
+            var url = '/setdefaults/';
             
-            // var promise = $.ajax({
-            //     url: url,
-            //     type: 'POST',
-            //     data: data
-            // });
+            var promise = $.ajax({
+                url: url,
+                type: 'POST',
+                data: data
+            });
 
 
-            // promise.done(function (data) {
-            //     humane.log("Data successufully saved", {
-            //         addnCls: 'humane-flatty-success'
-            //     });
-            // });
+            promise.done(function (data) {
+                humane.log("Data successufully saved", {
+                    addnCls: 'humane-flatty-success'
+                });
+            });
 
-            // promise.fail(function (data) {
-            //     humane.log("Error in saving data, the administrators have been notified", {
-            //         addnCls: 'humane-flatty-error'
-            //     });
-            // });
+            promise.fail(function (data) {
+                humane.log("Error in saving data, the administrators have been notified", {
+                    addnCls: 'humane-flatty-error'
+                });
+            });
 
         });
         var asset_class = "";

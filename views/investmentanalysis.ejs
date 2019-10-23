@@ -212,6 +212,7 @@
               
             </div>
         </div>
+        </div>
 
         <br><br>
         <div class="row">
@@ -588,7 +589,18 @@
                 visitor_chart_data['data'].push(cummulative_visitors);   
             }
 
-            
+            population_chart_data['fill'] = false;
+            visitor_chart_data['fill'] = false;
+
+            population_chart_data['pointBackgroundColor'] = '#4069A6';
+            population_chart_data['pointBorderColor'] = '#4069A6';
+            population_chart_data['borderColor'] = '#4069A6';
+            population_chart_data['backgroundColor'] = '#4069A6';
+            visitor_chart_data['pointBackgroundColor']= '#C80000';
+            visitor_chart_data['pointBorderColor']= '#C80000';
+            visitor_chart_data['borderColor']= '#C80000';
+            visitor_chart_data['backgroundColor']= '#C80000';
+
             population_visitors_dataset.push(population_chart_data);
             population_visitors_dataset.push(visitor_chart_data);
         
@@ -599,6 +611,20 @@
             indirect_jobs_data['backgroundColor']='#f67019';
             direct_jobs_data['backgroundColor'] = '#4dc9f6';            
             direct_jobs_data['label'] = 'Direct jobs';
+
+
+            indirect_jobs_data['pointBackgroundColor'] = '#812695';
+            indirect_jobs_data['pointBorderColor'] = '#812695';
+            indirect_jobs_data['borderColor'] = '#812695';
+            indirect_jobs_data['backgroundColor'] = '#812695';
+            direct_jobs_data['pointBackgroundColor']= '#2CA02C';
+            direct_jobs_data['pointBorderColor']= '#2CA02C';
+            direct_jobs_data['borderColor']= '#2CA02C';
+            direct_jobs_data['backgroundColor']= '#2CA02C';
+            
+
+            indirect_jobs_data['fill'] = false;
+            direct_jobs_data['fill'] = false;
 
             indirect_jobs_data['data'] = [];
             direct_jobs_data['data'] = [];
@@ -684,7 +710,7 @@
             var resident_visitors_ctx = $("#residents_visitors_chart");
             Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
             var res_visitor_chart = new Chart(resident_visitors_ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                     'labels': labels,
                    
@@ -708,7 +734,7 @@
             var direct_indirect_jobs_ctx = $("#direct_indirect_jobs_chart");
             Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
             var direct_indirect_jobs_chart = new Chart(direct_indirect_jobs_ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                     'labels': labels_secondary,
                     'fill':false,
@@ -1481,12 +1507,12 @@
             const data_len = Object.keys(data).length;
             
     
-            const colrs =  [ "rgb(250, 250, 110)","rgb(197, 236, 113)","rgb(148, 220, 121)","rgb(105, 201, 129)","rgb(66, 181, 136)", "rgb(35, 159, 138)","rgb(19, 137, 134)","rgb(26, 115, 124)","rgb(37, 93, 108)","rgb(42, 72, 88)"];
+            // const colrs =  [ "rgb(250, 250, 110)","rgb(197, 236, 113)","rgb(148, 220, 121)","rgb(105, 201, 129)","rgb(66, 181, 136)", "rgb(35, 159, 138)","rgb(19, 137, 134)","rgb(26, 115, 124)","rgb(37, 93, 108)","rgb(42, 72, 88)"];
 
             var green_to_blue = d3.scale.linear()
-                .domain([1, Object.keys(boundary_details).length])
-                .range(colrs)
-                .interpolate(d3.interpolateHcl);
+                .domain([1, Object.keys(boundary_details).length]);
+                // .range(colrs)
+                // .interpolate(d3.interpolateHcl);
 
                 var color = function(d) { return green_to_blue(d['Residents']); };
 
