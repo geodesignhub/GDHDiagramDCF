@@ -195,7 +195,7 @@
             <div class="col-md-6">
                 <div class="boundariesCont">
                     <h3>Boundaries Map</h3>
-                    <small>The design is shown at 30% transperency to highlight the boundary overlaps, click on a boundary show financial analysis</small><br><br>
+                    <small>The design is shown at 30% transperency below the boundary layer, click on a boundary show financial analysis</small><br><br>
                     <div id="boundaryMap" class="map"></div>
                     <br>
                     <div class="pull-right">Low Captial Investment <span class="color_box color-1">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-2">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-3">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-4">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="color_box color-5">&nbsp;&nbsp;&nbsp;&nbsp;</span>High Captial Investment
@@ -1225,6 +1225,7 @@
         boundarymap.fitBounds(mB);
 
         var design_layer = L.featureGroup().addTo(boundarymap);
+        var design_layer_features = [];
         var svgDrawing = SVG('drawing').size(10, 10);
 
         function miniMapstyleComp(feature) {
@@ -1302,9 +1303,58 @@
                 '#808080';
         }
 
-    console.log(design);
+        function updateLens() {
+            var checkedVals;
+            checkedVals = $('.system_cb:checkbox:checked').map(function() {
+                    return parseInt($(this).attr('id'));
+            }).get();
+            updateMapLens(checkedVals);
+        }
+
+        function updateMapLens(selectedList) {
+            // first clear all layers
+            var fList;            
+            fList = design_layer_features;
+            design_layer.clearLayers();
+            for (var i = 0, listLen = selectedList.length; i < listLen; i++) {
+                // Then add the layer if tags match               
+                    
+            for (let i2 = 0; i2 < fList.length; i2++) {
+                const curVector = fList[i2];
+                    if (curVector.reqID == selectedList[i]) {
+                        design_layer.addLayer(curVector.layer);
+                    }
+                }
+            }
+        }
+
+
+        function onEachFeatureDesignMap(feature, featureLayer) {
+
+            // console.log(feature);
+            const sys_name = feature.properties.sysname;
+            var sys_id = 0;
+            const l_systems = systems;
+            for (let i1 = 0; i1 < l_systems.length; i1++) {
+                const cur_sys = l_systems[i1];
+                if (sys_name == cur_sys.sysname){
+                    sys_id = cur_sys.id;
+                    break;
+                }                
+            }
+            // feature.properties.reqID = sys_id;
+            design_layer_features.push({
+                'reqID': sys_id,
+                'layer': featureLayer
+            });
+            design_layer.addLayer(featureLayer);
+        }   
+
+
+
     var design_gj = L.geoJSON(design, {
         style: miniMapstyleComp,
+        onEachFeature: onEachFeatureDesignMap
         }).addTo(design_layer);
 
 
@@ -1397,7 +1447,7 @@
         function generateSystemCB(systems) {
             $("#systemsCB").html('');
             for (var x = 0; x < systems.length; x++) {
-                $('#systemsCB').append('<input name="sysCB" id=' + "'" + systems[x].id + "'" +
+                $('#systemsCB').append('<input class="system_cb" name="sysCB" id=' + "'" + systems[x].id + "'" +
                     'type="checkbox" checked /> <span class="square c-' + systems[x].syscolor.substring(1).toLowerCase() +
                     '"></span>&nbsp;&nbsp;' + systems[x].sysname + '</input>&nbsp;&nbsp;');
             }
@@ -1427,8 +1477,9 @@
                         }
                     }
                 });
-
+                
                 initializeTables();
+                updateLens();
                 // hide
             });
         }
@@ -1501,7 +1552,8 @@
                     data.push(cur_bnd_data);
                 }
             }
-
+            d3.select('#paracoords_primary').html("");
+            $("#parcoords_primary_grid").empty();
             const data_len = Object.keys(data).length;
             
     
@@ -1613,6 +1665,8 @@
 
             const data_len = Object.keys(data).length;
 
+            d3.select('#paracoords_secondary').html("");
+            $("#parcoords_secondary_grid").empty();
     
             const colrs =  [ "rgb(250, 250, 110)","rgb(197, 236, 113)","rgb(148, 220, 121)","rgb(105, 201, 129)","rgb(66, 181, 136)", "rgb(35, 159, 138)","rgb(19, 137, 134)","rgb(26, 115, 124)","rgb(37, 93, 108)","rgb(42, 72, 88)"];
 
