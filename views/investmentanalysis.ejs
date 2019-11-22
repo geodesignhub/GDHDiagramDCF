@@ -1346,9 +1346,7 @@
                 var diagID = curInvestmentdata['id'];
                 var totalInvestment = curInvestmentdata['totalInvestment'];
 
-                const url = '<a href="https://assetanalysis.herokuapp.com/?apitoken=' + apitoken + '&projectid=' +
-                    projectid + '&diagramid=' + diagID +
-                    '" target="_blank">Details <i class="glyphicon glyphicon-share"></i></a>';
+                const url = '<a href="https://assetanalysis.herokuapp.com/?apitoken=' + apitoken + '&projectid=' + projectid + '&diagramid=' + diagID + '" target="_blank"><i class="glyphicon glyphicon-link"></i>&nbsp;&nbsp;Details</a>';
 
                 $(".aa-" + diagID).html(url);
 
