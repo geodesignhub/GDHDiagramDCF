@@ -231,7 +231,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                             }
 
                             var diagram_services = cur_diagram_asset_details['metadata']['services'];
-                            
+                            console.log(diagram_services['total_water_demand'] );
                             if (typeof diagram_services === 'undefined') { } else {
                                 const t_hosp_beds = diagram_services['hospital_beds'] * factor;
                                 const t_police_stations = diagram_services['total_police_stations'] * factor;
