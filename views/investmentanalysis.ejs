@@ -860,7 +860,12 @@
                 if (investment > 0) {
                     // console.log(c_s);
                     // console.log( investment, cashflow);
-                    const irr = compute_irr({'depth' :investment,'cashFlow' : cashflow});
+                    var irr;
+                    try{
+                        irr = compute_irr({'depth' :investment,'cashFlow' : cashflow});
+                    } catch {
+                        irr = 0;
+                    }
                     // console.log(irr)
                     $("#"+ cur_sys+"-irr").html(abbrNum(irr,2));
                     
