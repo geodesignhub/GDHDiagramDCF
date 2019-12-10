@@ -1423,11 +1423,10 @@
 
             $('#base_asset_subclass_image').on('select2:select', function (e) {
                 var data = e.params.data;
-                const image_path = data['image_path'];
-                if(image_path){
+                const image_path = data['image_path'];                
                 representative_image = image_path;
                 $("#selected_typology_image").html("<img src='assets/img/asset-images/"+image_path+"'/>");
-                }
+                
                 
             });
 
@@ -4155,10 +4154,12 @@
             }
             
             if(class_default_values['metadata'].hasOwnProperty('representative_image')) {
-                
-                const img = "<img src='assets/img/asset-images/"+class_default_values['metadata']['representative_image']+"'/>";
-   
-                $("#selected_typology_image").html(img);
+                const img_src = class_default_values['metadata']['representative_image'];
+                if (img_src){
+                    const img = "<img src='assets/img/asset-images/"+img+"'/>";   
+                    $("#selected_typology_image").html(img);
+
+                }
             }
             $("#computeNPVButton").click();
         }
