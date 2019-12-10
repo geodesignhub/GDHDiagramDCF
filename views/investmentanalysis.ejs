@@ -82,16 +82,16 @@
                 </div>  
                 <div class="col-md-4">                                                    
                     <h4><span id="total_population"></span> <small>Total Residents</small></h4>
-                    <h4><span id="total_visitors"></span> <small>Total Visitors</small></h4>
-                    <h4><span id="total_direct_employment"></span> <small>Total Direct Employment</small></h4>
-                    <h4><span id="total_indirect_employment"></span> <small>Total Indirect Employment</small></h4>
+                    <h4><span id="total_visitors"></span> <small> Daily Visitors</small></h4>
+                    <h4><span id="total_direct_employment"></span> <small>Direct Employment</small></h4>
+                    <h4><span id="total_indirect_employment"></span> <small>Indirect Employment</small></h4>
                     <br>                    
                 </div>
                 <div class="col-md-4">                    
                     <div>
-                        <h4><span id="total_electricity_demand"></span> <small>Annual Electricity Demand</small><h4>
-                        <h4><span id="total_water_demand"></span> <small>Annual Water demand</small><h4>
-                        <h4><span id="total_sewage_demand"></span> <small>Annual Sewage</small><h4>
+                        <h4><span id="total_electricity_demand"></span> <small>Annual Electricity Demand (MW/year)</small><h4>
+                        <h4><span id="total_water_demand"></span> <small>Annual Water demand (m3/year)</small><h4>
+                        <h4><span id="total_sewage_demand"></span> <small>Annual Sewage (m3/year)</small><h4>
                         <h4><span id="total_fire_personnel"></span> <small>Total Fire Personnel</small><h4>
                         <h4><span id="total_police_personnel"></span> <small>Additional Police Personnel</small><h4>
                         <h4><span id="total_hosptial_beds"></span> <small>Total Hospital Beds</small><h4>
@@ -1610,7 +1610,7 @@
         }
 
         function aggregate_boundary_services_populations(boundary_details) {
-            // console.log(boundary_details);
+            console.log(boundary_details);
             var total_population = 0;
             var total_visitors = 0;
             var total_direct_employment =0;
@@ -1645,12 +1645,12 @@
             $("#total_visitors").html(abbrNum(total_visitors,0) + ' ');
             $("#total_direct_employment").html(abbrNum(total_direct_employment,0) + ' ');
             $("#total_indirect_employment").html(abbrNum(total_indirect_employment,0) + ' ');
-            $("#total_electricity_demand").html(abbrNum(annual_electricity_demand,2) + ' MW/year');
-            $("#total_water_demand").html(abbrNum(annual_water_demand,2) + ' m3/year');
-            $("#total_sewage_demand").html(abbrNum(annual_sewage,2) + ' m3/year');
-            $("#total_fire_personnel").html(abbrNum(total_fire_personnel,2) + ' people');
-            $("#total_police_personnel").html(abbrNum(total_police_personnel,2) + ' people');
-            $("#total_hosptial_beds").html(abbrNum(hospital_beds,2) + ' beds');
+            $("#total_electricity_demand").html(abbrNum(annual_electricity_demand,2) + ' ');
+            $("#total_water_demand").html(abbrNum(annual_water_demand,2) + ' ');
+            $("#total_sewage_demand").html(abbrNum(annual_sewage,2) + ' ');
+            $("#total_fire_personnel").html(abbrNum(total_fire_personnel,2) + ' ');
+            $("#total_police_personnel").html(abbrNum(total_police_personnel,2) + ' ');
+            $("#total_hosptial_beds").html(abbrNum(hospital_beds,2) + ' ');
             
         }
         function generate_paracoords_secondary_chart(boundary_details) {
