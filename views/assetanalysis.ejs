@@ -1424,8 +1424,10 @@
             $('#base_asset_subclass_image').on('select2:select', function (e) {
                 var data = e.params.data;
                 const image_path = data['image_path'];
+                if(image_path){
                 representative_image = image_path;
                 $("#selected_typology_image").html("<img src='assets/img/asset-images/"+image_path+"'/>");
+                }
                 
             });
 
