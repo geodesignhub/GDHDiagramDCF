@@ -120,7 +120,8 @@ const image_files = [ 'commecial-office.jpg',
                     'transport-road-8.jpg',
                     'transport-road-9.jpg',
                     'transport-road-10.jpg',
-                    'transport-road-11.jpg' ];
+                    'transport-road-11.jpg',
+                    'transport-road-12.jpg' ];
 
 app.post('/setdefaults', function (request, response) {
 
