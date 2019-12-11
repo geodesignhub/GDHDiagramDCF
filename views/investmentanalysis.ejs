@@ -91,7 +91,7 @@
                     <div>
                         <h4><span id="total_electricity_demand"></span> <small>Annual Electricity Demand (MW/year)</small><h4>
                         <h4><span id="total_water_demand"></span> <small> Water demand (L/day)</small><h4>
-                        <h4><span id="total_sewage_demand"></span> <small> Sewage (m3/day)</small><h4>
+                        <h4><span id="total_sewage_demand"></span> <small> Sewage (m3/year)</small><h4>
                         <h4><span id="total_fire_personnel"></span> <small>Total Fire Personnel</small><h4>
                         <h4><span id="total_police_personnel"></span> <small>Additional Police Personnel</small><h4>
                         <h4><span id="total_hosptial_beds"></span> <small>Total Hospital Beds</small><h4>
@@ -1649,7 +1649,7 @@
                 }
             }
             daily_water_demand = (annual_water_demand / 365) * 1000;
-            daily_sewage_demand = (annual_sewage / 365);
+            // daily_sewage_demand = (annual_sewage / 365);
 
             $("#total_population").html(abbrNum(total_population,0) + ' ');
             $("#total_visitors").html(abbrNum(total_visitors,0) + ' ');
@@ -1657,7 +1657,7 @@
             $("#total_indirect_employment").html(abbrNum(total_indirect_employment,0) + ' ');
             $("#total_electricity_demand").html(abbrNum(annual_electricity_demand,2) + ' ');
             $("#total_water_demand").html(abbrNum(daily_water_demand,2) + ' ');
-            $("#total_sewage_demand").html(abbrNum(daily_sewage_demand,2) + ' ');
+            $("#total_sewage_demand").html(abbrNum(annual_sewage,2) + ' ');
             $("#total_fire_personnel").html(abbrNum(total_fire_personnel,2) + ' ');
             $("#total_police_personnel").html(abbrNum(total_police_personnel,2) + ' ');
             $("#total_hosptial_beds").html(abbrNum(hospital_beds,2) + ' ');
