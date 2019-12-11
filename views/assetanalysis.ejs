@@ -3351,13 +3351,13 @@
                 
                 myDisplayUpdater = new ServicesDisplayUpdater();
 
-                myDisplayUpdater.updateBedsRecompute(population);
-                myDisplayUpdater.updatePoliceStationsRecompute(population);
-                myDisplayUpdater.updateFireStationsRecompte(population);
-                myDisplayUpdater.updateSchoolsRecompute(population * 0.05);
-                myDisplayUpdater.updateEnergyRecompute(population);
-                myDisplayUpdater.updateWaterRecompute(population);
-                myDisplayUpdater.updateSewageRecompute(population);
+                myDisplayUpdater.updateBedsRecompute(0);
+                myDisplayUpdater.updatePoliceStationsRecompute(0);
+                myDisplayUpdater.updateFireStationsRecompte(0);
+                myDisplayUpdater.updateSchoolsRecompute(0 * 0.05);
+                myDisplayUpdater.updateEnergyRecompute(0);
+                myDisplayUpdater.updateWaterRecompute(0);
+                myDisplayUpdater.updateSewageRecompute(0);
                 const total_parking_area  = myDisplayUpdater.updateTransportRecompute(population, 2, 2);                
                 const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(population);
                 
@@ -3446,19 +3446,19 @@
 
                 
                 myDisplayUpdater = new ServicesDisplayUpdater();
-                myDisplayUpdater.updateBeds(population, transport_class_defaults[selected_subclass]['beds']);
-                myDisplayUpdater.updatePoliceStations(population, transport_class_defaults[selected_subclass][
+                myDisplayUpdater.updateBeds(0, transport_class_defaults[selected_subclass]['beds']);
+                myDisplayUpdater.updatePoliceStations(0, transport_class_defaults[selected_subclass][
                     'police_stations'
                 ]);
-                myDisplayUpdater.updateFireStations(population, transport_class_defaults[selected_subclass][
+                myDisplayUpdater.updateFireStations(0, transport_class_defaults[selected_subclass][
                     'fire_stations'
                 ]);
-                myDisplayUpdater.updateSchools(population * 0.05, transport_class_defaults[selected_subclass][
+                myDisplayUpdater.updateSchools(0 * 0.05, transport_class_defaults[selected_subclass][
                     'schools'
                 ]);
-                myDisplayUpdater.updateEnergy(population, transport_class_defaults[selected_subclass]['energy']);
-                myDisplayUpdater.updateWater(population, transport_class_defaults[selected_subclass]['water']);
-                myDisplayUpdater.updateSewage(population, transport_class_defaults[selected_subclass]['sewage']);
+                myDisplayUpdater.updateEnergy(0, transport_class_defaults[selected_subclass]['energy']);
+                myDisplayUpdater.updateWater(0, transport_class_defaults[selected_subclass]['water']);
+                myDisplayUpdater.updateSewage(0, transport_class_defaults[selected_subclass]['sewage']);
                 const total_parking_area  = myDisplayUpdater.updateTransport(population, transport_class_defaults[selected_subclass][
                     'transport'
                 ]['road'], transport_class_defaults[selected_subclass]['transport']['rail'], 2, 2,0.5);
@@ -3505,15 +3505,15 @@
                 const area_in_km2 = (diagram_area / 1000000);                
                 myDisplayUpdater = new ServicesDisplayUpdater();
 
-                myDisplayUpdater.updateBedsRecompute(population);
-                myDisplayUpdater.updatePoliceStationsRecompute(population);
-                myDisplayUpdater.updateFireStationsRecompte(population);
-                myDisplayUpdater.updateSchoolsRecompute(population * 0.05);
-                myDisplayUpdater.updateEnergyRecompute(population);
-                myDisplayUpdater.updateWaterRecompute(population);
-                myDisplayUpdater.updateSewageRecompute(population);
-                const total_parking_area  = myDisplayUpdater.updateTransportRecompute(population, 2, 2);                
-                const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(population);
+                myDisplayUpdater.updateBedsRecompute(0);
+                myDisplayUpdater.updatePoliceStationsRecompute(0);
+                myDisplayUpdater.updateFireStationsRecompte(0);
+                myDisplayUpdater.updateSchoolsRecompute(0 * 0.05);
+                myDisplayUpdater.updateEnergyRecompute(0);
+                myDisplayUpdater.updateWaterRecompute(0);
+                myDisplayUpdater.updateSewageRecompute(0);
+                const total_parking_area  = myDisplayUpdater.updateTransportRecompute(0, 2, 2);                
+                const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(0);
                 
                 const lu_chart_data = {"area_available":diagram_area, "built_up_area":0, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
                 populate_lu_chart('community', lu_chart_data);
@@ -3655,15 +3655,15 @@
                 const population = parseInt(community_class_defaults[selected_subclass]['community_visitors']);
                 
                 myDisplayUpdater = new ServicesDisplayUpdater();
-                myDisplayUpdater.updateBeds(population, community_class_defaults[selected_subclass]['beds']);
-                myDisplayUpdater.updatePoliceStations(population, community_class_defaults[selected_subclass]['police_stations']);
-                myDisplayUpdater.updateFireStations(population, community_class_defaults[selected_subclass]['fire_stations']);
-                myDisplayUpdater.updateSchools(population * 0.05, community_class_defaults[selected_subclass]['schools']);
-                myDisplayUpdater.updateEnergy(population, community_class_defaults[selected_subclass]['energy']);
-                myDisplayUpdater.updateWater(population, community_class_defaults[selected_subclass]['water']);
-                myDisplayUpdater.updateSewage(population, community_class_defaults[selected_subclass]['sewage']);
+                myDisplayUpdater.updateBeds(0, community_class_defaults[selected_subclass]['beds']);
+                myDisplayUpdater.updatePoliceStations(0, community_class_defaults[selected_subclass]['police_stations']);
+                myDisplayUpdater.updateFireStations(0, community_class_defaults[selected_subclass]['fire_stations']);
+                myDisplayUpdater.updateSchools(0 * 0.05, community_class_defaults[selected_subclass]['schools']);
+                myDisplayUpdater.updateEnergy(0, community_class_defaults[selected_subclass]['energy']);
+                myDisplayUpdater.updateWater(0, community_class_defaults[selected_subclass]['water']);
+                myDisplayUpdater.updateSewage(0, community_class_defaults[selected_subclass]['sewage']);
                 const total_parking_area  = myDisplayUpdater.updateTransport(population, community_class_defaults[selected_subclass]['transport']['road'], community_class_defaults[selected_subclass]['transport']['rail'], 2, 2,0.5);
-                const total_green_space_area = myDisplayUpdater.updateGreenSpace(population, community_class_defaults[selected_subclass]['green_space']);
+                const total_green_space_area = myDisplayUpdater.updateGreenSpace(0, community_class_defaults[selected_subclass]['green_space']);
                 myDisplayUpdater.updateParking(population*0.5, community_class_defaults[selected_subclass]['parking_demand'])
 
             }
