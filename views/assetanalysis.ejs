@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Asset Analysis</title>
+    <title><%= title %> - Asset Analysis</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="Description" lang="en" content="Geodesignhub Asset Analysis">
     <meta name="author" content="Geodesignhub">
@@ -42,7 +42,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Geodesignhub Asset Analysis</a>
+                <a class="navbar-brand" href="#"><%= title.substring(0, 40) %> Asset Analysis</a>
             </div>
             <!-- /.navbar-header -->
             <!-- /.navbar-collapse -->
@@ -4104,7 +4104,7 @@
                 $("#total_floor_area_retail_required").html(class_default_values['metadata']['total_floor_area_retail_required']);
                 $("#recompute_retail").click();
             } else if (asset_class == 'office') {
-                $("#base_asset_subclass").val(class_default_values['base_asset_subclass']);
+                $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
                 $("#office_m2_per_visitor").editable('setValue', class_default_values['metadata']['office_m2_per_visitor']);
                 $("#office_floors").editable('setValue', class_default_values['metadata']['office_floors']);
                 $("#total_daily_visitors_office").editable('setValue', class_default_values['metadata']['total_daily_visitors_office']);
@@ -4112,7 +4112,7 @@
                 $("#recompute_office").click();
             }
             else if (asset_class == 'transport') {
-                $("#base_asset_subclass").val(class_default_values['base_asset_subclass']);
+                $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
                 $("#transport_passenger_trips").editable('setValue', class_default_values['metadata']['transport_passenger_trips']);               
                 $("#recompute_transport").click();
             }
@@ -4156,7 +4156,7 @@
             if(class_default_values['metadata'].hasOwnProperty('representative_image')) {
                 const img_src = class_default_values['metadata']['representative_image'];
                 if (img_src){
-                    const img = "<img src='assets/img/asset-images/"+img+"'/>";   
+                    const img = "<img src='assets/img/asset-images/"+img_src+"'/>";   
                     $("#selected_typology_image").html(img);
 
                 }

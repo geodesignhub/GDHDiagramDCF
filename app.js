@@ -252,6 +252,7 @@ app.get('/', function (request, response) {
                             "status": 1,
                             "defaultvalues": JSON.stringify(op),
                             "diagramid": diagramid,
+                            "title": results[0].description, 
                             "diagramdetail": JSON.stringify(results[0]),
                             "systems": JSON.stringify(results[1]),
                             "systemdetail": JSON.stringify(sysdetails[0]),
