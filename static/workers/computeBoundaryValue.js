@@ -147,6 +147,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                     if (diag_id == diagID) {
                         const saved_bnd_diag_id = bndID + '-' + diag_id;
                         const cur_diagram_asset_details = cur_diagram_saved_details['asset_details'];
+                        // console.log(cur_diagram_asset_details)
                         // console.log(factor);
                         // console.log('---')
                         factor = bnd_diagram_intersects[saved_bnd_diag_id]['factor'];
@@ -168,7 +169,8 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                                 total_visitors += parseInt(factored_visitors);
                             }
                             else if (cur_diagram_asset_details['class'] == 'hospitality') {
-                                var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors'];
+                                var yearly_visitors = cur_diagram_asset_details['metadata']['total_yearly_visitors'];
+                                const visitors = parseInt(yearly_visitors/365);
                                 var factored_visitors = visitors * factor;
                                 total_visitors += parseInt(factored_visitors);
 
@@ -298,7 +300,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
         bndIDDiags[bndID]['total_direct_employment'] = total_direct_employment;
         bndIDDiags[bndID]['total_indirect_employment'] = total_indirect_employment;
         bndIDDiags[bndID]['total_visitors'] = total_visitors;
-        console.log(total_visitors)
+        // console.log(total_visitors)
 
         bndIDDiags[bndID]['services']['hospital_beds'] = parseInt(hospital_beds);
         bndIDDiags[bndID]['services']['police_stations'] = parseInt(police_stations);
