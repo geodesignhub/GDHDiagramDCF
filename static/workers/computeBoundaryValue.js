@@ -298,6 +298,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
         bndIDDiags[bndID]['total_direct_employment'] = total_direct_employment;
         bndIDDiags[bndID]['total_indirect_employment'] = total_indirect_employment;
         bndIDDiags[bndID]['total_visitors'] = total_visitors;
+        console.log(total_visitors)
 
         bndIDDiags[bndID]['services']['hospital_beds'] = parseInt(hospital_beds);
         bndIDDiags[bndID]['services']['police_stations'] = parseInt(police_stations);
