@@ -37,12 +37,12 @@ h4 {
 }
 
 #system_investment_chart {
-    height: 700px;
+    height: 650px;
 }
 
 #residents_visitors_chart,
 #direct_indirect_jobs_chart {
-    height: 500px;
+    height: 400px;
 }
 
 .info {
@@ -60,8 +60,7 @@ h4 {
 }
 
 .map {
-    height: 600px;
-
+    height: 400px;
     border: 1px solid #ddd;
 }
 

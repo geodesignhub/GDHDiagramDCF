@@ -50,7 +50,7 @@
     <!-- Page Content -->
     <div class="container-fluid">
         <!-- /.row -->
-        <br>
+        
         <div class="row">
             <div class="col-md-12">
                 <span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
@@ -100,8 +100,8 @@
                     <br>
                     <p class="lead" id=""></p>       
                     <div class="col-md-6">                                                    
-                        <h4><span id="overall_economics">Overview</span>&nbsp;<small>Total investment per year</small></h4>
-    
+                        <h4><span id="overall_economics">Overview</span>&nbsp;<small>Total capital investment per year</small></h4>
+                        <br>
                     <div>
                     <canvas id="system_investment_chart"></canvas>
                 </div>
@@ -111,7 +111,7 @@
 
                     <div class="col-md-6">                    
                         <div>
-                            <h4><span id="total_capex"></span> <small>Total Capex (Construction)</small><h4>                        
+                            <h4><span id="total_capex">Summary</span> <small>Financial Details / system</small><h4>                        
                             <br>                   
                                 <% var s = JSON.parse(systemdetail); for(var i=0; i < s.length; i++) { %>
                                 
@@ -229,13 +229,6 @@
         </div>
         <br>
        
-        <!-- Heading Row -->
-        <div class="row">
-            <div class="col-md-12">
-                <p class="description">This plugin shows how investments will flow through your study area over time. Once you have set the asset details per asset, you can then do very interesting analysis of the interventions both financial and temporal as detailed below. This plugin analyzes the location of the diagram over the boundary uploaded into Geodesignhub. </p><br><br>
-            </div>
-        </div>
-
         <br>
         <hr>
        
