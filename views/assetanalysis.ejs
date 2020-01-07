@@ -42,7 +42,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><%= title.substring(0, 40) %> Analysis</a>
+                <a class="navbar-brand" href="#"><%= title.substring(0, 40) %> Asset Analysis</a>
             </div>
             <!-- /.navbar-header -->
             <!-- /.navbar-collapse -->
@@ -60,12 +60,17 @@
         </div>
         <div class="row">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            
+            <div class="col-md-4">
+                <h3>Diagram</h3>
+                <div id="inputmap"></div>
+                <h4 id="diagName"></h4>
+                <h5 id="diagAreaLength"></h5>
+                <h5 id="sysCost"></h5>
+            </div>
             <div class="col-md-4">
               
               
                         <h3>Asset Class</h3>
-                        <hr>
                         <select id="base_asset_class" class="form-control">
                             <option selected disabled>Select Class</option>
                             <option data-value='residential'>Residential</option>
@@ -100,7 +105,7 @@
                         data-title="Enter new Floor Area Ratio e.g. .7">.6</a></h4>
                         <br>
                 <br>
-                    <button id="recompute_residential" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-refresh"></i> Recompute</button><br>
+                    <button id="recompute_residential" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button><br><br>
                    
                 </div>
 
@@ -120,7 +125,7 @@
                     <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_tourism" data-type="text" data-title="Enter new ratio">.2</a></h4>
                     <br>
 
-                    <button id="recompute_tourism" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-refresh"></i> Recompute</button>
+                    <button id="recompute_tourism" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
                 </div>
 
@@ -128,7 +133,7 @@
                 <div class='usage_form hidden' id="built_env_form_transport">                    
                     <h4>Passenger-trips/day: <a class="editable" href="#" id="transport_passenger_trips" data-type="text" data-title="Enter new room size e.g. 5">12</a></h4><br>
 
-                    <button id="recompute_transport" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-refresh"></i> Recompute</button>
+                    <button id="recompute_transport" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
 
                 </div>
@@ -151,7 +156,7 @@
                     <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_office" data-type="text" data-title="Enter new ratio">.2</a></h4>
 
                     <br>
-                    <button id="recompute_office" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-refresh"></i> Recompute</button>
+                    <button id="recompute_office" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
                 </div>
                 <div class='usage_form hidden' id="built_env_form_retail">
@@ -178,7 +183,7 @@
                     </div>
                     <br>
 
-                    <button id="recompute_retail" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-refresh"></i> Recompute</button>
+                    <button id="recompute_retail" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
                 </div>
 
@@ -210,13 +215,13 @@
                     <h5>% interested in other retail (e.g. food / restaurant): <a class="editable" href="#" id="percent_interested_in_food_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>                
                 </div>
                 <br>
-                <button id="recompute_mixuse" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-refresh"></i> Recompute</button>
+                <button id="recompute_mixuse" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
                 </div>
 
                 <div class='usage_form hidden' id="built_env_form_community">
                     <h4>Number of people using daily (visitors): <a class="editable" href="#" id="community_visitors" data-type="text" data-title="Enter new number ">12</a></h4>
                     <h4>Number of people using daily (residents): <a class="editable" href="#" id="community_residents" data-type="text" data-title="Enter new number ">12</a></h4><br>
-                    <button id="recompute_community" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-refresh"></i> Recompute</button>
+                    <button id="recompute_community" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
                 </div>
                 <div class='usage_form hidden' id="built_env_form_agriculture"></div>
                 <div class='usage_form hidden' id="built_env_form_green-infrastructure"></div>
@@ -225,8 +230,7 @@
             </div>
             
             <div class="col-md-4">            
-                    <h3>Representative Image</h3>           
-                    <hr>             
+                    <h3>Representative Image</h3>                        
                     <select id="base_asset_subclass_image" class="form-control">
                         <option selected disabled>Change Image</option>
                     </select>
@@ -235,18 +239,159 @@
                         <small>No representative image specified, choose asset class and pick image.</small>
                     </div>      
                 </div>
-            <div class="col-md-4">
-                <h3>Computed Details</h3>   <hr><br>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="services" class="services_form">
+                    <h3>Services</h3>
+                    <small>A summary of supporting services and assumptions that are needed to support this Asset class</small>
+                    <h4>Community</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Hospital Beds per capita</th>
+                                <td>
+                                    <span id="beds_per_capita"></span>
+                                </td>
+                                <td>Total beds: <span id='total_hospital_beds'></span><input type='hidden' id='total_hospital_beds_raw'></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Policestations (cells) per capita</th>
+                                <td>
+                                    <span id="police_station_per_capita"></span>
+                                </td>
+                                <td>Total police stations (cells): <span id='total_police_stations'></span><input type='hidden' id='total_police_stations_raw'></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fire personnel per capita</th>
+                                <td>
+                                    <span id="fire_station_per_capita"></span>
+                                </td>
+                                <td>Total fire personnel: <span id='total_firestations'></span><input type='hidden' id='total_firestations_raw'></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">K12 Schools (m2) per student (5% of population)</th>
+                                <td>
+                                    <span id="school_per_capita"></span>
+                                </td>
+                                <td>Total school area required: <span id='total_schools'></span> m2<input type='hidden' id='total_schools_raw'> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Energy</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Electricity demand per person (MWh / year) </th>
+                                <td>
+                                    <span id="energy_per_capita"></span>
+                                </td>
+                                <td>Total electricity demand: <span id='total_energy_demand'></span> MW <input type='hidden' id='total_energy_demand_raw'></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <h4>Water</h4>
+
+                    <table class="table table-bordered">
+                        <tbody>
+
+                            <th scope="row">Water demand (m3/year/person) </th>
+                            <td>
+                                <span id="water_per_capita"></span>
+                            </td>
+                            <td>Total water demand: <span id='total_water_demand'></span> m3 <input type='hidden' id='total_water_demand_raw'></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <h4>Sewage</h4>
+
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Sewage demand (m3/year/person)</th>
+                                <td>
+                                    <span id="sewage_per_capita"></span>
+                                </td>
+                                <td>Total sewage demand: <span id='total_sewage_demand'></span> m3 <input type='hidden' id='total_sewage_demand_raw'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4>Transport</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">% using Road (twice a day)</th>
+                                <td>
+                                    <span id="percent_road_usage"></span>
+                                </td>
+
+                                <td>Usage (people)</td>
+                                <td><span id='total_road_usage'></span><input type='hidden' id='total_road_usage_raw'></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">% using Rail (twice a day)</th>
+                                <td>
+                                    <span id="percent_rail_usage"></span>
+                                </td>
+
+                                <td> Usage (people)</td>
+                                <td><span id='total_rail_usage'></span><input type='hidden' id='total_rail_usage_raw'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4>Parking</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Recommended parking spaces ( 2 people per car, 50% usage)</th>
+                                <td>
+                                    <span id="parking_factor"></span>
+                                </td>
+
+                                <td>Total</td>
+                                <td><span id='total_parking'></span><input type='hidden' id='total_parking_raw'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4>Green Spaces</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Per capita green space (m2)</th>
+                                <td>
+                                    <span id="per_capita_green_space"></span>
+                                </td>
+
+                                <td>Total</td>
+                                <td><span id='total_green_space'></span><input type='hidden' id='total_green_space_raw'></td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+               
+                <div id="lu_chart_cont">
+                    <h3>Land use Distribution</h3>
+                    <canvas id="lu_chart" height="250"></canvas>
+                </div>
+
                 <div class="usage_form hidden" id="built_env_form_residential_secondary">                        
                     <h4><span id="current_pop_density"></span> people per km2 <small>Population Density</small></h4>
                     <br>
-                    <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small>
-                    <br><br>
                     
                     <h4><span id="avg_area_per_unit">0</span> <small>Avg. Area per unit</small></h4>                        
                     <h4><span id="total_floor_area_residential_built">0</span> m2 <small>Total built floor area</small></h4>
                     <h4><span id="total_floor_area_residential_available">0</span> m2 <small>Total available area</small></h4><br>
                     
+                    <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small>
                     <br><br>
                 </div>
 
@@ -316,13 +461,15 @@
                     <h4><span id="total_direct_employment_retail">0</span> <small>Total direct employment</small></h6>
                     <h4><span id="total_indirect_employment_retail">0</span> <small>Total indirect employment</small></h6>                            
                 <br>
-                </div>     
+                </div>
+
+
             </div>
         </div>
         <hr>
-
+        <br>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
 
                 <h3>Financial Parameters</h3>
                 <h5>Capital Expenditure / Initial Investment</h5>
@@ -355,14 +502,15 @@
                 <p><input type="text" id="acfg-slider" name="acfg-slider" value="" /></p>
                 <h5>Weighted Annual Cost of Capital (WACC)</h5>
                 <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
-                <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-refresh"></i> Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
+                <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
                 </p>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <h3>30-year Discounted Cash Flow</h3>
                 <div id="dcfchart_cont">
                     <canvas id="chart" height="150"></canvas>
                 </div>
+                <br>
                 <h3>DCF and NPV</h3>
                 <p>Total discounted cashflow and the net present value (total cash flow - initial investment -
                     operational expenses - general expenses) is shown below.</p>
@@ -387,175 +535,8 @@
                 </table>
 
             </div>
-        </div><br><hr>
-        <div class="row">
-            <div class="col-md-6">
-                <h3>Diagram</h3>
-                <div id="inputmap"></div>
-                <h4 id="diagName"></h4>
-                <h5 id="diagAreaLength"></h5>
-                <h5 id="sysCost"></h5>   
-            </div>
-            <div class="col-md-6">    
+        </div><br>
 
-                <div id="lu_chart_cont">
-                    <h3>Land use Distribution</h3>
-                    <small>A summary of supporting services and assumptions that are needed to support this Asset class</small><br>
-                    <canvas id="lu_chart" height="200"></canvas>
-                </div>
-            </div>
-        </div>
-        <br>
-        <hr>
-        <div class="row">
-            <div class="col-md-6">                
-                <div id="services" class="services_form">
-                    <h3>Services</h3>
-                    <small>A summary of supporting services and assumptions that are needed to support this Asset class</small><br><br>
-                    <h4>Community</h4>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Hospital Beds per capita</th>
-                                <td>
-                                    <span id="beds_per_capita"></span>
-                                </td>
-                                <td>Total beds: <span id='total_hospital_beds'></span><input type='hidden' id='total_hospital_beds_raw'></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Policestations (cells) per capita</th>
-                                <td>
-                                    <span id="police_station_per_capita"></span>
-                                </td>
-                                <td>Total police stations (cells): <span id='total_police_stations'></span><input type='hidden' id='total_police_stations_raw'></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Fire personnel per capita</th>
-                                <td>
-                                    <span id="fire_station_per_capita"></span>
-                                </td>
-                                <td>Total fire personnel: <span id='total_firestations'></span><input type='hidden' id='total_firestations_raw'></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">K12 Schools (m2) per student (5% of population)</th>
-                                <td>
-                                    <span id="school_per_capita"></span>
-                                </td>
-                                <td>Total school area required: <span id='total_schools'></span> m2<input type='hidden' id='total_schools_raw'> </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <h4>Energy</h4>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Electricity demand per person (MWh / year) </th>
-                                <td>
-                                    <span id="energy_per_capita"></span>
-                                </td>
-                                <td>Total electricity demand: <span id='total_energy_demand'></span> MW <input type='hidden' id='total_energy_demand_raw'></td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    
-                    
-                    <h4>Water</h4>
-
-                    <table class="table table-bordered">
-                        <tbody>
-
-                            <th scope="row">Water demand (m3/year/person) </th>
-                            <td>
-                                <span id="water_per_capita"></span>
-                            </td>
-                            <td>Total water demand: <span id='total_water_demand'></span> m3 <input type='hidden' id='total_water_demand_raw'></td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                
-                <div id="services-secondary" class="services_form">
-                    <h3>&nbsp;</h3>
-                    <small>&nbsp;</small><br><br>
-                    <h4>Sewage</h4>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Sewage demand (m3/year/person)</th>
-                                <td>
-                                    <span id="sewage_per_capita"></span>
-                                </td>
-                                <td>Total sewage demand: <span id='total_sewage_demand'></span> m3 <input type='hidden' id='total_sewage_demand_raw'></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <h4>Transport</h4>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th scope="row">% using Road (twice a day)</th>
-                                <td>
-                                    <span id="percent_road_usage"></span>
-                                </td>
-
-                                <td>Usage (people)</td>
-                                <td><span id='total_road_usage'></span><input type='hidden' id='total_road_usage_raw'></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">% using Rail (twice a day)</th>
-                                <td>
-                                    <span id="percent_rail_usage"></span>
-                                </td>
-
-                                <td> Usage (people)</td>
-                                <td><span id='total_rail_usage'></span><input type='hidden' id='total_rail_usage_raw'></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <h4>Parking</h4>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Recommended parking spaces ( 2 people per car, 50% usage)</th>
-                                <td>
-                                    <span id="parking_factor"></span>
-                                </td>
-
-                                <td>Total</td>
-                                <td><span id='total_parking'></span><input type='hidden' id='total_parking_raw'></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <h4>Green Spaces</h4>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Per capita green space (m2)</th>
-                                <td>
-                                    <span id="per_capita_green_space"></span>
-                                </td>
-
-                                <td>Total</td>
-                                <td><span id='total_green_space'></span><input type='hidden' id='total_green_space_raw'></td>
-                            </tr>
-                        
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            
-        </div>
-        
-        <hr>
         <!-- /.col-md-4 -->
         <!-- /.row -->
         <br>
@@ -1229,7 +1210,7 @@
                     $("#built_env_form_residential").show();
                     $("#built_env_form_residential_secondary").show();
                     
-                    $(".services_form").show();
+                    $("#services").show();
                     $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
@@ -1248,7 +1229,7 @@
                     $("#built_env_form_mixuse").show();
                     $("#built_env_form_mixuse_secondary").show();
                     
-                    $(".services_form").show();
+                    $("#services").show();
                     $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
@@ -1266,7 +1247,7 @@
                     $(".usage_form").hide();
                     $("#built_env_form_tourism").show();
                     $("#built_env_form_tourism_secondary").show();
-                    $("services_form").show();
+                    $("#services").show();
                     $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
@@ -1282,7 +1263,7 @@
                 case 'retail':
                     vals = data.retail.split(",");
                     $(".usage_form").hide();
-                    $(".services_form").show();
+                    $("#services").show();
                     $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
@@ -1300,7 +1281,7 @@
                 case 'office':
                     vals = data.office.split(",");
                     $(".usage_form").hide();
-                    $(".services_form").show();
+                    $("#services").show();
                     $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
@@ -1319,7 +1300,7 @@
                     vals = data.transport.split(",");
                     $(".usage_form").hide();
                     $("#built_env_form_transport").show();                    
-                    $(".services_form").hide();
+                    $("#services").hide();
                     $("#lu_chart_cont").hide();
                     
                     var $secondChoice = $("#base_asset_subclass");
@@ -1337,7 +1318,7 @@
                     $(".usage_form").hide();
                     $("#built_env_form_community").show();
                     
-                    $(".services_form").show();
+                    $("#services").show();
                     $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
@@ -1358,7 +1339,7 @@
                 case 'agriculture':
                     vals = data.agriculture.split(",");
                     $(".usage_form").hide();
-                    $(".services_form").hide();
+                    $("#services").hide();
                     $("#lu_chart_cont").hide();
                     $("#built_env_form_agriculture").show();
                     var $secondChoice = $("#base_asset_subclass");
@@ -1373,7 +1354,7 @@
                 case 'green_infrastructure':
                     vals = data.green_infrastructure.split(",");
                     $(".usage_form").hide();
-                    $(".services_form").hide();
+                    $("#services").hide();
                     $("#lu_chart_cont").hide();
                     $("#built_env_form_green_infrastructure").show();
                     var $secondChoice = $("#base_asset_subclass");
