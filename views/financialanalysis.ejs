@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= title %> - Financial Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" lang="en" content="Geodesignhub Asset Analysis">
+    <meta name="author" content="Geodesignhub">
+    <meta name="robots" content="index, follow">
+    <!-- icons -->
+    <link rel="shortcut icon" href="/assets/loaders/favicon.ico">
+    <!-- Bootstrap Core CSS file -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <!-- Override CSS file - add your own CSS rules -->
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/ion.rangeSlider.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/ion.rangeSlider.skinFlat.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/flatty.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/leaflet.css" />
+    <link href='https://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
+    <!-- Conditional comment containing JS files for IE6 - 8 -->
+    <!--[if lt IE 9]>
+            <script src="assets/js/html5.js"></script>
+            <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><%= title.substring(0, 40) %> Financial Analysis</a>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <!-- /.navbar -->
+    <!-- Page Content -->
+    <div class="container-fluid">
+        <!-- /.row -->
+        <br>
+        <!-- Heading Row -->
+        <div class="row">
+            <div class="col-md-12">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <h3>Diagram</h3>
+                <div id="inputmap_financial"></div>
+                <div class='hide'>
+                    <h4 id="diagName"></h4>
+                    <h5 id="diagAreaLength"></h5>
+                    <h5 id="sysCost"></h5>
+                </div>
+                <hr>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">                
+                <h3>Financial Parameters</h3>
+                <h5>Capital Expenditure / Initial Investment</h5>
+                <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <p>Start year (0-30)<input type="text" id="initcost-syear" name="initcost-syear" value="0" /></p>
+                    </div>
+                    <div class="col-xs-4">
+                        <p>End year (0-30)<input type="text" id="initcost-eyear" name="initcost-eyear" value="1" /></p>
+                    </div>
+                </div>
+
+                <h5>Annual Cashflow</h5>
+
+                <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
+
+                <div class="row">
+                    <div class="col-xs-4">
+                        <p>Start year (0-30)<input type="text" id="acf-syear" name="acf-syear" value="0" /></p>
+                    </div>
+                </div>
+
+
+                <h5>Annual OpEx</h5>
+                <p><input type="text" id="aopex-slider" name="aopex-slider" value="" /></p>
+                <h5>Annual SGA</h5>
+                <p><input type="text" id="asga-slider" name="asga-slider" value="" /></p>
+                <h5>Annual cashflow growth (inflation)</h5>
+                <p><input type="text" id="acfg-slider" name="acfg-slider" value="" /></p>
+                <h5>Weighted Annual Cost of Capital (WACC)</h5>
+                <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
+                
+                <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
+                </p>
+
+            </div>
+
+            <div class="col-md-6">
+                
+
+                <h3>30-year Discounted Cash Flow</h3>
+                <div id="dcfchart_cont">
+                    <canvas id="chart" height="150"></canvas>
+                </div>
+                <hr>
+                
+                <h3>DCF and NPV</h3>
+                <p>Total discounted cashflow and the net present value (total cash flow - initial investment -
+                    operational expenses - general expenses) is shown below.</p>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            <h6>Total Discounted Cash Flow</h6>
+                        </td>
+                        <td>
+                            <h3 id="totaldcf"></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h6>Net Present Value (NPV)</h6>
+                        </td>
+                        <td>
+                            <h3 id="npvVal"></h3>
+                            <p id="npvmeaning"></p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+        </div>
+        <hr>
+        
+        <!-- /.col-md-4 -->
+        <!-- /.row -->
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Remember parameters</h3>
+                <br>
+                <% if (projecttype == 'paid'){ %>
+                    <button type="button" id="savevalues" class="btn btn-default btn-x-sm"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Save values on server </button> <br><br>
+                <% } else{ %>  
+                <small>This is only available for paid projects on Geodesignhub, you can save the values you enter so you dont have to enter them again.</small>
+                <% } %>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>About</h3>
+                <p class="description">This plugin downloads a diagram from Geodesignhub, additional properties like its area and set costs and provides tools for a basic <a href="https://en.wikipedia.org/wiki/Discounted_cash_flow" target="_blank">Discounted Cash Flow</a> analysis to calculate Net Present Value of this project. In additional detailed what-if asset analysis can also be conducted for this site and project to specify the population served and services load required.</p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <hr>
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>&copy; 2019 Geodesignhub, see the <a href="https://geodesignhub.github.io/AssetAnalysis/">Github repository</a> for more information.</p>
+                </div>
+            </div>
+        </footer>
+        <div id="drawing"></div>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- JQuery scripts -->
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/humane.min.js"></script>
+    <script type="text/javascript" src="assets/js/svg.min.js"></script>
+    <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
+    <script type="text/javascript" src="assets/js/cleave.min.js"></script>
+
+    <!-- Bootstrap Core scripts -->
+    <script type="text/javascript" src="assets/js/ion.rangeSlider.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap-editable.min.js"></script>
+    <!-- <script type="text/javascript" src="assets/js/colors.js"></script> -->
+    <script type="text/javascript" src="assets/js/leaflet.js"></script>
+    <script type="text/javascript" src="assets/js/money.min.js"></script>
+    <!-- <script type="text/javascript" src="assets/js/select2.min.js"></script> -->
+
+    <script type="text/javascript">
+        function abbrNum(number, decPlaces) {
+            if (number < 1000) {
+                number = Math.round(number);
+            } else {
+                decPlaces = Math.pow(10, decPlaces);
+                var abbrev = ["k", "m", "b", "t"];
+                for (var i = abbrev.length - 1; i >= 0; i--) {
+                    var size = Math.pow(10, (i + 1) * 3);
+                    if (size <= number) {
+                        number = Math.round(number * decPlaces / size) / decPlaces;
+                        if ((number == 1000) && (i < abbrev.length - 1)) {
+                            number = 1;
+                            i++;
+                        }
+                        number += abbrev[i];
+                        break;
+                    }
+                }
+            }
+            return number;
+        }
+        var ctx = $("#chart");
+        var svgDrawing = SVG('drawing').size(10, 10);
+        // fx.base = "USD";
+        
+        Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+        
+        Chart.defaults.groupableBar = Chart.helpers.clone(Chart.defaults.bar);
+            var helpers = Chart.helpers;
+            Chart.controllers.groupableBar = Chart.controllers.bar.extend({
+            calculateBarX: function (index, datasetIndex) {
+                // position the bars based on the stack index
+                var stackIndex = this.getMeta().stackIndex;
+                return Chart.controllers.bar.prototype.calculateBarX.apply(this, [index, stackIndex]);
+            },
+
+            hideOtherStacks: function (datasetIndex) {
+                var meta = this.getMeta();
+                var stackIndex = meta.stackIndex;
+
+                this.hiddens = [];
+                for (var i = 0; i < datasetIndex; i++) {
+                var dsMeta = this.chart.getDatasetMeta(i);
+                if (dsMeta.stackIndex !== stackIndex) {
+                    this.hiddens.push(dsMeta.hidden);
+                    dsMeta.hidden = true;
+                }
+                }
+            },
+
+            unhideOtherStacks: function (datasetIndex) {
+                var meta = this.getMeta();
+                var stackIndex = meta.stackIndex;
+
+                for (var i = 0; i < datasetIndex; i++) {
+                var dsMeta = this.chart.getDatasetMeta(i);
+                if (dsMeta.stackIndex !== stackIndex) {
+                    dsMeta.hidden = this.hiddens.unshift();
+                }
+                }
+            },
+
+            calculateBarY: function (index, datasetIndex) {
+                this.hideOtherStacks(datasetIndex);
+                var barY = Chart.controllers.bar.prototype.calculateBarY.apply(this, [index, datasetIndex]);
+                this.unhideOtherStacks(datasetIndex);
+                return barY;
+            },
+
+            calculateBarBase: function (datasetIndex, index) {
+                this.hideOtherStacks(datasetIndex);
+                var barBase = Chart.controllers.bar.prototype.calculateBarBase.apply(this, [datasetIndex, index]);
+                this.unhideOtherStacks(datasetIndex);
+                return barBase;
+            },
+
+            getBarCount: function () {
+                var stacks = [];
+
+                // put the stack index in the dataset meta
+                Chart.helpers.each(this.chart.data.datasets, function (dataset, datasetIndex) {
+                var meta = this.chart.getDatasetMeta(datasetIndex);
+                if (meta.bar && this.chart.isDatasetVisible(datasetIndex)) {
+                    var stackIndex = stacks.indexOf(dataset.stack);
+                    if (stackIndex === -1) {
+                    stackIndex = stacks.length;
+                    stacks.push(dataset.stack);
+                    }
+                    meta.stackIndex = stackIndex;
+                }
+                }, this);
+
+                this.getMeta().stacks = stacks;
+                return stacks.length;
+            },
+            });
+
+ 
+        function miniMapstyleComp(feature) {
+            // console.log(feature.properties)
+            var curFeature = feature.geometry.type;
+            if (curFeature === 'LineString') {
+                // console.log(feature)
+                return {
+                    weight: 2,
+                    opacity: .9,
+                    color: feature.properties.color,
+                    dashArray: '',
+
+                };
+            } else {
+                // var fillColor = getColor(feature.properties.areatype);
+
+                if (feature.properties.areatype == 'project') {
+                    var fillColor = feature.properties.color;
+                } else { // it is policy
+                    var fillPattern = setSVGStyle(feature.properties.color);
+                    var fillColor = fillPattern;
+                }
+
+                return {
+                    // fillColor: feature.properties.color,
+                    // fillColor:'#333333',
+                    weight: 1,
+                    stroke: true,
+                    opacity: 0.9,
+                    fillColor: fillColor,
+                    color: feature.properties.color,
+                    dashArray: '',
+                    // opacity: 0.2,
+                    fillOpacity: 0.8,
+                };
+            }
+
+        }
+
+        function setSVGStyle(reqColor) {
+            var pattern = svgDrawing.pattern(6, 6, function (add) {
+                // add.rect(5, 5).fill(reqColor)
+                add.line(0, 0, 6, 6).stroke({
+                    width: 1,
+                    color: reqColor
+                })
+                add.line(6, 0, 0, 6).stroke({
+                    width: 1,
+                    color: reqColor
+                })
+            });
+            return pattern.fill();
+        }
+
+        function getColor(type) {
+
+            return type === 'policy' ? '#707070 ' :
+                type === 'project' ? '#a69695 ' :
+                type === 'red2' ? '#bd0026' :
+                type === 'red' ? '#f03b20' :
+                type === 'yellow' ? '#FFFF00' :
+                type === 'green' ? '#74c476' :
+                type === 'green2' ? '#31a354' :
+                type === 'green3' ? '#006d2c' :
+                type === 'purple' ? '#CFACF7' :
+                type === 'purple2' ? '#8D6CBF' :
+                type === 'purple3' ? '#601286' :
+                type === 'orange' ? '#FFA927' :
+                type === 'orange2' ? '#F8872E' :
+                type === 'orange3' ? '#FC6B0A' :
+                type === 'constraints' ? '#343434' :
+                type === 'boundaries' ? '#a6cee3' :
+                type === 'boundaries2' ? '#b2df8a' :
+                '#808080';
+        }
+        $("#loadingGIF").hide();
+        var opGJ = {
+            "type": "FeatureCollection",
+            "features": []
+        };
+        var systems = <%- systems %>;
+        var diagramdetail = <%- diagramdetail %>;
+        var apitoken = "<%= apitoken  %>"; //var test is now assigned to getTest which will only work on browsers
+        var projectid = "<%= projectid %>";
+        var diagramid = "<%= diagramid %>";
+        var defaultvalues = <%- defaultvalues %>;
+        const csrf = $("[name='_csrf']").val();
+        var systemdetail = <%- systemdetail %>;
+        const projecttype = "<%= projecttype %>";
+
+        var representative_image = "";
+
+        var totalcost;
+        $("#diagName").html(diagramdetail['description']);
+       
+        if (diagramdetail['length'] == 0) {
+            $("#diagAreaLength").html("Area: " + parseFloat((diagramdetail['area'] / 10000)).toFixed(2) + " ha.");
+            if (diagramdetail['cost_override'] !== 0) {
+                if (diagramdetail['cost_override_type'] == 'total') {
+                    totalcost = parseFloat(diagramdetail['cost_override']).toFixed(2);
+                } else {
+                    totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * diagramdetail['cost_override'];
+                }
+            } else {
+                totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * systemdetail['syscost'];
+                // console.log(totalcost);
+            }
+
+        } else if (diagramdetail['area'] == 0) {
+            
+            $("#diagAreaLength").html("Length: " + diagramdetail['length'] + " km.");
+            totalcost = parseFloat(diagramdetail['length']) * systemdetail['syscost'];
+        }
+
+        $("#sysCost").html("Total cost: " + abbrNum(totalcost, 2) + " EUR");
+        var inputmap = L.map('inputmap_financial', {
+            'zoomControl': false,
+            'dragging': false,
+            'touchZoom': false,
+            'scrollWheelZoom': false,
+            'doubleClickZoom': false
+        });
+        var inputbaseLayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
+            maxZoom: 18,
+        }).addTo(inputmap);
+        var inputLayer = L.featureGroup().addTo(inputmap);
+        var diagramLayer = L.geoJSON(diagramdetail['geojson'], {
+            style: miniMapstyleComp
+        }).addTo(inputLayer);
+        inputmap.fitBounds(inputLayer.getBounds());
+
+        function isNumeric(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+
+        function computeNPV() {
+
+            var initInvestment = parseInt(initCost);
+            var acf = parseInt(acfCost);
+            var aopex = parseInt(aopexCost);
+            var asga = parseInt(asgaCost);
+            var acfg = (parseFloat($("#acfg-slider").val()) / 100);
+            var wacc = (parseFloat($("#wacc-slider").val()) / 100);
+            var numYears = 30;
+            var income = [];
+            var lastyearsincome;
+            var yearsPlot = [];
+
+
+            const init_investement_syear = isNumeric($("#initcost-syear").val()) ? parseInt($("#initcost-syear").val()) :
+                0;
+            const init_investement_eyear = isNumeric($("#initcost-eyear").val()) ? parseInt($("#initcost-eyear").val()) :
+                1;
+            const acf_syear = isNumeric($("#acf-syear").val()) ? parseInt($("#acf-syear").val()) : 0;
+
+            const investment_duration = init_investement_eyear - init_investement_syear;
+            const yearly_investement = initInvestment / investment_duration;
+
+            // ebitda = (ebitda < 0) ? 0 : ebitda;
+            for (var x = 0; x < numYears; x++) {
+                yearsPlot.push(x);
+                var c_acf = 0;
+                if (x <= acf_syear) {
+                    c_acf = 0;
+                } else {
+                    c_acf = acf;
+                }
+
+                if (x >= init_investement_syear && x < init_investement_eyear) {
+                    var ebitda = c_acf - yearly_investement - aopex - asga;
+                } else {
+                    var ebitda = c_acf - aopex - asga;
+                }
+
+                if (x == 0) {
+                    income.push(parseFloat(ebitda.toFixed(2)));
+                } else {
+                    lastyearsincome = income[x - 1];
+                    var thisyearsincome = ebitda + (lastyearsincome * acfg);
+                    income.push(parseFloat(thisyearsincome.toFixed(2)));
+                }
+
+            }
+            var dcf = [];
+            for (var y = 0; y < numYears; y++) {
+                var curdcf = ((income[y]) / Math.pow((1 + wacc), y));
+                dcf.push(parseFloat(curdcf.toFixed(2)));
+            }
+
+            var totaldcf = dcf.reduce(function (a, b) {
+                return a + b;
+            }, 0);
+            var absdcf = Math.abs(totaldcf);
+            if (totaldcf < 0) {
+                $("#totaldcf").html('-' + abbrNum(parseFloat(absdcf.toFixed(2)), 2));
+            } else {
+                $("#totaldcf").html(abbrNum(parseFloat(absdcf.toFixed(2)), 2));
+            }
+            var npv = initInvestment - totaldcf;
+            var absnpv = Math.abs(npv);
+
+            if (npv < 0) {
+                $("#npvVal").html('-' + abbrNum(parseFloat(absnpv.toFixed(2)), 2));
+            } else {
+                $("#npvVal").html(abbrNum(parseFloat(absnpv.toFixed(2)), 2));
+            }
+            if (npv > 0) {
+                $("#npvmeaning").html(
+                    "<p class='bg-danger'>Given the parameters, this investement is currently overvalued. </p>");
+
+            } else {
+                $("#npvmeaning").html(
+                    "<p class='bg-success'>Given the parameters, this investement is currently undervalued.</p>");
+            }
+
+            $("#loadingGIF").hide();
+            // plot
+
+            var plotData = {
+                labels: yearsPlot,
+                datasets: [{
+                    label: "Actual Cash Flow",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    borderColor: "rgba(75,192,192,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: income,
+                    spanGaps: false,
+                }, {
+                    label: "Discounted Cash Flow",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(255,99,132,0.2)",
+                    borderColor: "rgba(255,99,132,1)",
+                    pointBackgroundColor: "rgba(255,99,132,1)",
+                    pointBorderColor: "#fff",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(255,99,132,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: dcf,
+                    spanGaps: false,
+                }]
+            };
+
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: plotData,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Years'
+                            }
+                        }]
+                    }
+                }
+            });
+
+        }
+
+        $('#computeNPVButton').on('click', function (e) {
+            $("#loadingGIF").show();
+            computeNPV();
+        });
+        var selectedcurrency = $("#workingcurrency :selected").val() + " ";
+        $("#workingcurrency").on('change', function () {
+            selectedcurrency = this.value + " ";
+
+        });
+
+
+        var initCost = parseInt(totalcost);
+        var acfCost = 100000;
+        var aopexCost = 0;
+        var asgaCost = 0;
+
+        function initCostSliders() {
+
+
+            const totalcost = (defaultvalues['capex'] == "0") ? parseInt(initCost) : parseInt(defaultvalues['capex']);
+
+
+            const acf = (defaultvalues['acf'] == "0") ? parseInt(totalcost * 0.1) : defaultvalues['acf'];
+            const opex = (defaultvalues['opex'] == "0") ? parseInt(totalcost * 0.05) : defaultvalues['opex'];
+            const asga = (defaultvalues['asga'] == "0") ? parseInt(totalcost * 0.01) : defaultvalues['asga'];
+
+            const capex_start = (defaultvalues.hasOwnProperty("capex_start")) ? defaultvalues["capex_start"] : 0;
+
+            const capex_end = (defaultvalues.hasOwnProperty("capex_end")) ? defaultvalues["capex_end"] : 1;
+
+            const acf_start = (defaultvalues.hasOwnProperty("acf_start")) ? defaultvalues["acf_start"] : 0;
+
+            $("#initcost-slider").val(totalcost);
+            $("#acf-slider").val(acf);
+            $("#aopex-slider").val(opex);
+            $("#asga-slider").val(asga);
+            $("#initcost-syear").val(capex_start);
+            $("#initcost-eyear").val(capex_end);
+            $("#acf-syear").val(acf_start);
+
+            var costcleave = new Cleave('#initcost-slider', {
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                onValueChanged: function (e) {
+                    initCost = e.target.rawValue;
+                }
+            });
+
+            var acfcleave = new Cleave('#acf-slider', {
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                onValueChanged: function (e) {
+                    acfCost = e.target.rawValue;
+                }
+            });
+
+            var aopexcleave = new Cleave('#aopex-slider', {
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                onValueChanged: function (e) {
+                    aopexCost = e.target.rawValue;
+                }
+            });
+
+            var asagacleave = new Cleave('#asga-slider', {
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                onValueChanged: function (e) {
+                    asgaCost = e.target.rawValue;
+                }
+            });
+
+
+        }
+
+        function initpercentSliders() {
+            
+            const acfg = (defaultvalues.hasOwnProperty("acfg")) ? defaultvalues["acfg"]*100 : 0;            
+            const wacc = (defaultvalues.hasOwnProperty("wacc")) ? defaultvalues["wacc"]*100 : 0;
+
+            $("#acfg-slider").ionRangeSlider({
+                min: 0,
+                max: 20,
+                from:acfg, 
+                step: 0.05,
+                postfix: "%",
+                grid: true,
+                prettify_enabled: true
+            });
+            $("#wacc-slider").ionRangeSlider({
+                min: 0,
+                max: 20,
+                step: 0.05,
+                from: wacc,
+                postfix: "%",
+                grid: true,
+                prettify_enabled: true
+            });
+        }
+        initCostSliders();
+        initpercentSliders();
+
+        $('#savevalues').on('click', function (e) {
+            const capex = initCost;
+            const acf = acfCost;
+            const opex = aopexCost;
+            const asga = asgaCost;
+            const acfg = (parseFloat($("#acfg-slider").val()) / 100).toFixed(2);
+            const wacc = (parseFloat($("#wacc-slider").val()) / 100).toFixed(2);
+
+            const capex_start = isNumeric($("#initcost-syear").val()) ? $("#initcost-syear").val() : 0;
+            const capex_end = isNumeric($("#initcost-eyear").val()) ? $("#initcost-eyear").val() : 1;
+            const acf_start = isNumeric($("#acf-syear").val()) ? $("#acf-syear").val() : 0;
+
+            var asset_details = {};
+            const csrf = $("[name='_csrf']").val();
+            const data = {
+                "capex": capex,
+                "acf": acf,
+                "projectid": projectid,
+                "diagramid": diagramid,
+                "opex": opex,
+                "asga": asga,
+                "capex_start": capex_start,
+                "capex_end": capex_end,
+                "acf_start": acf_start,
+                "acfg":acfg,
+                "wacc":wacc,
+                "_csrf": csrf,
+            };
+            console.log(data);
+            // var url = '/set_financials/';
+            
+            // var promise = $.ajax({
+            //     url: url,
+            //     type: 'POST',
+            //     data: data
+            // });
+
+            // promise.done(function (data) {
+            //     humane.log("Data successufully saved", {
+            //         addnCls: 'humane-flatty-success'
+            //     });
+            // });
+
+            // promise.fail(function (data) {
+            //     humane.log("Error in saving data, the administrators have been notified", {
+            //         addnCls: 'humane-flatty-error'
+            //     });
+            // });
+
+        });
+        
+    </script>
+</body>
+
+</html>

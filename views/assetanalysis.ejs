@@ -466,80 +466,12 @@
 
             </div>
         </div>
-        <hr>
         <br>
-        <div class="row">
-            <div class="col-md-6">
-
-                <h3>Financial Parameters</h3>
-                <h5>Capital Expenditure / Initial Investment</h5>
-                <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
-                <div class="row">
-                    <div class="col-xs-4">
-                        <p>Start year (0-30)<input type="text" id="initcost-syear" name="initcost-syear" value="0" /></p>
-                    </div>
-                    <div class="col-xs-4">
-                        <p>End year (0-30)<input type="text" id="initcost-eyear" name="initcost-eyear" value="1" /></p>
-                    </div>
-                </div>
-
-                <h5>Annual Cashflow</h5>
-
-                <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
-
-                <div class="row">
-                    <div class="col-xs-4">
-                        <p>Start year (0-30)<input type="text" id="acf-syear" name="acf-syear" value="0" /></p>
-                    </div>
-                </div>
-
-
-                <h5>Annual OpEx</h5>
-                <p><input type="text" id="aopex-slider" name="aopex-slider" value="" /></p>
-                <h5>Annual SGA</h5>
-                <p><input type="text" id="asga-slider" name="asga-slider" value="" /></p>
-                <h5>Annual cashflow growth (inflation)</h5>
-                <p><input type="text" id="acfg-slider" name="acfg-slider" value="" /></p>
-                <h5>Weighted Annual Cost of Capital (WACC)</h5>
-                <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
-                <p><button id="computeNPVButton" type="button" class="btn btn-info"><i class="glyphicon glyphicon-certificate"></i> Compute NPV</button>&nbsp;&nbsp;<span id="loadingGIF"><img src="/assets/loaders/loading.gif">&nbsp;<span id="procstatus">Processing</span>...</span>
-                </p>
-            </div>
-            <div class="col-md-6">
-                <h3>30-year Discounted Cash Flow</h3>
-                <div id="dcfchart_cont">
-                    <canvas id="chart" height="150"></canvas>
-                </div>
-                <br>
-                <h3>DCF and NPV</h3>
-                <p>Total discounted cashflow and the net present value (total cash flow - initial investment -
-                    operational expenses - general expenses) is shown below.</p>
-                <table class="table table-bordered">
-                    <tr>
-                        <td>
-                            <h6>Total Discounted Cash Flow</h6>
-                        </td>
-                        <td>
-                            <h3 id="totaldcf"></h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h6>Net Present Value (NPV)</h6>
-                        </td>
-                        <td>
-                            <h3 id="npvVal"></h3>
-                            <p id="npvmeaning"></p>
-                        </td>
-                    </tr>
-                </table>
-
-            </div>
-        </div><br>
-
+        <hr>
         <!-- /.col-md-4 -->
         <!-- /.row -->
         <br>
+        
         <div class="row">
             <div class="col-md-6">
                 <h3>Remember parameters</h3>
@@ -865,265 +797,8 @@
             return !isNaN(parseFloat(n)) && isFinite(n);
         }
 
-        function computeNPV() {
-
-            var initInvestment = parseInt(initCost);
-            var acf = parseInt(acfCost);
-            var aopex = parseInt(aopexCost);
-            var asga = parseInt(asgaCost);
-            var acfg = (parseFloat($("#acfg-slider").val()) / 100);
-            var wacc = (parseFloat($("#wacc-slider").val()) / 100);
-            var numYears = 30;
-            var income = [];
-            var lastyearsincome;
-            var yearsPlot = [];
-
-
-            const init_investement_syear = isNumeric($("#initcost-syear").val()) ? parseInt($("#initcost-syear").val()) :
-                0;
-            const init_investement_eyear = isNumeric($("#initcost-eyear").val()) ? parseInt($("#initcost-eyear").val()) :
-                1;
-            const acf_syear = isNumeric($("#acf-syear").val()) ? parseInt($("#acf-syear").val()) : 0;
-
-            const investment_duration = init_investement_eyear - init_investement_syear;
-            const yearly_investement = initInvestment / investment_duration;
-
-            // ebitda = (ebitda < 0) ? 0 : ebitda;
-            for (var x = 0; x < numYears; x++) {
-                yearsPlot.push(x);
-                var c_acf = 0;
-                if (x <= acf_syear) {
-                    c_acf = 0;
-                } else {
-                    c_acf = acf;
-                }
-
-                if (x >= init_investement_syear && x < init_investement_eyear) {
-                    var ebitda = c_acf - yearly_investement - aopex - asga;
-                } else {
-                    var ebitda = c_acf - aopex - asga;
-                }
-
-                if (x == 0) {
-                    income.push(parseFloat(ebitda.toFixed(2)));
-                } else {
-                    lastyearsincome = income[x - 1];
-                    var thisyearsincome = ebitda + (lastyearsincome * acfg);
-                    income.push(parseFloat(thisyearsincome.toFixed(2)));
-                }
-
-            }
-            var dcf = [];
-            for (var y = 0; y < numYears; y++) {
-                var curdcf = ((income[y]) / Math.pow((1 + wacc), y));
-                dcf.push(parseFloat(curdcf.toFixed(2)));
-            }
-
-            var totaldcf = dcf.reduce(function (a, b) {
-                return a + b;
-            }, 0);
-            var absdcf = Math.abs(totaldcf);
-            if (totaldcf < 0) {
-                $("#totaldcf").html('-' + abbrNum(parseFloat(absdcf.toFixed(2)), 2));
-            } else {
-                $("#totaldcf").html(abbrNum(parseFloat(absdcf.toFixed(2)), 2));
-            }
-            var npv = initInvestment - totaldcf;
-            var absnpv = Math.abs(npv);
-
-            if (npv < 0) {
-                $("#npvVal").html('-' + abbrNum(parseFloat(absnpv.toFixed(2)), 2));
-            } else {
-                $("#npvVal").html(abbrNum(parseFloat(absnpv.toFixed(2)), 2));
-            }
-            if (npv > 0) {
-                $("#npvmeaning").html(
-                    "<p class='bg-danger'>Given the parameters, this investement is currently overvalued. </p>");
-
-            } else {
-                $("#npvmeaning").html(
-                    "<p class='bg-success'>Given the parameters, this investement is currently undervalued.</p>");
-            }
-
-            $("#loadingGIF").hide();
-            // plot
-
-            var plotData = {
-                labels: yearsPlot,
-                datasets: [{
-                    label: "Actual Cash Flow",
-                    fill: false,
-                    lineTension: 0.1,
-                    backgroundColor: "rgba(75,192,192,0.4)",
-                    borderColor: "rgba(75,192,192,1)",
-                    borderCapStyle: 'butt',
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    borderJoinStyle: 'miter',
-                    pointBorderColor: "rgba(75,192,192,1)",
-                    pointBackgroundColor: "#fff",
-                    pointBorderWidth: 1,
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                    pointHoverBorderColor: "rgba(220,220,220,1)",
-                    pointHoverBorderWidth: 2,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
-                    data: income,
-                    spanGaps: false,
-                }, {
-                    label: "Discounted Cash Flow",
-                    fill: false,
-                    lineTension: 0.1,
-                    backgroundColor: "rgba(255,99,132,0.2)",
-                    borderColor: "rgba(255,99,132,1)",
-                    pointBackgroundColor: "rgba(255,99,132,1)",
-                    pointBorderColor: "#fff",
-                    pointHoverBackgroundColor: "#fff",
-                    pointHoverBorderColor: "rgba(255,99,132,1)",
-                    borderCapStyle: 'butt',
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    borderJoinStyle: 'miter',
-                    pointBorderWidth: 1,
-                    pointHoverRadius: 5,
-                    pointHoverBorderWidth: 2,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
-                    data: dcf,
-                    spanGaps: false,
-                }]
-            };
-
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: plotData,
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }],
-                        xAxes: [{
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Years'
-                            }
-                        }]
-                    }
-                }
-            });
-
-        }
-
-        $('#computeNPVButton').on('click', function (e) {
-            $("#loadingGIF").show();
-            computeNPV();
-        });
-        var selectedcurrency = $("#workingcurrency :selected").val() + " ";
-        $("#workingcurrency").on('change', function () {
-            selectedcurrency = this.value + " ";
-
-        });
-
-
-        var initCost = parseInt(totalcost);
-        var acfCost = 100000;
-        var aopexCost = 0;
-        var asgaCost = 0;
-
-        function initCostSliders() {
-
-
-            const totalcost = (defaultvalues['capex'] == "0") ? parseInt(initCost) : parseInt(defaultvalues['capex']);
-
-
-            const acf = (defaultvalues['acf'] == "0") ? parseInt(totalcost * 0.1) : defaultvalues['acf'];
-            const opex = (defaultvalues['opex'] == "0") ? parseInt(totalcost * 0.05) : defaultvalues['opex'];
-            const asga = (defaultvalues['asga'] == "0") ? parseInt(totalcost * 0.01) : defaultvalues['asga'];
-
-            const capex_start = (defaultvalues.hasOwnProperty("capex_start")) ? defaultvalues["capex_start"] : 0;
-
-            const capex_end = (defaultvalues.hasOwnProperty("capex_end")) ? defaultvalues["capex_end"] : 1;
-
-            const acf_start = (defaultvalues.hasOwnProperty("acf_start")) ? defaultvalues["acf_start"] : 0;
-
-
-
-            $("#initcost-slider").val(totalcost);
-            $("#acf-slider").val(acf);
-            $("#aopex-slider").val(opex);
-            $("#asga-slider").val(asga);
-            $("#initcost-syear").val(capex_start);
-            $("#initcost-eyear").val(capex_end);
-            $("#acf-syear").val(acf_start);
-
-            var costcleave = new Cleave('#initcost-slider', {
-                numeral: true,
-                numeralThousandsGroupStyle: 'thousand',
-                onValueChanged: function (e) {
-                    initCost = e.target.rawValue;
-                }
-            });
-
-            var acfcleave = new Cleave('#acf-slider', {
-                numeral: true,
-                numeralThousandsGroupStyle: 'thousand',
-                onValueChanged: function (e) {
-                    acfCost = e.target.rawValue;
-                }
-            });
-
-
-            var aopexcleave = new Cleave('#aopex-slider', {
-                numeral: true,
-                numeralThousandsGroupStyle: 'thousand',
-                onValueChanged: function (e) {
-                    aopexCost = e.target.rawValue;
-                }
-            });
-
-
-            var asagacleave = new Cleave('#asga-slider', {
-                numeral: true,
-                numeralThousandsGroupStyle: 'thousand',
-                onValueChanged: function (e) {
-                    asgaCost = e.target.rawValue;
-                }
-            });
-
-
-        }
-
-        function initpercentSliders() {
-
-            
-            const acfg = (defaultvalues.hasOwnProperty("acfg")) ? defaultvalues["acfg"]*100 : 0;
-            
-            const wacc = (defaultvalues.hasOwnProperty("wacc")) ? defaultvalues["wacc"]*100 : 0;
-
-            $("#acfg-slider").ionRangeSlider({
-                min: 0,
-                max: 20,
-                from:acfg, 
-                step: 0.05,
-                postfix: "%",
-                grid: true,
-                prettify_enabled: true
-            });
-            $("#wacc-slider").ionRangeSlider({
-                min: 0,
-                max: 20,
-                step: 0.05,
-                from: wacc,
-                postfix: "%",
-                grid: true,
-                prettify_enabled: true
-            });
-        }
-        initCostSliders();
-        initpercentSliders();
+ 
+        
         //built and non-built environment
         // Agriculture source: https://owlcation.com/agriculture/Types-of-Agriculture
         const data = {
@@ -3887,17 +3562,7 @@
         myCommunityControl = new CommunityCalculator();
         $(".services_form").hide();
         $('#savevalues').on('click', function (e) {
-            const capex = initCost;
-            const acf = acfCost;
-            const opex = aopexCost;
-            const asga = asgaCost;
-            const acfg = (parseFloat($("#acfg-slider").val()) / 100).toFixed(2);
-            const wacc = (parseFloat($("#wacc-slider").val()) / 100).toFixed(2);
-
-            const capex_start = isNumeric($("#initcost-syear").val()) ? $("#initcost-syear").val() : 0;
-            const capex_end = isNumeric($("#initcost-eyear").val()) ? $("#initcost-eyear").val() : 1;
-            const acf_start = isNumeric($("#acf-syear").val()) ? $("#acf-syear").val() : 0;
-
+            
             const base_asset_class = $("#base_asset_class option:selected").attr('data-value');
             var metadata = {};
             var asset_details = {};
@@ -4009,22 +3674,13 @@
             }
             const csrf = $("[name='_csrf']").val();
             const data = {
-                "capex": capex,
-                "acf": acf,
                 "projectid": projectid,
                 "diagramid": diagramid,
-                "opex": opex,
-                "asga": asga,
-                "capex_start": capex_start,
-                "capex_end": capex_end,
-                "acf_start": acf_start,
-                "acfg":acfg,
-                "wacc":wacc,
                 "_csrf": csrf,
                 "asset_details": JSON.stringify(asset_details)
             };
             // console.log(data)
-            var url = '/setdefaults/';
+            var url = '/set_asset_details/';
             
             var promise = $.ajax({
                 url: url,
@@ -4161,7 +3817,7 @@
 
                 }
             }
-            $("#computeNPVButton").click();
+            
         }
     </script>
 </body>

@@ -24,12 +24,17 @@ h4 {
     font-family: "Playfair Display", Times, serif;
 }
 
-#inputmap,
+
 #outputmap {
     height: 290px;
 }
+#inputmap{
+    height: 300px;
+}
 
-
+#inputmap_financial{
+    height: 150px;
+}
 /* #boundary_income_chart,
 #boundary_opex_chart */
 #boundary_investment_chart {
