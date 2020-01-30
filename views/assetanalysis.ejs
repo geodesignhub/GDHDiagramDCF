@@ -3704,6 +3704,10 @@
 
         });
         var asset_class = "";
+        
+        if (typeof defaultvalues == 'string') {
+            defaultvalues  = JSON.parse(defaultvalues);
+        }
         if (!('asset_details' in defaultvalues) || Object.keys(defaultvalues['asset_details']).length === 0 || defaultvalues['asset_details'].constructor === Object) {
             var class_default_values = {};
         } else {

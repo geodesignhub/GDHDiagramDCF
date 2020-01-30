@@ -141,18 +141,22 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
             if (diagramIDs.includes(diagID) && (selectedsystems.includes(sysID))) {
                 for (let p1 = 0; p1 < saved_asset_details.length; p1++) {
                     const cur_diagram_saved_details = saved_asset_details[p1];
-                    // console.log('aser asr')
+                    // console.log('aser asr');
                     const diag_id = parseInt(cur_diagram_saved_details['key'].split('-')[1]);
                     // console.log(diagID, diag_id)
                     if (diag_id == diagID) {
                         const saved_bnd_diag_id = bndID + '-' + diag_id;
-                        const cur_diagram_asset_details = cur_diagram_saved_details['asset_details'];
-                        // console.log(cur_diagram_asset_details)
+                        var cur_diagram_asset_details = cur_diagram_saved_details['asset_details'];
+
                         // console.log(factor);
                         // console.log('---')
                         factor = bnd_diagram_intersects[saved_bnd_diag_id]['factor'];
                         // console.log(factor);
                         // console.log('**')
+
+                        if (typeof cur_diagram_asset_details == 'string') {
+                            cur_diagram_asset_details  = JSON.parse(cur_diagram_asset_details);
+                        }
 
                         if (Object.keys(cur_diagram_asset_details).length === 0 && cur_diagram_asset_details.constructor === Object) {
 

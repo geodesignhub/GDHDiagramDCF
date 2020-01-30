@@ -9,6 +9,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
 
     var startyear = parseInt(startyear);
     const sdd = JSON.parse(saved_diagram_details);
+    
     const sequence = JSON.parse(board_sequence);
     // console.log(sequence);
     // if (Object.entries(sequence['gantt_data']).length === 0 && sequence['gantt_data'].constructor === Object) {
@@ -147,7 +148,10 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                     break;
                 }
             }
-
+            
+            if (typeof cur_diagram_asset_details == 'string') {
+                cur_diagram_asset_details  = JSON.parse(cur_diagram_asset_details);
+            }
             for (var h = 0; h < sysdetlen; h++) {
                 var cSys = systemdetails[h];
                 var sName = cSys['sysname'];

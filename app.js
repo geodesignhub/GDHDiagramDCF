@@ -131,7 +131,7 @@ app.post('/set_asset_details', function (request, response) {
 
     const representative_image = asset_details['metadata']['representative_image'];
     const key = projectid + '-' + diagramid;
-    console.log(representative_image)
+    
     redisclient.hmset(key, {"representative_image":representative_image, "asset_details":JSON.stringify(asset_details)});
 
     // redisclient.hset(key, "asset_details", JSON.stringify(asset_details));
@@ -179,8 +179,8 @@ app.post('/set_financials', function (request, response) {
 
 app.get('/financials', function (request, response) {
     var opts = {};
-    var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';  
-    // var baseurl = 'http://local.test:8000/api/v1/projects/';
+    // var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';  
+    var baseurl = 'http://local.test:8000/api/v1/projects/';
     if (request.query.apitoken && request.query.projectid && request.query.diagramid) {
    
         var apikey = request.query.apitoken;
@@ -241,6 +241,7 @@ app.get('/financials', function (request, response) {
                                     "capex": 0,
                                     "opex": 0,
                                     "asga": 0,
+                                    "wacc": 0,
                                     "acf": 0,
                                     "capex_start": 0,
                                     "representative_image":"",
@@ -257,15 +258,25 @@ app.get('/financials', function (request, response) {
                         
                         //only OK once set
                         if (err) return response.sendStatus(500);
-                        // op = JSON.parse(op);
-                       
+                        op  = op[0];
+                        if (!("capex" in op)) {
+                            op["capex"] = 0;
+                            op["opex"] = 0;
+                            op["asga"] = 0;
+                            op["wacc"] = 0;
+                            op["acf"] = 0;
+                            op["capex_start"] = 0;
+                            op["capex_end"] = 0;
+                            op["acf_start"] = 0;
+                        }
+                        
                         const projecttype = projectdetails['projecttype'];
                         opts = {
                             "csrfToken": request.csrfToken(),
                             "apitoken": request.query.apitoken,
                             "projectid": request.query.projectid,
                             "status": 1,
-                            "defaultvalues": JSON.stringify(op[0]),
+                            "defaultvalues": JSON.stringify(op),
                             "diagramid": diagramid,
                             "title": results[0].description, 
                             "diagramdetail": JSON.stringify(results[0]),
@@ -288,8 +299,8 @@ app.get('/financials', function (request, response) {
 
 app.get('/', function (request, response) {
     var opts = {};
-    var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';  
-    // var baseurl = 'http://local.test:8000/api/v1/projects/';
+    // var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';  
+    var baseurl = 'http://local.test:8000/api/v1/projects/';
     if (request.query.apitoken && request.query.projectid && request.query.diagramid) {
    
         var apikey = request.query.apitoken;
@@ -471,11 +482,13 @@ app.get('/', function (request, response) {
                                     "acf": "0",
                                     "capex_start": "0",
                                     "capex_end": "1",
+                                    "wacc": "0",
                                     "acf_start": "0",
+                                    "representative_image":"",
                                     "asset_details": {}
                                 });
                             } else {
-                                var rr = JSON.parse(redis_results)
+                                var rr = redis_results
                                 rr["key"] = rkey;
                                 return done(null, rr);
                             }

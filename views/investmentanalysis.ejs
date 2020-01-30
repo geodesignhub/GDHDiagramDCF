@@ -434,7 +434,7 @@
                     
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
-                        var npvHTML ="<tr><th class='header initCol'>Title</th><th>Image</th><th>Asset Class</th><th>Asset Subclass</th><th>Residents</th><th class='visitor-detail'>Visitors</th><th class='fundingheader'>Funding</th><th class='aaheader'>Data</th><th class='systemheader'>System</th>";
+                        var npvHTML ="<tr><th class='header initCol'>Title</th><th>Image</th><th>Asset Class</th><th>Asset Subclass</th><th>Residents</th><th class='visitor-detail'>Visitors</th><th class='fundingheader'>Funding</th><th class='finheader'>Financial Data</th><th class='aaheader'>Asset Data</th><th class='systemheader'>System</th>";
                         npvHTML += "</tr>";
                         $('#npv  > thead').append(npvHTML);
                         headcounter += 1;
@@ -458,6 +458,7 @@
                                 "'assetdetails visitors-" + curdiagid + "'" + "></td>" + "<td class=" + "assetdetails funding-" +
                                 curdiagid + "'" +
                                 ">" + curdiagprops.fundingtype + "</td>" + "<td class=" +
+                                "'fin-" + curdiagid + "'" + "></td>" + "<td class=" +
                                 "'aa-" + curdiagid + "'" + "></td>" + "<td class=" + "system-" +
                                 curdiagid + "'" +
                                 ">" + cursys.sysname + "</td>";
@@ -921,8 +922,7 @@
                     // renderBoundaryInvestmentChart(JSON.parse(e.data.boundaryValue));
                     boundaryStdVar = parseInt(e.data.stdVar);
                     // boundaryGeomDetails = JSON.parse(e.data.newboundaries);
-                    boundaryValueDetails = JSON.parse(e.data.boundaryValue); 
-                    
+                    boundaryValueDetails = JSON.parse(e.data.boundaryValue);                     
                     generate_paracoords_primary_chart(boundaryValueDetails);
                     generate_paracoords_secondary_chart(boundaryValueDetails);
                     aggregate_boundary_services_populations(boundaryValueDetails);
@@ -1405,16 +1405,18 @@
                 var diagID = curInvestmentdata['id'];
                 var totalInvestment = curInvestmentdata['totalInvestment'];
 
-                const url = '<a href="https://assetanalysis.herokuapp.com/?apitoken=' + apitoken + '&projectid=' + projectid + '&diagramid=' + diagID + '" target="_blank"><i class="glyphicon glyphicon-cog"></i>&nbsp;&nbsp;Settings</a>';
+                const url = '<a href="https://assetanalysis.herokuapp.com/?apitoken=' + apitoken + '&projectid=' + projectid + '&diagramid=' + diagID + '" target="_blank"><i class="glyphicon glyphicon-globe"></i>&nbsp; Details</a>';
+
+                const financial_url = '<a href="https://assetanalysis.herokuapp.com/financials?apitoken=' + apitoken + '&projectid=' + projectid + '&diagramid=' + diagID + '" target="_blank"><i class="glyphicon glyphicon-stats"></i>&nbsp;&nbsp;Settings</a>';
 
                 $(".aa-" + diagID).html(url);
+                $(".fin-" + diagID).html(financial_url);
 
                 for (let p1 = 0; p1 < ssd.length; p1++) {
                     const cur_ele = ssd[p1];
                     const diag_id = parseInt(cur_ele['key'].split('-')[1]);
                     if (diag_id == diagID) {
-                        const asset_details = cur_ele['asset_details'];
-            
+                        var asset_details = cur_ele['asset_details'];
                         if (Object.keys(asset_details).length === 0 && asset_details.constructor === Object) {
                             $(".assetdetails-" + diagID).html('Not set');
                             $(".assetdetails_subclass-" + diagID).html('Not set');
@@ -1422,6 +1424,11 @@
                             $('.population-' + diagID).html('-');
                             $('.visitors-' + diagID).html('-');
                         } else {
+                            
+                            if (typeof asset_details === 'string' || asset_details instanceof String){
+                            asset_details = JSON.parse(asset_details);
+                            }
+                            // console.log(asset_details['metadata']);
                             const ad = asset_details['class'];
                             const ad_subclass= asset_details['metadata']['base_asset_subclass'];
                             $(".assetdetails-" + diagID).html(ad.capitalize());
@@ -1508,7 +1515,7 @@
 
         function initializeTables() {
             var tableGenerator = function (domid) {
-                var groupColumn = 8;
+                var groupColumn = 9;
                 var t = $('#' + domid).DataTable({
                     "columnDefs": [{
                         "visible": false,
@@ -1556,6 +1563,7 @@
 
         function generate_paracoords_primary_chart(boundary_details) {
             // const boundary_details = boundaryValueDetails;
+            // console.log(boundary_details)
             var data = [];
             for (const bnd_id in boundary_details) {
                 if (boundary_details.hasOwnProperty(bnd_id)) {
