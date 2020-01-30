@@ -242,7 +242,7 @@
         </div>
         <hr>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div id="services" class="services_form">
                     <h3>Services</h3>
                     <small>A summary of supporting services and assumptions that are needed to support this Asset class</small>
@@ -376,20 +376,19 @@
                     </table>
                 </div>
             </div>
-            <div class="col-md-6">
-               
-                <div id="lu_chart_cont">
-                    <h3>Land use Distribution</h3>
-                    <canvas id="lu_chart" height="250"></canvas>
-                </div>
-
+            <div class="col-md-4">
+               <div class="services_form">
+                <h3>Asset Details</h3>
+                <small>A summary of computed details based on your input above</small>
                 <div class="usage_form hidden" id="built_env_form_residential_secondary">                        
                     <h4><span id="current_pop_density"></span> people per km2 <small>Population Density</small></h4>
                     <br>
                     
                     <h4><span id="avg_area_per_unit">0</span> <small>Avg. Area per unit</small></h4>                        
                     <h4><span id="total_floor_area_residential_built">0</span> m2 <small>Total built floor area</small></h4>
-                    <h4><span id="total_floor_area_residential_available">0</span> m2 <small>Total available area</small></h4><br>
+                    <h4><span id="total_floor_area_residential_available">0</span> m2 <small>Total available area</small></h4>
+                    
+                    <br>
                     
                     <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small>
                     <br><br>
@@ -401,10 +400,7 @@
                     
                     <h4><span id="avg_area_per_unit_mixuse">0</span> <small>Avg. Area per unit</small></h4>                        
                     <h4><span id="total_floor_area_residential_built_mixuse">0</span> m2 <small>Total built floor area</small></h4>
-                    <h4> <span id="total_floor_area_residential_available_mixuse">0</span> m2</h4> <small>Total available area</small><br>
-                    
-                    <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small>
-                    <br><br>
+                    <h4> <span id="total_floor_area_residential_available_mixuse">0</span> m2 <small>Total available area</small></h4><br>
                     
                     <h4><span id="total_floor_area_retail_required_mixuse">0</span> m2. <small>Total Floor area needed</small></h4>
                     <div class="hidden">
@@ -420,6 +416,10 @@
                     <h4><span id="total_direct_employment_retail_mixuse">0</span> <small>Total direct employment</small></h6>
                     <h4><span id="total_indirect_employment_retail_mixuse">0</span> <small>Total indirect employment</small></h6>     
                     <br><br>
+                    
+                    <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small>
+                    <br><br>
+                    
                 </div>
 
                 <div class="usage_form hidden" id="built_env_form_tourism_secondary">
@@ -462,7 +462,7 @@
                     <h4><span id="total_indirect_employment_retail">0</span> <small>Total indirect employment</small></h6>                            
                 <br>
                 </div>
-
+                </div>
 
             </div>
         </div>
@@ -618,50 +618,51 @@
             },
             });
 
-        function populate_lu_chart(type, chart_data) {           
+        // function populate_lu_chart(type, chart_data) {           
             
-            var luctx =  document.getElementById('lu_chart').getContext('2d');
+        //     var luctx =  document.getElementById('lu_chart').getContext('2d');
             
-            var barChartData = {
-                labels:  ['Area Available   -   Area taken'],
-                datasets: [{
-                    label: "Area Available",
-                    backgroundColor: ["#003f5c"],
-                    data: [chart_data['area_available']],
-                    stack:1 
-                },{
-                    label: "Built Up",
-                    backgroundColor: ["#58508d",],
-                    data: [ chart_data['built_up_area']],
-                    stack: 2
-                },{
-                    label: "Green Spaces",
-                    backgroundColor: ["#4daf4a"],
-                    data: [chart_data['green_space']],
-                    stack: 2
-                },{
-                    label: "Parking",
-                    backgroundColor: ["#377eb8"],
-                    data: [chart_data['parking']],
-                    stack: 2
-                }
-            ]
-            };
+        //     var barChartData = {
+        //         labels:  ['Area Available   -   Area taken'],
+        //         datasets: [{
+        //             label: "Area Available",
+        //             backgroundColor: ["#003f5c"],
+        //             data: [chart_data['area_available']],
+        //             stack:1 
+        //         },{
+        //             label: "Built Up",
+        //             backgroundColor: ["#58508d",],
+        //             data: [ chart_data['built_up_area']],
+        //             stack: 2
+        //         },{
+        //             label: "Green Spaces",
+        //             backgroundColor: ["#4daf4a"],
+        //             data: [chart_data['green_space']],
+        //             stack: 2
+        //         },{
+        //             label: "Parking",
+        //             backgroundColor: ["#377eb8"],
+        //             data: [chart_data['parking']],
+        //             stack: 2
+        //         }
+        //     ]
+        //     };
 
-            var myChart = new Chart(luctx, {
-                type: 'groupableBar',
-                data: barChartData,
-                options: {
+        //     var myChart = new Chart(luctx, {
+        //         type: 'groupableBar',
+        //         data: barChartData,
+        //         options: {
                    
-                    scales: {
-                        yAxes: [{
-                            stacked: true,
-                        }]
-                        }
-                }
+        //             scales: {
+        //                 yAxes: [{
+        //                     stacked: true,
+        //                 }]
+        //                 }
+        //         }
                 
-            });
-        }
+        //     });
+        // }
+
         function miniMapstyleComp(feature) {
             // console.log(feature.properties)
             var curFeature = feature.geometry.type;
@@ -885,8 +886,8 @@
                     $("#built_env_form_residential").show();
                     $("#built_env_form_residential_secondary").show();
                     
-                    $("#services").show();
-                    $("#lu_chart_cont").show();
+                    $(".services_form").show();
+                    // $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -904,8 +905,8 @@
                     $("#built_env_form_mixuse").show();
                     $("#built_env_form_mixuse_secondary").show();
                     
-                    $("#services").show();
-                    $("#lu_chart_cont").show();
+                    $(".services_form").show();
+                    // $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -922,8 +923,8 @@
                     $(".usage_form").hide();
                     $("#built_env_form_tourism").show();
                     $("#built_env_form_tourism_secondary").show();
-                    $("#services").show();
-                    $("#lu_chart_cont").show();
+                    $(".services_form").show();
+                    // $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -938,8 +939,8 @@
                 case 'retail':
                     vals = data.retail.split(",");
                     $(".usage_form").hide();
-                    $("#services").show();
-                    $("#lu_chart_cont").show();
+                    $(".services_form").show();
+                    // $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -956,8 +957,8 @@
                 case 'office':
                     vals = data.office.split(",");
                     $(".usage_form").hide();
-                    $("#services").show();
-                    $("#lu_chart_cont").show();
+                    $(".services_form").show();
+                    // $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -975,8 +976,8 @@
                     vals = data.transport.split(",");
                     $(".usage_form").hide();
                     $("#built_env_form_transport").show();                    
-                    $("#services").hide();
-                    $("#lu_chart_cont").hide();
+                    $(".services_form").hide();
+                    // $("#lu_chart_cont").hide();
                     
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
@@ -993,8 +994,8 @@
                     $(".usage_form").hide();
                     $("#built_env_form_community").show();
                     
-                    $("#services").show();
-                    $("#lu_chart_cont").show();
+                    $(".services_form").show();
+                    // $("#lu_chart_cont").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
                     $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -1014,7 +1015,7 @@
                 case 'agriculture':
                     vals = data.agriculture.split(",");
                     $(".usage_form").hide();
-                    $("#services").hide();
+                    $(".services_form").hide();
                     $("#lu_chart_cont").hide();
                     $("#built_env_form_agriculture").show();
                     var $secondChoice = $("#base_asset_subclass");
@@ -1029,8 +1030,8 @@
                 case 'green_infrastructure':
                     vals = data.green_infrastructure.split(",");
                     $(".usage_form").hide();
-                    $("#services").hide();
-                    $("#lu_chart_cont").hide();
+                    $(".services_form").hide();
+                    // $("#lu_chart_cont").hide();
                     $("#built_env_form_green_infrastructure").show();
                     var $secondChoice = $("#base_asset_subclass");
                     $secondChoice.empty();
@@ -1331,8 +1332,8 @@
                 myDisplayUpdater.updateSewageRecompute(population);
                 const total_parking_area  = myDisplayUpdater.updateTransportRecompute(population, 2, 2);                
                 const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(population);
-                const lu_chart_data = {"area_available":max_buildable_area_in_m2, "built_up_area":total_floor_area_residential_available, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
-                populate_lu_chart('residential', lu_chart_data);
+                // const lu_chart_data = {"area_available":max_buildable_area_in_m2, "built_up_area":total_floor_area_residential_available, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                // populate_lu_chart('residential', lu_chart_data);
 
             }
             this.update = function (units, population, floors) {
@@ -1660,9 +1661,9 @@
                 const land_usage = myDisplayUpdater.updateLandUsageRecompute(diagram_area);
                 const green_space = myDisplayUpdater.updateGreenSpaceRecompute(daily_visitors);
                 
-                const lu_chart_data = {"area_available":diagram_area, "built_up_area":land_usage, "green_space":green_space[0], "parking":0};    
+                // const lu_chart_data = {"area_available":diagram_area, "built_up_area":land_usage, "green_space":green_space[0], "parking":0};    
                 
-                populate_lu_chart('tourism', lu_chart_data);
+                // populate_lu_chart('tourism', lu_chart_data);
 
             }
             this.update = function () {
@@ -2015,8 +2016,8 @@
                 // const total_parking_area  =  myDisplayUpdater.updateTransportRecompute(total_daily_visitors, 2, 2);                
                 const total_green_space_area =  myDisplayUpdater.updateGreenSpaceRecompute(total_daily_visitors);
                 const total_parking_area = myDisplayUpdater.updateParkingRecompute(total_daily_visitors*0.5);
-                const lu_chart_data = {"area_available":total_floor_area_retail_available, "built_up_area":total_floor_area_retail, "green_space":total_green_space_area[0], "parking":total_parking_area};               
-                populate_lu_chart('retail', lu_chart_data);
+                // const lu_chart_data = {"area_available":total_floor_area_retail_available, "built_up_area":total_floor_area_retail, "green_space":total_green_space_area[0], "parking":total_parking_area};               
+                // populate_lu_chart('retail', lu_chart_data);
 
             }
             this.update = function () {
@@ -2239,8 +2240,8 @@
                 const total_parking_area  = myDisplayUpdater.updateTransportRecompute(total_daily_visitors_office, 2, 2);                
                 const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(total_daily_visitors_office);
                 
-                const lu_chart_data = {"area_available":total_floor_area_available, "built_up_area":total_floor_area_office, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
-                populate_lu_chart('office', lu_chart_data);
+                // const lu_chart_data = {"area_available":total_floor_area_available, "built_up_area":total_floor_area_office, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                // populate_lu_chart('office', lu_chart_data);
                 
             }
 
@@ -2727,8 +2728,8 @@
                 const total_built_up_area = total_floor_area_residential_available + total_floor_area_retail;
                 // console.log(total_area_avialable,max_buildable_area_in_m2,  total_floor_area_retail_available);
                 // console.log(total_built_up_area,total_floor_area_residential_available, total_floor_area_retail );
-                const lu_chart_data =  {"area_available":total_area_avialable, "built_up_area":total_built_up_area, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
-                populate_lu_chart('residential', lu_chart_data);
+                // const lu_chart_data =  {"area_available":total_area_avialable, "built_up_area":total_built_up_area, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                // populate_lu_chart('residential', lu_chart_data);
 
             }
             this.update = function (units, total_people, floors) {
@@ -2961,10 +2962,10 @@
                 var selected_subclass = $("#base_asset_subclass").val();
 
                 selected_subclass = (selected_subclass) ? selected_subclass : 'Mid Priced';
-                const total_floor_area_residential_available = abbrNum(parseInt((diagram_area * mixuse_class_defaults[selected_subclass]['far'] * floors)),
+                const total_floor_area_residential_mixuse_available = abbrNum(parseInt((diagram_area * mixuse_class_defaults[selected_subclass]['far'] * floors)),
                     2)
 
-                $("#total_floor_area_residential_available_mixuse").html(total_floor_area_residential_available);
+                $("#total_floor_area_residential_available_mixuse").html(total_floor_area_residential_mixuse_available);
                 $("#residential_units_mixuse").editable('setValue', units);
                 $("#number_of_people_residential_mixuse").editable('setValue', total_people);
 
@@ -3036,8 +3037,8 @@
                 const total_parking_area  = myDisplayUpdater.updateTransportRecompute(population, 2, 2);                
                 const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(population);
                 
-                const lu_chart_data = {"area_available":0, "built_up_area":0, "green_space":0, "parking":0};
-                populate_lu_chart('transport', lu_chart_data);
+                // const lu_chart_data = {"area_available":0, "built_up_area":0, "green_space":0, "parking":0};
+                // populate_lu_chart('transport', lu_chart_data);
                 
             }
 
@@ -3190,8 +3191,8 @@
                 const total_parking_area  = myDisplayUpdater.updateTransportRecompute(0, 2, 2);                
                 const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(0);
                 
-                const lu_chart_data = {"area_available":diagram_area, "built_up_area":0, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
-                populate_lu_chart('community', lu_chart_data);
+                // const lu_chart_data = {"area_available":diagram_area, "built_up_area":0, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+                // populate_lu_chart('community', lu_chart_data);
                 
             }
 
@@ -3703,13 +3704,11 @@
 
         });
         var asset_class = "";
-        if (Object.keys(defaultvalues['asset_details']).length === 0 && defaultvalues['asset_details'].constructor ===
-            Object) {
+        if (!('asset_details' in defaultvalues) || Object.keys(defaultvalues['asset_details']).length === 0 || defaultvalues['asset_details'].constructor === Object) {
             var class_default_values = {};
-
         } else {
 
-            var class_default_values = defaultvalues['asset_details'];
+            var class_default_values = JSON.parse(defaultvalues['asset_details']);
             var asset_class = class_default_values.class;
         }
 

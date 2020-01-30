@@ -124,16 +124,18 @@ const image_files = [ 'commecial-office.jpg',
                     'transport-road-12.jpg' ];
 
 app.post('/set_asset_details', function (request, response) {
-
+    
     const projectid = request.body.projectid;
     const diagramid = request.body.diagramid;
     const asset_details = JSON.parse(request.body.asset_details);
 
+    const representative_image = asset_details['metadata']['representative_image'];
     const key = projectid + '-' + diagramid;
+    console.log(representative_image)
+    redisclient.hmset(key, {"representative_image":representative_image, "asset_details":JSON.stringify(asset_details)});
 
-    redisclient.hmset(key, JSON.stringify({
-        "asset_details": asset_details
-    }));
+    // redisclient.hset(key, "asset_details", JSON.stringify(asset_details));
+    // redisclient.hset(key, "representative_image", representative_image);
 
     response.contentType('application/json');
     response.send({
@@ -157,17 +159,17 @@ app.post('/set_financials', function (request, response) {
     
     const key = projectid + '-' + diagramid;
     
-    redisclient.hmset(key, JSON.stringify({
+    redisclient.hmset(key, {
         "capex": capex,
         "acf": acf,
         "opex": opex,
         "asga": asga,
-        "acfg":acfg,
-        "wacc":wacc,
+        "acfg": acfg,
+        "wacc": wacc,
         "capex_start": capex_start,        
         "capex_end": capex_end,
-        "acf_start": acf_start    
-    }));
+        "acf_start": acf_start
+    });
 
     response.contentType('application/json');
     response.send({
@@ -177,8 +179,8 @@ app.post('/set_financials', function (request, response) {
 
 app.get('/financials', function (request, response) {
     var opts = {};
-    // var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';  
-    var baseurl = 'http://local.test:8000/api/v1/projects/';
+    var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';  
+    // var baseurl = 'http://local.test:8000/api/v1/projects/';
     if (request.query.apitoken && request.query.projectid && request.query.diagramid) {
    
         var apikey = request.query.apitoken;
@@ -233,17 +235,17 @@ app.get('/financials', function (request, response) {
                 var rediskey = projectid + "-" + diagramid;
                 async.map([rediskey], function (rkey, done) {
 
-                        redisclient.get(rkey, function (err, results) {
+                        redisclient.HGETALL(rkey, function (err, results) {
                             if (err || results == null) {
                                 return done(null, JSON.stringify({
-                                    "capex": "0",
-                                    "opex": "0",
-                                    "asga": "0",
-                                    "acf": "0",
-                                    "capex_start": "0",
+                                    "capex": 0,
+                                    "opex": 0,
+                                    "asga": 0,
+                                    "acf": 0,
+                                    "capex_start": 0,
                                     "representative_image":"",
-                                    "capex_end": "1",
-                                    "acf_start": "0",
+                                    "capex_end": 1,
+                                    "acf_start": 0,
                                     "asset_details": {}
                                 }));
                             } else {
@@ -255,7 +257,7 @@ app.get('/financials', function (request, response) {
                         
                         //only OK once set
                         if (err) return response.sendStatus(500);
-                        op = JSON.parse(op);
+                        // op = JSON.parse(op);
                        
                         const projecttype = projectdetails['projecttype'];
                         opts = {
@@ -263,7 +265,7 @@ app.get('/financials', function (request, response) {
                             "apitoken": request.query.apitoken,
                             "projectid": request.query.projectid,
                             "status": 1,
-                            "defaultvalues": JSON.stringify(op),
+                            "defaultvalues": JSON.stringify(op[0]),
                             "diagramid": diagramid,
                             "title": results[0].description, 
                             "diagramdetail": JSON.stringify(results[0]),
@@ -286,8 +288,8 @@ app.get('/financials', function (request, response) {
 
 app.get('/', function (request, response) {
     var opts = {};
-    // var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';  
-    var baseurl = 'http://local.test:8000/api/v1/projects/';
+    var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';  
+    // var baseurl = 'http://local.test:8000/api/v1/projects/';
     if (request.query.apitoken && request.query.projectid && request.query.diagramid) {
    
         var apikey = request.query.apitoken;
@@ -342,7 +344,8 @@ app.get('/', function (request, response) {
                 var rediskey = projectid + "-" + diagramid;
                 async.map([rediskey], function (rkey, done) {
 
-                        redisclient.get(rkey, function (err, results) {
+                        redisclient.HGETALL(rkey, function (err, results) {
+                            
                             if (err || results == null) {
                                 return done(null, JSON.stringify({
                                     "capex": "0",
@@ -361,19 +364,17 @@ app.get('/', function (request, response) {
                         });
                     },
                     function (error, op) {
-               
-                        
                         //only OK once set
                         if (err) return response.sendStatus(500);
-                        op = JSON.parse(op);
-                       
+                        // op = JSON.parse(op);
+                        
                         const projecttype = projectdetails['projecttype'];
                         opts = {
                             "csrfToken": request.csrfToken(),
                             "apitoken": request.query.apitoken,
                             "projectid": request.query.projectid,
                             "status": 1,
-                            "defaultvalues": JSON.stringify(op),
+                            "defaultvalues": JSON.stringify(op[0]),
                             "diagramid": diagramid,
                             "title": results[0].description, 
                             "diagramdetail": JSON.stringify(results[0]),
@@ -459,7 +460,7 @@ app.get('/', function (request, response) {
                 var keyDetails = {};
 
                 async.map(redis_keys, function (rkey, done) {
-                        redisclient.get(rkey, function (err, redis_results) {
+                        redisclient.HGETALL(rkey, function (err, redis_results) {
 
                             if (err || redis_results == null) {
                                 return done(null, {
