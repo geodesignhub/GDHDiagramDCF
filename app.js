@@ -259,6 +259,10 @@ app.get('/financials', function (request, response) {
                         //only OK once set
                         if (err) return response.sendStatus(500);
                         op  = op[0];
+                                        
+                        if (typeof op == 'string') {
+                            op  = JSON.parse(op);
+                        }
                         if (!("capex" in op)) {
                             op["capex"] = 0;
                             op["opex"] = 0;
