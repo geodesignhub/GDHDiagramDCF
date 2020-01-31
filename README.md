@@ -1,4 +1,17 @@
 # Asset and Financial Investment Analysis Library
+
+## Table of Contents
+
+- [Asset and Financial Investment Analysis Library](#asset-and-financial-investment-analysis-library)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Asset Analysis](#asset-analysis)
+  - [Financial Analysis](#financial-analysis)
+  - [Investment Analysis Library](#investment-analysis-library)
+    - [Boundary Analysis](#boundary-analysis)
+  - [Adding the plugin](#adding-the-plugin)
+
+## Introduction 
 This plugin enables comprehensive financial and asset analysis for Geodesignhub projects. It has two distinct parts:
 
 1. Asset Analysis
