@@ -11,7 +11,8 @@
     - [Boundary Analysis](#boundary-analysis)
   - [Adding the plugin](#adding-the-plugin)
 
-## Introduction 
+## Introduction
+
 This plugin enables comprehensive financial and asset analysis for Geodesignhub projects. It has two distinct parts:
 
 1. Asset Analysis
@@ -38,7 +39,7 @@ After having set the asset class and the intended use of the diagram, this modul
 
 ## Financial Analysis
 
-This module of the plugin deals with Financial Information associated with the diagram. It is focused on the capital investment associated with the diagram. 
+This module of the plugin deals with Financial Information associated with the diagram. It is focused on the capital investment associated with the diagram.
 
 ![alt text][logo2]
 
@@ -86,4 +87,5 @@ Finally the plugin splits the allocations proportionally across different bounda
 [ui4]: https://i.imgur.com/51dzMca.jpg "Boundary map"
 
 ## Adding the plugin
+
 The plugin can be added to your project using the Administration panel
