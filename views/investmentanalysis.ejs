@@ -741,14 +741,23 @@
 
         function render_system_investment(system_totals)
             {
+                function hexToRgb(hex) {
+                var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? {
+                    r: parseInt(result[1], 16),
+                    g: parseInt(result[2], 16),
+                    b: parseInt(result[3], 16)
+                } : null;
+                }
+
                 var total_investment_dataset = [];
                 // console.log(system_totals);
                 for (var csys in system_totals) {
                         var cur_sys_investment = {};
                         var c_system_tot  = system_totals[csys];
                         cur_sys_investment['label'] = c_system_tot['system_name'] + ' Capex';
-                        
-                        cur_sys_investment['backgroundColor'] = c_system_tot['color'];
+                        var rgb = hexToRgb(c_system_tot['color']);
+                        cur_sys_investment['backgroundColor'] = 'rgba('+rgb.r+','+ rgb.g+','+  rgb.b+','+  0.5+')';
                         cur_sys_investment['data'] = [];
                         for (var h1 = 0; h1 < numYears; h1++) {
                             var cYear = (startyear + h1);
