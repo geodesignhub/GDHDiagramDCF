@@ -68,7 +68,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">                
+            <div class="form-style-5 col-md-6">                
                 <h3>Financial Parameters</h3>
                 <h5>Capital Expenditure / Initial Investment</h5>
                 <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
@@ -161,7 +161,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h3>About</h3>
-                <p class="description">This plugin downloads a diagram from Geodesignhub, additional properties like its area and set costs and provides tools for a basic <a href="https://en.wikipedia.org/wiki/Discounted_cash_flow" target="_blank">Discounted Cash Flow</a> analysis to calculate Net Present Value of this project. In additional detailed what-if asset analysis can also be conducted for this site and project to specify the population served and services load required.</p>
+                <p class="description">This plugin downloads diagram informatoin from Geodesignhub and provides tools to conduct a basic <a href="https://en.wikipedia.org/wiki/Discounted_cash_flow" target="_blank">Discounted Cash Flow</a> analysis to calculate Net Present Value of this project. </p>
             </div>
         </div>
         
@@ -187,7 +187,7 @@
     <!-- Bootstrap Core scripts -->
     <script type="text/javascript" src="/assets/js/ion.rangeSlider.min.js"></script>
     <script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/assets/js/bootstrap-editable.min.js"></script>
+    <!-- <script type="text/javascript" src="/assets/js/bootstrap-editable.min.js"></script> -->
     <!-- <script type="text/javascript" src="/assets/js/colors.js"></script> -->
     <script type="text/javascript" src="/assets/js/leaflet.js"></script>
     <script type="text/javascript" src="/assets/js/money.min.js"></script>
@@ -680,6 +680,7 @@
         }
         initCostSliders();
         initpercentSliders();
+        computeNPV();
 
         $('#savevalues').on('click', function (e) {
             const capex = initCost;

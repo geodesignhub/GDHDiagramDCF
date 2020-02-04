@@ -17,7 +17,7 @@ This plugin enables comprehensive financial and asset analysis for Geodesignhub 
 
 1. Asset Analysis
 2. Financial Discounted Cashflow Analysis
-3. Investment Visualization.
+3. Investment Visualization
 
 It uses the [Geodesignhub API](http://www.geodesignhub.com/api/) to download data from your project and provide a series of controls to analyze and set potential uses of this asset, conduct financial Analysis and finally conduct a investment analysis.
 
