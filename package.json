@@ -19,13 +19,13 @@
     "dependencies": {
         "async": "^1.5.2",
         "body-parser": "^1.19.0",
-        "cookie-parser": "^1.4.4",
+        "cookie-parser": "^1.4.5",
         "csurf": "^1.11.0",
         "ejs": "^2.7.4",
         "express": "^4.17.1",
         "http-auth": "^3.2.4",
         "jsonfile": "^2.4.0",
         "redis": "^2.8.0",
-        "request": "^2.72.0"
+        "request": "^2.88.2"
     }
 }
