@@ -21,6 +21,9 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/leaflet.css" />
     <link href='https://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-editable.css">
     <!-- Conditional comment containing JS files for IE6 - 8 -->
     <!--[if lt IE 9]>
             <script src="assets/js/html5.js"></script>
@@ -80,7 +83,7 @@
 
             <div class="col-md-8">
                 
-                <div class="row">
+                <div id="financial-details" class="row hidden">
                     <div class="form-style-5 col-md-6">                
                         <h3>Financial Parameters</h3>
                         <h5>Capital Expenditure / Initial Investment</h5>
@@ -148,10 +151,7 @@
                             </tr>
                         </table>
                     </div>
-                    
-                </div>
-                <br>
-                <div class="row">
+                    <br>
                     <h3>Remember parameters</h3>
                     <br>
                     <!--
@@ -161,9 +161,441 @@
                     <small>This is only available for paid projects on Geodesignhub, you can save the values you enter so you dont have to enter them again.</small>
                     <% } %>
                     -->
+
+
+
+                </div>
+                <br>
+                
+                
+        <div id="asset-details" class="row hidden">
+        
+            <div class="col-md-4">
+              
+              
+                        <h3>Asset Class</h3>
+                        <select id="base_asset_class" class="form-control">
+                            <option selected disabled>Select Class</option>
+                            <option data-value='residential'>Residential</option>
+                            <option data-value='hospitality'>Tourism</option>
+                            <option data-value='retail'>Retail</option>
+                            <option data-value='office'>Office</option>
+                            <option data-value='mixuse'>Mix Use</option>
+                            <option data-value='transport'>Transport</option>
+                            <option data-value='community'>Community</option>
+                            <!--     <option data-value='tourism'>Tourism</option>
+                                <option data-value='commercial'>Commercial</option>-->
+                            <option data-value='agriculture'>Agriculture</option> 
+                            <option data-value='green_infrastructure'>Green Infrastructure</option>
+                        </select><br><br>
+                        <select id="base_asset_subclass" class="form-control">
+                            <option selected disabled>Select Subclass</option>
+                        </select>
+                        <br>
+
+                <br>
+
+                <div class='usage_form hidden' id="built_env_form_residential">
+                    <h4>Total people housed: <a class="editable" href="#" id="number_of_people_residential" data-type="text"
+                            data-title="Enter number of people living here">0</a></h4>
+                    <h4>Total units: <a class="editable" href="#" id="residential_units" data-type="text" data-title="Enter new residential units e.g. 5">0</a></h4>
+
+                    <h4>Number of floors: <a class="editable" href="#" id="residential_floors" data-type="text"
+                            data-title="Enter new residential units e.g. 5">1</a></h4>
+                    
+                    
+                    <h4>Floor Area Ratio: <a class="editable" href="#" id="residential_far" data-type="text"
+                        data-title="Enter new Floor Area Ratio e.g. .7">.6</a></h4>
+                        <br>
+                <br>
+                    <button id="recompute_residential" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button><br><br>
+                   
+                </div>
+
+                <div class='usage_form hidden' id="built_env_form_tourism">
+                    <h4>Average m2 per guest: <a class="editable" href="#" id="tourism_m2_per_guest" data-type="text" data-title="Enter new room size e.g. 5">58</a></h4>
+
+                    <h4>Floors: <a class="editable" href="#" id="tourism_floors" data-type="text" data-title="Enter new floors e.g. 5">2</a></h4>
+
+                    <h4>Land Area Factor: <a class="editable" href="#" id="tourism_land_area" data-type="text" data-title="Enter new land consumption factor  e.g. 5">3</a></h4>
+
+                    <h4>Avg. People per room: <a class="editable" href="#" id="tourism_people_per_room" data-type="text" ata-title="Enter new people per room">3</a></h4>
+
+                    <h4>Target Occupancy Rate: <a class="editable" href="#" id="target_occupancy_rate" data-type="text" data-title="Enter new target occupancy rate e.g. .7">.60</a></h4>
+                    <br>
+                   
+                    <h4>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_tourism" data-type="text" data-title="Enter new ratio">.01</a></h4>
+                    <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_tourism" data-type="text" data-title="Enter new ratio">.2</a></h4>
+                    <br>
+
+                    <button id="recompute_tourism" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+
+                </div>
+
+
+                <div class='usage_form hidden' id="built_env_form_transport">                    
+                    <h4>Passenger-trips/day: <a class="editable" href="#" id="transport_passenger_trips" data-type="text" data-title="Enter new room size e.g. 5">12</a></h4><br>
+
+                    <button id="recompute_transport" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+
+
+                </div>
+
+                <div class='usage_form hidden' id="built_env_form_agriculture">        
+                </div>
+
+                <div class='usage_form hidden' id="built_env_form_green_infrastructure">        
+                    </div>
+    
+                <div class='usage_form hidden' id="built_env_form_office">                    
+                    <h4>Per capita space required in m2: <a class="editable" href="#" id="office_m2_per_visitor"
+                            data-type="text" data-title="Enter new room size e.g. 5">12</a></h4>
+                    <h4>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
+                    <h4>Expected office workers: <a class="editable" href="#" id="total_daily_visitors_office"
+                            data-type="text" data-title="Enter a new office workers">300</a></h4>
+                    <br>
+                    
+                    <h4>Direct employees to office workers ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_office" data-type="text" data-title="Enter new ratio">.01</a></h4>
+                    <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_office" data-type="text" data-title="Enter new ratio">.2</a></h4>
+
+                    <br>
+                    <button id="recompute_office" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+
+                </div>
+                <div class='usage_form hidden' id="built_env_form_retail">
+                    <h4>Per capita retail space <a class="editable" href="#" id="retail_m2_per_visitor" data-type="text"
+                            data-title="Enter new room size e.g. 5">4</a></h4>
+                    <h4>Number of floors: <a class="editable" href="#" id="retail_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
+                    <h4>Expected daily visitors: <a class="editable" href="#" id="total_daily_visitors_retail"
+                            data-type="text" data-title="Enter a new visitor number">3000</a></h4>
+                    <br>
+                    <h4>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_retail" data-type="text" data-title="Enter new ratio">.05</a></h4>
+                    <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_retail" data-type="text" data-title="Enter new ratio">.2</a></h4>        
+                        
+                    <br>
+                    <div class="hidden">
+                        <h5>% interested in Luxury Retail (e.g. name brands): <a class="editable" href="#" id="percent_interested_in_luxury_retail"
+                                data-type="text" data-title="Enter percentage e.g. 0.15">.1</a></h5>
+                        <h5>% interested in Support Retail (e.g office supplies): <a class="editable" href="#" id="percent_interested_in_support_retail"
+                                data-type="text" data-title="Enter percentage e.g. 0.1">.4</a></h5>
+                        <h5>% interested in FMCG Retail (e.g. groceries, medicines): <a class="editable" href="#" id="percent_interested_in_fmcg_retail"
+                                data-type="text" data-title="Enter percentage e.g. 0.5">.3</a></h5>
+                        <h5>% interested in other retail (e.g. food / restaurant): <a class="editable" href="#" id="percent_interested_in_food_retail"
+                                data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>
+                    
+                    </div>
+                    <br>
+
+                    <button id="recompute_retail" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+
+                </div>
+
+
+                <div class='usage_form hidden' id="built_env_form_mixuse">
+                    <h4>Total people housed: <a class="editable" href="#" id="number_of_people_residential_mixuse" data-type="text" data-title="Enter number of people living here">0</a></h4>
+                    <h4>Total units: <a class="editable" href="#" id="residential_units_mixuse" data-type="text" data-title="Enter new residential units e.g. 5">0</a></h4>
+
+                    <h4>Number of floors: <a class="editable" href="#" id="residential_floors_mixuse" data-type="text" data-title="Enter new residential units e.g. 5">1</a></h4>
+                    
+                    
+                    <h4>Floor Area Ratio: <a class="editable" href="#" id="residential_far_mixuse" data-type="text" data-title="Enter new Floor Area Ratio e.g. .7">.6</a></h4>
+                        <br>
+                
+                        
+                    <h4>Per capita retail space <a class="editable" href="#" id="retail_m2_per_visitor_mixuse" data-type="text"
+                        data-title="Enter new shop size e.g. 5">4</a></h4>
+                <h4>Number of floors: <a class="editable" href="#" id="retail_floors_mixuse" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
+                <h4>Expected visitors in area: <a class="editable" href="#" id="total_daily_visitors_retail_mixuse" data-type="text" data-title="Enter a new visitor number">3000</a></h4>
+                <br>
+                <h4>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_retail_mixuse" data-type="text" data-title="Enter new ratio">.05</a></h4>
+                <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_retail_mixuse" data-type="text" data-title="Enter new ratio">.2</a></h4>        
+                    
+                <br>
+                <div class="hidden">
+                    <h5>% interested in Luxury Retail (e.g. name brands): <a class="editable" href="#" id="percent_interested_in_luxury_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.15">.1</a></h5>
+                    <h5>% interested in Support Retail (e.g office supplies): <a class="editable" href="#" id="percent_interested_in_support_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.1">.4</a></h5>
+                    <h5>% interested in FMCG Retail (e.g. groceries, medicines): <a class="editable" href="#" id="percent_interested_in_fmcg_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.5">.3</a></h5>
+                    <h5>% interested in other retail (e.g. food / restaurant): <a class="editable" href="#" id="percent_interested_in_food_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.4">.2</a></h5>                
+                </div>
+                <br>
+                <button id="recompute_mixuse" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+                </div>
+
+                <div class='usage_form hidden' id="built_env_form_community">
+                    <h4>Number of people using daily (visitors): <a class="editable" href="#" id="community_visitors" data-type="text" data-title="Enter new number ">12</a></h4>
+                    <h4>Number of people using daily (residents): <a class="editable" href="#" id="community_residents" data-type="text" data-title="Enter new number ">12</a></h4><br>
+                    <button id="recompute_community" type="button" class="btn btn-info recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+                </div>
+                <div class='usage_form hidden' id="built_env_form_agriculture"></div>
+                <div class='usage_form hidden' id="built_env_form_green-infrastructure"></div>
+                <br>
+
+            </div>
+            
+            <div class="col-md-4">            
+                    <h3>Representative Image</h3>                        
+                    <select id="base_asset_subclass_image" class="form-control">
+                        <option selected disabled>Change Image</option>
+                    </select>
+                    <br> <br><br>
+                    <div id="selected_typology_image">
+                        <small>No representative image specified, choose asset class and pick image.</small>
+                    </div>      
+                </div>
+            <div class="col-md-4">
+                <div class="services_form">
+                    <h3>Computed Details</h3>
+                    <br>
+                    <div class="usage_form hidden" id="built_env_form_residential_secondary">                        
+                        <h4><span id="current_pop_density"></span> people per km2 <small>Population Density</small></h4>
+                        <br>
+                        
+                        <h4><span id="avg_area_per_unit">0</span> <small>Avg. Area per unit</small></h4>                        
+                        <h4><span id="total_floor_area_residential_built">0</span> m2 <small>Total built floor area</small></h4>
+                        <h4><span id="total_floor_area_residential_available">0</span> m2 <small>Total available area</small></h4>
+                        
+                        <br>
+                        
+                        <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small>
+                        <br><br>
+                    </div>
+    
+                    <div class="usage_form hidden" id="built_env_form_mixuse_secondary">                        
+                        <h4><span id="current_pop_density_mixuse"></span> people per km2 <small>Population Density</small></h4>
+                        <br>
+                        
+                        <h4><span id="avg_area_per_unit_mixuse">0</span> <small>Avg. Area per unit</small></h4>                        
+                        <h4><span id="total_floor_area_residential_built_mixuse">0</span> m2 <small>Total built floor area</small></h4>
+                        <h4> <span id="total_floor_area_residential_available_mixuse">0</span> m2 <small>Total available area</small></h4><br>
+                        
+                        <h4><span id="total_floor_area_retail_required_mixuse">0</span> m2. <small>Total Floor area needed</small></h4>
+                        <div class="hidden">
+                            <h6><span id="total_floor_area_retail_luxury_split_mixuse">0</span> m2 <small>Luxury</small></h6>
+                            <h6><span id="total_floor_area_retail_support_split_mixuse">0</span> m2 <small>Support</small></h6>
+                            <h6><span id="total_floor_area_retail_fmcg_split_mixuse">0</span> m2 <small>FMCG</small></h6>
+                            <h6><span id="total_floor_area_retail_other_split_mixuse">0</span> m2 <small>Other</small> </h6>
+                            <br>
+                        </div>
+                        <h4><span id="total_floor_area_retail_available_mixuse">0</span> m2 <small>Total Floor area available</small></h4>
+                        <br>
+                        <br>
+                        <h4><span id="total_direct_employment_retail_mixuse">0</span> <small>Total direct employment</small></h6>
+                        <h4><span id="total_indirect_employment_retail_mixuse">0</span> <small>Total indirect employment</small></h6>     
+                        <br><br>
+                        
+                        <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small>
+                        <br><br>
+                        
+                    </div>
+    
+                    <div class="usage_form hidden" id="built_env_form_tourism_secondary">
+                       
+                    <h4><span id="tourism_total_rooms">3</span> <small>Total Rooms</small></h4>
+    
+                    <h4><span id="total_yearly_visitors">3</span> <small>Yearly Visitors</small></h4>
+                    
+                    <h4><span id="total_daily_visitors">3</span> <small>Daily Visitors</small></h4>
+                    
+                    <h4><span id="total_direct_employment_tourism">0</span> <small>Total direct employment</small></h6>
+                        <h4><span id="total_indirect_employment_tourism">0</span> <small>Total indirect employment</small></h6>
+                        <br><br>
+                    </div>
+    
+                    <div class="usage_form hidden" id="built_env_form_office_secondary">                    
+                        <br>
+                        <h4><span id="total_floor_area_office_available">0</span> m2 <small>Total Floor area available</small></h4>                    
+                        <h4><span id="total_floor_area_office_required">0</span> m2 <small>Total Floor area needed</small></h4>
+                        <br>
+                        <h4><span id="total_direct_employment_office">0</span> <small>Total direct employment</small></h6>
+                        <h4><span id="total_indirect_employment_office">0</span> <small>Total indirect employment</small></h6>
+                    <br>
+                    </div>
+    
+                    <div class="usage_form hidden"  id="built_env_form_retail_secondary">              
+                    
+                        <h4><span id="total_floor_area_retail_required">0</span> m2. <small>Total Floor area needed</small></h4>
+                        <div class="hidden">
+                            <h6><span id="total_floor_area_retail_luxury_split">0</span> m2 <small>Luxury</small></h6>
+                            <h6><span id="total_floor_area_retail_support_split">0</span> m2 <small>Support</small></h6>
+                            <h6><span id="total_floor_area_retail_fmcg_split">0</span> m2 <small>FMCG</small></h6>
+                            <h6><span id="total_floor_area_retail_other_split">0</span> m2 <small>other</small></h6>
+                            <br>
+                        </div>
+                        <h4><span id="total_floor_area_retail_available">0</span> m2 <small>Total Floor area available</small></h4>
+                        <br>
+                        <br>
+                        <h4><span id="total_direct_employment_retail">0</span> <small>Total direct employment</small></h6>
+                        <h4><span id="total_indirect_employment_retail">0</span> <small>Total indirect employment</small></h6>                            
+                    <br>
+                    </div>
+                    </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="services" class="services_form">
+                    <h3>Services</h3>
+                    <small>A summary of supporting services and assumptions that are needed to support this Asset class</small>
+                    <br><br>
+                    <h4>Community</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Hospital Beds per capita</th>
+                                <td>
+                                    <span id="beds_per_capita"></span>
+                                </td>
+                                <td>Total beds: <span id='total_hospital_beds'></span><input type='hidden' id='total_hospital_beds_raw'></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Policestations (cells) per capita</th>
+                                <td>
+                                    <span id="police_station_per_capita"></span>
+                                </td>
+                                <td>Total police stations (cells): <span id='total_police_stations'></span><input type='hidden' id='total_police_stations_raw'></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fire personnel per capita</th>
+                                <td>
+                                    <span id="fire_station_per_capita"></span>
+                                </td>
+                                <td>Total fire personnel: <span id='total_firestations'></span><input type='hidden' id='total_firestations_raw'></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">K12 Schools (m2) per student (5% of population)</th>
+                                <td>
+                                    <span id="school_per_capita"></span>
+                                </td>
+                                <td>Total school area required: <span id='total_schools'></span> m2<input type='hidden' id='total_schools_raw'> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Energy</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Electricity demand per person (MWh / year) </th>
+                                <td>
+                                    <span id="energy_per_capita"></span>
+                                </td>
+                                <td>Total electricity demand: <span id='total_energy_demand'></span> MW <input type='hidden' id='total_energy_demand_raw'></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <h4>Water</h4>
+
+                    <table class="table table-bordered">
+                        <tbody>
+
+                            <th scope="row">Water demand (m3/year/person) </th>
+                            <td>
+                                <span id="water_per_capita"></span>
+                            </td>
+                            <td>Total water demand: <span id='total_water_demand'></span> m3 <input type='hidden' id='total_water_demand_raw'></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+            <div class="col-md-6">
+                <br><br><br><br><br><br>
+                <div id="" class="services_form">  
+             
+                <h4>Sewage</h4>
+
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Sewage demand (m3/year/person)</th>
+                                <td>
+                                    <span id="sewage_per_capita"></span>
+                                </td>
+                                <td>Total sewage demand: <span id='total_sewage_demand'></span> m3 <input type='hidden' id='total_sewage_demand_raw'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4>Transport</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">% using Road (twice a day)</th>
+                                <td>
+                                    <span id="percent_road_usage"></span>
+                                </td>
+
+                                <td>Usage (people)</td>
+                                <td><span id='total_road_usage'></span><input type='hidden' id='total_road_usage_raw'></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">% using Rail (twice a day)</th>
+                                <td>
+                                    <span id="percent_rail_usage"></span>
+                                </td>
+
+                                <td> Usage (people)</td>
+                                <td><span id='total_rail_usage'></span><input type='hidden' id='total_rail_usage_raw'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4>Parking</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Recommended parking spaces ( 2 people per car, 50% usage)</th>
+                                <td>
+                                    <span id="parking_factor"></span>
+                                </td>
+
+                                <td>Total</td>
+                                <td><span id='total_parking'></span><input type='hidden' id='total_parking_raw'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4>Green Spaces</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Per capita green space (m2)</th>
+                                <td>
+                                    <span id="per_capita_green_space"></span>
+                                </td>
+
+                                <td>Total</td>
+                                <td><span id='total_green_space'></span><input type='hidden' id='total_green_space_raw'></td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
         </div>
+        <div class="row">
+        <h3>Remember parameters</h3>
+                <br>
+                <!--
+                <% if (projecttype == 'paid'){ %>
+                    <button type="button" id="savevalues" class="btn btn-primary btn-x-sm"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Save values on server </button> <br><br>
+                <% } else{ %>  
+                <small>This is only available for paid projects on Geodesignhub, you can save the values you enter so you dont have to enter them again.</small>
+                <% } %>
+                -->
+                
+                </div>
+
+
+            </div>
+        </div>
+
+        
+        
         <!-- Footer -->
         <br><br><br>
         <footer>
@@ -194,6 +626,7 @@
     <script type="text/javascript" src="assets/js/choropleth.js"></script>
     <script type="text/javascript" src="assets/js/moment.min.js"></script>
     <script type="text/javascript" src="assets/js/svg.min.js"></script>
+    <script type="text/javascript" src="assets/js/financial-details.js"></script>
     
     <!-- Bootstrap Core scripts -->
     <script type="text/javascript" src="assets/js/money.min.js"></script>
@@ -211,7 +644,9 @@
         const syndiagrams = <%- syndiagrams %>;
         const design_url_details = <%- design_url_details %>;
         var design = <%- design %>;
-        
+        var asset_class = "";
+        var diagramdetail = {};
+        const all_images = <%- all_image_files %>;
         var diagram_cost_details = {
              "initCost" : 0,
              "acfCost" : 100000,
@@ -307,261 +742,14 @@
                 return stacks.length;
             },
             });
-function abbrNum(number, decPlaces) {
-    if (number < 1000) {
-        number = Math.round(number);
-    } else {
-        decPlaces = Math.pow(10, decPlaces);
-        var abbrev = ["k", "m", "b", "t"];
-        for (var i = abbrev.length - 1; i >= 0; i--) {
-            var size = Math.pow(10, (i + 1) * 3);
-            if (size <= number) {
-                number = Math.round(number * decPlaces / size) / decPlaces;
-                if ((number == 1000) && (i < abbrev.length - 1)) {
-                    number = 1;
-                    i++;
-                }
-                number += abbrev[i];
-                break;
-            }
-        }
-    }
-    return number;
-}
 
-
-function miniMapstyleComp(feature) {
-    // console.log(feature.properties)
-    var curFeature = feature.geometry.type;
-    if (curFeature === 'LineString') {
-        // console.log(feature)
-        return {
-            weight: 2,
-            opacity: .9,
-            color: feature.properties.color,
-            dashArray: '',
-
-        };
-    } else {
-        // var fillColor = getColor(feature.properties.areatype);
-
-        if (feature.properties.areatype == 'project') {
-            var fillColor = feature.properties.color;
-        } else { // it is policy
-            var fillPattern = setSVGStyle(feature.properties.color);
-            var fillColor = fillPattern;
-        }
-
-        return {
-            // fillColor: feature.properties.color,
-            // fillColor:'#333333',
-            weight: 1,
-            stroke: true,
-            opacity: 0.9,
-            fillColor: fillColor,
-            color: feature.properties.color,
-            dashArray: '',
-            // opacity: 0.2,
-            fillOpacity: 0.8,
-        };
-    }
-
-}
-
-function setSVGStyle(reqColor) {
-    var pattern = svgDrawing.pattern(6, 6, function (add) {
-        // add.rect(5, 5).fill(reqColor)
-        add.line(0, 0, 6, 6).stroke({
-            width: 1,
-            color: reqColor
-        })
-        add.line(6, 0, 0, 6).stroke({
-            width: 1,
-            color: reqColor
-        })
-    });
-    return pattern.fill();
-}
-
-function getColor(type) {
-
-    return type === 'policy' ? '#707070 ' :
-        type === 'project' ? '#a69695 ' :
-        type === 'red2' ? '#bd0026' :
-        type === 'red' ? '#f03b20' :
-        type === 'yellow' ? '#FFFF00' :
-        type === 'green' ? '#74c476' :
-        type === 'green2' ? '#31a354' :
-        type === 'green3' ? '#006d2c' :
-        type === 'purple' ? '#CFACF7' :
-        type === 'purple2' ? '#8D6CBF' :
-        type === 'purple3' ? '#601286' :
-        type === 'orange' ? '#FFA927' :
-        type === 'orange2' ? '#F8872E' :
-        type === 'orange3' ? '#FC6B0A' :
-        type === 'constraints' ? '#343434' :
-        type === 'boundaries' ? '#a6cee3' :
-        type === 'boundaries2' ? '#b2df8a' :
-        '#808080';
-}
-$("#loadingGIF").hide();
-var opGJ = {
-    "type": "FeatureCollection",
-    "features": []
-};
-
-
-function computeNPV() {
-
-    var initInvestment = parseInt(initCost);
-    var acf = parseInt(acfCost);
-    var aopex = parseInt(aopexCost);
-    var asga = parseInt(asgaCost);
-    var acfg = (parseFloat($("#acfg-slider").val()) / 100);
-    var wacc = (parseFloat($("#wacc-slider").val()) / 100);
-    var numYears = 30;
-    var income = [];
-    var lastyearsincome;
-    var yearsPlot = [];
-
-
-    const init_investement_syear = isNumeric($("#initcost-syear").val()) ? parseInt($("#initcost-syear").val()) :
-        0;
-    const init_investement_eyear = isNumeric($("#initcost-eyear").val()) ? parseInt($("#initcost-eyear").val()) :
-        1;
-    const acf_syear = isNumeric($("#acf-syear").val()) ? parseInt($("#acf-syear").val()) : 0;
-
-    const investment_duration = init_investement_eyear - init_investement_syear;
-    const yearly_investement = initInvestment / investment_duration;
-
-    // ebitda = (ebitda < 0) ? 0 : ebitda;
-    for (var x = 0; x < numYears; x++) {
-        yearsPlot.push(x);
-        var c_acf = 0;
-        if (x <= acf_syear) {
-            c_acf = 0;
-        } else {
-            c_acf = acf;
-        }
-
-        if (x >= init_investement_syear && x < init_investement_eyear) {
-            var ebitda = c_acf - yearly_investement - aopex - asga;
-        } else {
-            var ebitda = c_acf - aopex - asga;
-        }
-
-        if (x == 0) {
-            income.push(parseFloat(ebitda.toFixed(2)));
-        } else {
-            lastyearsincome = income[x - 1];
-            var thisyearsincome = ebitda + (lastyearsincome * acfg);
-            income.push(parseFloat(thisyearsincome.toFixed(2)));
-        }
-
-    }
-    var dcf = [];
-    for (var y = 0; y < numYears; y++) {
-        var curdcf = ((income[y]) / Math.pow((1 + wacc), y));
-        dcf.push(parseFloat(curdcf.toFixed(2)));
-    }
-
-    var totaldcf = dcf.reduce(function (a, b) {
-        return a + b;
-    }, 0);
-    var absdcf = Math.abs(totaldcf);
-    if (totaldcf < 0) {
-        $("#totaldcf").html('-' + abbrNum(parseFloat(absdcf.toFixed(2)), 2));
-    } else {
-        $("#totaldcf").html(abbrNum(parseFloat(absdcf.toFixed(2)), 2));
-    }
-    var npv = initInvestment - totaldcf;
-    var absnpv = Math.abs(npv);
-
-    if (npv < 0) {
-        $("#npvVal").html('-' + abbrNum(parseFloat(absnpv.toFixed(2)), 2));
-    } else {
-        $("#npvVal").html(abbrNum(parseFloat(absnpv.toFixed(2)), 2));
-    }
-    if (npv > 0) {
-        $("#npvmeaning").html(
-            "<p class='bg-danger'>Given the parameters, this investement is currently overvalued. </p>");
-
-    } else {
-        $("#npvmeaning").html(
-            "<p class='bg-success'>Given the parameters, this investement is currently undervalued.</p>");
-    }
-
-    $("#loadingGIF").hide();
-    // plot
-
-        var plotData = {
-            labels: yearsPlot,
-            datasets: [{
-                label: "Actual Cash Flow",
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: "rgba(75,192,192,0.4)",
-                borderColor: "rgba(75,192,192,1)",
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "rgba(75,192,192,1)",
-                pointBackgroundColor: "#fff",
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                pointHoverBorderColor: "rgba(220,220,220,1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: income,
-                spanGaps: false,
-            }, {
-                label: "Discounted Cash Flow",
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: "rgba(255,99,132,0.2)",
-                borderColor: "rgba(255,99,132,1)",
-                pointBackgroundColor: "rgba(255,99,132,1)",
-                pointBorderColor: "#fff",
-                pointHoverBackgroundColor: "#fff",
-                pointHoverBorderColor: "rgba(255,99,132,1)",
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: dcf,
-                spanGaps: false,
-            }]
+        $("#loadingGIF").hide();
+        var opGJ = {
+            "type": "FeatureCollection",
+            "features": []
         };
 
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: plotData,
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }],
-                    xAxes: [{
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Years'
-                        }
-                    }]
-                }
-            }
-        });
-
-    }
+var asset_class = "";
 
     $('#computeNPVButton').on('click', function (e) {
         $("#loadingGIF").show();
@@ -572,152 +760,6 @@ function computeNPV() {
         selectedcurrency = this.value + " ";
 
     });
-
-    function initCostSliders(defaultvalues) {
-        const totalcost = (defaultvalues['capex'] == "0") ? parseInt(diagram_cost_details.initCost) : parseInt(defaultvalues['capex']);
-
-        const acf = (defaultvalues['acf'] == "0") ? parseInt(totalcost * 0.1) : defaultvalues['acf'];
-        const opex = (defaultvalues['opex'] == "0") ? parseInt(totalcost * 0.05) : defaultvalues['opex'];
-        const asga = (defaultvalues['asga'] == "0") ? parseInt(totalcost * 0.01) : defaultvalues['asga'];
-
-        const capex_start = (defaultvalues.hasOwnProperty("capex_start")) ? defaultvalues["capex_start"] : 0;
-
-        const capex_end = (defaultvalues.hasOwnProperty("capex_end")) ? defaultvalues["capex_end"] : 1;
-
-        const acf_start = (defaultvalues.hasOwnProperty("acf_start")) ? defaultvalues["acf_start"] : 0;
-
-        $("#initcost-slider").val(totalcost);
-        $("#acf-slider").val(acf);
-        $("#aopex-slider").val(opex);
-        $("#asga-slider").val(asga);
-        $("#initcost-syear").val(capex_start);
-        $("#initcost-eyear").val(capex_end);
-        $("#acf-syear").val(acf_start);
-
-        var costcleave = new Cleave('#initcost-slider', {
-            numeral: true,
-            numeralThousandsGroupStyle: 'thousand',
-            onValueChanged: function (e) {
-                initCost = e.target.rawValue;
-            }
-        });
-
-        var acfcleave = new Cleave('#acf-slider', {
-            numeral: true,
-            numeralThousandsGroupStyle: 'thousand',
-            onValueChanged: function (e) {
-                acfCost = e.target.rawValue;
-            }
-        });
-
-        var aopexcleave = new Cleave('#aopex-slider', {
-            numeral: true,
-            numeralThousandsGroupStyle: 'thousand',
-            onValueChanged: function (e) {
-                aopexCost = e.target.rawValue;
-            }
-        });
-
-        var asagacleave = new Cleave('#asga-slider', {
-            numeral: true,
-            numeralThousandsGroupStyle: 'thousand',
-            onValueChanged: function (e) {
-                asgaCost = e.target.rawValue;
-            }
-        });
-
-
-    }
-
-    function initpercentSliders(defaultvalues) {
-        
-        const acfg = (defaultvalues.hasOwnProperty("acfg")) ? defaultvalues["acfg"]*100 : 0;            
-        const wacc = (defaultvalues.hasOwnProperty("wacc")) ? defaultvalues["wacc"]*100 : 0;
-
-        $("#acfg-slider").ionRangeSlider({
-            min: 0,
-            max: 20,
-            from:acfg, 
-            step: 0.05,
-            postfix: "%",
-            grid: true,
-            prettify_enabled: true
-        });
-        $("#wacc-slider").ionRangeSlider({
-            min: 0,
-            max: 20,
-            step: 0.05,
-            from: wacc,
-            postfix: "%",
-            grid: true,
-            prettify_enabled: true
-        });
-    }
-    // initpercentSliders();
-    // computeNPV();
-
-    function isNumeric(n) {
-        return !isNaN(parseFloat(n)) && isFinite(n);
-    }
-    
-    function get_financials(diagramid) {
-        var url = '/get_diagram_details/';
-        data = {'projectid':projectid, 'diagramid':diagramid, 'apitoken':apitoken, 
-                "_csrf": csrf}
-        var promise = $.ajax({
-            url: url,
-            type: 'POST',
-            data: data
-        });
-
-        promise.done(function (diagram_data) {
-            // console.log(diagram_data)
-            render_diagram_details(diagram_data.opts.diagramdetail);
-            initCostSliders(diagram_data.opts.defaultvalues);
-            initpercentSliders(diagram_data.opts.defaultvalues);
-            humane.log("Data successufully received", {
-                addnCls: 'humane-flatty-success'
-            });
-            computeNPV();
-        });
-
-        promise.fail(function (data) {
-            humane.log("Error in receiving data, the administrators have been notified", {
-                addnCls: 'humane-flatty-error'
-            });
-        });
-
-
-    }
-
-    function get_asset_details(diagramid) {
-        var url = '/get_asset_details/';
-        data = {'projectid':projectid, 'diagramid':diagramid, 'apitoken':apitoken, 'boardid':design_url_details.boardid, 'cteamid':design_url_details.cteamid, "synthesisid": design_url_details.synthesisid,
-                "_csrf": csrf}
-        var promise = $.ajax({
-            url: url,
-            type: 'POST',
-            data: data
-        });
-
-        promise.done(function (asset_data) {
-            console.log(asset_data);
-            
-            
-            humane.log("Data successufully received", {
-                addnCls: 'humane-flatty-success'
-            });
-            
-        });
-
-        promise.fail(function (data) {
-            humane.log("Error in receiving data, the administrators have been notified", {
-                addnCls: 'humane-flatty-error'
-            });
-        });
-
-
-    }
 
     $('#savevalues').on('click', function (e) {
         const capex = diagram_cost_details.initCost;
@@ -770,188 +812,11 @@ function computeNPV() {
 
     });
 
-    function render_diagram_details(diagramdetail) {
-        var totalcost;
-        var system_id = diagramdetail['sysid'];
-        let sysdetail = systemdetail.find(o => o.id === system_id);
-        $("#diagName").html(diagramdetail['description']);
-
-        if (diagramdetail['length'] == 0) {
-            $("#diagAreaLength").html("Area: " + parseFloat((diagramdetail['area'] / 10000)).toFixed(2) + " ha.");
-            if (diagramdetail['cost_override'] !== 0) {
-                if (diagramdetail['cost_override_type'] == 'total') {
-                    totalcost = parseFloat(diagramdetail['cost_override']).toFixed(2);
-                } else {
-                    totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * diagramdetail['cost_override'];
-                }
-            } else {
-                totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * sysdetail['syscost'];
-        
-            }
-
-        } else if (diagramdetail['area'] == 0) {
-            $("#diagAreaLength").html("Length: " + diagramdetail['length'] + " km.");
-            totalcost = parseFloat(diagramdetail['length']) * sysdetail['syscost'];
-        }
-
-        $("#sysCost").html("Total cost: " + abbrNum(totalcost, 2) + " EUR");
-        inputLayer.clearLayers();
-        var diagramLayer = L.geoJSON(diagramdetail['geojson'], {
-            style: miniMapstyleComp
-        }).addTo(inputLayer);
-        inputmap.fitBounds(inputLayer.getBounds());
-
-        function isNumeric(n) {
-            return !isNaN(parseFloat(n)) && isFinite(n);
-        }
-
-        diagram_cost_details.initCost = parseInt(totalcost);
-        diagram_cost_details.acfCost = 100000;
-        diagram_cost_details.aopexCost = 0;
-        diagram_cost_details.asgaCost = 0;
-
-    }
-
-        function initializeTables() {
-            var tableGenerator = function (domid) {
-                var groupColumn = 4;
-                var t = $('#' + domid).DataTable({
-                    "columnDefs": [{
-                        "visible": false,
-                        "targets": groupColumn
-                    }],
-                    searching: false,
-                    fixedHeader: {
-                        header: false,
-                        footer: true
-                    },
-                    "order": [
-                        [groupColumn, 'asc']
-                    ],
-                    "drawCallback": function (settings) {
-                        var api = this.api();
-                        var rows = api.rows({
-                            page: 'current'
-                        }).nodes();
-                        var last = null;
-
-                        api.column(groupColumn, {
-                            page: 'current'
-                        }).data().each(function (group, i) {
-                            if (last !== group) {
-                                $(rows).eq(i).before(
-                                    '<tr class="group"><td colspan="">' + group +
-                                    '</td></tr>'
-                                );
-
-                                last = group;
-                            }
-                        });
-                    }
-                });
-                return t;
-            }
-            npv_table = tableGenerator('npv');
-        }
-
-        function generateInitTables() {
-            destroyTables();
-            var allDiagrams = syndiagrams.diagrams;           
-
-            var sys = systems;
-            var syslen = sys.length;
-            for (var x = 0; x < syslen; x++) {
-                sys[x]['diagrams'] = [];                
-                // sysDiags.push({cursys.name:{"id":cursys.id, "color":cursys.syscolor, "diagrams":[]}});
-            }
-            var diagGJ = {};
-            for (var g = 0; g < allDiagrams.length; g++) {
-                var curDiag = allDiagrams[g];
-                diagGJ[parseInt(curDiag)] = {
-                    "type": "FeatureCollection",
-                    "features": []
-                };
-            }
-
-            for (var j = 0; j < design.features.length; j++) {
-                var curFeat = design.features[j];
-                var curFeatProp = curFeat.properties;
-                var diagID = curFeatProp.diagramid;
-                diagGJ[parseInt(diagID)].features.push(curFeat);
-            }
-
-            for (var dID in diagGJ) {
-                var diagFeats = diagGJ[dID];
-                var ran = false;
-                for (var y1 = 0; y1 < diagFeats.features.length; y1++) {
-                    if (ran == false) {
-                        var diagSysName = diagFeats.features[y1].properties.sysname;
-                        // var tmpDiagFeat = {};
-                        for (var x1 = 0; x1 < syslen; x1++) {
-                            var cursys = sys[x1];
-                            if (cursys.sysname == diagSysName) {
-                                // tmpDiagFeat[dID]  = diagFeats;
-                                sys[x1]['diagrams'].push(diagFeats);
-                                break;
-                            }
-                            ran = true;
-                        }
-                        break;
-                    }
-                }
-            }
-
-            $("#npv").find("tbody>tr:gt(0)").remove();
-            $("#npv").find("thead>tr:gt(0)").remove();
-
-            var headcounter = 0;
-            var footercounter = 0;
-            for (var h = 0; h < syslen; h++) {
-                var cursys = sys[h];
-                if (cursys.diagrams.length > 0) {
-                    
-                    var yrCounter = 0
-                    if (headcounter === 0) { // header row
-                        var npvHTML ="<tr><th class='header initCol'>Title</th><th class='finheader'>Financial Data</th><th class='aaheader'>Asset Data</th><th class='systemheader'>System</th>";
-                        npvHTML += "</tr>";
-                        $('#npv  > thead').append(npvHTML);
-                        headcounter += 1;
-                    } // header is added. 
-                    // console.log(npvHTML)
-                    // add system row 
-                    var diaglen = cursys.diagrams.length;
-                    
-                    for (var p = 0; p < diaglen; p++) {
-                        var curdiag = cursys.diagrams[p];
-                        if (curdiag.features.length > 0) {
-                            var curdiagprops = curdiag.features[0].properties;
-                            var curdiagid = curdiag.features[0].properties.diagramid;                                                            
-                            var projectorpolicy = curdiag.features[0].properties.areatype;
-                            var diagrowHTMLnpv = "<tr class=" + "'" + cursys.id + "'" + "><td class='assetdetails initCol'>" +
-                                curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" +
-                                "'fin-" + curdiagid + "'" + ">"+'<button type="button" class="btn btn-link" onclick="get_financials(' + "'" + curdiagid + "'" + ')"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></i> Modify</button> '+"</td>" + "<td class=" +
-                                "'aa-" + curdiagid + "'" + ">"+'<button type="button" class="btn btn-link" onclick="get_asset_details(' + "'" + curdiagid + "'" + ')"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></i> Modify</button> '+"</td>" + "<td class=" + "system-" +
-                                curdiagid + "'" +
-                                ">" + cursys.sysname + "</td>";
-                            yrCounter = 0;
-                            diagrowHTMLnpv += "</tr>";
-                            $('#npv > tbody').append(diagrowHTMLnpv);
-                        }
-                    }
-                }
-            }
-            systems = sys;
-        }
-
-        function destroyTables() {
-            if ($.fn.DataTable.isDataTable('#npv')) {
-                npv_table.destroy();
-            }
-        }
-
         initializeTables();
         generateInitTables();
     </script>
+
+    <script type="text/javascript" src="assets/js/asset-details.js"></script>
 </body>
 
 </html>
