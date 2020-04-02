@@ -1,7 +1,8 @@
-function get_asset_details(diagramid) {
+function get_asset_details(diagram_id) {
   var url = '/get_asset_details/';
+  diagramid = diagram_id;
   const data = {
-    'projectid': projectid, 'diagramid': diagramid, 'apitoken': apitoken, 'boardid': design_url_details.boardid, 'cteamid': design_url_details.cteamid, "synthesisid": design_url_details.synthesisid,
+    'projectid': projectid, 'diagramid': diagram_id, 'apitoken': apitoken, 'boardid': design_url_details.boardid, 'cteamid': design_url_details.cteamid, "synthesisid": design_url_details.synthesisid,
     "_csrf": csrf
   }
   var promise = $.ajax({
@@ -11,7 +12,7 @@ function get_asset_details(diagramid) {
   });
 
   promise.done(function (asset_data) {
-    console.log(asset_data);
+   
     $("#asset-details").removeClass('hidden');
     $("#financial-details").addClass('hidden');
 
@@ -24,8 +25,10 @@ function get_asset_details(diagramid) {
       var class_default_values = {};
     } else {
       var class_default_values = JSON.parse(defaultvalues['asset_details']);
-      asset_class = class_default_values.class;
-
+      var asset_class = class_default_values.class;
+      if (asset_class) {
+        render_saved_asset_data({"asset_class":asset_class, "class_default_values":class_default_values});
+      }
     }
     render_diagram_details(asset_data.opts.diagramdetail);
 
@@ -335,7 +338,7 @@ function updateClassControls(base_class_type) {
     d1['text'] = "<span><img src='assets/img/asset-images/thumbnails/" + element + "' /></span>";
     d.push(d1);
   };
-  console.log(d)
+ 
   $("#base_asset_subclass_image").select2({
     minimumResultsForSearch: -1,
     placeholder: "Select a image",
@@ -2824,7 +2827,10 @@ myTransportControl = new TransportCalculator();
 myCommunityControl = new CommunityCalculator();
 $(".services_form").hide();
 
-if (asset_class) {
+
+function render_saved_asset_data(asset_details){ 
+  var asset_class = asset_details['asset_class'];
+  var class_default_values = asset_details['class_default_values'];
 
   $("#base_asset_class option[data-value='" + asset_class + "']").attr("selected", "selected");
 
@@ -2928,8 +2934,9 @@ if (asset_class) {
 
     }
   }
-
 }
+
+
 
 
 $('#savevalues_asset').on('click', function (e) {

@@ -59,7 +59,7 @@
         <div class="row">
             <div class="col-md-4">
                 <h3>All Diagrams</h3>
-                <table id="npv" class="hor-minimalist-b">
+                <table id="all_diagrams" class="hor-minimalist-b">
                     <thead>
                         <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
                     </thead>
@@ -632,6 +632,9 @@
         const design_url_details = <%- design_url_details %>;
         var design = <%- design %>;
         var asset_class = "";
+
+        var representative_image = "";
+        var diagrams_table;
         var diagramid = 0;
         var diagramdetail = {};
         const all_images = <%- all_image_files %>;

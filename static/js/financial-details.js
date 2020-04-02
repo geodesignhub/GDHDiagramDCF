@@ -99,10 +99,10 @@ function getColor(type) {
 
 function computeNPV() {
 
-    var initInvestment = parseInt(initCost);
-    var acf = parseInt(acfCost);
-    var aopex = parseInt(aopexCost);
-    var asga = parseInt(asgaCost);
+    var initInvestment = parseInt(diagram_cost_details.initCost);
+    var acf = parseInt(diagram_cost_details.acfCost);
+    var aopex = parseInt(diagram_cost_details.aopexCost);
+    var asga = parseInt(diagram_cost_details.asgaCost);
     var acfg = (parseFloat($("#acfg-slider").val()) / 100);
     var wacc = (parseFloat($("#wacc-slider").val()) / 100);
     var numYears = 30;
@@ -330,7 +330,7 @@ function initializeTables() {
         });
         return t;
     }
-    npv_table = tableGenerator('npv');
+    diagrams_table = tableGenerator('all_diagrams');
 }
 
 function generateInitTables() {
@@ -380,15 +380,14 @@ function generateInitTables() {
         }
     }
 
-    $("#npv").find("tbody>tr:gt(0)").remove();
-    $("#npv").find("thead>tr:gt(0)").remove();
+    $("#all_diagrams").find("tbody>tr:gt(0)").remove();
+    $("#all_diagrams").find("thead>tr:gt(0)").remove();
 
     var headcounter = 0;
     var footercounter = 0;
     for (var h = 0; h < syslen; h++) {
         var cursys = sys[h];
         if (cursys.diagrams.length > 0) {
-
             var yrCounter = 0
             if (headcounter === 0) { // header row
                 var npvHTML = "<tr><th class='header initCol'>Title</th><th class='finheader'>Financial Data</th><th class='aaheader'>Asset Data</th><th class='systemheader'>System</th>";
@@ -414,7 +413,7 @@ function generateInitTables() {
                         ">" + cursys.sysname + "</td>";
                     yrCounter = 0;
                     diagrowHTMLnpv += "</tr>";
-                    $('#npv > tbody').append(diagrowHTMLnpv);
+                    $('#all_diagrams > tbody').append(diagrowHTMLnpv);
                 }
             }
         }
@@ -423,8 +422,8 @@ function generateInitTables() {
 }
 
 function destroyTables() {
-    if ($.fn.DataTable.isDataTable('#npv')) {
-        npv_table.destroy();
+    if ($.fn.DataTable.isDataTable('#all_diagrams')) {
+        diagrams_table.destroy();
     }
 }
 
@@ -529,7 +528,16 @@ function get_financials(diagram_id) {
     });
 
     promise.done(function (diagram_data) {
-        // console.log(diagram_data)
+        if (diagram_data.opts.defaultvalues.hasOwnProperty('capex')){
+        } else {
+            diagram_data.opts.defaultvalues.capex = 0;
+            diagram_data.opts.defaultvalues.opex =  0;
+            diagram_data.opts.defaultvalues.asga =  0;
+            diagram_data.opts.defaultvalues.acf =  0;
+            diagram_data.opts.defaultvalues.capex_start =  0;
+            diagram_data.opts.defaultvalues.capex_end =  1;
+            diagram_data.opts.defaultvalues.acf_start =  0;
+        }
         
         $("#financial-details").removeClass('hidden');
         $("#asset-details").addClass('hidden');
