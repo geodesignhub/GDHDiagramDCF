@@ -431,9 +431,9 @@ function destroyTables() {
 function initCostSliders(defaultvalues) {
     const totalcost = (defaultvalues['capex'] == "0") ? parseInt(diagram_cost_details.initCost) : parseInt(defaultvalues['capex']);
 
-    const acf = (defaultvalues['acf'] == "0") ? parseInt(totalcost * 0.1) : defaultvalues['acf'];
-    const opex = (defaultvalues['opex'] == "0") ? parseInt(totalcost * 0.05) : defaultvalues['opex'];
-    const asga = (defaultvalues['asga'] == "0") ? parseInt(totalcost * 0.01) : defaultvalues['asga'];
+    const acf = (defaultvalues['acf'] == 0) ? parseInt(totalcost * 0.1) : defaultvalues['acf'];
+    const opex = (defaultvalues['opex'] == 0) ? parseInt(totalcost * 0.05) : defaultvalues['opex'];
+    const asga = (defaultvalues['asga'] == 0) ? parseInt(totalcost * 0.01) : defaultvalues['asga'];
 
     const capex_start = (defaultvalues.hasOwnProperty("capex_start")) ? defaultvalues["capex_start"] : 0;
 
@@ -515,12 +515,13 @@ function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-function get_financials(diagramid) {
-    var url = '/get_diagram_details/';
+function get_financials(diagram_id) {
+    var url = '/get_financials/';
     const data = {
-        'projectid': projectid, 'diagramid': diagramid, 'apitoken': apitoken,
+        'projectid': projectid, 'diagramid': diagram_id, 'apitoken': apitoken,
         "_csrf": csrf
-    }
+    };
+    diagramid = diagram_id;
     var promise = $.ajax({
         url: url,
         type: 'POST',

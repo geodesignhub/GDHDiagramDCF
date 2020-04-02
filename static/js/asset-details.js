@@ -2823,149 +2823,6 @@ myMixedUseControl = new MixedUseCalaulator();
 myTransportControl = new TransportCalculator();
 myCommunityControl = new CommunityCalculator();
 $(".services_form").hide();
-$('#savevalues').on('click', function (e) {
-
-  const base_asset_class = $("#base_asset_class option:selected").attr('data-value');
-  var metadata = {};
-  var asset_details = {};
-  if (base_asset_class) {
-    if (base_asset_class == 'residential') {
-      metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
-      metadata['number_of_people_residential'] = parseInt($("#number_of_people_residential").editable('getValue', true));
-      metadata['residential_units'] = parseInt($("#residential_units").editable('getValue', true));
-      metadata['residential_floors'] = parseInt($("#residential_floors").editable('getValue', true));
-      metadata['residential_far'] = parseFloat($("#residential_far").editable('getValue', true));
-      metadata['current_pop_density'] = $("#current_pop_density").html();
-    } else if (base_asset_class == 'hospitality') {
-      metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
-      metadata['tourism_m2_per_guest'] = parseInt($("#tourism_m2_per_guest").editable('getValue', true));
-      metadata['tourism_floors'] = parseInt($("#tourism_floors").editable('getValue', true));
-      metadata['tourism_land_area'] = parseInt($("#tourism_land_area").editable('getValue', true));
-      metadata['tourism_people_per_room'] = parseInt($("#tourism_people_per_room").editable('getValue', true));
-      metadata['target_occupancy_rate'] = parseFloat($("#target_occupancy_rate").editable('getValue', true));
-      metadata['tourism_total_rooms'] = parseInt($("#tourism_total_rooms").html());
-      metadata['total_yearly_visitors'] = parseInt($("#total_yearly_visitors").html());
-      metadata['direct_employees_to_visitor_ratio_tourism'] = parseFloat($("#direct_employees_to_visitor_ratio_tourism").editable('getValue', true));
-      metadata['indirect_to_direct_employees_ratio_tourism'] = parseFloat($("#indirect_to_direct_employees_ratio_tourism").editable('getValue', true));
-      metadata['total_direct_employment_tourism'] = $("#total_direct_employment_tourism").html();
-      metadata['total_indirect_employment_tourism'] = $("#total_indirect_employment_tourism").html();
-
-    } else if (base_asset_class == 'retail') {
-      metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
-      metadata['retail_m2_per_visitor'] = parseInt($("#retail_m2_per_visitor").editable('getValue', true));
-      metadata['retail_floors'] = parseInt($("#retail_floors").editable('getValue', true));
-      metadata['total_daily_visitors_retail'] = parseInt($("#total_daily_visitors_retail").editable('getValue', true));
-      metadata['percent_interested_in_luxury_retail'] = parseFloat($("#percent_interested_in_luxury_retail").editable('getValue', true));
-      metadata['total_daily_visitors_retail'] = parseInt($("#total_daily_visitors_retail").editable('getValue', true));
-      metadata['percent_interested_in_support_retail'] = parseFloat($("#percent_interested_in_support_retail").editable('getValue', true));
-      metadata['total_daily_visitors_retail'] = parseFloat($("#total_daily_visitors_retail").editable('getValue', true));
-      metadata['percent_interested_in_fmcg_retail'] = parseFloat($("#percent_interested_in_fmcg_retail").editable('getValue', true));
-      metadata['percent_interested_in_food_retail'] = parseFloat($("#percent_interested_in_food_retail").editable('getValue', true));
-      metadata['direct_employees_to_visitor_ratio_retail'] = parseFloat($("#direct_employees_to_visitor_ratio_retail").editable('getValue', true));
-      metadata['indirect_to_direct_employees_ratio_retail'] = parseFloat($("#indirect_to_direct_employees_ratio_retail").editable('getValue', true));
-      metadata['total_floor_area_retail_required'] = $("#total_floor_area_retail_required").html();
-      metadata['total_direct_employment_retail'] = $("#total_direct_employment_retail").html();
-      metadata['total_indirect_employment_retail'] = $("#total_indirect_employment_retail").html();
-    } else if (base_asset_class == 'office') {
-      metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
-      metadata['office_m2_per_visitor'] = parseInt($("#office_m2_per_visitor").editable('getValue', true));
-      metadata['office_floors'] = parseInt($("#office_floors").editable('getValue', true));
-      metadata['total_daily_visitors_office'] = parseInt($("#total_daily_visitors_office").editable('getValue', true));
-      metadata['total_floor_area_office_required'] = $("#total_floor_area_office_required").val();
-      metadata['indirect_to_direct_employees_ratio'] = $("#indirect_to_direct_employees_ratio_office").html();
-      metadata['direct_employees_to_visitor_ratio'] = $("#direct_employees_to_visitor_ratio_office").html();
-      metadata['total_direct_employment_office'] = $("#total_direct_employment_office").html();
-      metadata['total_indirect_employment_office'] = $("#total_indirect_employment_office").html();
-    }
-    else if (base_asset_class == 'transport') {
-      metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
-      metadata['transport_passenger_trips'] = parseInt($("#transport_passenger_trips").editable('getValue', true));
-    }
-    else if (base_asset_class == 'agriculture') {
-      metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
-    }
-    else if (base_asset_class == 'green_infrastructure') {
-      metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
-    }
-    else if (base_asset_class == 'community') {
-      metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
-      metadata['community_residents'] = parseInt($("#community_residents").editable('getValue', true));
-      metadata['community_visitors'] = parseInt($("#community_visitors").editable('getValue', true));
-    }
-    else if (base_asset_class == 'mixuse') {
-      metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
-      metadata['number_of_people_residential_mixuse'] = parseInt($("#number_of_people_residential_mixuse").editable('getValue', true));
-      metadata['residential_units_mixuse'] = parseInt($("#residential_units_mixuse").editable('getValue', true));
-      metadata['residential_floors_mixuse'] = parseInt($("#residential_floors_mixuse").editable('getValue', true));
-      metadata['residential_far_mixuse'] = parseFloat($("#residential_far_mixuse").editable('getValue', true));
-      metadata['current_pop_density_mixuse'] = $("#current_pop_density_mixuse").html();
-      metadata['retail_m2_per_visitor_mixuse'] = parseInt($("#retail_m2_per_visitor_mixuse").editable('getValue', true));
-      metadata['retail_floors_mixuse'] = parseInt($("#retail_floors_mixuse").editable('getValue', true));
-      metadata['total_daily_visitors_retail_mixuse'] = parseInt($("#total_daily_visitors_retail_mixuse").editable('getValue', true));
-      metadata['percent_interested_in_luxury_retail_mixuse'] = parseFloat($("#percent_interested_in_luxury_retail_mixuse").editable('getValue', true));
-      metadata['total_daily_visitors_retail_mixuse'] = parseInt($("#total_daily_visitors_retail_mixuse").editable('getValue', true));
-      metadata['percent_interested_in_support_retail_mixuse'] = parseFloat($("#percent_interested_in_support_retail_mixuse").editable('getValue', true));
-      metadata['total_daily_visitors_retail_mixuse'] = parseFloat($("#total_daily_visitors_retail_mixuse").editable('getValue', true));
-      metadata['percent_interested_in_fmcg_retail_mixuse'] = parseFloat($("#percent_interested_in_fmcg_retail_mixuse").editable('getValue', true));
-      metadata['percent_interested_in_food_retail_mixuse'] = parseFloat($("#percent_interested_in_food_retail_mixuse").editable('getValue', true));
-      metadata['direct_employees_to_visitor_ratio_retail_mixuse'] = parseFloat($("#direct_employees_to_visitor_ratio_retail_mixuse").editable('getValue', true));
-      metadata['indirect_to_direct_employees_ratio_retail_mixuse'] = parseFloat($("#indirect_to_direct_employees_ratio_retail_mixuse").editable('getValue', true));
-      metadata['total_floor_area_retail_required_mixuse'] = $("#total_floor_area_retail_required_mixuse").html();
-      metadata['total_direct_employment_retail_mixuse'] = $("#total_direct_employment_retail_mixuse").html();
-      metadata['total_indirect_employment_retail_mixuse'] = $("#total_indirect_employment_retail_mixuse").html();
-    }
-    metadata['services'] = {};
-    metadata['services']['hospital_beds'] = $("#total_hospital_beds_raw").val();
-    metadata['services']['total_police_stations'] = $("#total_police_stations_raw").val();
-    metadata['services']['total_firestations'] = $("#total_firestations_raw").val();
-    metadata['services']['total_schools'] = $("#total_schools_raw").val();
-    metadata['services']['total_energy_demand'] = $("#total_energy_demand_raw").val();
-    metadata['services']['total_water_demand'] = $("#total_water_demand_raw").val();
-    metadata['services']['total_green_spaces'] = $("#total_green_space_raw").val();
-    metadata['services']['total_sewage_demand'] = $("#total_sewage_demand_raw").val();
-    metadata['services']['total_parking'] = $("#total_parking_raw").val();
-    metadata['services']['total_road_usage'] = $("#total_road_usage_raw").val();
-    metadata['services']['total_rail_usage'] = $("#total_rail_usage_raw").val();
-
-    metadata["representative_image"] = representative_image;
-    asset_details = {
-      'scenario': 1,
-      'class': base_asset_class,
-      'metadata': metadata
-    };
-  }
-  const csrf = $("[name='_csrf']").val();
-  const data = {
-    "projectid": projectid,
-    "diagramid": diagramid,
-    "_csrf": csrf,
-    "asset_details": JSON.stringify(asset_details)
-  };
-  // console.log(data)
-  var url = '/set_asset_details/';
-
-  var promise = $.ajax({
-    url: url,
-    type: 'POST',
-    data: data
-  });
-
-
-  promise.done(function (data) {
-    humane.log("Data successufully saved", {
-      addnCls: 'humane-flatty-success'
-    });
-  });
-
-  promise.fail(function (data) {
-    humane.log("Error in saving data, the administrators have been notified", {
-      addnCls: 'humane-flatty-error'
-    });
-  });
-
-});
-
-
 
 if (asset_class) {
 
@@ -3073,3 +2930,146 @@ if (asset_class) {
   }
 
 }
+
+
+$('#savevalues_asset').on('click', function (e) {
+            
+  const base_asset_class = $("#base_asset_class option:selected").attr('data-value');
+  var metadata = {};
+  var asset_details = {};
+  if (base_asset_class) {
+      if (base_asset_class == 'residential') {
+          metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+          metadata['number_of_people_residential'] = parseInt($("#number_of_people_residential").editable('getValue', true));
+          metadata['residential_units'] = parseInt($("#residential_units").editable('getValue', true));
+          metadata['residential_floors'] = parseInt($("#residential_floors").editable('getValue',true));
+          metadata['residential_far'] = parseFloat($("#residential_far").editable('getValue',true));
+          metadata['current_pop_density'] = $("#current_pop_density").html();
+      } else if (base_asset_class == 'hospitality') {
+          metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+          metadata['tourism_m2_per_guest'] = parseInt($("#tourism_m2_per_guest").editable('getValue',true));
+          metadata['tourism_floors'] = parseInt($("#tourism_floors").editable('getValue', true));
+          metadata['tourism_land_area'] = parseInt($("#tourism_land_area").editable('getValue', true));
+          metadata['tourism_people_per_room'] = parseInt($("#tourism_people_per_room").editable('getValue', true));
+          metadata['target_occupancy_rate'] = parseFloat($("#target_occupancy_rate").editable('getValue', true));
+          metadata['tourism_total_rooms'] = parseInt($("#tourism_total_rooms").html());
+          metadata['total_yearly_visitors'] = parseInt($("#total_yearly_visitors").html());
+          metadata['direct_employees_to_visitor_ratio_tourism'] = parseFloat($("#direct_employees_to_visitor_ratio_tourism").editable('getValue', true));
+          metadata['indirect_to_direct_employees_ratio_tourism'] = parseFloat($("#indirect_to_direct_employees_ratio_tourism").editable('getValue', true));
+          metadata['total_direct_employment_tourism'] = $("#total_direct_employment_tourism").html();
+          metadata['total_indirect_employment_tourism'] = $("#total_indirect_employment_tourism").html();
+
+      } else if (base_asset_class == 'retail') {
+          metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+          metadata['retail_m2_per_visitor'] = parseInt($("#retail_m2_per_visitor").editable('getValue', true));
+          metadata['retail_floors'] = parseInt($("#retail_floors").editable('getValue', true));
+          metadata['total_daily_visitors_retail'] = parseInt($("#total_daily_visitors_retail").editable('getValue', true));
+          metadata['percent_interested_in_luxury_retail'] = parseFloat($("#percent_interested_in_luxury_retail").editable('getValue', true));
+          metadata['total_daily_visitors_retail'] = parseInt($("#total_daily_visitors_retail").editable('getValue', true));
+          metadata['percent_interested_in_support_retail'] = parseFloat($("#percent_interested_in_support_retail").editable('getValue', true));
+          metadata['total_daily_visitors_retail'] = parseFloat($("#total_daily_visitors_retail").editable('getValue', true));
+          metadata['percent_interested_in_fmcg_retail'] = parseFloat($("#percent_interested_in_fmcg_retail").editable('getValue', true));
+          metadata['percent_interested_in_food_retail'] = parseFloat($("#percent_interested_in_food_retail").editable('getValue', true));
+          metadata['direct_employees_to_visitor_ratio_retail'] = parseFloat($("#direct_employees_to_visitor_ratio_retail").editable('getValue', true));
+          metadata['indirect_to_direct_employees_ratio_retail'] = parseFloat($("#indirect_to_direct_employees_ratio_retail").editable('getValue', true));
+          metadata['total_floor_area_retail_required'] = $("#total_floor_area_retail_required").html();
+          metadata['total_direct_employment_retail'] = $("#total_direct_employment_retail").html();
+          metadata['total_indirect_employment_retail'] = $("#total_indirect_employment_retail").html();
+      } else if (base_asset_class == 'office') {
+          metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+          metadata['office_m2_per_visitor'] = parseInt($("#office_m2_per_visitor").editable('getValue', true));
+          metadata['office_floors'] = parseInt($("#office_floors").editable('getValue', true));
+          metadata['total_daily_visitors_office'] = parseInt($("#total_daily_visitors_office").editable('getValue', true));
+          metadata['total_floor_area_office_required'] = $("#total_floor_area_office_required").val();                   
+          metadata['indirect_to_direct_employees_ratio'] = $("#indirect_to_direct_employees_ratio_office").html();
+          metadata['direct_employees_to_visitor_ratio'] = $("#direct_employees_to_visitor_ratio_office").html();
+          metadata['total_direct_employment_office'] = $("#total_direct_employment_office").html();
+          metadata['total_indirect_employment_office'] = $("#total_indirect_employment_office").html();
+      }
+      else if (base_asset_class == 'transport') {
+          metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+          metadata['transport_passenger_trips'] = parseInt($("#transport_passenger_trips").editable('getValue', true));
+      }  
+      else if (base_asset_class == 'agriculture') {
+          metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+      }
+      else if (base_asset_class == 'green_infrastructure') {
+          metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+      }
+      else if (base_asset_class == 'community') {
+          metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+          metadata['community_residents'] = parseInt($("#community_residents").editable('getValue', true));
+          metadata['community_visitors'] = parseInt($("#community_visitors").editable('getValue', true));
+      }
+      else if (base_asset_class == 'mixuse') {
+          metadata['base_asset_subclass'] = $("#base_asset_subclass").val();                    
+          metadata['number_of_people_residential_mixuse'] = parseInt($("#number_of_people_residential_mixuse").editable('getValue', true));
+          metadata['residential_units_mixuse'] = parseInt($("#residential_units_mixuse").editable('getValue', true));
+          metadata['residential_floors_mixuse'] = parseInt($("#residential_floors_mixuse").editable('getValue',true));
+          metadata['residential_far_mixuse'] = parseFloat($("#residential_far_mixuse").editable('getValue',true));
+          metadata['current_pop_density_mixuse'] = $("#current_pop_density_mixuse").html();
+          metadata['retail_m2_per_visitor_mixuse'] = parseInt($("#retail_m2_per_visitor_mixuse").editable('getValue', true));
+          metadata['retail_floors_mixuse'] = parseInt($("#retail_floors_mixuse").editable('getValue', true));
+          metadata['total_daily_visitors_retail_mixuse'] = parseInt($("#total_daily_visitors_retail_mixuse").editable('getValue', true));
+          metadata['percent_interested_in_luxury_retail_mixuse'] = parseFloat($("#percent_interested_in_luxury_retail_mixuse").editable('getValue', true));
+          metadata['total_daily_visitors_retail_mixuse'] = parseInt($("#total_daily_visitors_retail_mixuse").editable('getValue', true));
+          metadata['percent_interested_in_support_retail_mixuse'] = parseFloat($("#percent_interested_in_support_retail_mixuse").editable('getValue', true));
+          metadata['total_daily_visitors_retail_mixuse'] = parseFloat($("#total_daily_visitors_retail_mixuse").editable('getValue', true));
+          metadata['percent_interested_in_fmcg_retail_mixuse'] = parseFloat($("#percent_interested_in_fmcg_retail_mixuse").editable('getValue', true));
+          metadata['percent_interested_in_food_retail_mixuse'] = parseFloat($("#percent_interested_in_food_retail_mixuse").editable('getValue', true));
+          metadata['direct_employees_to_visitor_ratio_retail_mixuse'] = parseFloat($("#direct_employees_to_visitor_ratio_retail_mixuse").editable('getValue', true));
+          metadata['indirect_to_direct_employees_ratio_retail_mixuse'] = parseFloat($("#indirect_to_direct_employees_ratio_retail_mixuse").editable('getValue', true));
+          metadata['total_floor_area_retail_required_mixuse'] = $("#total_floor_area_retail_required_mixuse").html();
+          metadata['total_direct_employment_retail_mixuse'] = $("#total_direct_employment_retail_mixuse").html();
+          metadata['total_indirect_employment_retail_mixuse'] = $("#total_indirect_employment_retail_mixuse").html();
+      }
+      metadata['services'] = {};
+      metadata['services']['hospital_beds']= $("#total_hospital_beds_raw").val();
+      metadata['services']['total_police_stations']= $("#total_police_stations_raw").val();
+      metadata['services']['total_firestations']= $("#total_firestations_raw").val();
+      metadata['services']['total_schools']= $("#total_schools_raw").val();
+      metadata['services']['total_energy_demand']= $("#total_energy_demand_raw").val();
+      metadata['services']['total_water_demand']= $("#total_water_demand_raw").val();
+      metadata['services']['total_green_spaces']= $("#total_green_space_raw").val();
+      metadata['services']['total_sewage_demand']= $("#total_sewage_demand_raw").val();                
+      metadata['services']['total_parking']= $("#total_parking_raw").val();
+      metadata['services']['total_road_usage']= $("#total_road_usage_raw").val();
+      metadata['services']['total_rail_usage']= $("#total_rail_usage_raw").val();
+
+      metadata["representative_image"]= representative_image;
+      asset_details = {
+          'scenario':1, 
+          'class': base_asset_class,
+          'metadata': metadata
+      };
+  }
+  const csrf = $("[name='_csrf']").val();
+  const data = {
+      "projectid": projectid,
+      "diagramid": diagramid,
+      "_csrf": csrf,
+      "asset_details": JSON.stringify(asset_details)
+  };
+  // console.log(data)
+  var url = '/set_asset_details/';
+  
+  var promise = $.ajax({
+      url: url,
+      type: 'POST',
+      data: data
+  });
+
+
+  promise.done(function (data) {
+      humane.log("Data successufully saved", {
+          addnCls: 'humane-flatty-success'
+      });
+  });
+
+  promise.fail(function (data) {
+      humane.log("Error in saving data, the administrators have been notified", {
+          addnCls: 'humane-flatty-error'
+      });
+  });
+
+});
