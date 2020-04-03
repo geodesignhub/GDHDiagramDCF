@@ -157,9 +157,11 @@
                         <br><br>
                         <h3>Remember parameters</h3>
                         <br>
-                        
-                        <button type="button" id="savevalues" class="btn btn-primary btn-x-sm"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Save values on server </button> <br><br>
-                        
+                         <% if (projecttype == 'paid'){ %>
+                    <button type="button" id="savevalues" class="btn btn-primary btn-x-sm"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Save values on server </button> <br><br>
+                <% } else{ %>  
+                <small>This is only available for paid projects on Geodesignhub, you can save the values you enter so you dont have to enter them again.</small>
+                <% } %>
                    </div>
                 </div>
                 <br>
@@ -574,9 +576,11 @@
                     <div class="col-md-6">
                             <h3>Remember parameters</h3>
                             <br>
-                        
-                            <button type="button" id="savevalues_asset" class="btn btn-primary btn-x-sm"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Save values on server </button> <br><br>
-                           
+                         <% if (projecttype == 'paid'){ %>
+                    <button type="button" id="savevalues_asset" class="btn btn-primary btn-x-sm"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Save values on server </button> <br><br>
+                <% } else{ %>  
+                <small>This is only available for paid projects on Geodesignhub, you can save the values you enter so you dont have to enter them again.</small>
+                <% } %>
                     </div>
                     </div>
                 </div>
@@ -790,7 +794,7 @@
         });
 
         promise.done(function (data) {
-            humane.log("Data successufully saved", {
+            humane.log("Data successfully saved", {
                 addnCls: 'humane-flatty-success'
             });
         });

@@ -293,7 +293,7 @@ function render_diagram_details(diagramdetail) {
 
 function initializeTables() {
     var tableGenerator = function (domid) {
-        var groupColumn = 4;
+        var groupColumn = 3;
         var t = $('#' + domid).DataTable({
             "columnDefs": [{
                 "visible": false,
@@ -336,7 +336,7 @@ function initializeTables() {
 function generateInitTables() {
     destroyTables();
     var allDiagrams = syndiagrams.diagrams;
-
+    const sdd = saved_diagram_details;
     var sys = systems;
     var syslen = sys.length;
     for (var x = 0; x < syslen; x++) {
@@ -392,7 +392,7 @@ function generateInitTables() {
             if (headcounter === 0) { // header row
                 var npvHTML = "<tr><th class='header initCol'>Title</th><th class='finheader'>Financial Data</th><th class='aaheader'>Asset Data</th><th class='systemheader'>System</th>";
                 npvHTML += "</tr>";
-                $('#npv  > thead').append(npvHTML);
+                $('#all_diagrams  > thead').append(npvHTML);
                 headcounter += 1;
             } // header is added. 
             // console.log(npvHTML)
@@ -401,14 +401,36 @@ function generateInitTables() {
 
             for (var p = 0; p < diaglen; p++) {
                 var curdiag = cursys.diagrams[p];
+                var fin_set = 0;
+                var asset_set = 0;
                 if (curdiag.features.length > 0) {
                     var curdiagprops = curdiag.features[0].properties;
                     var curdiagid = curdiag.features[0].properties.diagramid;
+
+                    for (let index = 0; index < sdd.length; index++) {
+                        const cur_element = sdd[index];
+                        var cur_diagram_id = cur_element['key'].split('-')[1];
+                        if (cur_diagram_id == curdiagid) {
+                            fin_set = (cur_element.hasOwnProperty('fin_set')) ? cur_element.fin_set : 0;
+                            asset_set = (cur_element.hasOwnProperty('asset_set')) ? cur_element.asset_set : 0;
+                            break;
+                        }
+                    }
+                    var fin_button_html = '<button type="button" class="btn btn-link" onclick="get_financials(' + "'" + curdiagid + "'" + ')"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></i> Set</button> ';
+                    if (fin_set) {
+                        fin_button_html = '<button type="button" class="btn btn-link" onclick="get_financials(' + "'" + curdiagid + "'" + ')"> Modify</button> '
+                    }
+
+                    var asset_button_html = '<button type="button" class="btn btn-link" onclick="get_asset_details(' + "'" + curdiagid + "'" + ')"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></i> Set</button> ';
+                    if (asset_set) {
+                        asset_button_html = '<button type="button" class="btn btn-link" onclick="get_asset_details(' + "'" + curdiagid + "'" + ')"> Modify</button> ';
+                    }
+
                     var projectorpolicy = curdiag.features[0].properties.areatype;
                     var diagrowHTMLnpv = "<tr class=" + "'" + cursys.id + "'" + "><td class='assetdetails initCol'>" +
                         curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" +
-                        "'fin-" + curdiagid + "'" + ">" + '<button type="button" class="btn btn-link" onclick="get_financials(' + "'" + curdiagid + "'" + ')"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></i> Modify</button> ' + "</td>" + "<td class=" +
-                        "'aa-" + curdiagid + "'" + ">" + '<button type="button" class="btn btn-link" onclick="get_asset_details(' + "'" + curdiagid + "'" + ')"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></i> Modify</button> ' + "</td>" + "<td class=" + "system-" +
+                        "'fin-" + curdiagid + "'" + ">" + fin_button_html + "</td>" + "<td class=" +
+                        "'aa-" + curdiagid + "'" + ">" + asset_button_html + "</td>" + "<td class=" + "system-" +
                         curdiagid + "'" +
                         ">" + cursys.sysname + "</td>";
                     yrCounter = 0;
@@ -428,6 +450,7 @@ function destroyTables() {
 }
 
 function initCostSliders(defaultvalues) {
+
     const totalcost = (defaultvalues['capex'] == "0") ? parseInt(diagram_cost_details.initCost) : parseInt(defaultvalues['capex']);
 
     const acf = (defaultvalues['acf'] == 0) ? parseInt(totalcost * 0.1) : defaultvalues['acf'];
@@ -528,22 +551,25 @@ function get_financials(diagram_id) {
     });
 
     promise.done(function (diagram_data) {
-        if (diagram_data.opts.defaultvalues.hasOwnProperty('capex')){
+        var default_values = {};
+        if (diagram_data.opts.defaultvalues.hasOwnProperty('capex')) {
+            default_values = diagram_data.opts.defaultvalues;
         } else {
-            diagram_data.opts.defaultvalues.capex = 0;
-            diagram_data.opts.defaultvalues.opex =  0;
-            diagram_data.opts.defaultvalues.asga =  0;
-            diagram_data.opts.defaultvalues.acf =  0;
-            diagram_data.opts.defaultvalues.capex_start =  0;
-            diagram_data.opts.defaultvalues.capex_end =  1;
-            diagram_data.opts.defaultvalues.acf_start =  0;
+            default_values.capex = 0;
+            default_values.opex = 0;
+            default_values.asga = 0;
+            default_values.acf = 0;
+            default_values.capex_start = 0;
+            default_values.capex_end = 1;
+            default_values.acf_start = 0;
         }
-        
+
+
         $("#financial-details").removeClass('hidden');
         $("#asset-details").addClass('hidden');
         render_diagram_details(diagram_data.opts.diagramdetail);
-        initCostSliders(diagram_data.opts.defaultvalues);
-        initpercentSliders(diagram_data.opts.defaultvalues);
+        initCostSliders(default_values);
+        initpercentSliders(default_values);
         humane.log("Data successufully received", {
             addnCls: 'humane-flatty-success'
         });

@@ -137,7 +137,7 @@ app.post('/set_asset_details', function (request, response) {
     const representative_image = asset_details['metadata']['representative_image'];
     const key = projectid + '-' + diagramid;
 
-    redisclient.hmset(key, { "representative_image": representative_image, "asset_details": JSON.stringify(asset_details) });
+    redisclient.hmset(key, { "asset_set": "1", "representative_image": representative_image, "asset_details": JSON.stringify(asset_details) });
 
     // redisclient.hset(key, "asset_details", JSON.stringify(asset_details));
     // redisclient.hset(key, "representative_image", representative_image);
@@ -147,6 +147,45 @@ app.post('/set_asset_details', function (request, response) {
         "status": 1
     });
 });
+
+
+app.post('/set_financials', function (request, response) {
+
+    const projectid = request.body.projectid;
+    const diagramid = request.body.diagramid;
+    const capex = request.body.capex;
+    const acf = request.body.acf;
+    const opex = request.body.opex;
+    const asga = request.body.asga;
+    const capex_start = request.body.capex_start;
+    const capex_end = request.body.capex_end;
+    const acfg = request.body.acfg;
+    const wacc = request.body.wacc;
+    const acf_start = request.body.acf_start;
+
+    const key = projectid + '-' + diagramid;
+
+    redisclient.hmset(key, {
+        "capex": capex,
+        "acf": acf,
+        "opex": opex,
+        "asga": asga,
+        "acfg": acfg,
+        "wacc": wacc,
+        "capex_start": capex_start,
+        "capex_end": capex_end,
+        "acf_start": acf_start,
+        "fin_set": "1",
+    });
+
+    response.contentType('application/json');
+    response.send({
+        "status": 1
+    });
+});
+
+
+
 
 app.post('/get_financials', function (request, response) {
     const projectid = request.body.projectid;
@@ -190,7 +229,7 @@ app.post('/get_financials', function (request, response) {
                         "representative_image": "",
                         "capex_end": 1,
                         "acf_start": 0,
-                        "is_set":0,
+                        "fin_set": 0,
                         "asset_details": {}
                     }));
                 } else {
@@ -223,7 +262,7 @@ app.post('/get_financials', function (request, response) {
 app.post('/get_asset_details', function (request, response) {
 
 
-    
+
     const projectid = request.body.projectid;
     const diagramid = request.body.diagramid;
 
@@ -265,7 +304,7 @@ app.post('/get_asset_details', function (request, response) {
                         "representative_image": "",
                         "capex_end": 1,
                         "acf_start": 0,
-                        "is_set":0
+                        "asset_set": 0
                     }));
                 } else {
                     return done(null, results);
@@ -290,43 +329,6 @@ app.post('/get_asset_details', function (request, response) {
             });
     });
 });
-
-app.post('/set_financials', function (request, response) {
-
-    const projectid = request.body.projectid;
-    const diagramid = request.body.diagramid;
-    const capex = request.body.capex;
-    const acf = request.body.acf;
-    const opex = request.body.opex;
-    const asga = request.body.asga;
-    const capex_start = request.body.capex_start;
-    const capex_end = request.body.capex_end;
-    const acfg = request.body.acfg;
-    const wacc = request.body.wacc;
-    const acf_start = request.body.acf_start;
-
-    const key = projectid + '-' + diagramid;
-
-    redisclient.hmset(key, {
-        "capex": capex,
-        "acf": acf,
-        "opex": opex,
-        "asga": asga,
-        "acfg": acfg,
-        "wacc": wacc,
-        "capex_start": capex_start,
-        "capex_end": capex_end,
-        "acf_start": acf_start,
-        "is_set":1, 
-        "asset_details":{}
-    });
-
-    response.contentType('application/json');
-    response.send({
-        "status": 1
-    });
-});
-
 
 app.get('/', function (request, response) {
     var opts = {};
@@ -413,8 +415,8 @@ app.get('/', function (request, response) {
                             "wacc": 0,
                             "acf_start": 0,
                             "representative_image": "",
-                            "asset_details": {}, 
-                            "is_set":0
+                            "fin_set": 0, 
+                            "asset_set":0
                         });
                     } else {
                         var rr = redis_results
@@ -427,9 +429,9 @@ app.get('/', function (request, response) {
                     //only OK once set
 
                     if (err) return response.sendStatus(500);
-
                     const projecttype = results[3]['projecttype'];
-
+                    const new_obj_array = op.map(({capex, opex,asga,acf,capex_start,capex_end,wacc,acf_start,representative_image,asset_details, ...item}) => item)
+                    
                     opts = {
                         "csrfToken": request.csrfToken(),
                         "apitoken": request.query.apitoken,
@@ -443,7 +445,7 @@ app.get('/', function (request, response) {
                         "syndiagrams": JSON.stringify(results[4]),
                         "systemdetail": JSON.stringify(sysdetails),
                         "sequence": JSON.stringify(results[6]),
-                        "saved_diagram_details": JSON.stringify(op),
+                        "saved_diagram_details": JSON.stringify(new_obj_array),
                         "design_url_details": JSON.stringify(design_url_details),
                         "all_image_files": JSON.stringify(image_files)
                     };

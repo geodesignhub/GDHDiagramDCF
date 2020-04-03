@@ -15,24 +15,38 @@ function get_asset_details(diagram_id) {
    
     $("#asset-details").removeClass('hidden');
     $("#financial-details").addClass('hidden');
-
+   
     var defaultvalues = asset_data.opts.defaultvalues;
     diagramdetail = asset_data.opts.diagramdetail;
     if (typeof defaultvalues == 'string') {
       defaultvalues = JSON.parse(defaultvalues);
     }
-    if (!('asset_details' in defaultvalues) || Object.keys(defaultvalues['asset_details']).length === 0 || defaultvalues['asset_details'].constructor === Object) {
-      var class_default_values = {};
-    } else {
-      var class_default_values = JSON.parse(defaultvalues['asset_details']);
-      var asset_class = class_default_values.class;
-      if (asset_class) {
-        render_saved_asset_data({"asset_class":asset_class, "class_default_values":class_default_values});
+    if (defaultvalues.asset_set)
+    {
+      if (!('asset_details' in defaultvalues) || Object.keys(defaultvalues['asset_details']).length === 0 || defaultvalues['asset_details'].constructor === Object) {
+        var class_default_values = {};
+      } else {
+        var class_default_values = JSON.parse(defaultvalues['asset_details']);
+        var asset_class = class_default_values.class;
+        if (asset_class) {
+          render_saved_asset_data({"asset_class":asset_class, "class_default_values":class_default_values});
+        }
+        
       }
     }
+    else{ 
+      $(".usage_form").hide();
+      $(".services_form").hide();
+      $("#base_asset_class").prop('selectedIndex', 0);
+      $("#base_asset_subclass").prop('selectedIndex', 0);
+      $("#base_asset_subclass_image").select2("val", "");
+      $("#selected_typology_image").empty();
+      representative_image = "";
+    }
+   
     render_diagram_details(asset_data.opts.diagramdetail);
 
-    humane.log("Data successufully received", {
+    humane.log("Data successufully loaded", {
       addnCls: 'humane-flatty-success'
     });
 
@@ -2931,6 +2945,7 @@ function render_saved_asset_data(asset_details){
     if (img_src) {
       const img = "<img src='assets/img/asset-images/" + img_src + "'/>";
       $("#selected_typology_image").html(img);
+      representative_image = img_src;
 
     }
   }
@@ -3057,9 +3072,15 @@ $('#savevalues_asset').on('click', function (e) {
       "_csrf": csrf,
       "asset_details": JSON.stringify(asset_details)
   };
-  // console.log(data)
+
   var url = '/set_asset_details/';
-  
+  if (representative_image == "") {
+    
+    humane.log("Please set Asset Class and Type", {
+      addnCls: 'humane-flatty-warning'
+  });
+  }
+  else {
   var promise = $.ajax({
       url: url,
       type: 'POST',
@@ -3078,5 +3099,5 @@ $('#savevalues_asset').on('click', function (e) {
           addnCls: 'humane-flatty-error'
       });
   });
-
+  }
 });
