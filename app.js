@@ -460,7 +460,7 @@ app.get('/summary', function (request, response) {
 
 app.get('/', function (request, response) {
     var opts = {};
-
+    
     const apikey = request.query.apitoken;
     const cred = "Token " + apikey;
     const projectid = request.query.projectid;
@@ -479,7 +479,7 @@ app.get('/', function (request, response) {
     const design_url_details = { 'boardid': boardid, 'cteamid': cteamid, 'synthesisid': synthesisid }
 
     const summary_link = '/summary?' + 'projectid='+ projectid + '&cteamid='+cteamid+'&apitoken='+apikey+'&synthesisid='+synthesisid+'&boardid='+boardid;
-
+    
     async.map(URLS, function (url, done) {
         req({
             url: url,
@@ -494,8 +494,9 @@ app.get('/', function (request, response) {
             return done(null, JSON.parse(body));
         });
     }, function (err, results) {
+       
         if (err) return response.sendStatus(500);
-
+        
         var sURls = [];
         var systems = results[2];
         for (x = 0; x < systems.length; x++) {
@@ -577,13 +578,13 @@ app.get('/', function (request, response) {
                         "saved_diagram_details": JSON.stringify(new_obj_array),
                         "design_url_details": JSON.stringify(design_url_details),
                         "all_image_files": JSON.stringify(image_files), 
-                        'summary_link':summary_link
+                        "summary_link":summary_link
                     };
+                    
                     response.render('new-financials', opts);
                 });
         });
     });
-
 });
 
 
