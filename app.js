@@ -185,8 +185,6 @@ app.post('/set_financials', function (request, response) {
 });
 
 
-
-
 app.post('/get_financials', function (request, response) {
     const projectid = request.body.projectid;
     const diagramid = request.body.diagramid;
@@ -261,8 +259,6 @@ app.post('/get_financials', function (request, response) {
 
 app.post('/get_asset_details', function (request, response) {
 
-
-
     const projectid = request.body.projectid;
     const diagramid = request.body.diagramid;
 
@@ -329,132 +325,6 @@ app.post('/get_asset_details', function (request, response) {
             });
     });
 });
-
-app.get('/', function (request, response) {
-    var opts = {};
-
-    const apikey = request.query.apitoken;
-    const cred = "Token " + apikey;
-    const projectid = request.query.projectid;
-    const cteamid = request.query.cteamid;
-    const synthesisid = request.query.synthesisid;
-    const boardid = request.query.boardid;
-    const synprojectsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/';
-    // const timelineurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/timeline/';
-    const systemsurl = baseurl + projectid + '/systems/';
-    const boundsurl = baseurl + projectid + '/bounds/';
-    const syndiagramsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/diagrams/';
-    const boardsurl = baseurl + projectid + '/boards/' + boardid + '/gantt/';
-    const projecturl = baseurl + projectid + '/';
-    const URLS = [synprojectsurl, boundsurl, systemsurl, projecturl, syndiagramsurl, boardsurl];
-
-    const design_url_details = { 'boardid': boardid, 'cteamid': cteamid, 'synthesisid': synthesisid }
-
-    const summary_link = '/summary?' + 'projectid='+ projectid + '&cteamid='+cteamid+'&apitoken='+apikey+'&synthesisid='+synthesisid+'&boardid='+boardid;
-
-    async.map(URLS, function (url, done) {
-        req({
-            url: url,
-            headers: {
-                "Authorization": cred,
-                "Content-Type": "application/json"
-            }
-        }, function (err, response, body) {
-            if (err || response.statusCode !== 200) {
-                return done(err || new Error());
-            }
-            return done(null, JSON.parse(body));
-        });
-    }, function (err, results) {
-        if (err) return response.sendStatus(500);
-
-        var sURls = [];
-        var systems = results[2];
-        for (x = 0; x < systems.length; x++) {
-            var curSys = systems[x];
-            var systemdetailurl = baseurl + projectid + '/systems/' + curSys['id'] + '/';
-            sURls.push(systemdetailurl);
-        }
-
-        var syn_diag_list = results[4];
-
-        var redis_keys = [];
-        for (var i = syn_diag_list['diagrams'].length - 1; i >= 0; i--) {
-            const cur_key = projectid + "-" + syn_diag_list['diagrams'][i]
-            redis_keys.push(cur_key);
-        }
-
-        async.map(sURls, function (url, done) {
-            req({
-                url: url,
-                headers: {
-                    "Authorization": cred,
-                    "Content-Type": "application/json"
-                }
-            }, function (err, response, body) {
-                if (err || response.statusCode !== 200) {
-                    return done(err || new Error());
-                }
-                return done(null, JSON.parse(body));
-            });
-        }, function (err, sysdetails) {
-            if (err) return response.sendStatus(500);
-            // var timeline = results[2]['timeline'];
-
-            var keyDetails = {};
-            async.map(redis_keys, function (rkey, done) {
-                redisclient.HGETALL(rkey, function (err, redis_results) {
-                    if (err || redis_results == null) {
-                        return done(null, {
-                            "key": rkey,
-                            "capex": 0,
-                            "opex": 0,
-                            "asga": 0,
-                            "acf": 0,
-                            "capex_start": 0,
-                            "capex_end": 1,
-                            "wacc": 0,
-                            "acf_start": 0,
-                            "representative_image": "",
-                            "fin_set": 0, 
-                            "asset_set":0
-                        });
-                    } else {
-                        var rr = redis_results
-                        rr["key"] = rkey;
-                        return done(null, rr);
-                    }
-                });
-            },
-                function (error, op) {
-                    //only OK once set
-
-                    if (err) return response.sendStatus(500);
-                    const projecttype = results[3]['projecttype'];
-                    const new_obj_array = op.map(({capex, opex,asga,acf,capex_start,capex_end,wacc,acf_start,representative_image,asset_details, ...item}) => item)
-                    
-                    opts = {
-                        "csrfToken": request.csrfToken(),
-                        "apitoken": request.query.apitoken,
-                        "projectid": request.query.projectid,
-                        "status": 1,
-                        "design": JSON.stringify(results[0]),
-                        // "timeline": JSON.stringify(timeline),
-                        "systems": JSON.stringify(results[2]),
-                        "projectdetails": JSON.stringify(results[3]),
-                        "projecttype": projecttype,
-                        "syndiagrams": JSON.stringify(results[4]),
-                        "systemdetail": JSON.stringify(sysdetails),
-                        "sequence": JSON.stringify(results[6]),
-                        "saved_diagram_details": JSON.stringify(new_obj_array),
-                        "design_url_details": JSON.stringify(design_url_details),
-                        "all_image_files": JSON.stringify(image_files), 
-                        'summary_link':summary_link
-                    };
-                    response.render('new-financials', opts);
-                });
-        });
-    });
 
 
 app.get('/summary', function (request, response) {
@@ -587,6 +457,132 @@ app.get('/summary', function (request, response) {
     }
 });
 
+
+app.get('/', function (request, response) {
+    var opts = {};
+
+    const apikey = request.query.apitoken;
+    const cred = "Token " + apikey;
+    const projectid = request.query.projectid;
+    const cteamid = request.query.cteamid;
+    const synthesisid = request.query.synthesisid;
+    const boardid = request.query.boardid;
+    const synprojectsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/';
+    // const timelineurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/timeline/';
+    const systemsurl = baseurl + projectid + '/systems/';
+    const boundsurl = baseurl + projectid + '/bounds/';
+    const syndiagramsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/diagrams/';
+    const boardsurl = baseurl + projectid + '/boards/' + boardid + '/gantt/';
+    const projecturl = baseurl + projectid + '/';
+    const URLS = [synprojectsurl, boundsurl, systemsurl, projecturl, syndiagramsurl, boardsurl];
+
+    const design_url_details = { 'boardid': boardid, 'cteamid': cteamid, 'synthesisid': synthesisid }
+
+    const summary_link = '/summary?' + 'projectid='+ projectid + '&cteamid='+cteamid+'&apitoken='+apikey+'&synthesisid='+synthesisid+'&boardid='+boardid;
+
+    async.map(URLS, function (url, done) {
+        req({
+            url: url,
+            headers: {
+                "Authorization": cred,
+                "Content-Type": "application/json"
+            }
+        }, function (err, response, body) {
+            if (err || response.statusCode !== 200) {
+                return done(err || new Error());
+            }
+            return done(null, JSON.parse(body));
+        });
+    }, function (err, results) {
+        if (err) return response.sendStatus(500);
+
+        var sURls = [];
+        var systems = results[2];
+        for (x = 0; x < systems.length; x++) {
+            var curSys = systems[x];
+            var systemdetailurl = baseurl + projectid + '/systems/' + curSys['id'] + '/';
+            sURls.push(systemdetailurl);
+        }
+
+        var syn_diag_list = results[4];
+
+        var redis_keys = [];
+        for (var i = syn_diag_list['diagrams'].length - 1; i >= 0; i--) {
+            const cur_key = projectid + "-" + syn_diag_list['diagrams'][i]
+            redis_keys.push(cur_key);
+        }
+
+        async.map(sURls, function (url, done) {
+            req({
+                url: url,
+                headers: {
+                    "Authorization": cred,
+                    "Content-Type": "application/json"
+                }
+            }, function (err, response, body) {
+                if (err || response.statusCode !== 200) {
+                    return done(err || new Error());
+                }
+                return done(null, JSON.parse(body));
+            });
+        }, function (err, sysdetails) {
+            if (err) return response.sendStatus(500);
+            // var timeline = results[2]['timeline'];
+
+            var keyDetails = {};
+            async.map(redis_keys, function (rkey, done) {
+                redisclient.HGETALL(rkey, function (err, redis_results) {
+                    if (err || redis_results == null) {
+                        return done(null, {
+                            "key": rkey,
+                            "capex": 0,
+                            "opex": 0,
+                            "asga": 0,
+                            "acf": 0,
+                            "capex_start": 0,
+                            "capex_end": 1,
+                            "wacc": 0,
+                            "acf_start": 0,
+                            "representative_image": "",
+                            "fin_set": 0, 
+                            "asset_set":0
+                        });
+                    } else {
+                        var rr = redis_results
+                        rr["key"] = rkey;
+                        return done(null, rr);
+                    }
+                });
+            },
+                function (error, op) {
+                    //only OK once set
+
+                    if (err) return response.sendStatus(500);
+                    const projecttype = results[3]['projecttype'];
+                    const new_obj_array = op.map(({capex, opex,asga,acf,capex_start,capex_end,wacc,acf_start,representative_image,asset_details, ...item}) => item)
+                    
+                    opts = {
+                        "csrfToken": request.csrfToken(),
+                        "apitoken": request.query.apitoken,
+                        "projectid": request.query.projectid,
+                        "status": 1,
+                        "design": JSON.stringify(results[0]),
+                        // "timeline": JSON.stringify(timeline),
+                        "systems": JSON.stringify(results[2]),
+                        "projectdetails": JSON.stringify(results[3]),
+                        "projecttype": projecttype,
+                        "syndiagrams": JSON.stringify(results[4]),
+                        "systemdetail": JSON.stringify(sysdetails),
+                        "sequence": JSON.stringify(results[6]),
+                        "saved_diagram_details": JSON.stringify(new_obj_array),
+                        "design_url_details": JSON.stringify(design_url_details),
+                        "all_image_files": JSON.stringify(image_files), 
+                        'summary_link':summary_link
+                    };
+                    response.render('new-financials', opts);
+                });
+        });
+    });
 
 });
 
