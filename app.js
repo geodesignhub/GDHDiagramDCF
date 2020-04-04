@@ -22,8 +22,7 @@ app.use(csrf({
     cookie: true
 }));
 
-
-let baseurl = 'https://www.geodesignhub.com/api/v1/projects/';  
+let baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
 // let baseurl = 'http://local.test:8000/api/v1/projects/';
 
 
@@ -184,7 +183,6 @@ app.post('/set_financials', function (request, response) {
     });
 });
 
-
 app.post('/get_financials', function (request, response) {
     const projectid = request.body.projectid;
     const diagramid = request.body.diagramid;
@@ -208,10 +206,7 @@ app.post('/get_financials', function (request, response) {
         });
     }, function (err, results) {
         if (err) return response.sendStatus(500);
-
-        var diagramdetail = results[0];
-
-
+        // var diagramdetail = results[0];
         var rediskey = projectid + "-" + diagramid;
         async.map([rediskey], function (rkey, done) {
 
@@ -332,7 +327,7 @@ app.get('/summary', function (request, response) {
     // var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';  
     var baseurl = 'http://local.test:8000/api/v1/projects/';
     if (request.query.apitoken && request.query.projectid && request.query.synthesisid && request.query.cteamid && request.query.boardid) {
-        
+
         const apikey = request.query.apitoken;
         const cred = "Token " + apikey;
         const projectid = request.query.projectid;
@@ -348,7 +343,7 @@ app.get('/summary', function (request, response) {
         const boardsurl = baseurl + projectid + '/boards/' + boardid + '/gantt/';
         const projecturl = baseurl + projectid + '/';
         const URLS = [synprojectsurl, boundsurl, systemsurl, projecturl, syndiagramsurl, boundaryurl, boardsurl];
-        const financials_link = '/?' + 'projectid='+ projectid + '&cteamid='+cteamid+'&apitoken='+apikey+'&synthesisid='+synthesisid+'&boardid='+boardid;
+        const financials_link = '/?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
         async.map(URLS, function (url, done) {
             req({
                 url: url,
@@ -401,29 +396,29 @@ app.get('/summary', function (request, response) {
                 var keyDetails = {};
 
                 async.map(redis_keys, function (rkey, done) {
-                        redisclient.HGETALL(rkey, function (err, redis_results) {
+                    redisclient.HGETALL(rkey, function (err, redis_results) {
 
-                            if (err || redis_results == null) {
-                                return done(null, {
-                                    "key": rkey,
-                                    "capex": "0",
-                                    "opex": "0",
-                                    "asga": "0",
-                                    "acf": "0",
-                                    "capex_start": "0",
-                                    "capex_end": "1",
-                                    "wacc": "0",
-                                    "acf_start": "0",
-                                    "representative_image":"",
-                                    "asset_details": {}
-                                });
-                            } else {
-                                var rr = redis_results
-                                rr["key"] = rkey;
-                                return done(null, rr);
-                            }
-                        });
-                    },
+                        if (err || redis_results == null) {
+                            return done(null, {
+                                "key": rkey,
+                                "capex": "0",
+                                "opex": "0",
+                                "asga": "0",
+                                "acf": "0",
+                                "capex_start": "0",
+                                "capex_end": "1",
+                                "wacc": "0",
+                                "acf_start": "0",
+                                "representative_image": "",
+                                "asset_details": {}
+                            });
+                        } else {
+                            var rr = redis_results
+                            rr["key"] = rkey;
+                            return done(null, rr);
+                        }
+                    });
+                },
                     function (error, op) {
                         //only OK once set
 
@@ -444,15 +439,15 @@ app.get('/summary', function (request, response) {
                             "boundaries": JSON.stringify(results[5].geojson),
                             "systemdetail": JSON.stringify(sysdetails),
                             "sequence": JSON.stringify(results[6]),
-                            "saved_diagram_details": JSON.stringify(op), 
-                            "financials_link":financials_link
+                            "saved_diagram_details": JSON.stringify(op),
+                            "financials_link": financials_link
                         };
                         response.render('investmentanalysis', opts);
                     });
             });
         });
     }
-    else{
+    else {
         response.sendStatus(400);
     }
 });
@@ -460,7 +455,7 @@ app.get('/summary', function (request, response) {
 
 app.get('/', function (request, response) {
     var opts = {};
-    
+
     const apikey = request.query.apitoken;
     const cred = "Token " + apikey;
     const projectid = request.query.projectid;
@@ -476,10 +471,10 @@ app.get('/', function (request, response) {
     const projecturl = baseurl + projectid + '/';
     const URLS = [synprojectsurl, boundsurl, systemsurl, projecturl, syndiagramsurl, boardsurl];
 
-    const design_url_details = { 'boardid': boardid, 'cteamid': cteamid, 'synthesisid': synthesisid }
+    const design_url_details = { 'boardid': boardid, 'cteamid': cteamid, 'synthesisid': synthesisid };
 
-    const summary_link = '/summary?' + 'projectid='+ projectid + '&cteamid='+cteamid+'&apitoken='+apikey+'&synthesisid='+synthesisid+'&boardid='+boardid;
-    
+    const summary_link = '/summary?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
+    console.log(URLS);
     async.map(URLS, function (url, done) {
         req({
             url: url,
@@ -494,9 +489,9 @@ app.get('/', function (request, response) {
             return done(null, JSON.parse(body));
         });
     }, function (err, results) {
-       
+        console.log(err);
         if (err) return response.sendStatus(500);
-        
+
         var sURls = [];
         var systems = results[2];
         for (x = 0; x < systems.length; x++) {
@@ -545,8 +540,8 @@ app.get('/', function (request, response) {
                             "wacc": 0,
                             "acf_start": 0,
                             "representative_image": "",
-                            "fin_set": 0, 
-                            "asset_set":0
+                            "fin_set": 0,
+                            "asset_set": 0
                         });
                     } else {
                         var rr = redis_results
@@ -560,8 +555,8 @@ app.get('/', function (request, response) {
 
                     if (err) return response.sendStatus(500);
                     const projecttype = results[3]['projecttype'];
-                    const new_obj_array = op.map(({capex, opex,asga,acf,capex_start,capex_end,wacc,acf_start,representative_image,asset_details, ...item}) => item)
-                    
+                    const new_obj_array = op.map(({ capex, opex, asga, acf, capex_start, capex_end, wacc, acf_start, representative_image, asset_details, ...item }) => item)
+
                     opts = {
                         "csrfToken": request.csrfToken(),
                         "apitoken": request.query.apitoken,
@@ -577,10 +572,10 @@ app.get('/', function (request, response) {
                         "sequence": JSON.stringify(results[6]),
                         "saved_diagram_details": JSON.stringify(new_obj_array),
                         "design_url_details": JSON.stringify(design_url_details),
-                        "all_image_files": JSON.stringify(image_files), 
-                        "summary_link":summary_link
+                        "all_image_files": JSON.stringify(image_files),
+                        "summary_link": summary_link
                     };
-                    
+
                     response.render('new-financials', opts);
                 });
         });
