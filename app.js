@@ -474,8 +474,9 @@ app.get('/', function (request, response) {
     const design_url_details = { 'boardid': boardid, 'cteamid': cteamid, 'synthesisid': synthesisid };
 
     const summary_link = '/summary?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
-    console.log(URLS);
+    
     async.map(URLS, function (url, done) {
+        console.log(url)
         req({
             url: url,
             headers: {
@@ -484,12 +485,13 @@ app.get('/', function (request, response) {
             }
         }, function (err, response, body) {
             if (err || response.statusCode !== 200) {
+                console.log(response.statusCode)
                 return done(err || new Error());
             }
             return done(null, JSON.parse(body));
         });
     }, function (err, results) {
-        console.log(err);
+        
         if (err) return response.sendStatus(500);
 
         var sURls = [];
