@@ -203,7 +203,10 @@ ul.input-list li {
     }
 }
 
-
+tr.group,
+tr.group:hover {
+    background-color: #ddd !important;
+}
 /**
  * Bootstrap adds a 20px margin to the bottom of elements that 
  * have been given the class of thumbnail. When images have a 

@@ -322,7 +322,6 @@ function initializeTables() {
                             '<tr class="group"><td colspan="">' + group +
                             '</td></tr>'
                         );
-
                         last = group;
                     }
                 });
