@@ -324,8 +324,7 @@ app.post('/get_asset_details', function (request, response) {
 
 app.get('/summary', function (request, response) {
     var opts = {};
-    // var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';  
-    // var baseurl = 'http://local.test:8000/api/v1/projects/';
+    
     if (request.query.apitoken && request.query.projectid && request.query.synthesisid && request.query.cteamid && request.query.boardid) {
 
         const apikey = request.query.apitoken;
