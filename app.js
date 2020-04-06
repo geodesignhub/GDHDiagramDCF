@@ -295,7 +295,7 @@ app.post('/get_asset_details', function (request, response) {
                         "representative_image": "",
                         "capex_end": 1,
                         "acf_start": 0,
-                        "asset_set": 0
+                        
                     }));
                 } else {
                     return done(null, results);

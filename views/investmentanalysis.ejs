@@ -1422,7 +1422,13 @@
                     const cur_ele = ssd[p1];
                     const diag_id = parseInt(cur_ele['key'].split('-')[1]);
                     if (diag_id == diagID) {
-                        var asset_details = cur_ele['asset_details'];
+                        var asset_details;
+                        if cur_ele.hasOwnProperty('asset_set') {
+                            asset_details = cur_ele['asset_details'];
+                        } else {
+                            asset_details = {};
+                        }
+                        // var asset_details = cur_ele['asset_details'];
                         if (Object.keys(asset_details).length === 0 && asset_details.constructor === Object) {
                             $(".assetdetails-" + diagID).html('Not set');
                             $(".assetdetails_subclass-" + diagID).html('Not set');
