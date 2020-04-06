@@ -146,8 +146,13 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                     // console.log(diagID, diag_id)
                     if (diag_id == diagID) {
                         const saved_bnd_diag_id = bndID + '-' + diag_id;
-                        var cur_diagram_asset_details = cur_diagram_saved_details['asset_details'];
-
+                        var cur_diagram_asset_details;
+                        if (cur_ele.hasOwnProperty('asset_set')) {
+                            cur_diagram_asset_details = cur_diagram_saved_details['asset_details'];
+                        } else {
+                            cur_diagram_asset_details = {};
+                        }
+                        
                         // console.log(factor);
                         // console.log('---')
                         factor = bnd_diagram_intersects[saved_bnd_diag_id]['factor'];
