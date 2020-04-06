@@ -99,10 +99,15 @@ function getColor(type) {
 
 function computeNPV() {
 
-    var initInvestment = parseInt(diagram_cost_details.initCost);
+   
+
+     var initInvestment = parseInt(diagram_cost_details.initCost);
+   
     var acf = parseInt(diagram_cost_details.acfCost);
     var aopex = parseInt(diagram_cost_details.aopexCost);
     var asga = parseInt(diagram_cost_details.asgaCost);
+
+    // console.log(initInvestment, acf, aopex, asga);
     var acfg = (parseFloat($("#acfg-slider").val()) / 100);
     var wacc = (parseFloat($("#wacc-slider").val()) / 100);
     var numYears = 30;
@@ -110,7 +115,7 @@ function computeNPV() {
     var lastyearsincome;
     var yearsPlot = [];
 
-
+    
     const init_investement_syear = isNumeric($("#initcost-syear").val()) ? parseInt($("#initcost-syear").val()) :
         0;
     const init_investement_eyear = isNumeric($("#initcost-eyear").val()) ? parseInt($("#initcost-eyear").val()) :
@@ -477,7 +482,7 @@ function initCostSliders(defaultvalues) {
         numeral: true,
         numeralThousandsGroupStyle: 'thousand',
         onValueChanged: function (e) {
-            initCost = e.target.rawValue;
+            diagram_cost_details.initCost = e.target.rawValue;
         }
     });
 
@@ -485,7 +490,7 @@ function initCostSliders(defaultvalues) {
         numeral: true,
         numeralThousandsGroupStyle: 'thousand',
         onValueChanged: function (e) {
-            acfCost = e.target.rawValue;
+            diagram_cost_details.acfCost = e.target.rawValue;
         }
     });
 
@@ -493,7 +498,7 @@ function initCostSliders(defaultvalues) {
         numeral: true,
         numeralThousandsGroupStyle: 'thousand',
         onValueChanged: function (e) {
-            aopexCost = e.target.rawValue;
+            diagram_cost_details.aopexCost = e.target.rawValue;
         }
     });
 
@@ -501,7 +506,7 @@ function initCostSliders(defaultvalues) {
         numeral: true,
         numeralThousandsGroupStyle: 'thousand',
         onValueChanged: function (e) {
-            asgaCost = e.target.rawValue;
+            diagram_cost_details.asgaCost = e.target.rawValue;
         }
     });
 
