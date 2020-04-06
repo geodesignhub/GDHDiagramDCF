@@ -1423,7 +1423,7 @@
                     const diag_id = parseInt(cur_ele['key'].split('-')[1]);
                     if (diag_id == diagID) {
                         var asset_details;
-                        if cur_ele.hasOwnProperty('asset_set') {
+                        if (cur_ele.hasOwnProperty('asset_set')) {
                             asset_details = cur_ele['asset_details'];
                         } else {
                             asset_details = {};
