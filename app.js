@@ -475,7 +475,6 @@ app.get('/', function (request, response) {
     const summary_link = '/summary?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
     
     async.map(URLS, function (url, done) {
-        console.log(url)
         req({
             url: url,
             headers: {
