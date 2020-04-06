@@ -300,6 +300,9 @@ function initializeTables() {
                 "targets": groupColumn
             }],
             searching: false,
+            "pageLength": 5,
+            "lengthMenu": [[5,10], [5,10]],
+            "pagingType": "simple",
             fixedHeader: {
                 header: false,
                 footer: true
