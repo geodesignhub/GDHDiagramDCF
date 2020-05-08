@@ -163,17 +163,28 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             }
 
             // console.log(cost_override_type, cost_override,totalCost);
+            var fin_set = 0;
+            if (sd_details.hasOwnProperty('fin_set')){
+                fin_set = parseInt(sd_details['fin_set'])
+            }
             const sd_capex = parseInt(sd_details['capex']);
             if (sd_capex == 0) {
-                if (cost_override !== 0) {
-                    if (cost_override_type == 'total') {
-                        totalCost = cost_override;
-                    } else {
-                        totalCost = totArea * cost_override;
-                    }
-                } else {
-                    totalCost = totArea * sysCost;
+                if (fin_set){
+                    totalCost = sd_capex;
                 }
+                else {
+                    if (cost_override !== 0) {
+                        if (cost_override_type == 'total') {
+                            totalCost = cost_override;
+                        } else {
+                            totalCost = totArea * cost_override;
+                        }
+                    } else {
+                        totalCost = totArea * sysCost;
+                    }
+                }
+
+              
 
             } else {
                 totalCost = sd_capex;
