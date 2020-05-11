@@ -106,8 +106,7 @@
                         <br>
                     <div>
                     <canvas id="system_investment_chart"></canvas>
-                    <br>
-                    <button onclick="resetZoom()">Reset Zoom</button>
+                    
                 </div>
 
                         <br>                    
@@ -769,7 +768,6 @@
                     }
 
                 var options = { 
-                    
                     maintainAspectRatio: false,
                     title: {
                         display: false,                   
@@ -818,9 +816,12 @@
                             }
                         }
                     },
+
                 
                 }]
-                    }
+                    },
+
+
                 }
 
                 var labels = [];
@@ -836,15 +837,12 @@
                         'labels': labels,
                         'datasets': total_investment_dataset
                     },
+                    
                     options: options
                 });
 
         }
-        function resetZoom() {
-             var investment_ctx = $("#system_investment_chart");
-             investment_ctx.resetZoom();
-        }
-
+        
         function update_system_investments(system_totals){
             
             for (var cur_sys in system_totals){
