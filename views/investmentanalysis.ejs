@@ -106,6 +106,8 @@
                         <br>
                     <div>
                     <canvas id="system_investment_chart"></canvas>
+                    <br>
+                    <button onclick="resetZoom()">Reset Zoom</button>
                 </div>
 
                         <br>                    
@@ -261,7 +263,7 @@
     <script type="text/javascript" src="assets/js/d3.min.js"></script>
     <script type="text/javascript" src="assets/js/d3.parcoords.js"></script>
     <script type="text/javascript" src="assets/js/divgrid.js"></script>
-
+    <script type="text/javascript" src="chartjs-plugin-zoom.js"></script>
     <script type="text/javascript">
         var incomeGrid;
         var standardizationVar;
@@ -837,6 +839,10 @@
                     options: options
                 });
 
+        }
+        function resetZoom() {
+             var investment_ctx = $("#system_investment_chart");
+             investment_ctx..resetZoom();
         }
 
         function update_system_investments(system_totals){
