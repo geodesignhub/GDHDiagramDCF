@@ -184,6 +184,7 @@
                                         <option data-value='hospitality'>Tourism</option>
                                         <option data-value='retail'>Retail</option>
                                         <option data-value='office'>Office</option>
+                                        <option data-value='amenity'>Amenity</option>
                                         <option data-value='mixuse'>Mix Use</option>
                                         <option data-value='transport'>Transport</option>
                                         <option data-value='community'>Community</option>
@@ -263,6 +264,23 @@
                                 <button id="recompute_office" type="button" class="btn btn-default recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
 
                             </div>
+
+                            <div class='usage_form hidden' id="built_env_form_amenity">                    
+                                <h4>Per capita space required in m2: <a class="editable" href="#" id="amenity_m2_per_visitor"
+                                        data-type="text" data-title="Enter a new valeu e.g. 2">12</a></h4>
+                                <h4>Number of floors: <a class="editable" href="#" id="amenity_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
+                                <h4>Expected visitors: <a class="editable" href="#" id="total_daily_visitors_amenity"
+                                        data-type="text" data-title="Enter a new visitors e.g. 400">300</a></h4>
+                                <br>
+                                
+                                <h4>Direct employees to visitors ratio: <a class="editable" href="#" id="direct_employees_to_visitor_ratio_amenity" data-type="text" data-title="Enter new ratio">.01</a></h4>
+                                <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_amenity" data-type="text" data-title="Enter new ratio">.2</a></h4>
+
+                                <br>
+                                <button id="recompute_amenity" type="button" class="btn btn-default recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
+
+                            </div>
+
                             <div class='usage_form hidden' id="built_env_form_retail">
                                 <h4>Per capita retail space <a class="editable" href="#" id="retail_m2_per_visitor" data-type="text"
                                         data-title="Enter new room size e.g. 5">4</a></h4>
@@ -410,6 +428,17 @@
                                     <h4><span id="total_indirect_employment_office">0</span> <small>Total indirect employment</small></h6>
                                 <br>
                                 </div>
+
+                                <div class="usage_form hidden" id="built_env_form_amenity_secondary">                    
+                                    <br>
+                                    <h4><span id="total_floor_area_amenity_available">0</span> m2 <small>Total Floor area available</small></h4>                    
+                                    <h4><span id="total_floor_area_amenity_required">0</span> m2 <small>Total Floor area needed</small></h4>
+                                    <br>
+                                    <h4><span id="total_direct_employment_amenity">0</span> <small>Total direct employment</small></h6>
+                                    <h4><span id="total_indirect_employment_amenity">0</span> <small>Total indirect employment</small></h6>
+                                <br>
+                                </div>
+                
                 
                                 <div class="usage_form hidden"  id="built_env_form_retail_secondary">              
                                 

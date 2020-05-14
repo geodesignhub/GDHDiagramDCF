@@ -75,6 +75,7 @@ const data = {
   "retail": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
   "mixuse": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
   "office": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
+  "amenity": "New Build,Full Rennovation,Medium Rennovation,Low Rennovation",
   "transport": "Bikes,Car,Buses,Train,Airport,Sea port,Highway,Street,Ferries,Parking",
   "agriculture": "Nomadic Herding,Livestock Ranching,Shifting Cultivation,Rudimentary Sedentary Tillage, Subsistence Farming with Rice Dominant, Subsistence Farming without Rice Dominant, Commercial Plantations,Mediterranean Agriculture,Commercial Grain Farming,Livestock and Grain Farming,Subsistence Crop and Stock Farming,Dairy Framing,Specialized Horticulture",
   "green_infrastructure": "Park,Garden,Woodland,Tree line,Forest",
@@ -90,6 +91,8 @@ $('#base_asset_subclass').on('change', function (e) {
     myRetailControl.update(0, 0);
   } else if ($("#base_asset_class").find("option:selected").attr('data-value') == 'office') {
     myOfficeControl.update(0, 0);
+  } else if ($("#base_asset_class").find("option:selected").attr('data-value') == 'amenity') {
+    myAmenityControl.update(0, 0);
   } else if ($("#base_asset_class").find("option:selected").attr('data-value') == 'mixuse') {
     myMixedUseControl.update(0, 0);
   } else if ($("#base_asset_class").find("option:selected").attr('data-value') == 'transport') {
@@ -112,6 +115,10 @@ $('#recompute_retail').on('click', function (e) {
 });
 $('#recompute_office').on('click', function (e) {
   myOfficeControl.recompute();
+  //your awesome code here
+});
+$('#recompute_amenity').on('click', function (e) {
+  myAmenityControl.recompute();
   //your awesome code here
 });
 
@@ -237,6 +244,25 @@ function updateClassControls(base_class_type) {
       myOfficeControl.update();
       break;
 
+    case 'amenity':
+      vals = data.amenity.split(",");
+      $(".usage_form").hide();
+      $(".services_form").show();
+      // $("#lu_chart_cont").show();
+      var $secondChoice = $("#base_asset_subclass");
+      $secondChoice.empty();
+      $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
+      $.each(vals, function (index, value) {
+        $secondChoice.append("<option >" + value + "</option>");
+      });
+
+      $("#built_env_form_amenity").show();
+      $("#built_env_form_amenity_secondary").show();
+      myAmenityControl.initialize();
+      myAmenityControl.update();
+      break;
+
+
     case 'transport':
       vals = data.transport.split(",");
       $(".usage_form").hide();
@@ -331,7 +357,7 @@ function updateClassControls(base_class_type) {
     filtered_images = all_images.filter(function (str) { return str.includes('transport') });
 
   }
-  else if (base_class_type === 'hospitality') {
+  else if (base_class_type === 'hospitality'|| base_class_type === 'amenity') {
     const tourism_filtered_images = all_images.filter(function (str) { return str.includes('tourism') });
     const com_filtered_images = all_images.filter(function (str) { return str.includes('commercial') });
     filtered_images = tourism_filtered_images.concat(com_filtered_images);
@@ -362,19 +388,7 @@ function updateClassControls(base_class_type) {
 
   });
 
-  function addUserPic(opt) {
-    if (!opt.id) {
-      return opt.text;
-    }
-    var optimage = $(opt.element).data('image');
-    if (!optimage) {
-      return opt.text;
-    } else {
-      var $opt = $(opt.text);
-      return $opt;
-    }
-  };
-
+ 
   $('#base_asset_subclass_image').on('select2:select', function (e) {
     var data = e.params.data;
     const image_path = data['image_path'];
@@ -1659,6 +1673,228 @@ var OfficeCalaulator = function () {
 
 }
 
+var AmenityCalaulator = function () {
+  this.initialize = function () {
+
+    $('#amenity_m2_per_visitor').editable({
+      validate: function (value) {
+        if ($.trim(value) == '') {
+          return 'This field is required';
+        } else if ($.isNumeric(value) == '') {
+          return "Input must be a integer"
+        }
+      }
+    });
+    $('#amenity_floors').editable({
+      validate: function (value) {
+        if ($.trim(value) == '') {
+          return 'This field is required';
+        } else if ($.isNumeric(value) == '') {
+          return "Input must be a integer"
+        }
+      }
+    });
+    $('#total_daily_visitors_amenity').editable({
+      validate: function (value) {
+        if ($.trim(value) == '') {
+          return 'This field is required';
+        } else if ($.isNumeric(value) == '') {
+          return "Input must be a integer"
+        }
+      }
+    });
+    $('#direct_employees_to_visitor_ratio_amenity').editable({
+      validate: function (value) {
+        if ($.trim(value) == '') {
+          return 'This field is required';
+        } else if ($.isNumeric(value) == '') {
+          return "Input must be a integer"
+        }
+      }
+    });
+    $('#indirect_to_direct_employees_ratio_amenity').editable({
+      validate: function (value) {
+        if ($.trim(value) == '') {
+          return 'This field is required';
+        } else if ($.isNumeric(value) == '') {
+          return "Input must be a integer"
+        }
+      }
+    });
+
+  }
+  this.recompute = function () {
+    const amenity_m2_per_visitor = $("#amenity_m2_per_visitor").editable('getValue', true);
+    const total_daily_visitors_amenity = $("#total_daily_visitors_amenity").editable('getValue', true);
+    const amenity_floors = $("#amenity_floors").editable('getValue', true);
+    const direct_employees_to_visitor_ratio = $("#direct_employees_to_visitor_ratio_amenity").editable('getValue', true);
+    const indirect_to_direct_employees_ratio_amenity = $("#indirect_to_direct_employees_ratio_amenity").editable('getValue', true);
+
+    const diagram_area = diagramdetail['area']
+
+    const total_floor_area_amenity = ((amenity_m2_per_visitor * total_daily_visitors_amenity));
+    // const total_floor_area_office_per_floor = (total_floor_area_office / office_floors);
+    const total_floor_area_available = parseInt(diagram_area * 0.8 * amenity_floors);
+
+    $("#total_floor_area_amenity_required").html(abbrNum(parseInt(total_floor_area_amenity), 2));
+    $("#total_floor_area_amenity_available").html(abbrNum(total_floor_area_available, 2));
+
+    $("#total_direct_employment_amenity").html(parseInt(direct_employees_to_visitor_ratio * total_daily_visitors_amenity));
+    $("#total_indirect_employment_amenity").html(parseInt(indirect_to_direct_employees_ratio_amenity * total_daily_visitors_amenity));
+
+    myDisplayUpdater = new ServicesDisplayUpdater();
+
+    myDisplayUpdater.updateBedsRecompute(total_daily_visitors_amenity);
+    myDisplayUpdater.updatePoliceStationsRecompute(total_daily_visitors_amenity);
+    myDisplayUpdater.updateFireStationsRecompte(total_daily_visitors_amenity);
+    myDisplayUpdater.updateSchoolsRecompute(total_daily_visitors_amenity * 0.05);
+    myDisplayUpdater.updateEnergyRecompute(total_daily_visitors_amenity);
+    myDisplayUpdater.updateWaterRecompute(total_daily_visitors_amenity);
+    myDisplayUpdater.updateSewageRecompute(total_daily_visitors_amenity);
+    const total_parking_area = myDisplayUpdater.updateTransportRecompute(total_daily_visitors_amenity, 2, 2);
+    const total_green_space_area = myDisplayUpdater.updateGreenSpaceRecompute(total_daily_visitors_amenity);
+
+    // const lu_chart_data = {"area_available":total_floor_area_available, "built_up_area":total_floor_area_office, "green_space":total_green_space_area[0], "parking":total_parking_area[0]};
+    // populate_lu_chart('office', lu_chart_data);
+
+  }
+
+
+  this.update = function () {
+
+    const amenity_class_defaults = {
+      "New Build": {
+        "amenity_m2_per_visitor": 12,
+        "total_daily_visitors_amenity": 2000,
+        "amenity_floors": 2,
+        "beds": 0.0045,
+        "direct_employees_to_visitor_ratio": .1,
+        "indirect_to_direct_employees_ratio": .05,
+        "police_stations": 0.0045,
+        "fire_stations": 0.0045,
+        "schools": 0,
+        "energy": 14,
+        "water": 220,
+        "sewage": 102,
+        "transport": {
+          'road': 0.9,
+          'rail': 0.1
+        },
+        "green_space": 1,
+        "parking_demand": 0.5
+      },
+      "Full Rennovation": {
+        "amenity_m2_per_visitor": 12,
+        "total_daily_visitors_amenity": 1800,
+        "amenity_floors": 2,
+        "beds": 0.0045,
+        "direct_employees_to_visitor_ratio": .1,
+        "indirect_to_direct_employees_ratio": .05,
+        "police_stations": 0.0045,
+        "fire_stations": 0.0045,
+        "schools": 0,
+        "energy": 14,
+        "water": 220,
+        "sewage": 102,
+        "transport": {
+          'road': 0.9,
+          'rail': 0.1
+        },
+        "green_space": 1,
+        "parking_demand": 0.5
+      },
+      "Medium Rennovation": {
+        "amenity_m2_per_visitor": 11,
+        "total_daily_visitors_amenity": 1600,
+        "amenity_floors": 2,
+        "beds": 0.0045,
+        "direct_employees_to_visitor_ratio": .1,
+        "indirect_to_direct_employees_ratio": .05,
+        "police_stations": 0.0045,
+        "fire_stations": 0.0045,
+        "schools": 0,
+        "energy": 14,
+        "water": 220,
+        "sewage": 102,
+        "transport": {
+          'road': 0.9,
+          'rail': 0.1
+        },
+        "green_space": 1,
+        "parking_demand": 0.5
+      },
+      "Low Rennovation": {
+        "amenity_m2_per_visitor": 10,
+        "total_daily_visitors_amenity": 1500,
+        "amenity_floors": 2,
+        "beds": 0.0045,
+        "direct_employees_to_visitor_ratio": .1,
+        "indirect_to_direct_employees_ratio": .05,
+        "police_stations": 0.0045,
+        "fire_stations": 0.0045,
+        "schools": 0,
+        "energy": 14,
+        "water": 220,
+        "sewage": 102,
+        "transport": {
+          'road': 0.9,
+          'rail': 0.1
+        },
+        "green_space": 1,
+        "parking_demand": 0.5
+      }
+    };
+
+
+    var selected_subclass = $("#base_asset_subclass").val();
+    selected_subclass = (selected_subclass) ? selected_subclass : 'New Build';
+    var diagram_area = diagramdetail['area'];
+
+    $("#amenity_m2_per_visitor").editable('setValue', amenity_class_defaults[selected_subclass]['amenity_m2_per_visitor']);
+    $("#total_daily_visitors_amenity").editable('setValue', amenity_class_defaults[selected_subclass]['total_daily_visitors_amenity']);
+    $("#amenity_floors").editable('setValue', amenity_class_defaults[selected_subclass]['amenity_floors']);
+    const amenity_floors = amenity_class_defaults[selected_subclass]['amenity_floors'];
+    $("#direct_employees_to_visitor_ratio_amenity").editable('setValue', amenity_class_defaults[selected_subclass]['direct_employees_to_visitor_ratio']);
+    $("#indirect_to_direct_employees_ratio_amenity").editable('setValue', amenity_class_defaults[selected_subclass]['direct_employees_to_visitor_ratio']);
+    const population = parseInt(amenity_class_defaults[selected_subclass]['total_daily_visitors_amenity']);
+
+
+    const total_floor_area_amenity = ((amenity_class_defaults[selected_subclass]['amenity_m2_per_visitor'] * amenity_class_defaults[selected_subclass]['total_daily_visitors_amenity']));
+    $("#total_floor_area_amenity_required").html(abbrNum(parseInt(total_floor_area_amenity), 2));
+    $("#total_floor_area_amenity_available").html(abbrNum(parseInt(diagram_area * 0.8 * amenity_floors), 2));
+
+    const direct_employees_to_visitor_ratio = $("#direct_employees_to_visitor_ratio_amenity").editable('getValue', true);
+    const indirect_to_direct_employees_ratio_amenity = $("#indirect_to_direct_employees_ratio_amenity").editable('getValue', true);
+    $("#total_direct_employment_amenity").html(parseInt(direct_employees_to_visitor_ratio * amenity_class_defaults[selected_subclass]['total_daily_visitors_amenity']), 2);
+    $("#total_indirect_employment_amenity").html(parseInt(indirect_to_direct_employees_ratio_amenity * amenity_class_defaults[selected_subclass]['total_daily_visitors_amenity']), 2);
+
+
+
+    myDisplayUpdater = new ServicesDisplayUpdater();
+    myDisplayUpdater.updateBeds(population, amenity_class_defaults[selected_subclass]['beds']);
+    myDisplayUpdater.updatePoliceStations(population, amenity_class_defaults[selected_subclass][
+      'police_stations'
+    ]);
+    myDisplayUpdater.updateFireStations(population, amenity_class_defaults[selected_subclass][
+      'fire_stations'
+    ]);
+    myDisplayUpdater.updateSchools(population * 0.05, amenity_class_defaults[selected_subclass][
+      'schools'
+    ]);
+    myDisplayUpdater.updateEnergy(population, amenity_class_defaults[selected_subclass]['energy']);
+    myDisplayUpdater.updateWater(population, amenity_class_defaults[selected_subclass]['water']);
+    myDisplayUpdater.updateSewage(population, amenity_class_defaults[selected_subclass]['sewage']);
+    const total_parking_area = myDisplayUpdater.updateTransport(population, amenity_class_defaults[selected_subclass][
+      'transport'
+    ]['road'], amenity_class_defaults[selected_subclass]['transport']['rail'], 2, 2, 0.5);
+    const total_green_space_area = myDisplayUpdater.updateGreenSpace(population, amenity_class_defaults[selected_subclass]['green_space']);
+    myDisplayUpdater.updateParking(population * 0.5, amenity_class_defaults[selected_subclass]['parking_demand'])
+
+  }
+
+
+}
+
 var MixedUseCalaulator = function () {
   this.generateResidentialUnits = function (diagramArea, sysName, sysTag) {
 
@@ -2836,6 +3072,7 @@ myResidentialControl = new ResidentialCalaulator();
 myTourismControl = new TourismCalaulator();
 myRetailControl = new RetailCalaulator();
 myOfficeControl = new OfficeCalaulator();
+myAmenityControl = new AmenityCalaulator();
 myMixedUseControl = new MixedUseCalaulator();
 myTransportControl = new TransportCalculator();
 myCommunityControl = new CommunityCalculator();
@@ -2897,7 +3134,14 @@ function render_saved_asset_data(asset_details){
     $("#total_daily_visitors_office").editable('setValue', class_default_values['metadata']['total_daily_visitors_office']);
     $("#total_floor_area_office_required").html(class_default_values['metadata']['total_floor_area_office_required']);
     $("#recompute_office").click();
-  }
+  } else if (asset_class == 'amenity') {
+  $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
+  $("#amenity_m2_per_visitor").editable('setValue', class_default_values['metadata']['amenity_m2_per_visitor']);
+  $("#amenity_floors").editable('setValue', class_default_values['metadata']['amenity_floors']);
+  $("#total_daily_visitors_amenity").editable('setValue', class_default_values['metadata']['total_daily_visitors_amenity']);
+  $("#total_floor_area_amenity_required").html(class_default_values['metadata']['total_floor_area_amenity_required']);
+  $("#recompute_amenity").click();
+}
   else if (asset_class == 'transport') {
     $("#base_asset_subclass").val(class_default_values['metadata']['base_asset_subclass']);
     $("#transport_passenger_trips").editable('setValue', class_default_values['metadata']['transport_passenger_trips']);
@@ -3007,7 +3251,17 @@ $('#savevalues_asset').on('click', function (e) {
           metadata['direct_employees_to_visitor_ratio'] = $("#direct_employees_to_visitor_ratio_office").html();
           metadata['total_direct_employment_office'] = $("#total_direct_employment_office").html();
           metadata['total_indirect_employment_office'] = $("#total_indirect_employment_office").html();
-      }
+      }else if (base_asset_class == 'amenity') {
+        metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
+        metadata['amenity_m2_per_visitor'] = parseInt($("#amenity_m2_per_visitor").editable('getValue', true));
+        metadata['amenity_floors'] = parseInt($("#amenity_floors").editable('getValue', true));
+        metadata['total_daily_visitors_amenity'] = parseInt($("#total_daily_visitors_amenity").editable('getValue', true));
+        metadata['total_floor_area_amenity_required'] = $("#total_floor_area_amenity_required").val();                   
+        metadata['indirect_to_direct_employees_ratio'] = $("#indirect_to_direct_employees_ratio_amenity").html();
+        metadata['direct_employees_to_visitor_ratio'] = $("#direct_employees_to_visitor_ratio_amenity").html();
+        metadata['total_direct_employment_amenity'] = $("#total_direct_employment_amenity").html();
+        metadata['total_indirect_employment_amenity'] = $("#total_indirect_employment_amenity").html();
+    }
       else if (base_asset_class == 'transport') {
           metadata['base_asset_subclass'] = $("#base_asset_subclass").val();
           metadata['transport_passenger_trips'] = parseInt($("#transport_passenger_trips").editable('getValue', true));

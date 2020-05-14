@@ -221,6 +221,22 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                                 total_indirect_employment += parseInt(factored_indirect_employment);
 
                             }
+                            else if (cur_diagram_asset_details['class'] == 'amenity') {
+
+                                var visitors = cur_diagram_asset_details['metadata']['total_daily_visitors_amenity'];
+                                var factored_visitors = visitors * factor;
+                                total_visitors += parseInt(factored_visitors);
+
+                                var direct_employment = cur_diagram_asset_details['metadata']['total_direct_employment_amenity'];
+                                var factored_direct_employment = direct_employment * factor;
+                                total_direct_employment += parseInt(factored_direct_employment);
+
+                                var indirect_employment = cur_diagram_asset_details['metadata']['total_indirect_employment_amenity'];
+                                var factored_indirect_employment = indirect_employment * factor;
+                                total_indirect_employment += parseInt(factored_indirect_employment);
+
+                            }
+
 
                             else if (cur_diagram_asset_details['class'] == 'mixuse') {
 

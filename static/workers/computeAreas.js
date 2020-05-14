@@ -315,7 +315,12 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             const asga = parseInt(sd_details['asga']);
 
             if (opex === 0 && asga === 0) {
+                if (fin_set) {
+
+                    all_opex_asga = opex + asga;
+                } else {
                 all_opex_asga = yearlyCost * 0.03;
+                }
             } else {
                 all_opex_asga = opex + asga;
             }

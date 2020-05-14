@@ -1464,6 +1464,9 @@
                             } else if (ad == 'office') {
                                 $('.population-' + diagID).html('-');
                                 $('.visitors-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_office'], 2));
+                            }else if (ad == 'amenity') {
+                                $('.population-' + diagID).html('-');
+                                $('.visitors-' + diagID).html(abbrNum(asset_details['metadata']['total_daily_visitors_amenity'], 2));
                             }
                             else if (ad == 'mixuse') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata']['number_of_people_residential_mixuse'], 2));
