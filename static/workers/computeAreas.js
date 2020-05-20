@@ -9,7 +9,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
 
     var startyear = parseInt(startyear);
     const sdd = JSON.parse(saved_diagram_details);
-    
+
     const sequence = JSON.parse(board_sequence);
     // console.log(sequence);
     // if (Object.entries(sequence['gantt_data']).length === 0 && sequence['gantt_data'].constructor === Object) {
@@ -148,9 +148,9 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                     break;
                 }
             }
-            
+
             if (typeof cur_diagram_asset_details == 'string') {
-                cur_diagram_asset_details  = JSON.parse(cur_diagram_asset_details);
+                cur_diagram_asset_details = JSON.parse(cur_diagram_asset_details);
             }
             for (var h = 0; h < sysdetlen; h++) {
                 var cSys = systemdetails[h];
@@ -164,12 +164,12 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
 
             // console.log(cost_override_type, cost_override,totalCost);
             var fin_set = 0;
-            if (sd_details.hasOwnProperty('fin_set')){
+            if (sd_details.hasOwnProperty('fin_set')) {
                 fin_set = parseInt(sd_details['fin_set'])
             }
             const sd_capex = parseInt(sd_details['capex']);
             if (sd_capex == 0) {
-                if (fin_set){
+                if (fin_set) {
                     totalCost = sd_capex;
                 }
                 else {
@@ -184,7 +184,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
                     }
                 }
 
-              
+
 
             } else {
                 totalCost = sd_capex;
@@ -223,7 +223,11 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
             maxYearlyCost = (yearlyCost > maxYearlyCost) ? yearlyCost : maxYearlyCost;
             var acf = parseInt(sd_details["acf"]);
             if (acf == 0) {
-                acf = (yeild * totalCost) / 100;
+                if (fin_set == 0) {
+                    acf = (yeild * totalCost) / 100;
+                } else {
+                    acf = 0;
+                }
             }
 
             var capex_begin_year = diagram_start + parseInt(capex_start);
@@ -319,7 +323,7 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
 
                     all_opex_asga = opex + asga;
                 } else {
-                all_opex_asga = yearlyCost * 0.03;
+                    all_opex_asga = yearlyCost * 0.03;
                 }
             } else {
                 all_opex_asga = opex + asga;

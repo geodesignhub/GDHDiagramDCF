@@ -95,34 +95,51 @@
             </div>
         </div>
         <hr>
+        <div class="row">
+            <div class="col-md-12">
+            <h3>System specific investments&nbsp;<small>Per system investements, land use and profits</small></h3>
+                    <br>
+                <h4><span id="overall_economics">Investments Overview</span>&nbsp;<small>Total capital investment per year</small></h4><br>
+                <div><canvas id="system_investment_chart"></canvas></div>
+                </div>     
+        </div>
         
         <div class="row">
                 <div class="col-md-12">
-                    <h3>System specific investments&nbsp;<small>Per system investements, land use and profits</small></h3>
-                    <br>
                     <p class="lead" id=""></p>       
-                    <div class="col-md-6">                                                    
-                        <h4><span id="overall_economics">Overview</span>&nbsp;<small>Total capital investment per year</small></h4>
-                        <br>
-                    <div>
-                    <canvas id="system_investment_chart"></canvas>
-                    
-                </div>
-
-                        <br>                    
-                    </div>
-
                     <div class="col-md-6">                    
                         <div>
                             <h4><span id="total_capex">Summary</span> <small>Financial Details per system</small><h4>                        
                             <br>                   
                                 <% var s = JSON.parse(systemdetail); for(var i=0; i < s.length; i++) { %>
                                 
-                                <h4><span class="square c-<%= s[i].syscolor.substring(1).toLowerCase() %>"></span>&nbsp;&nbsp;<%= s[i].sysname %>&nbsp;&nbsp;&nbsp;&nbsp;<span id="<%= s[i].id %>-capex"></span>&nbsp;<small>Total Capex</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-income"></span>&nbsp;<small>Total Income</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-sga"></span>&nbsp;<small>Total SG&A</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-irr"></span>&nbsp;<small>IRR</small></h4>
+                                <h4><span class="square c-<%= s[i].syscolor.substring(1).toLowerCase() %>"></span>&nbsp;&nbsp;<button type="button" class="btn btn-link" onclick="initialize_system_table(<%= s[i].id %>)"><%= s[i].sysname %></button>&nbsp;&nbsp;&nbsp;&nbsp;<span id="<%= s[i].id %>-capex"></span>&nbsp;<small>Total Capex</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-income"></span>&nbsp;<small>Total Income</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-sga"></span>&nbsp;<small>Total SG&A</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-irr"></span>&nbsp;<small>IRR</small></h4>
                                 <hr>
                                 <% } %>
                         </div>
-                    </div>             
+                    </div>    
+                    <div class="col-md-6">                                                    
+                        <h4><span id="overall_economics">Details</span>&nbsp;<small>Diagram wide breakdown of Capex, Opex and SGA</small></h4>
+                        <br>
+                    <div>
+                    <table id="system_specific_details_table" class="hor-minimalist-b">
+                        <thead> 
+                            <tr> 
+                                <th>Name</th> 
+                                <th>Investment</th> 
+                                <th>Income</th> 
+                                <th>Opex + SGA</th> 
+                            </tr>
+                        </thead>
+                        <tbody> 
+                        </tbody>
+                        
+                    </table>
+                </div>
+
+                        <br>                    
+                    </div>
+         
                 </div>
             </div>
             <br><br>
@@ -262,7 +279,6 @@
     <script type="text/javascript" src="assets/js/d3.min.js"></script>
     <script type="text/javascript" src="assets/js/d3.parcoords.js"></script>
     <script type="text/javascript" src="assets/js/divgrid.js"></script>
-    <script type="text/javascript" src="assets/js/chartjs-plugin-zoom.js"></script>
     <script type="text/javascript">
         var incomeGrid;
         var standardizationVar;
@@ -741,6 +757,9 @@
 
         function render_system_investment(system_totals)
             {
+                var dragOptions = {
+			animationDuration: 500
+		};
                 function hexToRgb(hex) {
                 var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
                 return result ? {
@@ -764,63 +783,69 @@
 
                             cur_sys_investment['data'].push(parseInt(c_system_tot['yearly_investment'][cYear]));  
                         }
+                        cur_sys_investment['fill'] = false;
                         total_investment_dataset.push(cur_sys_investment);
                     }
-
-                var options = { 
+                    var options = {
+                        
                     maintainAspectRatio: false,
                     title: {
-                        display: false,                   
+                        display: false,
                     },
                     tooltips: {
-                        mode: 'index',
+                        mode: "index",
                         intersect: false,
-                        
+
                         callbacks: {
-                            label: function(tooltipItem, chart){
-                                
-                                // console.log(tooltipItem.yLabel)
-                                return abbrNum(parseInt(tooltipItem.yLabel),2);
-                            }
-                        }
+                        label: function (tooltipItem, chart) {
+                            // console.log(tooltipItem.yLabel)
+                            return abbrNum(parseInt(tooltipItem.yLabel), 2);
+                        },
+                        },
                     },
                     hover: {
-                        mode: 'nearest',
-                        intersect: true
+                        mode: "nearest",
+                        intersect: true,
                     },
                     scales: {
-                        xAxes: [{
+                        xAxes: [
+                        {
                             display: true,
                             scaleLabel: {
-                                display: true,
-                                labelString: 'Year'
-                            }
-                        }],
-                        yAxes: [{
-                            display: true, 
+                            display: true,
+                            labelString: "Year",
+                            },
+                        },
+                        ],
+                        yAxes: [
+                        {
+                            display: true,
                             ticks: {
-                    beginAtZero:true,
-                    callback: function(value, index, values) {
-                            if (value > 100000)
-                                return 'EUR ' +value / 1e6 + 'M';
-                            else {
-                                return 'EUR ' + value;
-                            }
-                        }
-                },
-                tooltips: {
-                        callbacks: {
-                            label: function(tooltipItem, chart){
-                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                                return datasetLabel + ': EUR ' + number_format(parseInt(tooltipItem.yLabel), 2,'.',' ');
-                            }
-                        }
+                            beginAtZero: true,
+                            callback: function (value, index, values) {
+                                if (value > 100000) return "EUR " + value / 1e6 + "M";
+                                else {
+                                return "EUR " + value;
+                                }
+                            },
+                            },
+                            tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, chart) {
+                                var datasetLabel =
+                                    chart.datasets[tooltipItem.datasetIndex].label || "";
+                                return (
+                                    datasetLabel +
+                                    ": EUR " +
+                                    number_format(parseInt(tooltipItem.yLabel), 2, ".", " ")
+                                );
+                                },
+                            },
+                            },
+                        },
+                        ],
                     },
-
-                
-                }]
-                    },
-                }
+                    };
 
                 var labels = [];
                 for (var g1 = 0; g1 < numYears; g1++) {
@@ -833,7 +858,8 @@
                     type: 'line',
                     data: {
                         'labels': labels,
-                        'datasets': total_investment_dataset
+                        'datasets': total_investment_dataset,
+					   
                     },
                     
                     options: options
@@ -1571,7 +1597,29 @@
             }
             npv_table = tableGenerator('npv');
         }
+        function initialize_system_table(system_id) {
+             if ($.fn.DataTable.isDataTable('#system_specific_details_table')) {
+            table.destroy();
+            }
+            $("#system_specific_details_table").find("tbody>tr:gt(0)").remove();
+            const i_data = investmentdata;
+            const filtered_systems = i_data.filter(function(item) {
+            return item.sysid == system_id;
+            });
+            var sorted_systems = filtered_systems.sort(function(a, b) {
+                return parseFloat(a.totalInvestment) - parseFloat(b.totalInvestment);
+            });
+            
+            var ss_len = sorted_systems.length;
+            for(var x1 = 0; x1< ss_len; x1++){
+                var cur_diagram = sorted_systems[x1];
+                var html = "<tr>";
+                html += "<td>"+ cur_diagram.title+ "</td>"+"<td>"+ abbrNum(cur_diagram.totalInvestment,2)+ "</td>"+"<td>"+ abbrNum(cur_diagram.totalIncome,2)+ "</td>"+"<td>"+ abbrNum(cur_diagram.totalMaintainence,2)+ "</td>"+"</tr>";
+            }
+             $("#system_specific_details_table > tbody").append(html);
+            //  $('#system_specific_details_table').DataTable();
 
+        }
         function destroyTables() {
             if ($.fn.DataTable.isDataTable('#npv')) {
                 npv_table.destroy();
