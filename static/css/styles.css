@@ -41,7 +41,8 @@ h4 {
     height: 420px;
 }
 
-#system_investment_chart {
+#system_investment_chart, 
+#total_system_investments {
     height: 400px;
 }
 
