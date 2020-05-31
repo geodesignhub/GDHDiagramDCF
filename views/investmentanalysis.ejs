@@ -114,7 +114,7 @@
             <h3>System specific investments&nbsp;<small>Per system investements, land use and profits</small></h3>
             <div class="col-md-6">
                 <br>
-                <h4><span id="overall_economics">Investments Overview</span>&nbsp;<small>Total capital investment per
+                <h4><span id="overall_economics">Investments over time</span>&nbsp;<small>Total capital investment per
                         year</small></h4><br>
                 <div><canvas id="system_investment_chart"></canvas></div>
             </div>
@@ -122,7 +122,7 @@
             <div class="col-md-6">
 
                 <br>
-                <h4><span id="system_investments">Investments Overview</span>&nbsp;<small>Total investment and income
+                <h4><span id="system_investments">Investments per system</span>&nbsp;<small>Total investment 
                         per system</small></h4><br>
                 <div><canvas id="total_system_investments"></canvas></div>
             </div>
@@ -821,26 +821,29 @@
             }
 
             var total_investment_dataset = [];
-            console.log(system_totals);
             
-            var labels = [];
-
-            for (var csys in system_totals) {
-                var cur_sys_investment = {};
+            
+            var labels = [];     
+            for (var csys in system_totals) {       
                 var c_system_tot = system_totals[csys];
-                labels.push( c_system_tot['system_name']);
-                cur_sys_investment['label'] = c_system_tot['system_name'] + ' Capex';
-                var rgb = hexToRgb(c_system_tot['color']);
-                cur_sys_investment['backgroundColor'] = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + 0.5 + ')';
-                cur_sys_investment['data'] = [];
-               
-                    cur_sys_investment['data'].push(parseInt(c_system_tot['total_investment']));
+                labels.push( c_system_tot['system_name']);               
+            }   
+            
+            
+            var sys_investment_data = [];
+            for (var c_sys in system_totals) {                   
+                var c_system_tot = system_totals[c_sys];                
+                sys_investment_data.push(parseInt(c_system_tot['total_investment']));
                 
-                // cur_sys_investment['fill'] = false;
-                total_investment_dataset.push(cur_sys_investment);
+                
             }
+            total_investment_dataset.push({'data':sys_investment_data});
+            
+            
             var options = {
-
+                legend: {
+                    display: false
+                },
                 maintainAspectRatio: false,
                 title: {
                     display: false,
@@ -865,7 +868,7 @@
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: "Year",
+                            
                         },
                     }, ],
                     yAxes: [{
@@ -895,8 +898,6 @@
                     }, ],
                 },
             };
-
-           
             var investment_ctx = $("#total_system_investments");
             Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
             var myLineChart = new Chart(investment_ctx, {
