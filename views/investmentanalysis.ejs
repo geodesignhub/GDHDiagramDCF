@@ -1783,7 +1783,7 @@
             if ($.fn.DataTable.isDataTable('#system_specific_details_table')) {
                 diag_fin_details_table.destroy();
             }
-            $("#system_specific_details_table").find("tbody>tr:gt(0)").remove();
+            $("#system_specific_details_table").find("tbody>tr").remove();
             const i_data = investmentdata;
             const filtered_systems = i_data.filter(function (item) {
                 return item.sysid == system_id;
@@ -1796,13 +1796,12 @@
             for (var x1 = 0; x1 < ss_len; x1++) {
                 var cur_diagram = sorted_systems[x1];
                 var html = "<tr>";
-                html += "<td>" + cur_diagram.title + "</td>" + "<td>" + abbrNum(cur_diagram.totalInvestment, 2) +
-                    "</td>" + "<td>" + abbrNum(cur_diagram.totalIncome, 2) + "</td>" + "<td>" + abbrNum(cur_diagram
+                html += "<td>" + cur_diagram.title + "</td>" + "<td data-sort="+cur_diagram.totalInvestment+'>' + abbrNum(cur_diagram.totalInvestment, 2) +
+                    "</td>" + "<td data-sort="+cur_diagram.totalIncome+'>' + abbrNum(cur_diagram.totalIncome, 2) + "</td>" + "<td data-sort="+cur_diagram.totalMaintainence+'>' + abbrNum(cur_diagram
                         .totalMaintainence, 2) + "</td>" + "</tr>";
                 $("#system_specific_details_table > tbody").append(html);
             }
-            diag_fin_details_table = $('#system_specific_details_table').DataTable();
-
+            diag_fin_details_table = $('#system_specific_details_table').DataTable({"bLengthChange": false });
         }
 
         function destroyTables() {
