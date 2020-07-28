@@ -5,21 +5,31 @@
 - [Asset and Financial Investment Analysis Library](#asset-and-financial-investment-analysis-library)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
-  - [Asset Analysis](#asset-analysis)
   - [Financial Analysis](#financial-analysis)
+  - [Asset Analysis](#asset-analysis)
   - [Investment Analysis Library](#investment-analysis-library)
     - [Boundary Analysis](#boundary-analysis)
   - [Adding the plugin](#adding-the-plugin)
 
 ## Introduction
 
-This plugin enables comprehensive financial and asset analysis for Geodesignhub projects. It has two distinct parts:
+This plugin enables comprehensive financial and asset analysis for Geodesignhub projects. It uses the [Geodesignhub API](http://www.geodesignhub.com/api/) to download data from your project and provide a series of controls to analyze and set potential uses of this asset, conduct financial Analysis and finally conduct a investment summary.
 
-1. Asset Analysis
-2. Financial Discounted Cashflow Analysis
-3. Investment Visualization
+## Financial Analysis
 
-It uses the [Geodesignhub API](http://www.geodesignhub.com/api/) to download data from your project and provide a series of controls to analyze and set potential uses of this asset, conduct financial Analysis and finally conduct a investment analysis.
+This module of the plugin deals with Financial Information associated with the diagram. It is focused on the capital investment associated with the diagram.
+
+![alt text][logo2]
+
+You can enter the following parameters for a project:
+
+- Capital Expenditure / Initial investment needed to build the asset.
+- Start year for the investment and the end year which is the time it will take to build the asset.
+- Expected Annual Revenue once the asset has been built.
+- Annual Operating expenditure to run the asset e.g. in employee salaries, fees, taxes etc.
+- Annual SGA (Sales, General, and Administrative Expenses) associated with the asset.
+- Expected cashflow growth generally inflation or you can set any percentage e.g. if you expect the prices to increase by 5%.
+- Finally WACC is the rate at which you can get a loan for your investment, normally these are interest rates or a number higher than the current interest rate.
 
 ## Asset Analysis
 
@@ -36,22 +46,6 @@ In addition you can set a representative image and compute targetted population 
 After having set the asset class and the intended use of the diagram, this module  can then compute the services requried for that asset to maintain
 
 ![alt text][logo3]
-
-## Financial Analysis
-
-This module of the plugin deals with Financial Information associated with the diagram. It is focused on the capital investment associated with the diagram.
-
-![alt text][logo2]
-
-You can enter the following parameters for a diagram:
-
-1. Capital Expenditure / Initial investment needed to build the asset.
-2. Start year for the investment and the end year which is the time it will take to build the asset.
-3. Expected Annual Revenue once the asset has been built.
-4. Annual Operating expenditure to run the asset e.g. in employee salaries, fees, taxes etc.
-5. Annual SGA (Sales, General, and Administrative Expenses) associated with the asset.
-6. Expected cashflow growth generally inflation or you can set any percentage e.g. if you expect the prices to increase by 5%.
-7. Finally WACC is the rate at which you can get a loan for your investment, normally these are interest rates or a number higher than the current interest rate.
 
 [logo]: https://i.imgur.com/npgPPTm.jpg "Geodesignhub Diagram Discounted Cash Flow"
 [logo2]: https://i.imgur.com/E82qisZ.jpg "Geodesignhub Diagram Discounted Cash Flow"
