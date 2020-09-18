@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Geodesignhub Financial Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" lang="en" content="Geodesignhub Asset Analysis">
+    <meta name="author" content="Geodesignhub">
+    <meta name="robots" content="index, follow">
+    <!-- icons -->
+    <link rel="shortcut icon" href="/assets/loaders/favicon.ico">
+    <!-- Bootstrap Core CSS file -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+    <!-- Override CSS file - add your own CSS rules -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/ion.rangeSlider.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/ion.rangeSlider.skinFlat.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/flatty.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/leaflet.css" />
+    <link href='https://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap3.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-editable.css">
+    <!-- Conditional comment containing JS files for IE6 - 8 -->
+    <!--[if lt IE 9]>
+            <script src="assets/js/html5.js"></script>
+            <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Design Financial Analysis</a>
+
+            </div>
+            <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Design Financials</a></li>
+            <li><a href="<%= summary_link %>">Summary Report</a></li>
+            
+            </ul>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <!-- /.navbar -->
+    <!-- Page Content -->
+    <hr />
+    <div class="container-fluid">
+        <!-- /.row -->
+        
+        <!-- Heading Row -->
+        <div class="row">
+        <br>
+        <p>Instructions: Fill in the financial and asset details for all of the diagrams in your design. Once complete you can see the summary report. </p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <h3>All Diagrams</h3>
+                <table id="all_diagrams" class="hor-minimalist-b">
+                    <thead>
+                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
+                    </thead>
+                    <tbody>
+                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
+                    </tbody>
+                    <tfoot>
+                        <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
+                    </tfoot>
+                </table>  
+               
+            </div>
+
+            <div class="col-md-4">
+                
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <h3>Diagram Details</h3>
+                
+                <div id="inputmap_financial"></div>
+                <h4 id="diagName"></h4>
+                <h5 id="diagAreaLength"></h5>
+                <h5 id="sysCost"></h5>
+                
+
+
+            </div>
+        </div>
+        <!-- Footer -->
+        <br><br><hr>
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>&copy; 2019 Geodesignhub, see the <a href="https://geodesignhub.github.io/AssetAnalysis/">Github repository</a> for more information.</p>
+                </div>
+            </div>
+        </footer>
+        <div id="drawing"></div>
+    </div>
+    <!-- /.container-fluid -->
+
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/humane.min.js"></script>
+    <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
+    <script type="text/javascript" src="assets/js/utils.min.js"></script>
+    <script type="text/javascript" src="assets/js/svg.min.js"></script>
+    <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
+    <script type="text/javascript" src="assets/js/cleave.min.js"></script>
+    <!-- Bootstrap Core scripts -->
+    <script type="text/javascript" src="assets/js/ion.rangeSlider.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap-editable.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
+    <!-- <script type="text/javascript" src="assets/js/colors.js"></script> -->
+    <script type="text/javascript" src="assets/js/leaflet.js"></script>
+    <script type="text/javascript" src="assets/js/choropleth.js"></script>
+    <script type="text/javascript" src="assets/js/moment.min.js"></script>
+    <script type="text/javascript" src="assets/js/svg.min.js"></script>
+    
+    
+    <script type="text/javascript" src="assets/js/assets_details_bulk.js"></script>
+    <!-- Bootstrap Core scripts -->
+    <script type="text/javascript" src="assets/js/money.min.js"></script>
+    <script type="text/javascript" src="assets/js/select2.min.js"></script>
+    
+    
+    <script type="text/javascript">
+        var systems = <%- systems %>;
+        const apitoken = "<%= apitoken  %>"; 
+        const projectid = "<%= projectid %>";
+        const saved_diagram_details = <%- saved_diagram_details %>;
+        const csrf = $("[name='_csrf']").val();
+        const systemdetail = <%- systemdetail %>;
+        const projecttype = "<%= projecttype %>";
+        const syndiagrams = <%- syndiagrams %>;
+        const design_url_details = <%- design_url_details %>;
+        var design = <%- design %>;
+        var asset_class = "";
+
+        var representative_image = "";
+        var diagrams_table;
+        var diagramid = 0;
+        var diagramdetail = {};
+        const all_images = <%- all_image_files %>;
+        var diagram_cost_details = {
+             "initCost" : 0,
+             "acfCost" : 100000,
+             "aopexCost" : 0,
+             "asgaCost" : 0
+        }
+
+        var inputmap = L.map('inputmap_financial', {
+            'zoomControl': false,
+            'dragging': false,
+            'touchZoom': false,
+            'scrollWheelZoom': false,
+            'doubleClickZoom': false
+        });
+        var inputbaseLayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
+            maxZoom: 18,
+        }).addTo(inputmap);
+        var inputLayer = L.featureGroup().addTo(inputmap);
+        var svgDrawing = SVG('drawing').size(10, 10);
+        // fx.base = "USD";
+
+        
+        $("#loadingGIF").hide();
+        var opGJ = {
+            "type": "FeatureCollection",
+            "features": []
+        };
+
+    var asset_class = "";
+
+    
+    $('#savevalues').on('click', function (e) {
+        const capex = diagram_cost_details.initCost;
+        const acf = diagram_cost_details.acfCost;
+        const opex = diagram_cost_details.aopexCost;
+        const asga = diagram_cost_details.asgaCost;
+        const acfg = (parseFloat($("#acfg-slider").val()) / 100).toFixed(2);
+        const wacc = (parseFloat($("#wacc-slider").val()) / 100).toFixed(2);
+
+        const capex_start = isNumeric($("#initcost-syear").val()) ? $("#initcost-syear").val() : 0;
+        const capex_end = isNumeric($("#initcost-eyear").val()) ? $("#initcost-eyear").val() : 1;
+        const acf_start = isNumeric($("#acf-syear").val()) ? $("#acf-syear").val() : 0;
+
+        var asset_details = {};
+        const csrf = $("[name='_csrf']").val();
+        const data = {
+            "capex": capex,
+            "acf": acf,
+            "projectid": projectid,
+            "diagramid": diagramid,
+            "opex": opex,
+            "asga": asga,
+            "capex_start": capex_start,
+            "capex_end": capex_end,
+            "acf_start": acf_start,
+            "acfg":acfg,
+            "wacc":wacc,
+            "_csrf": csrf,
+        };
+        // console.log(data);
+        var url = '/set_financials/';
+        
+        var promise = $.ajax({
+            url: url,
+            type: 'POST',
+            data: data
+        });
+
+        promise.done(function (data) {
+            humane.log("Data successfully saved", {
+                addnCls: 'humane-flatty-success'
+            });
+        });
+
+        promise.fail(function (data) {
+            humane.log("Error in saving data, the administrators have been notified", {
+                addnCls: 'humane-flatty-error'
+            });
+        });
+
+    });
+
+        generateInitTables();
+        initializeTables();
+    </script>
+
+</body>
+
+</html>
