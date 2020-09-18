@@ -140,6 +140,7 @@ function initializeTables() {
                 "visible": false,
                 "targets": groupColumn
             }],
+            pageLength: 50,
             searching: false,
             fixedHeader: {
                 header: false,

@@ -64,7 +64,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <h3>All Diagrams</h3>
                 <table id="all_diagrams" class="hor-minimalist-b">
                     <thead>
@@ -80,19 +80,7 @@
                
             </div>
 
-            <div class="col-md-4">
-                
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <h3>Diagram Details</h3>
-                
-                <div id="inputmap_financial"></div>
-                <h4 id="diagName"></h4>
-                <h5 id="diagAreaLength"></h5>
-                <h5 id="sysCost"></h5>
-                
-
-
-            </div>
+            
         </div>
         <!-- Footer -->
         <br><br><hr>
@@ -157,18 +145,6 @@
              "asgaCost" : 0
         }
 
-        var inputmap = L.map('inputmap_financial', {
-            'zoomControl': false,
-            'dragging': false,
-            'touchZoom': false,
-            'scrollWheelZoom': false,
-            'doubleClickZoom': false
-        });
-        var inputbaseLayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
-            maxZoom: 18,
-        }).addTo(inputmap);
-        var inputLayer = L.featureGroup().addTo(inputmap);
         var svgDrawing = SVG('drawing').size(10, 10);
         // fx.base = "USD";
 
