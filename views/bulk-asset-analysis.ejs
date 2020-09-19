@@ -15,17 +15,14 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <!-- Override CSS file - add your own CSS rules -->
     <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/ion.rangeSlider.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/ion.rangeSlider.skinFlat.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/flatty.css" />
-    <link rel="stylesheet" type="text/css" href="/assets/css/leaflet.css" />
     <link href='https://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap3.min.css" />
-    <link rel="stylesheet" type="text/css" href="assets/css/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-editable.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/editor.dataTables.min.css" />
+    
     <!-- Conditional comment containing JS files for IE6 - 8 -->
     <!--[if lt IE 9]>
             <script src="assets/js/html5.js"></script>
@@ -105,19 +102,12 @@
     <!-- Bootstrap Core scripts -->
     <script type="text/javascript" src="assets/js/ion.rangeSlider.min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/js/bootstrap-editable.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
-    <!-- <script type="text/javascript" src="assets/js/colors.js"></script> -->
-    <script type="text/javascript" src="assets/js/leaflet.js"></script>
-    <script type="text/javascript" src="assets/js/choropleth.js"></script>
-    <script type="text/javascript" src="assets/js/moment.min.js"></script>
-    <script type="text/javascript" src="assets/js/svg.min.js"></script>
-    
+    <script type="text/javascript" src="assets/js/dataTables.editor.min.js"></script>
+
     
     <script type="text/javascript" src="assets/js/assets_details_bulk.js"></script>
     <!-- Bootstrap Core scripts -->
-    <script type="text/javascript" src="assets/js/money.min.js"></script>
-    <script type="text/javascript" src="assets/js/select2.min.js"></script>
     
     
     <script type="text/javascript">
@@ -210,7 +200,76 @@
     });
 
         generateInitTables();
-        initializeTables();
+        var editor; // use a global for the submit and return data rendering in the examples
+ 
+$(document).ready(function() {
+    editor = new $.fn.dataTable.Editor( {
+        table: "#all_diagrams",
+           fields: [ {
+                label: "Last name:",
+                name: "capex"
+            }, {
+                label: "Office:",
+                name: "opex"
+            }, {
+                label: "Office:",
+                name: "acf"
+            }, {
+                label: "Office:",
+                name: "asga"
+            } 
+        
+    ]
+        
+    } );
+ $('#all_diagrams').on( 'click', 'tbody td:not(:first-child)', function (e) {
+        editor.inline( this );
+    } );
+    let groupColumn = 5;
+    $('#all_diagrams').DataTable( {
+        dom: "Bfrtip",
+
+            "columnDefs": [{
+                "visible": false,
+                "targets": groupColumn
+            }],
+            searching: false,
+            
+            
+            "order": [
+                [groupColumn, 'asc']
+            ],
+            "drawCallback": function (settings) {
+                var api = this.api();
+                var rows = api.rows({
+                    page: 'current'
+                }).nodes();
+                var last = null;
+
+                api.column(groupColumn, {
+                    page: 'current'
+                }).data().each(function (group, i) {
+                    if (last !== group) {
+                        $(rows).eq(i).before(
+                            '<tr class="group"><td colspan="">' + group +
+                            '</td></tr>'
+                        );
+                        last = group;
+                    }
+                });
+            },
+        style: 'single', 
+        columns: [
+           
+            { data: "description" },
+            { data: "capex",render: $.fn.dataTable.render.number( ',', '.', 0, 'EUR' )  },
+            { data: "opex" ,render: $.fn.dataTable.render.number( ',', '.', 0, 'EUR' ) },
+            { data: "acf" ,render: $.fn.dataTable.render.number( ',', '.', 0, 'EUR' ) },
+            { data: "asga" ,render: $.fn.dataTable.render.number( ',', '.', 0, 'EUR' ) },
+            { data: "system"  },
+        ]
+    } );
+} );
     </script>
 
 </body>

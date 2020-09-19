@@ -4,7 +4,12 @@ function destroyTables() {
         npv_table.destroy();
     }
 }
-
+function guidGenerator() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
 function generateInitTables() {
     destroyTables();
     var allDiagrams = syndiagrams.diagrams;
@@ -103,7 +108,7 @@ function generateInitTables() {
 
 
 
-                    console.log(curdiagprops)
+                    // console.log(curdiagprops)
 
                     for (let k7 = 0; k7 < saved_diagram_details.length; k7++) {
                         const cur_saved_diagram = saved_diagram_details[k7];
@@ -120,8 +125,8 @@ function generateInitTables() {
                             }
                         }
                     }
-
-                    var diagrowHTMLnpv = "<tr class=" + "'" + cursys.id + "'" + "><td class='assetdetails initCol'>" + curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" + "assetdetails capex-" + curdiagid + "'" + ">" + '<a class="editable" href="#" data-type="text" data-title="Enter new capex e.g. 5">'+capex + "</a></td>" + "<td class=" + "assetdetails opex-" + curdiagid + "'" + ">" + '<a class="editable" href="#" data-type="text" data-title="Enter new opex e.g. 5">'+opex + "</a></td>" + "<td class=" + "assetdetails income-" + curdiagid + "'" + ">" + '<a class="editable" href="#" data-type="text" data-title="Enter new income e.g. 5">'+ acf + "</td>" + "<td class=" + "assetdetails maintainence-" + curdiagid + "'" + ">" + '<a class="editable" href="#" data-type="text" data-title="Enter new maintainence e.g. 5">'+ asga + "</a></td>" + "<td class=" + "system-" + curdiagid + "'" + ">" + cursys.sysname + "</td>";
+                    let r_id = guidGenerator()
+                    var diagrowHTMLnpv = "<tr id="+ "'" + r_id + "'" +"class=" + "'" + cursys.id + "'" + "><td class='assetdetails initCol'>" + curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" + "assetdetails capex-" + curdiagid + "'" + ">" + capex + "</td>" + "<td class=" + "assetdetails opex-" + curdiagid + "'" + ">" +opex + "</td>" + "<td class=" + "assetdetails income-" + curdiagid + "'" + ">" + acf + "</td>" + "<td class=" + "assetdetails maintainence-" + curdiagid + "'" + ">" + asga + "</td>" + "<td class=" + "system-" + curdiagid + "'" + ">" + cursys.sysname + "</td>";
                     yrCounter = 0;
                     diagrowHTMLnpv += "</tr>";
                     $('#all_diagrams > tbody').append(diagrowHTMLnpv);
@@ -131,48 +136,3 @@ function generateInitTables() {
     }
     systems = sys;
 }
-
-function initializeTables() {
-    var tableGenerator = function (domid) {
-        var groupColumn = 5;
-        var t = $('#' + domid).DataTable({
-            "columnDefs": [{
-                "visible": false,
-                "targets": groupColumn
-            }],
-            pageLength: 50,
-            searching: false,
-            fixedHeader: {
-                header: false,
-                footer: true
-            },
-            "order": [
-                [groupColumn, 'asc']
-            ],
-            "drawCallback": function (settings) {
-                var api = this.api();
-                var rows = api.rows({
-                    page: 'current'
-                }).nodes();
-                var last = null;
-
-                api.column(groupColumn, {
-                    page: 'current'
-                }).data().each(function (group, i) {
-                    if (last !== group) {
-                        $(rows).eq(i).before(
-                            '<tr class="group"><td colspan="">' + group +
-                            '</td></tr>'
-                        );
-
-                        last = group;
-                    }
-                });
-            }
-        });
-        return t;
-    }
-    all_diagrams_table = tableGenerator('all_diagrams');
-    $('.editable').editable();
-}
-
