@@ -108,10 +108,10 @@ function generateInitTables() {
 
 
 
-                    // console.log(curdiagprops)
-
+                    console.log(curdiagid);
                     for (let k7 = 0; k7 < saved_diagram_details.length; k7++) {
                         const cur_saved_diagram = saved_diagram_details[k7];
+                        console.table(cur_saved_diagram)
                         if (cur_saved_diagram['key'].split('-')[1] == curdiagid) {
                             if (cur_saved_diagram.hasOwnProperty['fin_set']) {
                                 if (cur_saved_diagram['fin_set'] == 0) { } else {
@@ -125,8 +125,8 @@ function generateInitTables() {
                             }
                         }
                     }
-                    let r_id = guidGenerator()
-                    var diagrowHTMLnpv = "<tr id="+ "'" + r_id + "'" +"class=" + "'" + cursys.id + "'" + "><td class='assetdetails initCol'>" + curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" + "assetdetails capex-" + curdiagid + "'" + ">" + capex + "</td>" + "<td class=" + "assetdetails opex-" + curdiagid + "'" + ">" +opex + "</td>" + "<td class=" + "assetdetails income-" + curdiagid + "'" + ">" + acf + "</td>" + "<td class=" + "assetdetails maintainence-" + curdiagid + "'" + ">" + asga + "</td>" + "<td class=" + "system-" + curdiagid + "'" + ">" + cursys.sysname + "</td>";
+                    // let r_id = guidGenerator()
+                    var diagrowHTMLnpv = "<tr id="+ "'" + curdiagid + "'" +"class=" + "'" + cursys.id + "'" + "><td class='assetdetails initCol'>" + curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" + "assetdetails capex-" + curdiagid + "'" + ">" + capex + "</td>" + "<td class=" + "assetdetails opex-" + curdiagid + "'" + ">" +opex + "</td>" + "<td class=" + "assetdetails income-" + curdiagid + "'" + ">" + acf + "</td>" + "<td class=" + "assetdetails maintainence-" + curdiagid + "'" + ">" + asga + "</td>" + "<td class=" + "system-" + curdiagid + "'" + ">" + cursys.sysname + "</td>";
                     yrCounter = 0;
                     diagrowHTMLnpv += "</tr>";
                     $('#all_diagrams > tbody').append(diagrowHTMLnpv);

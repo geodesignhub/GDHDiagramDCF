@@ -60,6 +60,7 @@
         <p>Instructions: Fill in the financial and asset details for all of the diagrams in your design. Once complete you can see the summary report. </p>
         </div>
 
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="row">
             <div class="col-md-12">
                 <h3>All Diagrams</h3>
@@ -222,9 +223,62 @@ $(document).ready(function() {
     ]
         
     } );
- $('#all_diagrams').on( 'click', 'tbody td:not(:first-child)', function (e) {
+    $('#all_diagrams').on( 'click', 'tbody td:not(:first-child)', function (e) {
         editor.inline( this );
     } );
+
+    editor.on('postEdit', function (e, json, edited_data) {
+        const diagramid = edited_data.DT_RowId;
+        const capex = parseInt(edited_data.capex);
+        const acf = parseInt(edited_data.acf);
+        const opex = parseInt(edited_data.opex);
+        const asga = parseInt(edited_data.asga);
+        const acfg = parseFloat(0.05);
+        const wacc = parseFloat(0.03);
+
+        const capex_start = 0;
+        const capex_end = 1;
+        const acf_start = 0;
+
+        var asset_details = {};
+        const csrf = $("[name='_csrf']").val();
+        const data = {
+            "capex": capex,
+            "acf": acf,
+            "projectid": projectid,
+            "diagramid": diagramid,
+            "opex": opex,
+            "asga": asga,
+            "capex_start": capex_start,
+            "capex_end": capex_end,
+            "acf_start": acf_start,
+            "acfg":acfg,
+            "wacc":wacc,
+            "_csrf": csrf,
+        };
+        
+        var url = '/set_financials/';
+        
+        var promise = $.ajax({
+            url: url,
+            type: 'POST',
+            data: data
+        });
+
+        promise.done(function (data) {
+            humane.log("Data successfully saved", {
+                addnCls: 'humane-flatty-success'
+            });
+        });
+
+        promise.fail(function (data) {
+            humane.log("Error in saving data, the administrators have been notified", {
+                addnCls: 'humane-flatty-error'
+            });
+        }); 
+
+
+    });
     let groupColumn = 5;
     $('#all_diagrams').DataTable( {
         dom: "Bfrtip",
@@ -268,8 +322,8 @@ $(document).ready(function() {
             { data: "asga" ,render: $.fn.dataTable.render.number( ',', '.', 0, 'EUR' ) },
             { data: "system"  },
         ]
-    } );
-} );
+    });
+    });
     </script>
 
 </body>
