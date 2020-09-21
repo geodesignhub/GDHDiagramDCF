@@ -5,10 +5,10 @@ function destroyTables() {
     }
 }
 function guidGenerator() {
-    var S4 = function() {
-       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    var S4 = function () {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     };
-    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+    return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 }
 function generateInitTables() {
     destroyTables();
@@ -90,7 +90,7 @@ function generateInitTables() {
             }
             // check if there are any saved values for this diagrams
 
-            const capex = 10000;
+            let capex = 10000;
             let acf = capex * 0.1;
             let opex = capex * 0.05;
             let asga = capex * 0.01;
@@ -106,25 +106,29 @@ function generateInitTables() {
                     //var cost_override = curdiag.features[0].properties.cost_override;
                     //var cost_override_type = curdiag.features[0].properties.cost_override_type;
 
-                    //console.log(curdiagid);
+                    // console.log(curdiagid);
+                    // console.log('here')
                     for (let k7 = 0; k7 < saved_diagram_details.length; k7++) {
                         const cur_saved_diagram = saved_diagram_details[k7];
-                        // console.table(cur_saved_diagram)
-                        if (cur_saved_diagram['key'].split('-')[1] == curdiagid) {
-                            if (cur_saved_diagram.hasOwnProperty['fin_set']) {
-                                if (cur_saved_diagram['fin_set'] == 0) { } else {
-                                    // finanicals set. 
-                                    capex = cur_saved_diagram['capex'];
-                                    acf = cur_saved_diagram['acf'];
-                                    opex = cur_saved_diagram['opex'];
-                                    asga = cur_saved_diagram['asga'];
-                                    break;
-                                }
-                            }
+
+                        let tmp_diag_id = parseInt(cur_saved_diagram['key'].split('-')[1]);
+
+                        if (tmp_diag_id == curdiagid) {
+
+                        
+                        if (cur_saved_diagram['fin_set'] == 0) { } else {
+                            // finanicals set. 
+                            capex = parseInt(cur_saved_diagram['capex']);
+                            acf = parseInt(cur_saved_diagram['acf']);
+                            opex = parseInt(cur_saved_diagram['opex']);
+                            asga = parseInt(cur_saved_diagram['asga']);
+                            break;
+                        }
+
                         }
                     }
                     // let r_id = guidGenerator()
-                    var diagrowHTMLnpv = "<tr id="+ "'" + curdiagid + "'" +"class=" + "'" + cursys.id + "'" + "><td class='assetdetails initCol'>" + curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" + "assetdetails capex-" + curdiagid + "'" + ">" + capex + "</td>" + "<td class=" + "assetdetails opex-" + curdiagid + "'" + ">" +opex + "</td>" + "<td class=" + "assetdetails income-" + curdiagid + "'" + ">" + acf + "</td>" + "<td class=" + "assetdetails maintainence-" + curdiagid + "'" + ">" + asga + "</td>" + "<td class=" + "system-" + curdiagid + "'" + ">" + cursys.sysname + "</td>";
+                    var diagrowHTMLnpv = "<tr id=" + "'" + curdiagid + "'" + "class=" + "'" + cursys.id + "'" + "><td class='assetdetails initCol'>" + curdiagprops.description + "<br>(" + projectorpolicy + ")</td>" + "<td class=" + "assetdetails capex-" + curdiagid + "'" + ">" + capex + "</td>" + "<td class=" + "assetdetails opex-" + curdiagid + "'" + ">" + opex + "</td>" + "<td class=" + "assetdetails income-" + curdiagid + "'" + ">" + acf + "</td>" + "<td class=" + "assetdetails maintainence-" + curdiagid + "'" + ">" + asga + "</td>" + "<td class=" + "system-" + curdiagid + "'" + ">" + cursys.sysname + "</td>";
                     yrCounter = 0;
                     diagrowHTMLnpv += "</tr>";
                     $('#all_diagrams > tbody').append(diagrowHTMLnpv);

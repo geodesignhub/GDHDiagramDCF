@@ -22,8 +22,8 @@ app.use(csrf({
     cookie: true
 }));
 
-// let baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
-let baseurl = 'http://local.test:8000/api/v1/projects/';
+let baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
+// let baseurl = 'http://local.test:8000/api/v1/projects/';
 
 
 const image_files = ['commecial-office.jpg',
@@ -684,7 +684,7 @@ app.get('/bulk-financials-updater', function (request, response) {
                             "asset_set": 0
                         });
                     } else {
-                        var rr = redis_results
+                        var rr = redis_results;
                         rr["key"] = rkey;
                         return done(null, rr);
                     }
@@ -692,10 +692,10 @@ app.get('/bulk-financials-updater', function (request, response) {
             },
                 function (error, op) {
                     //only OK once set
-
                     if (err) return response.sendStatus(500);
                     const projecttype = results[3]['projecttype'];
-                    const new_obj_array = op.map(({ capex, opex, asga, acf, capex_start, capex_end, wacc, acf_start, representative_image, asset_details, ...item }) => item)
+                 
+                    
 
                     opts = {
                         "csrfToken": request.csrfToken(),
@@ -709,7 +709,7 @@ app.get('/bulk-financials-updater', function (request, response) {
                         "syndiagrams": JSON.stringify(results[4]),
                         "systemdetail": JSON.stringify(sysdetails),
                         "sequence": JSON.stringify(results[6]),
-                        "saved_diagram_details": JSON.stringify(new_obj_array),
+                        "saved_diagram_details": JSON.stringify(op),
                         "design_url_details": JSON.stringify(design_url_details),
                         // "all_image_files": JSON.stringify(image_files),
                         "summary_link": summary_link,
