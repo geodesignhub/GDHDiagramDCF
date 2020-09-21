@@ -39,7 +39,7 @@
 
             </div>
             <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Design Financials</a></li>
+            <li class="active"><a href="<%= detailed_financials_url %>">Design Financials</a></li>
             <li><a href="<%= summary_link %>">Summary Report</a></li>
             
             </ul>
@@ -63,7 +63,7 @@
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="row">
             <div class="col-md-12">
-                <h3>All Diagrams</h3>
+                <h3>Bulk Update Diagrams</h3>
                 <table id="all_diagrams" class="hor-minimalist-b">
                     <thead>
                         <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
@@ -95,18 +95,14 @@
 
     <script type="text/javascript" src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/humane.min.js"></script>
-    <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
     <script type="text/javascript" src="assets/js/utils.min.js"></script>
-    <script type="text/javascript" src="assets/js/svg.min.js"></script>
-    <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
-    <script type="text/javascript" src="assets/js/cleave.min.js"></script>
+
+
+
     <!-- Bootstrap Core scripts -->
-    <script type="text/javascript" src="assets/js/ion.rangeSlider.min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="assets/js/dataTables.editor.min.js"></script>
-
-    
+    <script type="text/javascript" src="assets/js/dataTables.editor.min.js"></script>    
     <script type="text/javascript" src="assets/js/assets_details_bulk.js"></script>
     <!-- Bootstrap Core scripts -->
     
@@ -128,7 +124,7 @@
         var diagrams_table;
         var diagramid = 0;
         var diagramdetail = {};
-        const all_images = <%- all_image_files %>;
+        
         var diagram_cost_details = {
              "initCost" : 0,
              "acfCost" : 100000,

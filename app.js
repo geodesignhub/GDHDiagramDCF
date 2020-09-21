@@ -392,7 +392,7 @@ app.get('/summary', function (request, response) {
                 if (err) return response.sendStatus(500);
                 // var timeline = results[2]['timeline'];
 
-                var keyDetails = {};
+                // var keyDetails = {};
 
                 async.map(redis_keys, function (rkey, done) {
                     redisclient.HGETALL(rkey, function (err, redis_results) {
@@ -452,6 +452,10 @@ app.get('/summary', function (request, response) {
 });
 
 app.get('/', function (request, response) {
+
+    
+      
+    if (request.query.apitoken && request.query.projectid && request.query.synthesisid && request.query.cteamid && request.query.boardid) {
     var opts = {};
 
     const apikey = request.query.apitoken;
@@ -468,6 +472,8 @@ app.get('/', function (request, response) {
     const boardsurl = baseurl + projectid + '/boards/' + boardid + '/gantt/';
     const projecturl = baseurl + projectid + '/';
     const URLS = [synprojectsurl, boundsurl, systemsurl, projecturl, syndiagramsurl, boardsurl];
+
+    let bulk_financials_url = '/bulk-financials-updater?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
 
     const design_url_details = { 'boardid': boardid, 'cteamid': cteamid, 'synthesisid': synthesisid };
 
@@ -523,7 +529,7 @@ app.get('/', function (request, response) {
             if (err) return response.sendStatus(500);
             // var timeline = results[2]['timeline'];
 
-            var keyDetails = {};
+            // var keyDetails = {};
             async.map(redis_keys, function (rkey, done) {
                 redisclient.HGETALL(rkey, function (err, redis_results) {
                     if (err || redis_results == null) {
@@ -570,17 +576,23 @@ app.get('/', function (request, response) {
                         "saved_diagram_details": JSON.stringify(new_obj_array),
                         "design_url_details": JSON.stringify(design_url_details),
                         "all_image_files": JSON.stringify(image_files),
-                        "summary_link": summary_link
+                        "summary_link": summary_link,
+                        "bulk_financials_url":bulk_financials_url
                     };
 
                     response.render('new-financials', opts);
                 });
         });
-    });
+    }); }
+    else {
+        response.status(400).send('Not all query parameters provided.');
+    }
 });
 
+app.get('/bulk-financials-updater', function (request, response) {
+      
+    if (request.query.apitoken && request.query.projectid && request.query.synthesisid && request.query.cteamid && request.query.boardid) {
 
-app.get('/new-assets', function (request, response) {
     var opts = {};
     const apikey = request.query.apitoken;
     const cred = "Token " + apikey;
@@ -601,6 +613,8 @@ app.get('/new-assets', function (request, response) {
 
     const summary_link = '/summary?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
     
+    let detailed_financials_url = '/?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
+
     async.map(URLS, function (url, done) {
         req({
             url: url,
@@ -651,7 +665,7 @@ app.get('/new-assets', function (request, response) {
             if (err) return response.sendStatus(500);
             // var timeline = results[2]['timeline'];
 
-            var keyDetails = {};
+            // var keyDetails = {};
             async.map(redis_keys, function (rkey, done) {
                 redisclient.HGETALL(rkey, function (err, redis_results) {
                     if (err || redis_results == null) {
@@ -689,7 +703,6 @@ app.get('/new-assets', function (request, response) {
                         "projectid": request.query.projectid,
                         "status": 1,
                         "design": JSON.stringify(results[0]),
-                        // "timeline": JSON.stringify(timeline),
                         "systems": JSON.stringify(results[2]),
                         "projectdetails": JSON.stringify(results[3]),
                         "projecttype": projecttype,
@@ -698,14 +711,19 @@ app.get('/new-assets', function (request, response) {
                         "sequence": JSON.stringify(results[6]),
                         "saved_diagram_details": JSON.stringify(new_obj_array),
                         "design_url_details": JSON.stringify(design_url_details),
-                        "all_image_files": JSON.stringify(image_files),
-                        "summary_link": summary_link
+                        // "all_image_files": JSON.stringify(image_files),
+                        "summary_link": summary_link,
+                        "detailed_financials_url":detailed_financials_url
                     };
 
-                    response.render('bulk-asset-analysis', opts);
+                    response.render('bulk-financial-updates', opts);
                 });
         });
     });
+    }
+    else {
+        response.status(400).send('Not all query parameters provided.');
+    }
 });
 
 
