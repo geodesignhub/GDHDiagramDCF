@@ -103,15 +103,13 @@ function generateInitTables() {
                     var curdiagprops = curdiag.features[0].properties;
                     var curdiagid = curdiag.features[0].properties.diagramid;
                     var projectorpolicy = curdiag.features[0].properties.areatype;
-                    var cost_override = curdiag.features[0].properties.cost_override;
-                    var cost_override_type = curdiag.features[0].properties.cost_override_type;
+                    //var cost_override = curdiag.features[0].properties.cost_override;
+                    //var cost_override_type = curdiag.features[0].properties.cost_override_type;
 
-
-
-                    console.log(curdiagid);
+                    //console.log(curdiagid);
                     for (let k7 = 0; k7 < saved_diagram_details.length; k7++) {
                         const cur_saved_diagram = saved_diagram_details[k7];
-                        console.table(cur_saved_diagram)
+                        // console.table(cur_saved_diagram)
                         if (cur_saved_diagram['key'].split('-')[1] == curdiagid) {
                             if (cur_saved_diagram.hasOwnProperty['fin_set']) {
                                 if (cur_saved_diagram['fin_set'] == 0) { } else {

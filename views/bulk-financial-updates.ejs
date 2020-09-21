@@ -52,12 +52,11 @@
     <!-- Page Content -->
     <hr />
     <div class="container-fluid">
-        <!-- /.row -->
-        
+        <!-- /.row -->        
         <!-- Heading Row -->
         <div class="row">
         <br>
-        <p>Instructions: Fill in the financial and asset details for all of the diagrams in your design. Once complete you can see the summary report. </p>
+        <p>Instructions: Using this . Once complete you can see the summary report. </p>
         </div>
 
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -74,11 +73,8 @@
                     <tfoot>
                         <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
                     </tfoot>
-                </table>  
-               
-            </div>
-
-            
+                </table>                 
+            </div>            
         </div>
         <!-- Footer -->
         <br><br><hr>
@@ -95,17 +91,12 @@
 
     <script type="text/javascript" src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/humane.min.js"></script>
-    <script type="text/javascript" src="assets/js/utils.min.js"></script>
-
-
-
     <!-- Bootstrap Core scripts -->
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="assets/js/dataTables.editor.min.js"></script>    
     <script type="text/javascript" src="assets/js/assets_details_bulk.js"></script>
-    <!-- Bootstrap Core scripts -->
-    
+    <!-- Bootstrap Core scripts -->    
     
     <script type="text/javascript">
         var systems = <%- systems %>;
@@ -132,9 +123,7 @@
              "asgaCost" : 0
         }
 
-        var svgDrawing = SVG('drawing').size(10, 10);
         // fx.base = "USD";
-
         
         $("#loadingGIF").hide();
         var opGJ = {
@@ -284,7 +273,7 @@ $(document).ready(function() {
                 "targets": groupColumn
             }],
             searching: false,
-            
+            "ordering": false,
             
             "order": [
                 [groupColumn, 'asc']
