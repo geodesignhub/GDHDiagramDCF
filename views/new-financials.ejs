@@ -38,12 +38,14 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Design Financial Analysis</a>
+                <a class="navbar-brand" href="#">Diagram Financials</a>
 
             </div>
             <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Design Financials</a></li>
-            <li><a href="<%= summary_link %>">Summary Report</a></li>
+                <li><a href="<%- basic_financials_url %>">Costs Table</a></li>
+                <li class="active"><a href="<%= detailed_financials_url %>" active>Detailed Costs</a></li>
+                <li><a href="<%= summary_link %>">Summary Report</a></li>
+                
             
             </ul>
             <!-- /.navbar-header -->
@@ -60,7 +62,7 @@
         <!-- Heading Row -->
         <div class="row">
         <br>
-        <p>Instructions: Fill in the financial and asset details for all of the diagrams in your design. Once complete you can see the summary report.  <% if (projecttype == 'paid'){ %>For adding basic parameters, you can also try the simpler <a href='<%= bulk_financials_url %>'>bulk editor</a>.<% } %></p>
+        <p>Instructions: Fill in the financial and asset details for all of the diagrams in your design. Once complete you can see the summary report. </p>
         </div>
 
         <div class="row">

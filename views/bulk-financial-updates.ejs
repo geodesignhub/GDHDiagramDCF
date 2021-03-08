@@ -35,12 +35,13 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Design Financial Analysis</a>
+                <a class="navbar-brand" href="#">Diagram Financials</a>
 
             </div>
             <ul class="nav navbar-nav">
-            <li class="active"><a href="<%= detailed_financials_url %>">Design Financials</a></li>
-            <li><a href="<%= summary_link %>">Summary Report</a></li>
+                <li class="active"><a href="<%= basic_financials_url %>">Costs Table</a></li>
+                <li><a href="<%= detailed_financials_url %>">Detailed Costs</a></li>                
+                <li><a href="<%= summary_link %>">Summary Report</a></li>
             
             </ul>
             <!-- /.navbar-header -->
@@ -56,7 +57,7 @@
         <!-- Heading Row -->
         <div class="row">
         <br>
-        <p>Instructions: Using this . Once complete you can see the summary report. </p>
+        <p>Instructions: Using this table, update on a high level the financial information for the different projects and policies. Once complete them can see a cost summary or enter additional details about each of them. </p>
         </div>
 
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">

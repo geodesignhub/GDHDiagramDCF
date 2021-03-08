@@ -342,7 +342,13 @@ app.get('/summary', function (request, response) {
         const boardsurl = baseurl + projectid + '/boards/' + boardid + '/gantt/';
         const projecturl = baseurl + projectid + '/';
         const URLS = [synprojectsurl, boundsurl, systemsurl, projecturl, syndiagramsurl, boundaryurl, boardsurl];
-        const financials_link = '/?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
+
+        const summary_link = '/summary?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
+    
+        const detailed_financials_url = '/details?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
+    
+        const basic_financials_url = '/?' +  'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
+    
         async.map(URLS, function (url, done) {
             req({
                 url: url,
@@ -439,7 +445,10 @@ app.get('/summary', function (request, response) {
                             "systemdetail": JSON.stringify(sysdetails),
                             "sequence": JSON.stringify(results[6]),
                             "saved_diagram_details": JSON.stringify(op),
-                            "financials_link": financials_link
+
+                            "summary_link": summary_link,
+                            "detailed_financials_url":detailed_financials_url,
+                            "basic_financials_url": basic_financials_url 
                         };
                         response.render('investmentanalysis', opts);
                     });
@@ -451,7 +460,7 @@ app.get('/summary', function (request, response) {
     }
 });
 
-app.get('/', function (request, response) {
+app.get('/details', function (request, response) {
 
     
       
@@ -473,12 +482,14 @@ app.get('/', function (request, response) {
     const projecturl = baseurl + projectid + '/';
     const URLS = [synprojectsurl, boundsurl, systemsurl, projecturl, syndiagramsurl, boardsurl];
 
-    let bulk_financials_url = '/bulk-financials-updater?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
+    const summary_link = '/summary?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
+    
+    const detailed_financials_url = '/details?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
+
+    const basic_financials_url = '/?' +  'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
 
     const design_url_details = { 'boardid': boardid, 'cteamid': cteamid, 'synthesisid': synthesisid };
 
-    const summary_link = '/summary?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
-    
     async.map(URLS, function (url, done) {
         req({
             url: url,
@@ -556,7 +567,7 @@ app.get('/', function (request, response) {
             },
                 function (error, op) {
                     //only OK once set
-
+                    
                     if (err) return response.sendStatus(500);
                     const projecttype = results[3]['projecttype'];
                     const new_obj_array = op.map(({ capex, opex, asga, acf, capex_start, capex_end, wacc, acf_start, representative_image, asset_details, ...item }) => item)
@@ -576,9 +587,12 @@ app.get('/', function (request, response) {
                         "saved_diagram_details": JSON.stringify(new_obj_array),
                         "design_url_details": JSON.stringify(design_url_details),
                         "all_image_files": JSON.stringify(image_files),
+                   
                         "summary_link": summary_link,
-                        "bulk_financials_url":bulk_financials_url
+                        "detailed_financials_url":detailed_financials_url,
+                        "basic_financials_url": basic_financials_url 
                     };
+                    
 
                     response.render('new-financials', opts);
                 });
@@ -589,7 +603,7 @@ app.get('/', function (request, response) {
     }
 });
 
-app.get('/bulk-financials-updater', function (request, response) {
+app.get('/', function (request, response) {
       
     if (request.query.apitoken && request.query.projectid && request.query.synthesisid && request.query.cteamid && request.query.boardid) {
 
@@ -613,7 +627,9 @@ app.get('/bulk-financials-updater', function (request, response) {
 
     const summary_link = '/summary?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
     
-    let detailed_financials_url = '/?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
+    const detailed_financials_url = '/details?' + 'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
+
+    const basic_financials_url = '/?' +  'projectid=' + projectid + '&cteamid=' + cteamid + '&apitoken=' + apikey + '&synthesisid=' + synthesisid + '&boardid=' + boardid;
 
     async.map(URLS, function (url, done) {
         req({
@@ -712,8 +728,10 @@ app.get('/bulk-financials-updater', function (request, response) {
                         "saved_diagram_details": JSON.stringify(op),
                         "design_url_details": JSON.stringify(design_url_details),
                         // "all_image_files": JSON.stringify(image_files),
+                        
                         "summary_link": summary_link,
-                        "detailed_financials_url":detailed_financials_url
+                        "detailed_financials_url":detailed_financials_url,
+                        "basic_financials_url": basic_financials_url 
                     };
 
                     response.render('bulk-financial-updates', opts);
