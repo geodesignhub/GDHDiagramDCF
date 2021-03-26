@@ -35,7 +35,7 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Diagram Financials</a>
+                <a class="navbar-brand" href="#">Design Diagram Financials</a>
 
             </div>
             <ul class="nav navbar-nav">
@@ -96,6 +96,7 @@
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="assets/js/dataTables.editor.min.js"></script>    
+    <script type="text/javascript" src="assets/js/turf.min.js"></script>    
     <script type="text/javascript" src="assets/js/assets_details_bulk.js"></script>
     <!-- Bootstrap Core scripts -->    
     
@@ -134,75 +135,23 @@
 
     var asset_class = "";
 
-    
-    $('#savevalues').on('click', function (e) {
-        const capex = diagram_cost_details.initCost;
-        const acf = diagram_cost_details.acfCost;
-        const opex = diagram_cost_details.aopexCost;
-        const asga = diagram_cost_details.asgaCost;
-        const acfg = (parseFloat($("#acfg-slider").val()) / 100).toFixed(2);
-        const wacc = (parseFloat($("#wacc-slider").val()) / 100).toFixed(2);
-
-        const capex_start = isNumeric($("#initcost-syear").val()) ? $("#initcost-syear").val() : 0;
-        const capex_end = isNumeric($("#initcost-eyear").val()) ? $("#initcost-eyear").val() : 1;
-        const acf_start = isNumeric($("#acf-syear").val()) ? $("#acf-syear").val() : 0;
-
-        var asset_details = {};
-        const csrf = $("[name='_csrf']").val();
-        const data = {
-            "capex": capex,
-            "acf": acf,
-            "projectid": projectid,
-            "diagramid": diagramid,
-            "opex": opex,
-            "asga": asga,
-            "capex_start": capex_start,
-            "capex_end": capex_end,
-            "acf_start": acf_start,
-            "acfg":acfg,
-            "wacc":wacc,
-            "_csrf": csrf,
-        };
-        // console.log(data);
-        var url = '/set_financials/';
-        
-        var promise = $.ajax({
-            url: url,
-            type: 'POST',
-            data: data
-        });
-
-        promise.done(function (data) {
-            humane.log("Data successfully saved", {
-                addnCls: 'humane-flatty-success'
-            });
-        });
-
-        promise.fail(function (data) {
-            humane.log("Error in saving data, the administrators have been notified", {
-                addnCls: 'humane-flatty-error'
-            });
-        });
-
-    });
-
-        generateInitTables();
-        var editor; // use a global for the submit and return data rendering in the examples
+    generateInitTables();
+    var editor; // use a global for the submit and return data rendering in the examples
  
 $(document).ready(function() {
     editor = new $.fn.dataTable.Editor( {
         table: "#all_diagrams",
            fields: [ {
-                label: "Last name:",
+                label: "Capital Expenditure:",
                 name: "capex"
             }, {
-                label: "Office:",
+                label: "Operating Expenses",
                 name: "opex"
             }, {
-                label: "Office:",
+                label: "Annual Cash flow",
                 name: "acf"
             }, {
-                label: "Office:",
+                label: "Annual Maintainence",
                 name: "asga"
             } 
         
@@ -268,7 +217,7 @@ $(document).ready(function() {
     let groupColumn = 5;
     $('#all_diagrams').DataTable( {
         dom: "Bfrtip",
-
+            "pageLength": 30,
             "columnDefs": [{
                 "visible": false,
                 "targets": groupColumn

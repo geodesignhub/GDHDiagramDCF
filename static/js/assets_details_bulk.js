@@ -90,7 +90,7 @@ function generateInitTables() {
             }
             // check if there are any saved values for this diagrams
 
-            let capex = 10000;
+            let capex = 0;
             let acf = capex * 0.1;
             let opex = capex * 0.05;
             let asga = capex * 0.01;

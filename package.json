@@ -1,20 +1,20 @@
 {
-    "name": "gdhdiagramdcf",
+    "name": "geodesignhub-asset-analysis",
     "version": "1.0.0",
-    "description": "A Geodesignhub plugin to help compute Discounted Cash Flow analysis of a diagram.",
+    "description": "A Geodesignhub plugin to help compute Discounted Cash Flow analysis of a design and diagram.",
     "main": "app.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app.js"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/hrishiballal/InvestmentAnalysis/"
+        "url": "https://github.com/geodesignhub/AssetAnalysis/"
     },
     "keywords": [
-        "Geodesign",
-        "Hub"
+        "Geodesignhub"
     ],
-    "author": "Hrishikesh Ballal",
+    "author": "Geodesignhub",
     "license": "MIT",
     "dependencies": {
         "async": "^1.5.2",
