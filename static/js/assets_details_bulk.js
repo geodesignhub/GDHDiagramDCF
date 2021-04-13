@@ -1,15 +1,16 @@
-
 function destroyTables() {
     if ($.fn.DataTable.isDataTable('#all_diagrams')) {
         npv_table.destroy();
     }
 }
+
 function guidGenerator() {
     var S4 = function () {
         return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     };
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 }
+
 function generateInitTables() {
     destroyTables();
     var allDiagrams = syndiagrams.diagrams;
@@ -95,6 +96,12 @@ function generateInitTables() {
             let opex = capex * 0.05;
             let asga = capex * 0.01;
 
+            sysCost = current_system_details['syscost'];
+
+
+            var maxYearlyCost = 0;
+
+            let capex_num_years = 30;
 
 
             for (var p = 0; p < diaglen; p++) {
@@ -103,8 +110,21 @@ function generateInitTables() {
                     var curdiagprops = curdiag.features[0].properties;
                     var curdiagid = curdiag.features[0].properties.diagramid;
                     var projectorpolicy = curdiag.features[0].properties.areatype;
-                    //var cost_override = curdiag.features[0].properties.cost_override;
-                    //var cost_override_type = curdiag.features[0].properties.cost_override_type;
+                    var cost_override = curdiag.features[0].properties.cost_override;
+                    var cost_override_type = curdiag.features[0].properties.cost_override_type;
+                    let totArea = 0;
+                    if (projectorpolicy == 'policy') {
+                        totArea = 0;
+                    } else {
+                        try {
+                            // bufArea = turf.buffer(cDiag, 0.0);
+                            totAreaM = turf.area(curdiag);
+                            totArea = totAreaM * 0.0001; // in hectares                    
+                        } catch (err) { //throw JSON.stringify(err)
+                            // console.log(err);
+                            totArea = 0;
+                        } // catch ends
+                    }
 
                     // console.log(curdiagid);
                     // console.log('here')
@@ -115,15 +135,36 @@ function generateInitTables() {
 
                         if (tmp_diag_id == curdiagid) {
 
-                        
-                        if (cur_saved_diagram['fin_set'] == 0) { } else {
-                            // finanicals set. 
-                            capex = parseInt(cur_saved_diagram['capex']);
-                            acf = parseInt(cur_saved_diagram['acf']);
-                            opex = parseInt(cur_saved_diagram['opex']);
-                            asga = parseInt(cur_saved_diagram['asga']);
-                            break;
-                        }
+                            if (cur_saved_diagram['fin_set'] == 0) {
+
+                                
+
+                                if (cost_override !== 0) {
+                                    if (cost_override_type == 'total') {
+                                        totalCost = cost_override;
+                                    } else {
+                                        totalCost = totArea * cost_override;
+                                    }
+                                } else {
+                                    totalCost = totArea * sysCost;
+                                }
+                                capex = totalCost;
+
+                                let yearlyCost = parseFloat(capex / capex_num_years);
+                                maxYearlyCost = (yearlyCost > maxYearlyCost) ? yearlyCost : maxYearlyCost;
+                                let all_opex_asga = yearlyCost * 0.03;
+                                opex = all_opex_asga;
+                                asga = all_opex_asga;
+
+
+                            } else {
+                                // finanicals set. 
+                                capex = parseInt(cur_saved_diagram['capex']);
+                                acf = parseInt(cur_saved_diagram['acf']);
+                                opex = parseInt(cur_saved_diagram['opex']);
+                                asga = parseInt(cur_saved_diagram['asga']);
+                                break;
+                            }
 
                         }
                     }
