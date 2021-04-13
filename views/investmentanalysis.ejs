@@ -496,7 +496,7 @@
                     var yrCounter = 0
                     if (headcounter === 0) { // header row
                         var npvHTML =
-                            "<tr><th class='header initCol'>Title</th><th>Image</th><th>Asset Class</th><th>Asset Subclass</th><th>Residents</th><th class='visitor-detail'>Visitors</th><th class='fundingheader'>Funding</th><th class='finheader'>Financial + Asset Data</th><th class='systemheader'>System</th>";
+                            "<tr><th class='header initCol'>Title</th><th>Image</th><th>Asset Class</th><th>Asset Subclass</th><th>Residents</th><th class='visitor-detail'>Visitors</th><th class='fundingheader'>Funding</th><th class='systemheader'>System</th>";
                         npvHTML += "</tr>";
                         $('#npv  > thead').append(npvHTML);
                         headcounter += 1;
@@ -521,8 +521,7 @@
                                 "'assetdetails visitors-" + curdiagid + "'" + "></td>" + "<td class=" +
                                 "assetdetails funding-" +
                                 curdiagid + "'" +
-                                ">" + curdiagprops.fundingtype + "</td>" + "<td class=" +
-                                "'fin-" + curdiagid + "'" + "></td>" + "<td class=" + "system-" +
+                                ">" + curdiagprops.fundingtype + "</td>"  + "<td class=" + "system-" +
                                 curdiagid + "'" +
                                 ">" + cursys.sysname + "</td>";
                             yrCounter = 0;
@@ -1602,12 +1601,6 @@
                 var totalInvestment = curInvestmentdata['totalInvestment'];
 
 
-                const financial_url = '<a href="https://assetanalysis.herokuapp.com/?apitoken=' + apitoken +
-                    '&projectid=' + projectid + '&diagramid=' + diagID +
-                    '" target="_blank"><i class="glyphicon glyphicon-stats"></i>&nbsp;&nbsp;Settings</a>';
-
-                $(".fin-" + diagID).html(financial_url);
-
                 for (let p1 = 0; p1 < ssd.length; p1++) {
                     const cur_ele = ssd[p1];
                     const diag_id = parseInt(cur_ele['key'].split('-')[1]);
@@ -1739,7 +1732,7 @@
 
         function initializeTables() {
             var tableGenerator = function (domid) {
-                var groupColumn = 8;
+                var groupColumn = 7;
                 var t = $('#' + domid).DataTable({
                     "columnDefs": [{
                         "visible": false,
