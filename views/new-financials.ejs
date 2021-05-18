@@ -33,30 +33,28 @@
         <![endif]-->
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Diagram Financials</a>
-
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="<%- basic_financials_url %>">Costs Table</a></li>
-                <li class="active"><a href="<%= detailed_financials_url %>" active>Detailed Costs</a></li>
-                <li><a href="<%= summary_link %>">Summary Report</a></li>
+    <nav class="site-header sticky-top py-1">
+        <div class="container d-flex flex-column flex-md-row justify-content-between">
+                <!-- Brand and toggle get grouped for better mobile display -->
                 
-            
-            </ul>
-            <!-- /.navbar-header -->
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
+                    <a class="py-2" class="navbar-brand" href="#">Design Diagram Financials</a>
+    
+    
+                
+                    <a class="py-2 d-none d-md-inline-block active" href="<%= basic_financials_url %>">Costs Table</a></li>
+                    <a class="py-2 d-none d-md-inline-block active" href="<%= detailed_financials_url %>">Detailed Costs</a>
+                    <a class="py-2 d-none d-md-inline-block active" href="<%= summary_link %>">Summary Report</a>
+                
+                
+                <!-- /.navbar-header -->
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
     <!-- /.navbar -->
     <!-- Page Content -->
-    <hr />
-    <div class="container-fluid">
+    
+    <div class="container">
         <!-- /.row -->
         
         <!-- Heading Row -->
@@ -66,7 +64,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-4">
                 <h3>All Diagrams</h3>
                 <table id="all_diagrams" class="hor-minimalist-b">
                     <thead>
@@ -90,18 +88,18 @@
                     
             </div>
 
-            <div class="col-md-8">
+            <div class="col-8">
                 
-                <div id="financial-details" class="row hidden">
-                    <div class="form-style-5 col-md-6">                
+                <div id="financial-details" class="row d-none">
+                    <div class="form-style-5 col-6">                
                         <h3>Financial Parameters</h3>
                         <h5>Capital Expenditure / Initial Investment</h5>
                         <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
                         <div class="row">
-                            <div class="col-xs-4">
+                            <div class="col-4">
                                 <p>Start year (0-30)<input type="text" id="initcost-syear" name="initcost-syear" value="0" /></p>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-4">
                                 <p>End year (0-30)<input type="text" id="initcost-eyear" name="initcost-eyear" value="1" /></p>
                             </div>
                         </div>
@@ -111,7 +109,7 @@
                         <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
 
                         <div class="row">
-                            <div class="col-xs-4">
+                            <div class="col-4">
                                 <p>Start year (0-30)<input type="text" id="acf-syear" name="acf-syear" value="0" /></p>
                             </div>
                         </div>
@@ -130,7 +128,7 @@
                         </p>
 
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-6">
                         <h3>30-year Discounted Cash Flow</h3>
                         <div id="dcfchart_cont">
                             <canvas id="chart" height="250"></canvas>
@@ -162,13 +160,13 @@
                     </div>
                     <br>
                     <div class="row">
-                     <div class="col-md-12">
+                     <div class="col-12">
                         <br><br>
                         <h3>Remember parameters</h3>
                         <br>
                       
                          <% if (projecttype == 'paid'){ %>
-                    <button type="button" id="savevalues" class="btn btn-primary btn-x-sm"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Save values on server </button> <br><br>
+                    <button type="button" id="savevalues" class="btn btn-primary btn-x-sm"><span class="glyphicon glyphicon-cloud" aria-d-none="true"></span> Save values on server </button> <br><br>
                 <% } else{ %>  
                 <small>This is only available for paid projects on Geodesignhub, you can save the values you enter so you dont have to enter them again.</small>
                 <% } %>
@@ -177,9 +175,9 @@
                 <br>
                 </div>
 
-                <div id="asset-details" class="row hidden">
+                <div id="asset-details" class="row d-none">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-4">
                                     <h3>Asset Class</h3>
                                     <select id="base_asset_class" class="form-control">
                                         <option selected disabled>Select Class</option>
@@ -203,7 +201,7 @@
 
                             <br>
 
-                            <div class='usage_form hidden' id="built_env_form_residential">
+                            <div class='usage_form d-none' id="built_env_form_residential">
                                 <h4>Total people housed: <a class="editable" href="#" id="number_of_people_residential" data-type="text" data-title="Enter number of people living here">0</a></h4>
                                 <h4>Total units: <a class="editable" href="#" id="residential_units" data-type="text" data-title="Enter new residential units e.g. 5">0</a></h4>
 
@@ -217,7 +215,7 @@
                             
                             </div>
 
-                            <div class='usage_form hidden' id="built_env_form_tourism">
+                            <div class='usage_form d-none' id="built_env_form_tourism">
                                 <h4>Average m2 per guest: <a class="editable" href="#" id="tourism_m2_per_guest" data-type="text" data-title="Enter new room size e.g. 5">58</a></h4>
 
                                 <h4>Floors: <a class="editable" href="#" id="tourism_floors" data-type="text" data-title="Enter new floors e.g. 5">2</a></h4>
@@ -238,7 +236,7 @@
                             </div>
 
 
-                            <div class='usage_form hidden' id="built_env_form_transport">                    
+                            <div class='usage_form d-none' id="built_env_form_transport">                    
                                 <h4>Passenger-trips/day: <a class="editable" href="#" id="transport_passenger_trips" data-type="text" data-title="Enter new room size e.g. 5">12</a></h4><br>
 
                                 <button id="recompute_transport" type="button" class="btn btn-default recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
@@ -246,13 +244,13 @@
 
                             </div>
 
-                            <div class='usage_form hidden' id="built_env_form_agriculture">        
+                            <div class='usage_form d-none' id="built_env_form_agriculture">        
                             </div>
 
-                            <div class='usage_form hidden' id="built_env_form_green_infrastructure">        
+                            <div class='usage_form d-none' id="built_env_form_green_infrastructure">        
                                 </div>
                 
-                            <div class='usage_form hidden' id="built_env_form_office">                    
+                            <div class='usage_form d-none' id="built_env_form_office">                    
                                 <h4>Per capita space required in m2: <a class="editable" href="#" id="office_m2_per_visitor"
                                         data-type="text" data-title="Enter new room size e.g. 5">12</a></h4>
                                 <h4>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
@@ -268,7 +266,7 @@
 
                             </div>
 
-                            <div class='usage_form hidden' id="built_env_form_amenity">                    
+                            <div class='usage_form d-none' id="built_env_form_amenity">                    
                                 <h4>Per capita space required in m2: <a class="editable" href="#" id="amenity_m2_per_visitor"
                                         data-type="text" data-title="Enter a new valeu e.g. 2">12</a></h4>
                                 <h4>Number of floors: <a class="editable" href="#" id="amenity_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
@@ -284,7 +282,7 @@
 
                             </div>
 
-                            <div class='usage_form hidden' id="built_env_form_retail">
+                            <div class='usage_form d-none' id="built_env_form_retail">
                                 <h4>Per capita retail space <a class="editable" href="#" id="retail_m2_per_visitor" data-type="text"
                                         data-title="Enter new room size e.g. 5">4</a></h4>
                                 <h4>Number of floors: <a class="editable" href="#" id="retail_floors" data-type="text" data-title="Enter new floors e.g. 5">1</a></h4>
@@ -295,7 +293,7 @@
                                 <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_retail" data-type="text" data-title="Enter new ratio">.2</a></h4>        
                                     
                                 <br>
-                                <div class="hidden">
+                                <div class="d-none">
                                     <h5>% interested in Luxury Retail (e.g. name brands): <a class="editable" href="#" id="percent_interested_in_luxury_retail"
                                             data-type="text" data-title="Enter percentage e.g. 0.15">.1</a></h5>
                                     <h5>% interested in Support Retail (e.g office supplies): <a class="editable" href="#" id="percent_interested_in_support_retail"
@@ -313,7 +311,7 @@
                             </div>
 
 
-                            <div class='usage_form hidden' id="built_env_form_mixuse">
+                            <div class='usage_form d-none' id="built_env_form_mixuse">
                                 <h4>Total people housed: <a class="editable" href="#" id="number_of_people_residential_mixuse" data-type="text" data-title="Enter number of people living here">0</a></h4>
                                 <h4>Total units: <a class="editable" href="#" id="residential_units_mixuse" data-type="text" data-title="Enter new residential units e.g. 5">0</a></h4>
 
@@ -333,7 +331,7 @@
                             <h4>Indirect to direct employees ratio: <a class="editable" href="#" id="indirect_to_direct_employees_ratio_retail_mixuse" data-type="text" data-title="Enter new ratio">.2</a></h4>        
                                 
                             <br>
-                            <div class="hidden">
+                            <div class="d-none">
                                 <h5>% interested in Luxury Retail (e.g. name brands): <a class="editable" href="#" id="percent_interested_in_luxury_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.15">.1</a></h5>
                                 <h5>% interested in Support Retail (e.g office supplies): <a class="editable" href="#" id="percent_interested_in_support_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.1">.4</a></h5>
                                 <h5>% interested in FMCG Retail (e.g. groceries, medicines): <a class="editable" href="#" id="percent_interested_in_fmcg_retail_mixuse" data-type="text" data-title="Enter percentage e.g. 0.5">.3</a></h5>
@@ -343,17 +341,17 @@
                             <button id="recompute_mixuse" type="button" class="btn btn-default recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
                             </div>
 
-                            <div class='usage_form hidden' id="built_env_form_community">
+                            <div class='usage_form d-none' id="built_env_form_community">
                                 <h4>Number of people using daily (visitors): <a class="editable" href="#" id="community_visitors" data-type="text" data-title="Enter new number ">12</a></h4>
                                 <h4>Number of people using daily (residents): <a class="editable" href="#" id="community_residents" data-type="text" data-title="Enter new number ">12</a></h4><br>
                                 <button id="recompute_community" type="button" class="btn btn-default recompute"><i class="glyphicon glyphicon-certificate"></i> Recompute</button>
                             </div>
-                            <div class='usage_form hidden' id="built_env_form_agriculture"></div>
-                            <div class='usage_form hidden' id="built_env_form_green-infrastructure"></div>
+                            <div class='usage_form d-none' id="built_env_form_agriculture"></div>
+                            <div class='usage_form d-none' id="built_env_form_green-infrastructure"></div>
                             <br>
 
                         </div>     
-                        <div class="col-md-4">            
+                        <div class="col-4">            
                                 <h3>Representative Image</h3>                        
                                 <select id="base_asset_subclass_image" class="form-control">
                                     <option selected disabled>Change Image</option>
@@ -363,11 +361,11 @@
                                     <small>No representative image specified, choose asset class and pick image.</small>
                                 </div>      
                             </div>
-                        <div class="col-md-4">
+                        <div class="col-4">
                             <div class="services_form">
                                 <h3>Computed Details</h3>
                                 <br>
-                                <div class="usage_form hidden" id="built_env_form_residential_secondary">                        
+                                <div class="usage_form d-none" id="built_env_form_residential_secondary">                        
                                     <h4><span id="current_pop_density"></span> people per km2 <small>Population Density</small></h4>
                                     <br>
                                     
@@ -381,7 +379,7 @@
                                     <br><br>
                                 </div>
                 
-                                <div class="usage_form hidden" id="built_env_form_mixuse_secondary">                        
+                                <div class="usage_form d-none" id="built_env_form_mixuse_secondary">                        
                                     <h4><span id="current_pop_density_mixuse"></span> people per km2 <small>Population Density</small></h4>
                                     <br>
                                     
@@ -390,7 +388,7 @@
                                     <h4> <span id="total_floor_area_residential_available_mixuse">0</span> m2 <small>Total available area</small></h4><br>
                                     
                                     <h4><span id="total_floor_area_retail_required_mixuse">0</span> m2. <small>Total Floor area needed</small></h4>
-                                    <div class="hidden">
+                                    <div class="d-none">
                                         <h6><span id="total_floor_area_retail_luxury_split_mixuse">0</span> m2 <small>Luxury</small></h6>
                                         <h6><span id="total_floor_area_retail_support_split_mixuse">0</span> m2 <small>Support</small></h6>
                                         <h6><span id="total_floor_area_retail_fmcg_split_mixuse">0</span> m2 <small>FMCG</small></h6>
@@ -409,7 +407,7 @@
                                     
                                 </div>
                 
-                                <div class="usage_form hidden" id="built_env_form_tourism_secondary">
+                                <div class="usage_form d-none" id="built_env_form_tourism_secondary">
                                 
                                 <h4><span id="tourism_total_rooms">3</span> <small>Total Rooms</small></h4>
                 
@@ -422,7 +420,7 @@
                                     <br><br>
                                 </div>
                 
-                                <div class="usage_form hidden" id="built_env_form_office_secondary">                    
+                                <div class="usage_form d-none" id="built_env_form_office_secondary">                    
                                     <br>
                                     <h4><span id="total_floor_area_office_available">0</span> m2 <small>Total Floor area available</small></h4>                    
                                     <h4><span id="total_floor_area_office_required">0</span> m2 <small>Total Floor area needed</small></h4>
@@ -432,7 +430,7 @@
                                 <br>
                                 </div>
 
-                                <div class="usage_form hidden" id="built_env_form_amenity_secondary">                    
+                                <div class="usage_form d-none" id="built_env_form_amenity_secondary">                    
                                     <br>
                                     <h4><span id="total_floor_area_amenity_available">0</span> m2 <small>Total Floor area available</small></h4>                    
                                     <h4><span id="total_floor_area_amenity_required">0</span> m2 <small>Total Floor area needed</small></h4>
@@ -443,10 +441,10 @@
                                 </div>
                 
                 
-                                <div class="usage_form hidden"  id="built_env_form_retail_secondary">              
+                                <div class="usage_form d-none"  id="built_env_form_retail_secondary">              
                                 
                                     <h4><span id="total_floor_area_retail_required">0</span> m2. <small>Total Floor area needed</small></h4>
-                                    <div class="hidden">
+                                    <div class="d-none">
                                         <h6><span id="total_floor_area_retail_luxury_split">0</span> m2 <small>Luxury</small></h6>
                                         <h6><span id="total_floor_area_retail_support_split">0</span> m2 <small>Support</small></h6>
                                         <h6><span id="total_floor_area_retail_fmcg_split">0</span> m2 <small>FMCG</small></h6>
@@ -466,7 +464,7 @@
                     
                     <br>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-6">
                             <div id="services" class="services_form">
                                 <h3>Services</h3>
                                 <small>A summary of supporting services and assumptions that are needed to support this Asset class</small>
@@ -479,28 +477,28 @@
                                             <td>
                                                 <span id="beds_per_capita"></span>
                                             </td>
-                                            <td>Total beds: <span id='total_hospital_beds'></span><input type='hidden' id='total_hospital_beds_raw'></td>
+                                            <td>Total beds: <span id='total_hospital_beds'></span><input type='d-none' id='total_hospital_beds_raw'></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Policestations (cells) per capita</th>
                                             <td>
                                                 <span id="police_station_per_capita"></span>
                                             </td>
-                                            <td>Total police stations (cells): <span id='total_police_stations'></span><input type='hidden' id='total_police_stations_raw'></td>
+                                            <td>Total police stations (cells): <span id='total_police_stations'></span><input type='d-none' id='total_police_stations_raw'></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Fire personnel per capita</th>
                                             <td>
                                                 <span id="fire_station_per_capita"></span>
                                             </td>
-                                            <td>Total fire personnel: <span id='total_firestations'></span><input type='hidden' id='total_firestations_raw'></td>
+                                            <td>Total fire personnel: <span id='total_firestations'></span><input type='d-none' id='total_firestations_raw'></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">K12 Schools (m2) per student (5% of population)</th>
                                             <td>
                                                 <span id="school_per_capita"></span>
                                             </td>
-                                            <td>Total school area required: <span id='total_schools'></span> m2<input type='hidden' id='total_schools_raw'> </td>
+                                            <td>Total school area required: <span id='total_schools'></span> m2<input type='d-none' id='total_schools_raw'> </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -513,7 +511,7 @@
                                             <td>
                                                 <span id="energy_per_capita"></span>
                                             </td>
-                                            <td>Total electricity demand: <span id='total_energy_demand'></span> MW <input type='hidden' id='total_energy_demand_raw'></td>
+                                            <td>Total electricity demand: <span id='total_energy_demand'></span> MW <input type='d-none' id='total_energy_demand_raw'></td>
                                         </tr>
 
                                     </tbody>
@@ -527,7 +525,7 @@
                                         <td>
                                             <span id="water_per_capita"></span>
                                         </td>
-                                        <td>Total water demand: <span id='total_water_demand'></span> m3 <input type='hidden' id='total_water_demand_raw'></td>
+                                        <td>Total water demand: <span id='total_water_demand'></span> m3 <input type='d-none' id='total_water_demand_raw'></td>
                                         </tr>
 
                                     </tbody>
@@ -535,7 +533,7 @@
                                 
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-6">
                             <br><br><br><br>
                             <div id="" class="services_form">  
                         
@@ -548,7 +546,7 @@
                                             <td>
                                                 <span id="sewage_per_capita"></span>
                                             </td>
-                                            <td>Total sewage demand: <span id='total_sewage_demand'></span> m3 <input type='hidden' id='total_sewage_demand_raw'></td>
+                                            <td>Total sewage demand: <span id='total_sewage_demand'></span> m3 <input type='d-none' id='total_sewage_demand_raw'></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -562,7 +560,7 @@
                                             </td>
 
                                             <td>Usage (people)</td>
-                                            <td><span id='total_road_usage'></span><input type='hidden' id='total_road_usage_raw'></td>
+                                            <td><span id='total_road_usage'></span><input type='d-none' id='total_road_usage_raw'></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">% using Rail (twice a day)</th>
@@ -571,7 +569,7 @@
                                             </td>
 
                                             <td> Usage (people)</td>
-                                            <td><span id='total_rail_usage'></span><input type='hidden' id='total_rail_usage_raw'></td>
+                                            <td><span id='total_rail_usage'></span><input type='d-none' id='total_rail_usage_raw'></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -586,7 +584,7 @@
                                             </td>
 
                                             <td>Total</td>
-                                            <td><span id='total_parking'></span><input type='hidden' id='total_parking_raw'></td>
+                                            <td><span id='total_parking'></span><input type='d-none' id='total_parking_raw'></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -601,7 +599,7 @@
                                             </td>
 
                                             <td>Total</td>
-                                            <td><span id='total_green_space'></span><input type='hidden' id='total_green_space_raw'></td>
+                                            <td><span id='total_green_space'></span><input type='d-none' id='total_green_space_raw'></td>
                                         </tr>
                                     
                                     </tbody>
@@ -612,7 +610,7 @@
                     </div>
 
                     <div class="row">  
-                    <div class="col-md-6">
+                    <div class="col-6">
                             <h3>Remember parameters</h3>
                             <br>
                          <% if (projecttype == 'paid'){ %>
@@ -630,7 +628,7 @@
         <br><br><hr>
         <footer>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-12">
                     <p>&copy; 2019 Geodesignhub, see the <a href="https://geodesignhub.github.io/AssetAnalysis/">Github repository</a> for more information.</p>
                 </div>
             </div>
@@ -641,11 +639,11 @@
 
     <script type="text/javascript" src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/humane.min.js"></script>
-    <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
+    
     
     <script type="text/javascript" src="assets/js/svg.min.js"></script>
-    <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
-    <script type="text/javascript" src="assets/js/cleave.min.js"></script>
+    <script type="text/javascript" src="assets/js/chart/chart.min.js"></script>
+    <script type="text/javascript" src="assets/js/cleave/cleave.min.js"></script>
     <!-- Bootstrap Core scripts -->
     <script type="text/javascript" src="assets/js/ion.rangeSlider.min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
@@ -659,7 +657,7 @@
     <script type="text/javascript" src="assets/js/financial-details.js"></script>
     
     <!-- Bootstrap Core scripts -->
-    <script type="text/javascript" src="assets/js/money.min.js"></script>
+    <script type="text/javascript" src="assets/js/money/money.min.js"></script>
     <script type="text/javascript" src="assets/js/select2.min.js"></script>
     
     
@@ -705,7 +703,7 @@
         var svgDrawing = SVG('drawing').size(10, 10);
         // fx.base = "USD";
 
-        Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+
 
         Chart.defaults.groupableBar = Chart.helpers.clone(Chart.defaults.bar);
             var helpers = Chart.helpers;

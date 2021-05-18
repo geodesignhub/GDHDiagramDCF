@@ -12,7 +12,7 @@
     <!-- icons -->
     <link rel="shortcut icon" href="/assets/loaders/favicon.ico">
     <!-- Bootstrap Core CSS file -->
-    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <!-- Override CSS file - add your own CSS rules -->
     <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/flatty.css" />
@@ -31,19 +31,19 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-        <div class="container-fluid">
+<nav class="site-header sticky-top py-1">
+    <div class="container d-flex flex-column flex-md-row justify-content-between">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Design Diagram Financials</a>
-
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="<%= basic_financials_url %>">Costs Table</a></li>
-                <li><a href="<%= detailed_financials_url %>">Detailed Costs</a></li>                
-                <li><a href="<%= summary_link %>">Summary Report</a></li>
             
-            </ul>
+                <a class="py-2" class="navbar-brand" href="#">Design Diagram Financials</a>
+
+
+            
+                <a class="py-2 d-none d-md-inline-block active" href="<%= basic_financials_url %>">Costs Table</a></li>
+                <a class="py-2 d-none d-md-inline-block active" href="<%= detailed_financials_url %>">Detailed Costs</a>
+                <a class="py-2 d-none d-md-inline-block active" href="<%= summary_link %>">Summary Report</a>
+            
+            
             <!-- /.navbar-header -->
             <!-- /.navbar-collapse -->
         </div>
@@ -51,7 +51,7 @@
     </nav>
     <!-- /.navbar -->
     <!-- Page Content -->
-    <hr />
+    
     <div class="container-fluid">
         <!-- /.row -->        
         <!-- Heading Row -->

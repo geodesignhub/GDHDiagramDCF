@@ -29,20 +29,19 @@
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-        <div class="container-fluid">
+    <nav class="site-header sticky-top py-1">
+        <div class="container d-flex flex-column flex-md-row justify-content-between">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Design Investment Analysis</a>
 
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="<%= basic_financials_url %>">Costs Table</a></li>
-                <li><a href="<%= detailed_financials_url %>">Detailed Costs</a></li>                
-                <li class="active"><a href="<%= summary_link %>">Summary Report</a></li>
+            <a class="py-2" class="navbar-brand" href="#">Design Diagram Financials</a>
 
-            </ul>
+
+
+            <a class="py-2 d-none d-md-inline-block active" href="<%= basic_financials_url %>">Costs Table</a></li>
+            <a class="py-2 d-none d-md-inline-block active" href="<%= detailed_financials_url %>">Detailed Costs</a>
+            <a class="py-2 d-none d-md-inline-block active" href="<%= summary_link %>">Summary Report</a>
+
+
             <!-- /.navbar-header -->
             <!-- /.navbar-collapse -->
         </div>
@@ -63,101 +62,70 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <h3>Population and Services <small>Total inhabitants, visitors and services required</small></h3>
-                <br>
-                <p class="lead" id="contribution_summary"></p>
+            <h3>Population and Services <small class="text-muted">Total inhabitants, visitors and services required</small></h3>
 
-                <div class="col-md-4">
-                    <div>
-                        <h4><span id="total_capex"></span> <small>Total Capex</small>
-                            <h4>
-                                <h4><span id="total_opex_sga"></span> <small>Total OpEx + SG&A</small>
-                                    <h4>
-                                        <h4><span id="total_ebtia"></span> <small>Total EBTIA</small>
-                                            <h4>
-                                                <!-- <h4><span id="total_irr"></span> <small>IRR<small><h4> -->
-                                                <br>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <h4><span id="total_population"></span> <small>Total Residents</small></h4>
-                    <h4><span id="total_visitors"></span> <small> Daily Visitors</small></h4>
-                    <h4><span id="total_direct_employment"></span> <small>Direct Employment</small></h4>
-                    <h4><span id="total_indirect_employment"></span> <small>Indirect Employment</small></h4>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-4">                
+                    <h5><span id="total_capex"></span> <small>Total Capex</small></h5>                        
+                    <h5><span id="total_opex_sga"></span> <small>Total OpEx + SG&A</small></h5>
+                    <h5><span id="total_ebtia"></span> <small>Total EBTIA</small></h5>
+                    <!-- <h5><span id="total_irr"></span> <small>IRR<small><h5> -->
                     <br>
-                </div>
-                <div class="col-md-4">
-                    <div>
-                        <h4><span id="total_electricity_demand"></span> <small>Annual Electricity Demand
-                                (MW/year)</small>
-                            <h4>
-                                <h4><span id="total_water_demand"></span> <small> Water demand (L/day)</small>
-                                    <h4>
-                                        <h4><span id="total_sewage_demand"></span> <small> Sewage (m3/year)</small>
-                                            <h4>
-                                                <h4><span id="total_fire_personnel"></span> <small>Total Fire
-                                                        Personnel</small>
-                                                    <h4>
-                                                        <h4><span id="total_police_personnel"></span> <small>Additional
-                                                                Police Personnel</small>
-                                                            <h4>
-                                                                <h4><span id="total_hosptial_beds"></span> <small>Total
-                                                                        Hospital Beds</small>
-                                                                    <h4>
-                                                                        <br>
-                    </div>
-                </div>
+                
+            </div>
+            <div class="col-md-4">
+                <h5><span id="total_population"></span> <small>Total Residents</small></h5>
+                <h5><span id="total_visitors"></span> <small> Daily Visitors</small></h5>
+                <h5><span id="total_direct_employment"></span> <small>Direct Employment</small></h5>
+                <h5><span id="total_indirect_employment"></span> <small>Indirect Employment</small></h5>
+                <br>
+            </div>
+            <div class="col-md-4">                
+                    <h5><span id="total_electricity_demand"></span> <small>Annual Electricity Demand (MW/year)</small></h5>
+                    <h5><span id="total_water_demand"></span> <small> Water demand (L/day)</small></h5>
+                    <h5><span id="total_sewage_demand"></span> <small> Sewage (m3/year)</small> </h5>
+                    <h5><span id="total_fire_personnel"></span> <small>Total Fire Personnel</small></h5>
+                    <h5><span id="total_police_personnel"></span> <small>Additional Police Personnel</small> </h5>
+                    <h5><span id="total_hosptial_beds"></span> <small>Total Hospital Beds</small> </h5>
+                    <br>                
             </div>
         </div>
         <hr>
         <div class="row">
-            <h3>System specific investments&nbsp;<small>Per system investements, land use and profits</small></h3>
+            <h3>System specific investments&nbsp;<small class="text-muted">Per system investements, land use and profits</small></h3>
             <div class="col-md-6">
                 <br>
-                <h4><span id="overall_economics">Investments over time</span>&nbsp;<small>Total capital investment per
-                        year</small></h4><br>
+                <h5><span id="overall_economics">Investments over time</span>&nbsp;<small class="text-muted">Total capital investment per year</small></h5><br>
                 <div><canvas id="system_investment_chart"></canvas></div>
             </div>
 
             <div class="col-md-6">
-
                 <br>
-                <h4><span id="system_investments">Investments per system</span>&nbsp;<small>Total investment 
-                        per system</small></h4><br>
+                <h5><span id="system_investments">Investments per system</span>&nbsp;<small class="text-muted">Total investment per system</small></h5><br>
                 <div><canvas id="total_system_investments"></canvas></div>
             </div>
         </div>
+        <br>
+        <hr>
+        <br>
 
         <div class="row">
-            <div class="col-md-12">
-                <p class="lead" id=""></p>
                 <div class="col-md-6">
-                    <div>
-                        <h4><span id="total_capex">Summary</span> <small>Financial Details per system</small>
-                            <h4>
+                    
+                        <h4><span id="total_capex">Summary</span> <small class="text-muted">Financial Details per system</small></h4>
                                 <br>
                                 <% var s = JSON.parse(systemdetail); for(var i=0; i < s.length; i++) { %>
-
-                                <h4><span
-                                        class="square c-<%= s[i].syscolor.substring(1).toLowerCase() %>"></span>&nbsp;&nbsp;<button
-                                        type="button" class="btn btn-link"
-                                        onclick="initialize_system_table(<%= s[i].id %>)"><%= s[i].sysname %></button>&nbsp;&nbsp;&nbsp;&nbsp;<span
-                                        id="<%= s[i].id %>-capex"></span>&nbsp;<small>Total
-                                        Capex</small>&nbsp;&nbsp;<span
-                                        id="<%= s[i].id %>-income"></span>&nbsp;<small>Total
-                                        Income</small>&nbsp;&nbsp;<span
-                                        id="<%= s[i].id %>-sga"></span>&nbsp;<small>Total SG&A</small>&nbsp;&nbsp;<span
-                                        id="<%= s[i].id %>-irr"></span>&nbsp;<small>IRR</small></h4>
+                                <h5><span class="square c-<%= s[i].syscolor.substring(1).toLowerCase() %>"></span>&nbsp;&nbsp;<button type="button" class="btn btn-link" onclick="initialize_system_table(<%= s[i].id %>)"><%= s[i].sysname %></button>&nbsp;&nbsp;&nbsp;&nbsp;<span id="<%= s[i].id %>-capex"></span>&nbsp;<small>Total Capex</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-income"></span>&nbsp;<small>Total ncome</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-sga"></span>&nbsp;<small>Total SG&A</small>&nbsp;&nbsp;<span id="<%= s[i].id %>-irr"></span>&nbsp;<small>IRR</small></h5>
                                 <hr>
                                 <% } %>
-                    </div>
+                    
                 </div>
                 <div class="col-md-6">
-                    <h4><span id="overall_economics">Details</span>&nbsp;<small>Diagram wide breakdown of Capex, Opex
-                            and SGA</small></h4>
+                    <h4><span id="overall_economics">Details</span>&nbsp;<small class="text-muted">Diagram wide breakdown of Capex, Opex and SGA</small></h4>
                     <br>
-                    <div>
+                    
                         <table id="system_specific_details_table" class="table table-striped">
                             <thead>
                                 <tr>
@@ -171,26 +139,27 @@
                             </tbody>
 
                         </table>
-                    </div>
-
                     <br>
                 </div>
-
-            </div>
         </div>
-        <br><br>
-        <hr>
+        <br>
+        <br>
+        
         <div class="row">
             <div class="col-md-12">
-                <h3>Population and Jobs&nbsp;&nbsp;<small>Cummulative annual investments, jobs created </small></h3>
+                <h3>Population and Jobs&nbsp;&nbsp;<small class="text-muted">Cummulative annual investments, jobs created </small></h3>
                 <br>
                 <p class="lead" id="population_summary"></p>
-
+            </div>
+                
+        </div>
+        <div class="row">
                 <div class="col-md-6">
                     <!-- <h4><span id="job_summary"></span>&nbsp;&nbsp;<small>Annual Residents and visitors</small></h4> -->
                     <div>
                         <canvas id="residents_visitors_chart"></canvas>
                     </div>
+                    <br>
                 </div>
                 <div class="col-md-6">
                     <!-- <h4><span id="job_summary"></span>&nbsp;&nbsp;<small>Total Direct and Indirect Jobs</small></h4> -->
@@ -201,10 +170,9 @@
                 </div>
 
             </div>
-        </div>
-        <br><br>
-        <br><br>
         <hr>
+        <br><br>
+
         <div class="row">
             <div class="col-md-12">
                 <h3>Diagrams and Asset Details</h3>
@@ -237,9 +205,7 @@
         </div>
         <br>
         <!-- /.col-md-4 -->
-
         <div class="row">
-            <br>
             <div class="col-md-6">
                 <div class="boundariesCont">
                     <h3>Boundaries Map</h3>
@@ -268,6 +234,7 @@
             </div>
         </div>
 
+        <hr>
         <br><br>
         <div class="row">
             <div class="col-md-12">
@@ -306,7 +273,7 @@
     <!-- JQuery scripts -->
     <script type="text/javascript" src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/humane.min.js"></script>
-    <script type="text/javascript" src="assets/js/chartjs.min.js"></script>
+    <script type="text/javascript" src="assets/js/chart/chart.min.js"></script>
     <!-- Bootstrap Core scripts -->
     <script type="text/javascript" src="assets/js/ion.rangeSlider.min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
@@ -340,18 +307,18 @@
             "type": "FeatureCollection",
             "features": []
         };
-        var systems = <%- systems %> ;
-        var design = <%- design %> ;
-        var systemdetail = <%- systemdetail %> ;
+        var systems = <%- systems %>;
+        var design = <%- design %>;
+        var systemdetail = <%- systemdetail %>;
         var apitoken = "<%= apitoken  %>"; //var test is now assigned to getTest which will only work on browsers
         var projectid = "<%= projectid %>";
         var projectdetails = <%- projectdetails %>;
         var syndiagrams = <%- syndiagrams %>;
 
-        var bounds = <%- bounds %> ;
-        var boundaries = <%- boundaries %> ;
+        var bounds = <%- bounds %>;
+        var boundaries = <%- boundaries %>;
         var saved_diagram_details = <%- saved_diagram_details %>;
-        var sequence = <%- sequence %> ;
+        var sequence = <%- sequence %>;
         var investmentdata;
         var aggregated_investment_data;
 
@@ -521,7 +488,7 @@
                                 "'assetdetails visitors-" + curdiagid + "'" + "></td>" + "<td class=" +
                                 "assetdetails funding-" +
                                 curdiagid + "'" +
-                                ">" + curdiagprops.fundingtype + "</td>"  + "<td class=" + "system-" +
+                                ">" + curdiagprops.fundingtype + "</td>" + "<td class=" + "system-" +
                                 curdiagid + "'" +
                                 ">" + cursys.sysname + "</td>";
                             yrCounter = 0;
@@ -714,6 +681,17 @@
                 title: {
                     display: false,
                 },
+                plugins: {
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 12,
+                                family:  "Consolas, monaco, monospace"
+                            }
+                        }
+                    }
+                },
                 tooltips: {
                     mode: 'index',
                     intersect: false,
@@ -767,7 +745,7 @@
             }
 
             var resident_visitors_ctx = $("#residents_visitors_chart");
-            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            
             var res_visitor_chart = new Chart(resident_visitors_ctx, {
                 type: 'line',
                 data: {
@@ -791,7 +769,7 @@
             var labels_secondary = labels;
 
             var direct_indirect_jobs_ctx = $("#direct_indirect_jobs_chart");
-            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            
             var direct_indirect_jobs_chart = new Chart(direct_indirect_jobs_ctx, {
                 type: 'line',
                 data: {
@@ -820,25 +798,27 @@
             }
 
             var total_investment_dataset = [];
-            
-            
-            var labels = [];     
-            for (var csys in system_totals) {       
+
+
+            var labels = [];
+            for (var csys in system_totals) {
                 var c_system_tot = system_totals[csys];
-                labels.push( c_system_tot['system_name']);               
-            }   
-            
-            
-            var sys_investment_data = [];
-            for (var c_sys in system_totals) {                   
-                var c_system_tot = system_totals[c_sys];                
-                sys_investment_data.push(parseInt(c_system_tot['total_investment']));
-                
-                
+                labels.push(c_system_tot['system_name']);
             }
-            total_investment_dataset.push({'data':sys_investment_data});
-            
-            
+
+
+            var sys_investment_data = [];
+            for (var c_sys in system_totals) {
+                var c_system_tot = system_totals[c_sys];
+                sys_investment_data.push(parseInt(c_system_tot['total_investment']));
+
+
+            }
+            total_investment_dataset.push({
+                'data': sys_investment_data
+            });
+
+
             var options = {
                 legend: {
                     display: false
@@ -858,6 +838,18 @@
                         },
                     },
                 },
+                
+                plugins: {
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 12,
+                                family:  "Consolas, monaco, monospace"
+                            }
+                        }
+                    }
+                },
                 hover: {
                     mode: "nearest",
                     intersect: true,
@@ -867,7 +859,7 @@
                         display: true,
                         scaleLabel: {
                             display: true,
-                            
+
                         },
                     }, ],
                     yAxes: [{
@@ -898,7 +890,7 @@
                 },
             };
             var investment_ctx = $("#total_system_investments");
-            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            
             var myLineChart = new Chart(investment_ctx, {
                 type: 'bar',
                 data: {
@@ -945,6 +937,17 @@
             }
             var options = {
 
+                plugins: {
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 12,
+                                family:  "Consolas, monaco, monospace"
+                            }
+                        }
+                    }
+                },
                 maintainAspectRatio: false,
                 title: {
                     display: false,
@@ -1006,7 +1009,7 @@
                 labels.push(cYear);
             }
             var investment_ctx = $("#system_investment_chart");
-            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            
             var myLineChart = new Chart(investment_ctx, {
                 type: 'line',
                 data: {
@@ -1315,6 +1318,17 @@
                     mode: 'nearest',
                     intersect: true
                 },
+                plugins: {
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 12,
+                                family:  "Consolas, monaco, monospace"
+                            }
+                        }
+                    }
+                },
                 scales: {
                     xAxes: [{
                         display: true,
@@ -1352,7 +1366,7 @@
             }
 
             var investment_ctx = $("#boundary_investment_chart");
-            Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            
             var myLineChart = new Chart(investment_ctx, {
                 type: 'line',
                 data: {
@@ -1364,7 +1378,7 @@
 
 
             // var maintainence_ctx = $("#boundary_opex_chart");
-            // Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            
             // var myLineChart = new Chart(maintainence_ctx, {
             //     type: 'line',
             //     data: {
@@ -1374,7 +1388,7 @@
             //     options: options
             // });
             // var income_ctx = $("#boundary_income_chart");
-            // Chart.defaults.global.defaultFontFamily = "'Playfair Display', Consolas, monaco, monospace";
+            
             // var myLineChart = new Chart(income_ctx, {
             //     type: 'line',
             //     data: {
@@ -1636,7 +1650,8 @@
                             if (ad === 'hospitality') {
                                 $('.population-' + diagID).html('-');
                                 $('.visitors-' + diagID).html(abbrNum((asset_details['metadata'][
-                                    'total_yearly_visitors']), 2));
+                                    'total_yearly_visitors'
+                                ]), 2));
                             } else if (ad == 'residential') {
                                 $('.population-' + diagID).html(abbrNum(asset_details['metadata'][
                                     'number_of_people_residential'
@@ -1789,12 +1804,16 @@
             for (var x1 = 0; x1 < ss_len; x1++) {
                 var cur_diagram = sorted_systems[x1];
                 var html = "<tr>";
-                html += "<td>" + cur_diagram.title + "</td>" + "<td data-sort="+cur_diagram.totalInvestment+'>' + abbrNum(cur_diagram.totalInvestment, 2) +
-                    "</td>" + "<td data-sort="+cur_diagram.totalIncome+'>' + abbrNum(cur_diagram.totalIncome, 2) + "</td>" + "<td data-sort="+cur_diagram.totalMaintainence+'>' + abbrNum(cur_diagram
+                html += "<td>" + cur_diagram.title + "</td>" + "<td data-sort=" + cur_diagram.totalInvestment + '>' +
+                    abbrNum(cur_diagram.totalInvestment, 2) +
+                    "</td>" + "<td data-sort=" + cur_diagram.totalIncome + '>' + abbrNum(cur_diagram.totalIncome, 2) +
+                    "</td>" + "<td data-sort=" + cur_diagram.totalMaintainence + '>' + abbrNum(cur_diagram
                         .totalMaintainence, 2) + "</td>" + "</tr>";
                 $("#system_specific_details_table > tbody").append(html);
             }
-            diag_fin_details_table = $('#system_specific_details_table').DataTable({"bLengthChange": false });
+            diag_fin_details_table = $('#system_specific_details_table').DataTable({
+                "bLengthChange": false
+            });
         }
 
         function destroyTables() {

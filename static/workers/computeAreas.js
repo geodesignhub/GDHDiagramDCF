@@ -16,23 +16,25 @@ function computeAreas(systemdetails, systems, startyear, numYears, saved_diagram
     //     var seq = sequence['gantt_data']['data'];
     // }
 
+
     var timeline = {};
     try {
-        var seq_data = sequence['gantt_data']['data'];
+        var seq_data = sequence['timeline_data'];
 
         for (let u7 = 0; u7 < seq_data.length; u7++) {
             const cur_seq = seq_data[u7];
 
-            if (cur_seq.parent == 0 && Number.isInteger(cur_seq.id)) {
-                timeline[cur_seq.id] = {
-                    "start": moment(cur_seq.start_date, "DD-MM-YYYY").year(),
-                    "end": moment(cur_seq.end_date, "DD-MM-YYYY").year()
-                };
-            }
+
+            timeline[cur_seq.id] = {
+                "start": moment(cur_seq.start).year(),
+                "end": moment(cur_seq.end).year()
+            };
+
         }
     } catch (err) {
         // console.log(err)
     }
+    // console.log(JSON.stringify(timeline));
 
     var maxYearlyCost = 0;
     diagCosts = [];

@@ -339,7 +339,7 @@ app.get('/summary', function (request, response) {
         const boundsurl = baseurl + projectid + '/bounds/';
         const boundaryurl = baseurl + projectid + '/boundaries/';
         const syndiagramsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/diagrams/';
-        const boardsurl = baseurl + projectid + '/boards/' + boardid + '/gantt/';
+        const boardsurl = baseurl + projectid + '/boards/' + boardid + '/timeline/';
         const projecturl = baseurl + projectid + '/';
         const URLS = [synprojectsurl, boundsurl, systemsurl, projecturl, syndiagramsurl, boundaryurl, boardsurl];
 
@@ -478,7 +478,8 @@ app.get('/details', function (request, response) {
     const systemsurl = baseurl + projectid + '/systems/';
     const boundsurl = baseurl + projectid + '/bounds/';
     const syndiagramsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/diagrams/';
-    const boardsurl = baseurl + projectid + '/boards/' + boardid + '/gantt/';
+    const boardsurl = baseurl + projectid + '/boards/' + boardid + '/timeline/';
+    
     const projecturl = baseurl + projectid + '/';
     const URLS = [synprojectsurl, boundsurl, systemsurl, projecturl, syndiagramsurl, boardsurl];
 
@@ -619,7 +620,8 @@ app.get('/', function (request, response) {
     const systemsurl = baseurl + projectid + '/systems/';
     const boundsurl = baseurl + projectid + '/bounds/';
     const syndiagramsurl = baseurl + projectid + '/cteams/' + cteamid + '/' + synthesisid + '/diagrams/';
-    const boardsurl = baseurl + projectid + '/boards/' + boardid + '/gantt/';
+    const boardsurl = baseurl + projectid + '/boards/' + boardid + '/timeline/';
+    
     const projecturl = baseurl + projectid + '/';
     const URLS = [synprojectsurl, boundsurl, systemsurl, projecturl, syndiagramsurl, boardsurl];
 
