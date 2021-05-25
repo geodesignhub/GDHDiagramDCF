@@ -124,26 +124,6 @@ h4 {
  * so that the container will not spread to the entire viewport.
 */
 
-.container-fluid {
-    max-width: 1200px;
-    font-family: 'EB Garamond', Arial, Helvetica, sans-serif;
-}
-
-.button {
-    background-color: #4CAF50;
-    /* Green */
-    font-family: 'EB Garamond', sans-serif;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-
 a {
     color: #00AED8;
 }
@@ -160,7 +140,7 @@ input[type="text"] {
     display: block;
     margin: 0;
     width: 100%;
-    font-family: "EB Garamond", sans-serif;
+    /* font-family: "EB Garamond", sans-serif; */
     font-size: 18px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -1192,7 +1172,7 @@ ul.input-list li {
 
 
 .hor-minimalist-b {
-    font-family: "EB Garamond", Sans-Serif;
+    
     font-size: 12px;
     background: #fff;
     border-collapse: collapse;

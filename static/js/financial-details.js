@@ -99,10 +99,8 @@ function getColor(type) {
 
 function computeNPV() {
 
-   
+    var initInvestment = parseInt(diagram_cost_details.initCost);
 
-     var initInvestment = parseInt(diagram_cost_details.initCost);
-   
     var acf = parseInt(diagram_cost_details.acfCost);
     var aopex = parseInt(diagram_cost_details.aopexCost);
     var asga = parseInt(diagram_cost_details.asgaCost);
@@ -115,7 +113,7 @@ function computeNPV() {
     var lastyearsincome;
     var yearsPlot = [];
 
-    
+
     const init_investement_syear = isNumeric($("#initcost-syear").val()) ? parseInt($("#initcost-syear").val()) :
         0;
     const init_investement_eyear = isNumeric($("#initcost-eyear").val()) ? parseInt($("#initcost-eyear").val()) :
@@ -232,7 +230,13 @@ function computeNPV() {
         }]
     };
 
-    var myChart = new Chart(ctx, {
+    try {
+        npv_chart.destroy();
+    } catch (err) {
+
+    };
+    let ctx = document.getElementById('chart');
+    npv_chart = new Chart(ctx, {
         type: 'line',
         data: plotData,
         options: {
@@ -306,7 +310,7 @@ function initializeTables() {
             }],
             searching: false,
             "pageLength": 5,
-            "lengthMenu": [[5,10], [5,10]],
+            "lengthMenu": [[5, 10], [5, 10]],
             "pagingType": "simple",
             fixedHeader: {
                 header: false,
@@ -572,8 +576,8 @@ function get_financials(diagram_id) {
         }
 
 
-        $("#financial-details").removeClass('hidden');
-        $("#asset-details").addClass('hidden');
+        $("#financial-details").removeClass('d-none');
+        $("#asset-details").addClass('d-none');
         render_diagram_details(diagram_data.opts.diagramdetail);
         initCostSliders(default_values);
         initpercentSliders(default_values);
@@ -585,8 +589,8 @@ function get_financials(diagram_id) {
 
     promise.fail(function (data) {
 
-        $("#financial-details").addClass('hidden');
-        $("#asset-details").addClass('hidden');
+        $("#financial-details").addClass('d-none');
+        $("#asset-details").addClass('d-none');
         humane.log("Error in receiving data, the administrators have been notified", {
             addnCls: 'humane-flatty-error'
         });

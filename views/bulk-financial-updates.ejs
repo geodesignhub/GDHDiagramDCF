@@ -1,34 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Geodesignhub Financial Analysis</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="Description" lang="en" content="Geodesignhub Asset Analysis">
-    <meta name="author" content="Geodesignhub">
-    <meta name="robots" content="index, follow">
-    <!-- icons -->
-    <link rel="shortcut icon" href="/assets/loaders/favicon.ico">
-    <!-- Bootstrap Core CSS file -->
-<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
-    <!-- Override CSS file - add your own CSS rules -->
-    <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/flatty.css" />
-    <link href='https://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap3.min.css" />
-    <link rel="stylesheet" type="text/css" href="assets/css/editor.dataTables.min.css" />
-    
-    <!-- Conditional comment containing JS files for IE6 - 8 -->
-    <!--[if lt IE 9]>
-            <script src="assets/js/html5.js"></script>
-            <script src="assets/js/respond.min.js"></script>
-        <![endif]-->
-</head>
+<%- include('head') -%>
 <body>
     <!-- Navigation -->
 <nav class="site-header sticky-top py-1">
@@ -90,16 +60,8 @@
     </div>
     <!-- /.container-fluid -->
 
-    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
-    <script type="text/javascript" src="assets/js/humane.min.js"></script>
-    <!-- Bootstrap Core scripts -->
-    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="assets/js/dataTables.editor.min.js"></script>    
-    <script type="text/javascript" src="assets/js/turf.min.js"></script>    
-    <script type="text/javascript" src="assets/js/assets_details_bulk.js"></script>
-    <!-- Bootstrap Core scripts -->    
-    
+    <%- include('footer-js') -%>
+
     <script type="text/javascript">
         var systems = <%- systems %>;
         const apitoken = "<%= apitoken  %>"; 
@@ -191,6 +153,8 @@ $(document).ready(function() {
             "wacc":wacc,
             "_csrf": csrf,
         };
+
+
         
         var url = '/set_financials/';
         

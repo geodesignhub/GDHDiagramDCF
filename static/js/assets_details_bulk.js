@@ -148,13 +148,13 @@ function generateInitTables() {
                                 } else {
                                     totalCost = totArea * sysCost;
                                 }
-                                capex = totalCost;
+                                capex = parseInt(totalCost);
 
                                 let yearlyCost = parseFloat(capex / capex_num_years);
                                 maxYearlyCost = (yearlyCost > maxYearlyCost) ? yearlyCost : maxYearlyCost;
                                 let all_opex_asga = yearlyCost * 0.03;
-                                opex = all_opex_asga;
-                                asga = all_opex_asga;
+                                opex = parseInt(all_opex_asga);
+                                asga = parseInt(all_opex_asga);
 
 
                             } else {
