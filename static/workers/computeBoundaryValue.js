@@ -152,7 +152,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                         } else {
                             cur_diagram_asset_details = {};
                         }
-                        
+
                         // console.log(factor);
                         // console.log('---')
                         factor = bnd_diagram_intersects[saved_bnd_diag_id]['factor'];
@@ -160,7 +160,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                         // console.log('**')
 
                         if (typeof cur_diagram_asset_details == 'string') {
-                            cur_diagram_asset_details  = JSON.parse(cur_diagram_asset_details);
+                            cur_diagram_asset_details = JSON.parse(cur_diagram_asset_details);
                         }
 
                         if (Object.keys(cur_diagram_asset_details).length === 0 && cur_diagram_asset_details.constructor === Object) {
@@ -179,7 +179,7 @@ function computeBoundaryValue(design, boundary, investmentdata, selectedsystems,
                             }
                             else if (cur_diagram_asset_details['class'] == 'hospitality') {
                                 var yearly_visitors = cur_diagram_asset_details['metadata']['total_yearly_visitors'];
-                                const visitors = parseInt(yearly_visitors/365);
+                                const visitors = parseInt(yearly_visitors / 365);
                                 var factored_visitors = visitors * factor;
                                 total_visitors += parseInt(factored_visitors);
 

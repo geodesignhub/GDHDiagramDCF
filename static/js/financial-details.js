@@ -173,11 +173,11 @@ function computeNPV() {
     }
     if (npv > 0) {
         $("#npvmeaning").html(
-            "<p class='bg-danger'>Given the parameters, this investement is currently overvalued. </p>");
+            "<br><p class='alert alert-danger'>Given the parameters, this investement is currently overvalued. </p>");
 
     } else {
         $("#npvmeaning").html(
-            "<p class='bg-success'>Given the parameters, this investement is currently undervalued.</p>");
+            "<br><p class='alert alert-success'>Given the parameters, this investement is currently undervalued.</p>");
     }
 
     $("#loadingGIF").hide();

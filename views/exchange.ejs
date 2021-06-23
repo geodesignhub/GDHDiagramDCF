@@ -1,0 +1,91 @@
+<%- include('head') -%>
+
+    <body>
+        <!-- Navigation -->
+        <nav class="site-header sticky-top py-1">
+            <div class="container d-flex flex-column flex-md-row justify-content-between">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <a class="py-2" class="navbar-brand" href="#">Financial Analysis</a>
+                <a class="py-2 d-none d-md-inline-block active" href="<%= basic_financials_url %>">Costs Table</a></li>
+                <a class="py-2 d-none d-md-inline-block active" href="<%= detailed_financials_url %>">Detailed Costs</a>
+                <a class="py-2 d-none d-md-inline-block active" href="<%= summary_link %>">Summary Report</a>
+                <a class="py-2 d-none d-md-inline-block active" href="<%= import_export_url %>">Import / Export</a>
+                <!-- /.navbar-header -->
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+        <!-- /.navbar -->
+        <!-- Page Content -->
+
+        <div class="container">
+            <!-- /.row -->
+            <!-- Heading Row -->
+
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Instructions</h3>
+                    <p>Once you set the Financial Details, you can take the data out as a file and load it at a later date. You can use this to create different financial scenarios and build checkpoints.</p>
+                    <br>
+                </div>
+            </div>
+
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Download Data</h3>
+                    <p class="text-muted">Once you have set the data for the different diagrams in your design, use the button below to download a copy for your records.</p>
+                    <a onclick="download_data(); "type="button" id="download_fin_data" class="btn btn-primary">Download Saved Data</a>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Upload Data</h3>
+                    <p class="text-muted">You can manually set / overwrite data by pasting the data from a file in the text box below. Once a data is pasted and uploaded, it will over write the existing data in the database.</p>
+                    <form>
+                        <div class="form-group">
+                          <label for="financial_json_ta">Paste existing Financial Data from previously downloaded file</label>
+                          <textarea class="form-control" id="financial_json_ta" aria-describedby="emailHelp" placeholder="Enter Financial Data JSON"></textarea>
+                          <small id="emailHelp" class="form-text text-muted">Paste data from the downloaded Financial Data file.</small>
+                        </div>
+                    <button type="button" class="btn btn-primary">Updload Asset Data</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Footer -->
+            <br><br>
+            <hr>
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>&copy; 2019 Geodesignhub, see the <a
+                                href="https://geodesignhub.github.io/AssetAnalysis/">Github repository</a> for more
+                            information.</p>
+                    </div>
+                </div>
+            </footer>
+            <div id="drawing"></div>
+        </div>
+        <!-- /.container-fluid -->
+
+        <%- include('footer-js') -%>
+
+            <script type="text/javascript">
+                const apitoken = "<%= apitoken  %>";
+                const projectid = "<%= projectid %>";
+                const saved_diagram_details = <%- saved_diagram_details %>;
+                const csrf = $("[name='_csrf']").val();
+                function download_data(){
+                var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(saved_diagram_details));
+                var dlAnchorElem = document.getElementById('download_fin_data');
+                dlAnchorElem.setAttribute("href",     dataStr     );
+                dlAnchorElem.setAttribute("download", "fin_data.json");
+                
+                }
+            </script>
+
+    </body>
+
+    </html>
