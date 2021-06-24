@@ -277,7 +277,7 @@
                 var numYears = 30; // number of colums; 
 
 
-                // $("#loadingGIF").hide();
+                // $("#loadingGIF").addClass('d-none');;
                 var opGJ = {
                     "type": "FeatureCollection",
                     "features": []
@@ -298,7 +298,7 @@
                 var aggregated_investment_data;
 
                 if (boundaries.features.length > 0) {
-                    $(".boundariesCont").show();
+                    $(".boundariesCont").removeClass('d-none');;
                 }
                 var startyear = moment(projectdetails['startdate']).year();
 
@@ -503,7 +503,7 @@
                     var areaWorker = new Worker('/assets/workers/computeAreas.js');
                     areaWorker.onerror = function (e) {
                         console.log('Error: Line ' + e.lineno + ' in ' + e.filename + ': ' + e.message);
-                        $("#loadingGIF").hide();
+                        $("#loadingGIF").addClass('d-none');;
                         humane.log("There was a error in processing, please try again.. ", {
                             addnCls: 'humane-flatty-log'
                         });
@@ -545,8 +545,8 @@
 
                             generateSystemCB(systemdetail);
                             aggregate_capex_opex(investmentdata);
-                            $("#loadingGIF").hide();
-                            $('#systemsCBCont').show();
+                            $("#loadingGIF").addClass('d-none');;
+                            $('#systemsCBCont').removeClass('d-none');;
                             if (boundaries.features.length > 0) {
                                 updateBoundaries();
                             }
@@ -1060,13 +1060,13 @@
                     $('#systemsCB input:checked').each(function () {
                         selectedsystems.push($(this).attr('id'));
                     });
-                    $("#loadingGIF").show();
+                    $("#loadingGIF").removeClass('d-none');;
                     $("#procstatus").html("Processing..");
 
                     var boundaryWorker = new Worker('/assets/workers/computeBoundaryValue.js');
                     boundaryWorker.onerror = function (e) {
                         console.log('Error: Line ' + e.lineno + ' in ' + e.filename + ': ' + e.message);
-                        $("#loadingGIF").hide();
+                        $("#loadingGIF").addClass('d-none');;
                         humane.log("There was a error in boundary computation, please try again.. ", {
                             addnCls: 'humane-flatty-log'
                         });
@@ -1096,7 +1096,7 @@
                             generate_paracoords_primary_chart(boundaryValueDetails);
                             generate_paracoords_secondary_chart(boundaryValueDetails);
                             aggregate_boundary_services_populations(boundaryValueDetails);
-                            $("#loadingGIF").hide();
+                            $("#loadingGIF").addClass('d-none');;
                         }
                     }, false);
 
@@ -1696,10 +1696,10 @@
                                 if (jQuery.inArray(cls, selectedsystems) == -
                                     1) { // this class is not in whilte list
                                     // hide it.
-                                    $(this).hide();
+                                    $(this).addClass('d-none');;
                                 } else {
                                     // show it.
-                                    $(this).show();
+                                    $(this).removeClass('d-none');;
                                 }
                             }
                         });
@@ -1715,7 +1715,7 @@
                 // computeDCFNPV();
                 function showallTables() {
                     $('#npv > tbody > tr').each(function () {
-                        $(this).show();
+                        $(this).removeClass('d-none');;
                     });
 
                 }

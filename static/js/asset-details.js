@@ -13,8 +13,8 @@ function get_asset_details(diagram_id) {
 
   promise.done(function (asset_data) {
    
-    $("#asset-details").removeClass('hidden');
-    $("#financial-details").addClass('hidden');
+    $("#asset-details").removeClass('d-none');
+    $("#financial-details").addClass('d-none');
    
     var defaultvalues = asset_data.opts.defaultvalues;
     diagramdetail = asset_data.opts.diagramdetail;
@@ -35,11 +35,11 @@ function get_asset_details(diagram_id) {
       }
     }
     else{ 
-      $(".usage_form").hide();
-      $(".services_form").hide();
+      $(".usage_form").addClass('d-none');
+      $(".services_form").addClass('d-none');;
       $("#base_asset_class").prop('selectedIndex', 0);
       $("#base_asset_subclass").prop('selectedIndex', 0);
-      $("#base_asset_subclass_image").select2("val", "");
+      $("#base_asset_subclass_image").val("");
       $("#selected_typology_image").empty();
       representative_image = "";
     }
@@ -54,8 +54,8 @@ function get_asset_details(diagram_id) {
 
   promise.fail(function (data) {
 
-    $("#asset-details").addClass('hidden');
-    $("#financial-details").addClass('hidden');
+    $("#asset-details").addClass('d-none');
+    $("#financial-details").addClass('d-none');
     humane.log("Error in receiving data, the administrators have been notified", {
       addnCls: 'humane-flatty-error'
     });
@@ -142,8 +142,8 @@ $('#base_asset_class').on('change', function (e) {
 
 function updateClassControls(base_class_type) {
   $(".usage_form").each(function (index) {
-    $(this).removeClass("hidden");
-    $(this).hide();
+    $(this).removeClass("d-none");
+    // $(this).hide();
   });
 
   var vals = [];
@@ -154,12 +154,12 @@ function updateClassControls(base_class_type) {
   switch (base_class_type) {
     case 'residential':
       vals = data.residential.split(",");
-      $(".usage_form").hide();
-      $("#built_env_form_residential").show();
-      $("#built_env_form_residential_secondary").show();
+      $(".usage_form").addClass('d-none');;
+      $("#built_env_form_residential").removeClass('d-none');;
+      $("#built_env_form_residential_secondary").removeClass('d-none');;
 
-      $(".services_form").show();
-      // $("#lu_chart_cont").show();
+      $(".services_form").removeClass('d-none');;
+      // $("#lu_chart_cont").removeClass('d-none');;
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -173,12 +173,12 @@ function updateClassControls(base_class_type) {
       break;
     case 'mixuse':
       vals = data.mixuse.split(",");
-      $(".usage_form").hide();
-      $("#built_env_form_mixuse").show();
-      $("#built_env_form_mixuse_secondary").show();
+      $(".usage_form").addClass('d-none');;
+      $("#built_env_form_mixuse").removeClass('d-none');;
+      $("#built_env_form_mixuse_secondary").removeClass('d-none');;
 
-      $(".services_form").show();
-      // $("#lu_chart_cont").show();
+      $(".services_form").removeClass('d-none');;
+      // $("#lu_chart_cont").removeClass('d-none');;
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -192,11 +192,11 @@ function updateClassControls(base_class_type) {
       break;
     case 'hospitality':
       vals = data.hospitality.split(",");
-      $(".usage_form").hide();
-      $("#built_env_form_tourism").show();
-      $("#built_env_form_tourism_secondary").show();
-      $(".services_form").show();
-      // $("#lu_chart_cont").show();
+      $(".usage_form").addClass('d-none');;
+      $("#built_env_form_tourism").removeClass('d-none');;
+      $("#built_env_form_tourism_secondary").removeClass('d-none');;
+      $(".services_form").removeClass('d-none');;
+      // $("#lu_chart_cont").removeClass('d-none');;
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -210,9 +210,9 @@ function updateClassControls(base_class_type) {
       break;
     case 'retail':
       vals = data.retail.split(",");
-      $(".usage_form").hide();
-      $(".services_form").show();
-      // $("#lu_chart_cont").show();
+      $(".usage_form").addClass('d-none');;
+      $(".services_form").removeClass('d-none');;
+      // $("#lu_chart_cont").removeClass('d-none');;
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -221,16 +221,16 @@ function updateClassControls(base_class_type) {
       });
 
 
-      $("#built_env_form_retail").show();
-      $("#built_env_form_retail_secondary").show();
+      $("#built_env_form_retail").removeClass('d-none');;
+      $("#built_env_form_retail_secondary").removeClass('d-none');;
       myRetailControl.initialize();
       myRetailControl.update();
       break;
     case 'office':
       vals = data.office.split(",");
-      $(".usage_form").hide();
-      $(".services_form").show();
-      // $("#lu_chart_cont").show();
+      $(".usage_form").addClass('d-none');;
+      $(".services_form").removeClass('d-none');;
+      // $("#lu_chart_cont").removeClass('d-none');;
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -238,17 +238,17 @@ function updateClassControls(base_class_type) {
         $secondChoice.append("<option >" + value + "</option>");
       });
 
-      $("#built_env_form_office").show();
-      $("#built_env_form_office_secondary").show();
+      $("#built_env_form_office").removeClass('d-none');;
+      $("#built_env_form_office_secondary").removeClass('d-none');;
       myOfficeControl.initialize();
       myOfficeControl.update();
       break;
 
     case 'amenity':
       vals = data.amenity.split(",");
-      $(".usage_form").hide();
-      $(".services_form").show();
-      // $("#lu_chart_cont").show();
+      $(".usage_form").addClass('d-none');;
+      $(".services_form").removeClass('d-none');;
+      // $("#lu_chart_cont").removeClass('d-none');;
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -256,8 +256,8 @@ function updateClassControls(base_class_type) {
         $secondChoice.append("<option >" + value + "</option>");
       });
 
-      $("#built_env_form_amenity").show();
-      $("#built_env_form_amenity_secondary").show();
+      $("#built_env_form_amenity").removeClass('d-none');;
+      $("#built_env_form_amenity_secondary").removeClass('d-none');;
       myAmenityControl.initialize();
       myAmenityControl.update();
       break;
@@ -265,10 +265,10 @@ function updateClassControls(base_class_type) {
 
     case 'transport':
       vals = data.transport.split(",");
-      $(".usage_form").hide();
-      $("#built_env_form_transport").show();
-      $(".services_form").hide();
-      // $("#lu_chart_cont").hide();
+      $(".usage_form").addClass('d-none');;
+      $("#built_env_form_transport").removeClass('d-none');;
+      $(".services_form").addClass('d-none');;
+      // $("#lu_chart_cont").addClass('d-none');;
 
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
@@ -282,11 +282,11 @@ function updateClassControls(base_class_type) {
       break;
     case 'community':
       vals = data.community.split(",");
-      $(".usage_form").hide();
-      $("#built_env_form_community").show();
+      $(".usage_form").addClass('d-none');;
+      $("#built_env_form_community").removeClass('d-none');;
 
-      $(".services_form").show();
-      // $("#lu_chart_cont").show();
+      $(".services_form").removeClass('d-none');;
+      // $("#lu_chart_cont").removeClass('d-none');;
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -299,16 +299,16 @@ function updateClassControls(base_class_type) {
       break;
     // case 'green-infrastruture':
     //     vals = data.retail.split(",");
-    //     $(".usage_form").hide();
-    //     $("#built_env_form_green-infrastructure").show();
+    //     $(".usage_form").addClass('d-none');;
+    //     $("#built_env_form_green-infrastructure").removeClass('d-none');;
     //     break;
 
     case 'agriculture':
       vals = data.agriculture.split(",");
-      $(".usage_form").hide();
-      $(".services_form").hide();
-      $("#lu_chart_cont").hide();
-      $("#built_env_form_agriculture").show();
+      $(".usage_form").addClass('d-none');;
+      $(".services_form").addClass('d-none');;
+      $("#lu_chart_cont").addClass('d-none');;
+      $("#built_env_form_agriculture").removeClass('d-none');;
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -320,10 +320,10 @@ function updateClassControls(base_class_type) {
 
     case 'green_infrastructure':
       vals = data.green_infrastructure.split(",");
-      $(".usage_form").hide();
-      $(".services_form").hide();
-      // $("#lu_chart_cont").hide();
-      $("#built_env_form_green_infrastructure").show();
+      $(".usage_form").addClass('d-none');;
+      $(".services_form").addClass('d-none');;
+      // $("#lu_chart_cont").addClass('d-none');;
+      $("#built_env_form_green_infrastructure").removeClass('d-none');;
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -536,6 +536,10 @@ var ResidentialCalaulator = function () {
     return units;
   }
 
+  $('.editable').on('shown', function () {
+    $('.popover.show.editable-container').popover('update');
+});
+
   this.initcompute = function () {
     const numresidences = parseInt($("#residential_units").editable('getValue', true));
     const population = parseInt($("#number_of_people_residential").editable('getValue', true));
@@ -548,6 +552,7 @@ var ResidentialCalaulator = function () {
   this.initialize = function () {
 
     $('#residential_units').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -559,6 +564,7 @@ var ResidentialCalaulator = function () {
 
 
     $('#residential_floors').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -570,6 +576,7 @@ var ResidentialCalaulator = function () {
 
 
     $('#residential_far').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -580,6 +587,7 @@ var ResidentialCalaulator = function () {
     });
 
     $('#number_of_people_residential').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -613,7 +621,7 @@ var ResidentialCalaulator = function () {
     $("#current_pop_density").html(abbrNum(new_population_density, 2));
     $("#total_floor_area_residential_built").html(abbrNum(total_floor_area_residential_available, 2));
     $("#total_floor_area_residential_available").html(abbrNum(max_buildable_area_in_m2, 2));
-    $("#avg_area_per_unit").html(abbrNum(parseInt(avg_area_per_unit), 2) + ' m2 / ' + abbrNum(total_floor_area_residential_available_per_floor, 2) + ' m2 per floor');
+    $("#avg_area_per_unit").html(abbrNum(parseInt(avg_area_per_unit), 2) + ' m2 / ' + abbrNum(total_floor_area_residential_available_per_floor, 2) + '<small>m2 per floor</small>');
 
     myDisplayUpdater.updateBedsRecompute(population);
     myDisplayUpdater.updatePoliceStationsRecompute(population);
@@ -842,6 +850,7 @@ var TourismCalaulator = function () {
   this.initialize = function () {
 
     $('#tourism_m2_per_guest').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -852,6 +861,7 @@ var TourismCalaulator = function () {
     });
 
     $('#tourism_people_per_room').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -862,6 +872,7 @@ var TourismCalaulator = function () {
     });
 
     $('#tourism_floors').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -872,6 +883,7 @@ var TourismCalaulator = function () {
     });
 
     $('#tourism_land_area').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -882,6 +894,7 @@ var TourismCalaulator = function () {
     });
 
     $('#target_occupancy_rate').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -892,6 +905,7 @@ var TourismCalaulator = function () {
     });
 
     $('#indirect_to_direct_employees_ratio_tourism').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -902,6 +916,7 @@ var TourismCalaulator = function () {
     });
 
     $('#direct_employees_to_visitor_ratio_tourism').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1167,6 +1182,7 @@ var TourismCalaulator = function () {
 var RetailCalaulator = function () {
   this.initialize = function () {
     $('#retail_m2_per_visitor').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1177,6 +1193,7 @@ var RetailCalaulator = function () {
     });
 
     $('#retail_floors').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1187,6 +1204,7 @@ var RetailCalaulator = function () {
     });
 
     $('#total_daily_visitors_retail').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1197,6 +1215,7 @@ var RetailCalaulator = function () {
     });
 
     $('#percent_interested_in_luxury_retail').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1207,6 +1226,7 @@ var RetailCalaulator = function () {
     });
 
     $('#percent_interested_in_support_retail').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1217,6 +1237,7 @@ var RetailCalaulator = function () {
     });
 
     $('#percent_interested_in_fmcg_retail').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1226,6 +1247,7 @@ var RetailCalaulator = function () {
       }
     });
     $('#percent_interested_in_food_retail').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1235,6 +1257,7 @@ var RetailCalaulator = function () {
       }
     });
     $('#direct_employees_to_visitor_ratio_retail').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1244,6 +1267,7 @@ var RetailCalaulator = function () {
       }
     });
     $('#indirect_to_direct_employees_ratio_retail').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1455,6 +1479,7 @@ var OfficeCalaulator = function () {
   this.initialize = function () {
 
     $('#office_m2_per_visitor').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1464,6 +1489,7 @@ var OfficeCalaulator = function () {
       }
     });
     $('#office_floors').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1473,6 +1499,7 @@ var OfficeCalaulator = function () {
       }
     });
     $('#total_daily_visitors_office').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1482,6 +1509,7 @@ var OfficeCalaulator = function () {
       }
     });
     $('#direct_employees_to_visitor_ratio_office').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1491,6 +1519,7 @@ var OfficeCalaulator = function () {
       }
     });
     $('#indirect_to_direct_employees_ratio_office').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1677,6 +1706,7 @@ var AmenityCalaulator = function () {
   this.initialize = function () {
 
     $('#amenity_m2_per_visitor').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1686,6 +1716,7 @@ var AmenityCalaulator = function () {
       }
     });
     $('#amenity_floors').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1695,6 +1726,7 @@ var AmenityCalaulator = function () {
       }
     });
     $('#total_daily_visitors_amenity').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1704,6 +1736,7 @@ var AmenityCalaulator = function () {
       }
     });
     $('#direct_employees_to_visitor_ratio_amenity').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -1713,6 +1746,7 @@ var AmenityCalaulator = function () {
       }
     });
     $('#indirect_to_direct_employees_ratio_amenity').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2043,6 +2077,7 @@ var MixedUseCalaulator = function () {
   this.initialize = function () {
 
     $('#residential_units_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2054,6 +2089,7 @@ var MixedUseCalaulator = function () {
 
 
     $('#residential_floors_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2065,6 +2101,7 @@ var MixedUseCalaulator = function () {
 
 
     $('#residential_far_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2075,6 +2112,7 @@ var MixedUseCalaulator = function () {
     });
 
     $('#number_of_people_residential_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2085,6 +2123,7 @@ var MixedUseCalaulator = function () {
     });
 
     $('#retail_m2_per_visitor_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2095,6 +2134,7 @@ var MixedUseCalaulator = function () {
     });
 
     $('#retail_floors_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2105,6 +2145,7 @@ var MixedUseCalaulator = function () {
     });
 
     $('#total_daily_visitors_retail_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2115,6 +2156,7 @@ var MixedUseCalaulator = function () {
     });
 
     $('#percent_interested_in_luxury_retail_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2125,6 +2167,7 @@ var MixedUseCalaulator = function () {
     });
 
     $('#percent_interested_in_support_retail_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2135,6 +2178,7 @@ var MixedUseCalaulator = function () {
     });
 
     $('#percent_interested_in_fmcg_retail_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2144,6 +2188,7 @@ var MixedUseCalaulator = function () {
       }
     });
     $('#percent_interested_in_food_retail_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2153,6 +2198,7 @@ var MixedUseCalaulator = function () {
       }
     });
     $('#direct_employees_to_visitor_ratio_retail_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2162,6 +2208,7 @@ var MixedUseCalaulator = function () {
       }
     });
     $('#indirect_to_direct_employees_ratio_retail_mixuse').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2522,6 +2569,7 @@ var TransportCalculator = function () {
   this.initialize = function () {
 
     $('#transport_passenger_trips').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2664,6 +2712,7 @@ var TransportCalculator = function () {
 var CommunityCalculator = function () {
   this.initialize = function () {
     $('#community_visitors').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2674,6 +2723,7 @@ var CommunityCalculator = function () {
     });
 
     $('#community_residents').editable({
+      'mode': 'inline',
       validate: function (value) {
         if ($.trim(value) == '') {
           return 'This field is required';
@@ -2862,24 +2912,24 @@ var CommunityCalculator = function () {
 var ServicesDisplayUpdater = function () {
 
   this.updateBeds = function (population, demand) {
-    $("#beds_per_capita").editable('setValue', demand);
-    // $("#beds_per_capita").html(demand);
+    $("#beds_per_capita").editable({'mode':'inline'}).editable( 'setValue', demand);
+    
     const beds = parseInt((population * demand));
     $("#total_hospital_beds").html(abbrNum(beds, 2));
     $("#total_hospital_beds_raw").val(beds);
   }
 
   this.updateBedsRecompute = function (population) {
-    const demand = $("#beds_per_capita").editable('getValue', true);
+    const demand = $("#beds_per_capita").editable({'mode':'inline'}).editable('getValue', true);
     const beds = parseInt((population * demand));
-    // $("#beds_per_capita").html(demand);
+    
     $("#total_hospital_beds").html(abbrNum(beds, 2));
     $("#total_hospital_beds_raw").val(beds);
   }
 
 
   this.updatePoliceStations = function (population, demand) {
-    $("#police_station_per_capita").editable('setValue', demand);
+    $("#police_station_per_capita").editable({'mode':'inline'}).editable('setValue', demand);
     // $("#police_station_per_capita").html(demand);
     const ps = parseInt(population * demand);
     $("#total_police_stations").html(abbrNum(ps, 2));
@@ -2889,7 +2939,7 @@ var ServicesDisplayUpdater = function () {
   }
 
   this.updatePoliceStationsRecompute = function (population) {
-    const demand = $("#police_station_per_capita").editable('getValue', true);
+    const demand = $("#police_station_per_capita").editable({'mode':'inline'}).editable('getValue', true);
     // $("#police_station_per_capita").html(demand);
     const ps = parseInt(population * demand);
     $("#total_police_stations").html(abbrNum(ps, 2));
@@ -2898,7 +2948,7 @@ var ServicesDisplayUpdater = function () {
   }
 
   this.updateFireStations = function (population, demand) {
-    $("#fire_station_per_capita").editable('setValue', demand);
+    $("#fire_station_per_capita").editable({'mode':'inline'}).editable('setValue', demand);
     const fs = parseInt((population * demand));
     // $("#fire_station_per_capita").html(demand);
     $("#total_firestations").html(abbrNum(fs, 2));
@@ -2907,7 +2957,7 @@ var ServicesDisplayUpdater = function () {
   }
 
   this.updateFireStationsRecompte = function (population) {
-    const demand = $("#fire_station_per_capita").editable('getValue', true);
+    const demand = $("#fire_station_per_capita").editable({'mode':'inline'}).editable('getValue', true);
     // $("#fire_station_per_capita").html(demand);
     const fs = parseInt((population * demand));
     $("#total_firestations").html(abbrNum(fs, 2));
@@ -2916,7 +2966,7 @@ var ServicesDisplayUpdater = function () {
   }
 
   this.updateSchools = function (population, demand) {
-    $("#school_per_capita").editable('setValue', demand);
+    $("#school_per_capita").editable({'mode':'inline'}).editable('setValue', demand);
     // $("#school_per_capita").html(demand);
     const sch = parseInt((population * demand));
     $("#total_schools").html(abbrNum(sch), 2);
@@ -2930,7 +2980,7 @@ var ServicesDisplayUpdater = function () {
   }
 
   this.updateSchoolsRecompute = function (population, ) {
-    const demand = $("#school_per_capita").editable('getValue', true);
+    const demand = $("#school_per_capita").editable({'mode':'inline'}).editable('getValue', true);
     const sch = parseInt((population * demand));
     $("#total_schools").html(abbrNum(sch), 2);
     $("#total_schools_raw").val(sch);
@@ -2947,7 +2997,7 @@ var ServicesDisplayUpdater = function () {
   }
 
   this.updateEnergyRecompute = function (population) {
-    const demand = $("#energy_per_capita").editable('getValue', true);
+    const demand = $("#energy_per_capita").editable({'mode':'inline'}).editable('getValue', true);
 
     const ed = parseInt((population * demand));
     $("#total_energy_demand").html(abbrNum(ed, 2));
@@ -2955,7 +3005,7 @@ var ServicesDisplayUpdater = function () {
 
   }
   this.updateWater = function (population, demand) {
-    $("#water_per_capita").editable('setValue', demand);
+    $("#water_per_capita").editable({'mode':'inline'}).editable('setValue', demand);
     const water = parseInt(population * demand);
 
     $("#total_water_demand").html(abbrNum(water, 2));
@@ -2963,7 +3013,7 @@ var ServicesDisplayUpdater = function () {
 
   }
   this.updateWaterRecompute = function (population) {
-    const demand = $("#water_per_capita").editable('getValue', true);
+    const demand = $("#water_per_capita").editable({'mode':'inline'}).editable('getValue', true);
     const water = parseInt(population * demand);
 
     $("#total_water_demand").html(abbrNum(water, 2));
@@ -2971,14 +3021,14 @@ var ServicesDisplayUpdater = function () {
   }
 
   this.updateSewage = function (population, demand) {
-    $("#sewage_per_capita").editable('setValue', demand);
+    $("#sewage_per_capita").editable({'mode':'inline'}).editable('setValue', demand);
     const sewage = parseInt(population * demand);
     $("#total_sewage_demand").html(abbrNum(sewage, 2));
     $("#total_sewage_demand_raw").val(sewage);
   }
 
   this.updateSewageRecompute = function (population) {
-    const demand = $("#sewage_per_capita").editable('getValue', true);
+    const demand = $("#sewage_per_capita").editable({'mode':'inline'}).editable('getValue', true);
     const sewage = parseInt(population * demand);
     $("#total_sewage_demand").html(abbrNum(sewage, 2));
     $("#total_sewage_demand_raw").val(sewage);
@@ -2996,21 +3046,21 @@ var ServicesDisplayUpdater = function () {
   }
 
   this.updateParking = function (cars, demand_factor) {
-    $("#parking_factor").editable('setValue', demand_factor);
+    $("#parking_factor").editable({'mode':'inline'}).editable('setValue', demand_factor);
     const total_parking = parseInt(cars * demand_factor);
     $("#total_parking").html(abbrNum(total_parking, 2));
     $("#total_parking_raw").val(total_parking);
   }
 
   this.updateParkingRecompute = function (cars) {
-    const demand_factor = $("#parking_factor").editable('getValue', true);
+    const demand_factor = $("#parking_factor").editable({'mode':'inline'}).editable('getValue', true);
     const total_parking = parseInt(cars * demand_factor);
     $("#total_parking").html(abbrNum(total_parking, 2));
     $("#total_parking_raw").val(total_parking);
   }
 
   this.updateGreenSpace = function (population, gs_demand) {
-    $("#per_capita_green_space").editable('setValue', gs_demand);
+    $("#per_capita_green_space").editable({'mode':'inline'}).editable('setValue', gs_demand);
     const gs = parseInt(population * gs_demand);
     $("#total_green_space").html(abbrNum(gs, 2));
     $("#total_green_space_raw").val(gs);
@@ -3018,7 +3068,7 @@ var ServicesDisplayUpdater = function () {
   }
 
   this.updateGreenSpaceRecompute = function (population) {
-    const gs_demand = $("#per_capita_green_space").editable('getValue', true);
+    const gs_demand = $("#per_capita_green_space").editable({'mode':'inline'}).editable('getValue', true);
     const gs = parseInt(population * gs_demand);
     $("#total_green_space").html(abbrNum(gs, 2));
     $("#total_green_space_raw").val(gs);
@@ -3027,9 +3077,9 @@ var ServicesDisplayUpdater = function () {
 
 
   this.updateTransport = function (population, percent_road, percent_rail, times_road, times_rail, parking_demand_factor) {
-    $("#percent_road_usage").editable('setValue', percent_road);
-    $("#percent_rail_usage").editable('setValue', percent_rail);
-    $("#parking_factor").editable('setValue', parking_demand_factor);
+    $("#percent_road_usage").editable({'mode':'inline'}).editable('setValue', percent_road);
+    $("#percent_rail_usage").editable({'mode':'inline'}).editable('setValue', percent_rail);
+    $("#parking_factor").editable({'mode':'inline'}).editable('setValue', parking_demand_factor);
 
     $("#road_terminal_freq").html(times_road);
     $("#rail_terminal_freq").html(times_rail);
@@ -3048,8 +3098,8 @@ var ServicesDisplayUpdater = function () {
   }
 
   this.updateTransportRecompute = function (population, times_road, times_rail) {
-    const percent_road = $("#percent_road_usage").editable('getValue', true);
-    const percent_rail = $("#percent_rail_usage").editable('getValue', true);
+    const percent_road = $("#percent_road_usage").editable({'mode':'inline'}).editable('getValue', true);
+    const percent_rail = $("#percent_rail_usage").editable({'mode':'inline'}).editable('getValue', true);
 
     const t_rail = parseInt(population * percent_rail * times_rail);
     const t_road = parseInt(population * percent_road * times_road);
@@ -3076,7 +3126,7 @@ myAmenityControl = new AmenityCalaulator();
 myMixedUseControl = new MixedUseCalaulator();
 myTransportControl = new TransportCalculator();
 myCommunityControl = new CommunityCalculator();
-$(".services_form").hide();
+$(".services_form").addClass('d-none');;
 
 
 function render_saved_asset_data(asset_details){ 
