@@ -49,52 +49,59 @@
                 </table>
 
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <br>
                 <h4>Diagram Details</h4>
 
                 <div id="inputmap_financial"></div>
                 <p class="lead" id="diagName"></p>
-                <p id="diagAreaLength"></p>
-                <p id="sysCost"></p>
+                <table class="table">
+                    <tr>
+                        <td><p id="diagAreaLength"></p></td>
+                        <td><p id="sysCost"></p></td>
+                    </tr>
+                </table>
+                
 
             </div>
 
             <div class="col-8">
 
                 <div id="financial-details" class="row d-none">
+                    <div class="row">
                     <div class="form-style-5 col-6">
                         <h4>Financial Parameters</h4>
-                        <h5>Capital Expenditure / Initial Investment</h5>
+                        <small>Capital Expenditure / Initial Investment</small>
                         <p><input type="text" id="initcost-slider" name="initcost-slider" value="" /></p>
                         <div class="row">
                             <div class="col-4">
-                                <p>Start year (0-30)<input type="text" id="initcost-syear" name="initcost-syear"
-                                        value="0" /></p>
+                                <small>Start year (0-30)<input type="text" id="initcost-syear" name="initcost-syear"
+                                        value="0" /></small>
                             </div>
                             <div class="col-4">
-                                <p>End year (0-30)<input type="text" id="initcost-eyear" name="initcost-eyear"
-                                        value="1" /></p>
+                                <small>End year (0-30)<input type="text" id="initcost-eyear" name="initcost-eyear"
+                                        value="1" /></small>
                             </div>
                         </div>
 
-                        <h5>Annual Cashflow</h5>
+                        <small>Annual Cashflow</small>
 
                         <p><input type="text" id="acf-slider" name="acf-slider" value="" /></p>
 
                         <div class="row">
                             <div class="col-4">
-                                <p>Start year (0-30)<input type="text" id="acf-syear" name="acf-syear" value="0" />
-                                </p>
+                                <small>Start year (0-30)<input type="text" id="acf-syear" name="acf-syear" value="0" />
+                                </small>
                             </div>
                         </div>
 
 
-                        <h5>Annual OpEx</h5>
+                        <small>Annual OpEx</small>
                         <p><input type="text" id="aopex-slider" name="aopex-slider" value="" /></p>
-                        <h5>Annual SGA</h5>
+                        <small>Annual SGA</small>
                         <p><input type="text" id="asga-slider" name="asga-slider" value="" /></p>
-                        <h5>Annual cashflow growth (inflation)</h5>
+                        <small>Annual cashflow growth (inflation)</small>
                         <p><input type="text" id="acfg-slider" name="acfg-slider" value="" /></p>
-                        <h5>Weighted Annual Cost of Capital (WACC)</h5>
+                        <small>Weighted Annual Cost of Capital (WACC)</small>
                         <p><input type="text" id="wacc-slider" name="wacc" value="" /></p>
 
                         <p><button id="computeNPVButton" type="button" class="btn btn-secondary"><span
@@ -104,15 +111,19 @@
                                     id="procstatus">Processing</span>...</span>
                         </p>
 
+
+                        
+                    <br>
+
                     </div>
                     <div class="col-6">
-                        <h3>30-year Discounted Cash Flow</h3>
+                        <h4>30-year Discounted Cash Flow</h4>
                         <div id="dcfchart_cont">
                             <canvas id="chart" height="250"></canvas>
                         </div>
                         <hr>
 
-                        <h3>DCF and NPV</h3>
+                        <h4>DCF and NPV</h4>
                         <p>Total discounted cashflow and the net present value (total cash flow - initial investment
                             -
                             operational expenses - general expenses) is shown below.</p>
@@ -136,12 +147,13 @@
                             </tr>
                         </table>
                     </div>
-                    <br>
+                    </div>
+
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col-12">
                             <br><br>
                             <h4>Remember parameters</h4>
-                            <br>
+                            <small class="text-muted">Store these parameters on the server, once stored you can download / export them</small>
                             <br><br>
                             <% if (projecttype=='paid' ){ %>
                             <button type="button" id="savevalues" class="btn btn-primary btn-x-sm"><i
@@ -153,10 +165,11 @@
                             <br><br>
                         </div>
                     </div>
+
                     <br>
                 </div>
-
-                <div id="asset-details" class="row d-none">
+                <div id="asset-details" class="d-none">
+                <div class="row">
 
                     <div class="col-6">
                         <h4>Asset Class</h4>
@@ -384,10 +397,10 @@
                         </div>
 
                         <div class='usage_form d-none' id="built_env_form_community">
-                            <h6>Number of people using daily (visitors): <a class="editable" href="#"
-                                    id="community_visitors" data-type="text" data-title="Enter new number ">12</a></h6>
-                            <h6>Number of people using daily (residents): <a class="editable" href="#"
-                                    id="community_residents" data-type="text" data-title="Enter new number ">12</a></h6>
+                            <h5>Number of people using daily (visitors): <a class="editable" href="#"
+                                    id="community_visitors" data-type="text" data-title="Enter new number ">12</a></h5>
+                            <h5>Number of people using daily (residents): <a class="editable" href="#"
+                                    id="community_residents" data-type="text" data-title="Enter new number ">12</a></h5>
                             <br>
                             <button id="recompute_community" type="button" class="btn btn-primary recompute"><i
                                     class="glyphicon glyphicon-certificate"></i> Recompute</button>
@@ -417,16 +430,16 @@
                             <br>
                             <div class="usage_form d-none" id="built_env_form_residential_secondary">
 
-                                <h6><span id="current_pop_density"></span> people per km2 <small
-                                        class="text-muted">Population Density</small></h6>
+                                <h5><span id="current_pop_density"></span> people per km2 <small
+                                        class="text-muted">Population Density</small></h5>
                                 <br>
 
-                                <h6><span id="avg_area_per_unit">0</span> <small class="text-muted">Avg. Area per
-                                        unit</small></h6>
-                                <h6><span id="total_floor_area_residential_built">0</span> m2 <small
-                                            class="text-muted">Total built floor area</small></h6>
-                                <h6><span id="total_floor_area_residential_available">0</span> m2 <small
-                                            class="text-muted">Total available area</small></h6>
+                                <h5><span id="avg_area_per_unit">0</span> <small class="text-muted">Avg. Area per
+                                        unit</small></h5>
+                                <h5><span id="total_floor_area_residential_built">0</span> m2 <small
+                                            class="text-muted">Total built floor area</small></h5>
+                                <h5><span id="total_floor_area_residential_available">0</span> m2 <small
+                                            class="text-muted">Total available area</small></h5>
 
                                 <br>
 
@@ -438,37 +451,37 @@
                             </div>
 
                             <div class="usage_form d-none" id="built_env_form_mixuse_secondary">
-                                <h6><span id="current_pop_density_mixuse"></span> people per km2 <small
-                                        class="text-muted">Population Density</small></h6>
+                                <h5><span id="current_pop_density_mixuse"></span> people per km2 <small
+                                        class="text-muted">Population Density</small></h5>
                                 <br>
 
-                                <h6><span id="avg_area_per_unit_mixuse">0</span> <small class="text-muted">Avg. Area per
-                                        unit</small></p>
-                                    <h6><span id="total_floor_area_residential_built_mixuse">0</span> m2 <small
-                                            class="text-muted">Total built floor area</small></h6>
-                                    <h6> <span id="total_floor_area_residential_available_mixuse">0</span> m2 <small
-                                            class="text-muted">Total available area</small></h6><br>
+                                <h5><span id="avg_area_per_unit_mixuse">0</span> <small class="text-muted">Avg. Area per
+                                        unit</small></h5>
+                                    <h5><span id="total_floor_area_residential_built_mixuse">0</span> m2 <small
+                                            class="text-muted">Total built floor area</small></h5>
+                                    <h5> <span id="total_floor_area_residential_available_mixuse">0</span> m2 <small
+                                            class="text-muted">Total available area</small></h5><br>
 
-                                    <h6><span id="total_floor_area_retail_required_mixuse">0</span> m2. <small
-                                            class="text-muted">Total Floor area needed</small></h6>
+                                    <h5><span id="total_floor_area_retail_required_mixuse">0</span> m2. <small
+                                            class="text-muted">Total Floor area needed</small></h5>
                                     <div class="d-none">
-                                        <h6><span id="total_floor_area_retail_luxury_split_mixuse">0</span> m2 <small
-                                                class="text-muted">Luxury</small></h6>
-                                        <h6><span id="total_floor_area_retail_support_split_mixuse">0</span> m2 <small
-                                                class="text-muted" mall>Support</small></h6>
-                                        <h6><span id="total_floor_area_retail_fmcg_split_mixuse">0</span> m2 <small
-                                                class="text-muted">FMCG</small></h6>
-                                        <h6><span id="total_floor_area_retail_other_split_mixuse">0</span> m2 <small
-                                                class="text-muted">Other</small> </h6>
+                                        <h5><span id="total_floor_area_retail_luxury_split_mixuse">0</span> m2 <small
+                                                class="text-muted">Luxury</small></h5>
+                                        <h5><span id="total_floor_area_retail_support_split_mixuse">0</span> m2 <small
+                                                class="text-muted" mall>Support</small></h5>
+                                        <h5><span id="total_floor_area_retail_fmcg_split_mixuse">0</span> m2 <small
+                                                class="text-muted">FMCG</small></h5>
+                                        <h5><span id="total_floor_area_retail_other_split_mixuse">0</span> m2 <small
+                                                class="text-muted">Other</small> </h5>
                                         <br>
                                     </div>
-                                    <h6><span id="total_floor_area_retail_available_mixuse">0</span> m2 <small
-                                            class="text-muted">Total Floor area available</small></h6>
+                                    <h5><span id="total_floor_area_retail_available_mixuse">0</span> m2 <small
+                                            class="text-muted">Total Floor area available</small></h5>
                                     <br>
-                                    <h6><span id="total_direct_employment_retail_mixuse">0</span> <small
-                                            class="text-muted">Total direct employment</small></h6>
-                                    <h6><span id="total_indirect_employment_retail_mixuse">0</span> <small
-                                            class="text-muted">Total indirect employment</small></h6>
+                                    <h5><span id="total_direct_employment_retail_mixuse">0</span> <small
+                                            class="text-muted">Total direct employment</small></h5>
+                                    <h5><span id="total_indirect_employment_retail_mixuse">0</span> <small
+                                            class="text-muted">Total indirect employment</small></h5>
                                     <br><br>
 
                                     <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400
@@ -481,77 +494,76 @@
 
                             <div class="usage_form d-none" id="built_env_form_tourism_secondary">
 
-                                <h6><span id="tourism_total_rooms">3</span> <small class="text-muted">Total
-                                        Rooms</small>
-                                </h6>
+                                <h5><span id="tourism_total_rooms">3</span> <small class="text-muted">Total
+                                        Rooms</small></h5>
 
-                                <h6><span id="total_yearly_visitors">3</span> <small class="text-muted">Yearly
-                                        Visitors</small></h6>
+                                <h5><span id="total_yearly_visitors">3</span> <small class="text-muted">Yearly
+                                        Visitors</small></h5>
 
-                                <h6><span id="total_daily_visitors">3</span> <small class="text-muted">Daily
-                                        Visitors</small></h6>
+                                <h5><span id="total_daily_visitors">3</span> <small class="text-muted">Daily
+                                        Visitors</small></h5>
 
-                                <h6><span id="total_direct_employment_tourism">0</span> <small class="text-muted">Total
-                                        direct employment</small></h6>
-                                <h6><span id="total_indirect_employment_tourism">0</span> <small
+                                <h5><span id="total_direct_employment_tourism">0</span> <small class="text-muted">Total
+                                        direct employment</small></h5>
+                                <h5><span id="total_indirect_employment_tourism">0</span> <small
                                         class="text-muted">Total
-                                        indirect employment</small></h6>
+                                        indirect employment</small></h5>
                                 <br><br>
                             </div>
 
                             <div class="usage_form d-none" id="built_env_form_office_secondary">
                                 <br>
-                                <h6><span id="total_floor_area_office_available">0</span> m2 <small
-                                        class="text-muted">Total Floor area available</small></h6>
-                                <h6><span id="total_floor_area_office_required">0</span> m2 <small
-                                        class="text-muted">Total Floor area needed</small></h6>
+                                <h5><span id="total_floor_area_office_available">0</span> m2 <small
+                                        class="text-muted">Total Floor area available</small></h5>
+                                <h5><span id="total_floor_area_office_required">0</span> m2 <small
+                                        class="text-muted">Total Floor area needed</small></h5>
                                 <br>
-                                <h6><span id="total_direct_employment_office">0</span> <small class="text-muted">Total
-                                        direct employment</small></h6>
-                                <h6><span id="total_indirect_employment_office">0</span> <small class="text-muted">Total
-                                        indirect employment</small></h6>
+                                <h5><span id="total_direct_employment_office">0</span> <small class="text-muted">Total
+                                        direct employment</small></h5>
+                                <h5><span id="total_indirect_employment_office">0</span> <small class="text-muted">Total
+                                        indirect employment</small></h5>
                                 <br>
                             </div>
 
                             <div class="usage_form d-none" id="built_env_form_amenity_secondary">
                                 <br>
-                                <h6><span id="total_floor_area_amenity_available">0</span> m2 <small
-                                        class="text-muted">Total Floor area available</small></h6>
-                                <h6><span id="total_floor_area_amenity_required">0</span> m2 <small
-                                        class="text-muted">Total Floor area needed</small></h6>
+                                <h5><span id="total_floor_area_amenity_available">0</span> m2 <small
+                                        class="text-muted">Total Floor area available</small></h5>
+                                <h5><span id="total_floor_area_amenity_required">0</span> m2 <small
+                                        class="text-muted">Total Floor area needed</small></h5>
                                 <br>
-                                <h6><span id="total_direct_employment_amenity">0</span> <small class="text-muted">Total
-                                        direct employment</small></h6>
-                                <h6><span id="total_indirect_employment_amenity">0</span> <small
+                                <h5><span id="total_direct_employment_amenity">0</span> <small class="text-muted">Total
+                                        direct employment</small></h5>
+                                <h5><span id="total_indirect_employment_amenity">0</span> <small
                                         class="text-muted">Total
-                                        indirect employment</small></h6>
+                                        indirect employment</small></h5>
                                 <br>
                             </div>
 
 
                             <div class="usage_form d-none" id="built_env_form_retail_secondary">
 
-                                <h6><span id="total_floor_area_retail_required">0</span> m2. <small
-                                        class="text-muted">Total Floor area needed</small></h6>
+                                <h5><span id="total_floor_area_retail_required">0</span> m2. <small
+                                        class="text-muted">Total Floor area needed</small></h5>
                                 <div class="d-none">
-                                    <h6><span id="total_floor_area_retail_luxury_split">0</span> m2 <small
-                                            class="text-muted">Luxury</small></h6>
-                                    <h6><span id="total_floor_area_retail_support_split">0</span> m2 <small
-                                            class="text-muted">Support</small></h6>
-                                    <h6><span id="total_floor_area_retail_fmcg_split">0</span> m2 <small
-                                            class="text-muted">FMCG</small></h6>
-                                    <h6><span id="total_floor_area_retail_other_split">0</span> m2 <small
-                                            class="text-muted">other</small></h6>
+                                    <h5><span id="total_floor_area_retail_luxury_split">0</span> m2 <small
+                                            class="text-muted">Luxury</small></h5>
+                                    <h5><span id="total_floor_area_retail_support_split">0</span> m2 <small
+                                            class="text-muted">Support</small></h5>
+                                    <h5><span id="total_floor_area_retail_fmcg_split">0</span> m2 <small
+                                            class="text-muted">FMCG</small></h5>
+                                    <h5><span id="total_floor_area_retail_other_split">0</span> m2 <small
+                                            class="text-muted">other</small></h5>
                                     <br>
                                 </div>
-                                <h6><span id="total_floor_area_retail_available">0</span> m2 <small
-                                        class="text-muted">Total Floor area available</small></h6>
+                                <h5><span id="total_floor_area_retail_available">0</span> m2 <small
+                                        class="text-muted">Total Floor area available</small></h5>
                                 <br>
                                 <br>
-                                <h6><span id="total_direct_employment_retail">0</span> <small class="text-muted">Total
-                                        direct employment</small></h6>
-                                <h6><span id="total_indirect_employment_retail">0</span> <small class="text-muted">Total
-                                        indirect employment</small></h6>
+                                <h5><span id="total_direct_employment_retail">0</span> <small class="text-muted">Total
+                                        direct employment</small></h5>
+                                <h5><span id="total_indirect_employment_retail">0</span> <small class="text-muted">Total
+                                        indirect employment</small></h5>
                                 <br>
                             </div>
                         </div>
@@ -714,10 +726,12 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-8">
-                        <h4>Remember parameters2</h4>
+                <div class="row">                    
+                    <div class="services_form">
                         <br>
+                        <h4>Remember parameters</h4>
+                        <small class="text-muted">Store these parameters on the server, once stored you can download / export them</small>
+                        <br><br>
                         <% if (projecttype=='paid' ){ %>
                         <button type="button" id="savevalues_asset" class="btn btn-primary"><i class="fa fa-cloud"></i>
                             Save values</button> <br><br>
@@ -728,6 +742,7 @@
                     </div>
                 </div>
 
+            </div>
             </div>
             
         </div>
@@ -797,7 +812,7 @@
         var svgDrawing = SVG('drawing').size(10, 10);
         // fx.base = "USD";
 
-        $("#loadingGIF").addClass('d-none');;
+        $("#loadingGIF").addClass('d-none');
         var opGJ = {
             "type": "FeatureCollection",
             "features": []
@@ -806,7 +821,7 @@
         var asset_class = "";
 
         $('#computeNPVButton').on('click', function (e) {
-            $("#loadingGIF").removeClass('d-none');;
+            $("#loadingGIF").removeClass('d-none');
             computeNPV();
         });
         var selectedcurrency = $("#workingcurrency :selected").val() + " ";

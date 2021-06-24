@@ -36,7 +36,7 @@ function get_asset_details(diagram_id) {
     }
     else{ 
       $(".usage_form").addClass('d-none');
-      $(".services_form").addClass('d-none');;
+      $(".services_form").addClass('d-none');
       $("#base_asset_class").prop('selectedIndex', 0);
       $("#base_asset_subclass").prop('selectedIndex', 0);
       $("#base_asset_subclass_image").val("");
@@ -154,12 +154,12 @@ function updateClassControls(base_class_type) {
   switch (base_class_type) {
     case 'residential':
       vals = data.residential.split(",");
-      $(".usage_form").addClass('d-none');;
-      $("#built_env_form_residential").removeClass('d-none');;
-      $("#built_env_form_residential_secondary").removeClass('d-none');;
+      $(".usage_form").addClass('d-none');
+      $("#built_env_form_residential").removeClass('d-none');
+      $("#built_env_form_residential_secondary").removeClass('d-none');
 
-      $(".services_form").removeClass('d-none');;
-      // $("#lu_chart_cont").removeClass('d-none');;
+      $(".services_form").removeClass('d-none');
+      // $("#lu_chart_cont").removeClass('d-none');
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -173,12 +173,12 @@ function updateClassControls(base_class_type) {
       break;
     case 'mixuse':
       vals = data.mixuse.split(",");
-      $(".usage_form").addClass('d-none');;
-      $("#built_env_form_mixuse").removeClass('d-none');;
-      $("#built_env_form_mixuse_secondary").removeClass('d-none');;
+      $(".usage_form").addClass('d-none');
+      $("#built_env_form_mixuse").removeClass('d-none');
+      $("#built_env_form_mixuse_secondary").removeClass('d-none');
 
-      $(".services_form").removeClass('d-none');;
-      // $("#lu_chart_cont").removeClass('d-none');;
+      $(".services_form").removeClass('d-none');
+      // $("#lu_chart_cont").removeClass('d-none');
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -192,11 +192,11 @@ function updateClassControls(base_class_type) {
       break;
     case 'hospitality':
       vals = data.hospitality.split(",");
-      $(".usage_form").addClass('d-none');;
-      $("#built_env_form_tourism").removeClass('d-none');;
-      $("#built_env_form_tourism_secondary").removeClass('d-none');;
-      $(".services_form").removeClass('d-none');;
-      // $("#lu_chart_cont").removeClass('d-none');;
+      $(".usage_form").addClass('d-none');
+      $("#built_env_form_tourism").removeClass('d-none');
+      $("#built_env_form_tourism_secondary").removeClass('d-none');
+      $(".services_form").removeClass('d-none');
+      // $("#lu_chart_cont").removeClass('d-none');
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -210,9 +210,9 @@ function updateClassControls(base_class_type) {
       break;
     case 'retail':
       vals = data.retail.split(",");
-      $(".usage_form").addClass('d-none');;
-      $(".services_form").removeClass('d-none');;
-      // $("#lu_chart_cont").removeClass('d-none');;
+      $(".usage_form").addClass('d-none');
+      $(".services_form").removeClass('d-none');
+      // $("#lu_chart_cont").removeClass('d-none');
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -221,16 +221,16 @@ function updateClassControls(base_class_type) {
       });
 
 
-      $("#built_env_form_retail").removeClass('d-none');;
-      $("#built_env_form_retail_secondary").removeClass('d-none');;
+      $("#built_env_form_retail").removeClass('d-none');
+      $("#built_env_form_retail_secondary").removeClass('d-none');
       myRetailControl.initialize();
       myRetailControl.update();
       break;
     case 'office':
       vals = data.office.split(",");
-      $(".usage_form").addClass('d-none');;
-      $(".services_form").removeClass('d-none');;
-      // $("#lu_chart_cont").removeClass('d-none');;
+      $(".usage_form").addClass('d-none');
+      $(".services_form").removeClass('d-none');
+      // $("#lu_chart_cont").removeClass('d-none');
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -238,17 +238,17 @@ function updateClassControls(base_class_type) {
         $secondChoice.append("<option >" + value + "</option>");
       });
 
-      $("#built_env_form_office").removeClass('d-none');;
-      $("#built_env_form_office_secondary").removeClass('d-none');;
+      $("#built_env_form_office").removeClass('d-none');
+      $("#built_env_form_office_secondary").removeClass('d-none');
       myOfficeControl.initialize();
       myOfficeControl.update();
       break;
 
     case 'amenity':
       vals = data.amenity.split(",");
-      $(".usage_form").addClass('d-none');;
-      $(".services_form").removeClass('d-none');;
-      // $("#lu_chart_cont").removeClass('d-none');;
+      $(".usage_form").addClass('d-none');
+      $(".services_form").removeClass('d-none');
+      // $("#lu_chart_cont").removeClass('d-none');
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -256,8 +256,8 @@ function updateClassControls(base_class_type) {
         $secondChoice.append("<option >" + value + "</option>");
       });
 
-      $("#built_env_form_amenity").removeClass('d-none');;
-      $("#built_env_form_amenity_secondary").removeClass('d-none');;
+      $("#built_env_form_amenity").removeClass('d-none');
+      $("#built_env_form_amenity_secondary").removeClass('d-none');
       myAmenityControl.initialize();
       myAmenityControl.update();
       break;
@@ -265,10 +265,10 @@ function updateClassControls(base_class_type) {
 
     case 'transport':
       vals = data.transport.split(",");
-      $(".usage_form").addClass('d-none');;
-      $("#built_env_form_transport").removeClass('d-none');;
-      $(".services_form").addClass('d-none');;
-      // $("#lu_chart_cont").addClass('d-none');;
+      $(".usage_form").addClass('d-none');
+      $("#built_env_form_transport").removeClass('d-none');
+      $(".services_form").addClass('d-none');
+      // $("#lu_chart_cont").addClass('d-none');
 
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
@@ -282,11 +282,11 @@ function updateClassControls(base_class_type) {
       break;
     case 'community':
       vals = data.community.split(",");
-      $(".usage_form").addClass('d-none');;
-      $("#built_env_form_community").removeClass('d-none');;
+      $(".usage_form").addClass('d-none');
+      $("#built_env_form_community").removeClass('d-none');
 
-      $(".services_form").removeClass('d-none');;
-      // $("#lu_chart_cont").removeClass('d-none');;
+      $(".services_form").removeClass('d-none');
+      // $("#lu_chart_cont").removeClass('d-none');
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -299,16 +299,16 @@ function updateClassControls(base_class_type) {
       break;
     // case 'green-infrastruture':
     //     vals = data.retail.split(",");
-    //     $(".usage_form").addClass('d-none');;
-    //     $("#built_env_form_green-infrastructure").removeClass('d-none');;
+    //     $(".usage_form").addClass('d-none');
+    //     $("#built_env_form_green-infrastructure").removeClass('d-none');
     //     break;
 
     case 'agriculture':
       vals = data.agriculture.split(",");
-      $(".usage_form").addClass('d-none');;
-      $(".services_form").addClass('d-none');;
-      $("#lu_chart_cont").addClass('d-none');;
-      $("#built_env_form_agriculture").removeClass('d-none');;
+      $(".usage_form").addClass('d-none');
+      $(".services_form").addClass('d-none');
+      $("#lu_chart_cont").addClass('d-none');
+      $("#built_env_form_agriculture").removeClass('d-none');
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -320,10 +320,10 @@ function updateClassControls(base_class_type) {
 
     case 'green_infrastructure':
       vals = data.green_infrastructure.split(",");
-      $(".usage_form").addClass('d-none');;
-      $(".services_form").addClass('d-none');;
-      // $("#lu_chart_cont").addClass('d-none');;
-      $("#built_env_form_green_infrastructure").removeClass('d-none');;
+      $(".usage_form").addClass('d-none');
+      $(".services_form").addClass('d-none');
+      // $("#lu_chart_cont").addClass('d-none');
+      $("#built_env_form_green_infrastructure").removeClass('d-none');
       var $secondChoice = $("#base_asset_subclass");
       $secondChoice.empty();
       $secondChoice.append("<option selected disabled>Select Asset Subclass</option>");
@@ -948,8 +948,8 @@ var TourismCalaulator = function () {
     const daily_visitors = rooms * target_occupancy_rate * people_per_room;
     const yearly_visitors = daily_visitors * 365;
 
-    $("#total_yearly_visitors").html(parseInt(yearly_visitors));
-    $("#total_daily_visitors").html(parseInt(daily_visitors));
+    $("#total_yearly_visitors").html(abbrNum(parseInt(yearly_visitors),2));
+    $("#total_daily_visitors").html(abbrNum(parseInt(daily_visitors),2));
 
     $("#total_direct_employment_tourism").html(parseInt(direct_employees_to_visitor_ratio_tourism * daily_visitors));
     $("#total_indirect_employment_tourism").html(parseInt(indirect_to_direct_employees_ratio_tourism * daily_visitors));
@@ -3126,7 +3126,7 @@ myAmenityControl = new AmenityCalaulator();
 myMixedUseControl = new MixedUseCalaulator();
 myTransportControl = new TransportCalculator();
 myCommunityControl = new CommunityCalculator();
-$(".services_form").addClass('d-none');;
+$(".services_form").addClass('d-none');
 
 
 function render_saved_asset_data(asset_details){ 

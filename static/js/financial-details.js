@@ -304,6 +304,7 @@ function initializeTables() {
     var tableGenerator = function (domid) {
         var groupColumn = 3;
         var t = $('#' + domid).DataTable({
+            
             "columnDefs": [{
                 "visible": false,
                 "targets": groupColumn
@@ -427,12 +428,12 @@ function generateInitTables() {
                             break;
                         }
                     }
-                    var fin_button_html = '<button type="button" class="btn btn-link" onclick="get_financials(' + "'" + curdiagid + "'" + ')"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></i> Set</button> ';
+                    var fin_button_html = '<button type="button" class="btn btn-link" onclick="get_financials(' + "'" + curdiagid + "'" + ')"><i class="fa fa-plus" ></i> Set</button> ';
                     if (fin_set) {
                         fin_button_html = '<button type="button" class="btn btn-link" onclick="get_financials(' + "'" + curdiagid + "'" + ')"> Modify</button> '
                     }
 
-                    var asset_button_html = '<button type="button" class="btn btn-link" onclick="get_asset_details(' + "'" + curdiagid + "'" + ')"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></i> Set</button> ';
+                    var asset_button_html = '<button type="button" class="btn btn-link" onclick="get_asset_details(' + "'" + curdiagid + "'" + ')"><i class="fa fa-plus" ></i> Set</button> ';
                     if (asset_set) {
                         asset_button_html = '<button type="button" class="btn btn-link" onclick="get_asset_details(' + "'" + curdiagid + "'" + ')"> Modify</button> ';
                     }
@@ -574,7 +575,6 @@ function get_financials(diagram_id) {
             default_values.capex_end = 1;
             default_values.acf_start = 0;
         }
-
 
         $("#financial-details").removeClass('d-none');
         $("#asset-details").addClass('d-none');
