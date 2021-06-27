@@ -127,6 +127,23 @@ const image_files = ['commecial-office.jpg',
     'transport-road-11.jpg',
     'transport-road-12.jpg'];
 
+app.post('/exchange_set_data', function (request, response) {
+    let saved_diagram_data = request.body.saved_diagram_data;
+    // validate data before saving. 
+    
+    for (var key in saved_diagram_data) {
+        var current_saved_data = saved_diagram_data[key];
+        redisclient.hmset(key, current_saved_data);
+    }
+    
+    response.contentType('application/json');
+    response.send({
+        "status": 1
+    });
+})
+
+
+
 app.post('/set_asset_details', function (request, response) {
 
     const projectid = request.body.projectid;
