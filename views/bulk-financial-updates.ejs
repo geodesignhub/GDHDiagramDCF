@@ -6,9 +6,9 @@
             <!-- Brand and toggle get grouped for better mobile display -->
                 <a class="py-2" class="navbar-brand" href="#">Financial Analysis</a>
                 <a class="py-2 d-none d-md-inline-block active" href="<%= basic_financials_url %>">Costs Table</a></li>
-                <a class="py-2 d-none d-md-inline-block active" href="<%= detailed_financials_url %>">Detailed Costs</a>
-                <a class="py-2 d-none d-md-inline-block active" href="<%= summary_link %>">Summary Report</a>
-                <a class="py-2 d-none d-md-inline-block active" href="<%= import_export_url %>">Import / Export</a>
+                <a class="py-2 d-none d-md-inline-block" href="<%= detailed_financials_url %>">Detailed Costs</a>
+                <a class="py-2 d-none d-md-inline-block" href="<%= summary_link %>">Summary Report</a>
+                <a class="py-2 d-none d-md-inline-block" href="<%= import_export_url %>">Import / Export</a>
             <!-- /.navbar-header -->
             <!-- /.navbar-collapse -->
         </div>
@@ -24,9 +24,8 @@
         <br>
         <div class="row">
             <div class="col-md-12">
-
                 <h3>Instructions</h3>
-        <p>Using this table, update on a high level the financial information for the different projects and policies. Once complete them can see a cost summary or enter additional details about each of them. </p>
+        <p>Enter financial information for the different projects and policies in your design. Once complete them can see a cost summary or enter additional details about each of them. </p>
         <br>
         </div>
     </div>
@@ -34,7 +33,8 @@
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="row">
             <div class="col-md-12">
-                <h3>Bulk Update Diagrams</h3>
+                <h3>Bulk Update Diagrams </h3>
+                <small class="text-muted">Click on any of the figures to update them, you should get a notification that it has been updated (or not)</small>
                 <table id="all_diagrams" class="hor-minimalist-b">
                     <thead>
                         <!-- <tr class='blank'>&nbsp;&nbsp;</tr> -->
@@ -216,10 +216,10 @@ $(document).ready(function() {
         columns: [
            
             { data: "description" },
-            { data: "capex",render: $.fn.dataTable.render.number( ',', '.', 0, 'EUR ' )  },
-            { data: "opex" ,render: $.fn.dataTable.render.number( ',', '.', 0, 'EUR ' ) },
-            { data: "acf" ,render: $.fn.dataTable.render.number( ',', '.', 0, 'EUR ' ) },
-            { data: "asga" ,render: $.fn.dataTable.render.number( ',', '.', 0, 'EUR ' ) },
+            { data: "capex",render: $.fn.dataTable.render.number( ' ', '.', 0, 'EUR ' )  },
+            { data: "opex" ,render: $.fn.dataTable.render.number( ' ', '.', 0, 'EUR ' ) },
+            { data: "acf" ,render: $.fn.dataTable.render.number( ' ', '.', 0, 'EUR ' ) },
+            { data: "asga" ,render: $.fn.dataTable.render.number( ' ', '.', 0, 'EUR ' ) },
             { data: "system"  },
         ]
     });
