@@ -1,10 +1,10 @@
-# Asset Analysis and Financial Models for Geodesign projects
+# Asset Analysis and Financial Models for Geodesignhub
 
 Using this library you can build and develop financial scenarios for your designs. You can set costs of construction, expected income, operating expenses and maintenance to calculate the Net Present Value. You can also set additional asset details such as expected visitors, expected workers etc. All of this information can then be aggregated across your study area and summarized to generate a unique spatial, financial analysis.
 
 ## Table of Contents
 
-- [Asset Analysis and Financial Models for Geodesign projects](#asset-analysis-and-financial-models-for-geodesign-projects)
+- [Asset Analysis and Financial Models for Geodesignhub](#asset-analysis-and-financial-models-for-geodesignhub)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Bulk update Financial Details](#bulk-update-financial-details)
