@@ -28,12 +28,12 @@
             <div class="col-md-12">
 
                 <h3>Instructions</h3>
-                <p>Set the financial and asset details for all of the diagrams in your design. Financial Data allows you  Once complete you can see the summary report. </p>
+                <p>Set the financial and asset details for each of the diagrams in your design, the computed details are <mark>displayed</mark>. Once you are satisfied with the computation, save it to the server. Then you can see it summarized in the "Summary Report" page. </p>
                 <br>
             </div>
         </div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-md-4">
                 <h4>All Diagrams</h4>
                 <table id="all_diagrams" class="hor-minimalist-b">
                     <thead>
@@ -48,24 +48,25 @@
                 </table>
 
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <br>
-                <h4>Diagram Details</h4>
-
-                <div id="inputmap_financial"></div>
-                <p class="lead" id="diagName"></p>
-                <table class="table">
-                    <tr>
-                        <td><p id="diagAreaLength"></p></td>
-                        <td><p id="sysCost"></p></td>
-                    </tr>
-                </table>
                 
 
             </div>
 
-            <div class="col-8">
+            <div class="col-md-8">
+                <div class="">
+                    <h4>Diagram Details</h4>  
 
-                <div id="financial-details" class="row d-none">
+                    <div id="inputmap_financial"></div>
+                    <p class="lead" id="diagName">Modify of set financial or asset information about a diagram</p>
+                    <table class="table">
+                        <tr>
+                            <td><h6 id="diagAreaLength"></p></h6>                            
+                        </tr>
+                    </table>
+                      
+                </div>
+
+                <div id="financial-details" class="d-none">
                     <div class="row">
                     <div class="form-style-5 col-6">
                         <h4>Financial Parameters</h4>
@@ -173,7 +174,7 @@
                     <div class="col-6">
                         <h4>Asset Class</h4>
                         <select id="base_asset_class" class="form-control">
-                            <option selected disabled>Select Class</option>
+                            <option selected disabled>Choose a class</option>
                             <option data-value='residential'>Residential</option>
                             <option data-value='hospitality'>Tourism</option>
                             <option data-value='retail'>Retail</option>
@@ -188,7 +189,7 @@
                             <option data-value='green_infrastructure'>Green Infrastructure</option>
                         </select><br><br>
                         <select id="base_asset_subclass" class="form-control">
-                            <option selected disabled>Select Subclass</option>
+                            <option selected disabled>Choose a sub-class</option>
                         </select>
                         <br>
 
@@ -261,7 +262,7 @@
                         </div>
 
                         <div class='usage_form d-none' id="built_env_form_office">
-                            <h6>Per capita space required in m2: <a class="editable" href="#" d="office_m2_per_visitor"
+                            <h6>Per capita space required in m2: <a class="editable" href="#" id="office_m2_per_visitor"
                                     data-type="text" data-title="Enter new room size e.g. 5">12</a></h6>
                             <h6>Number of floors: <a class="editable" href="#" id="office_floors" data-type="text"
                                     data-title="Enter new floors e.g. 5">1</a></h6>
@@ -423,156 +424,126 @@
                 <br>
 
                 <div class="row">
-
+                    <div class="col-md-6">
                         <div class="services_form">
                             <h4>Computed Details</h4>
                             <br>
                             <div class="usage_form d-none" id="built_env_form_residential_secondary">
 
-                                <h5><span id="current_pop_density"></span> people per km2 <small
+                                <h5><mark><span id="current_pop_density"></span> people per km2</mark> <small
                                         class="text-muted">Population Density</small></h5>
                                 <br>
 
-                                <h5><span id="avg_area_per_unit">0</span> <small class="text-muted">Avg. Area per
+                                <h5><mark><span id="avg_area_per_unit">0</span></mark> <small class="text-muted">Avg. Area per
                                         unit</small></h5>
-                                <h5><span id="total_floor_area_residential_built">0</span> m2 <small
+                                <h5><mark><span id="total_floor_area_residential_built">0</span> m2</mark> <small
                                             class="text-muted">Total built floor area</small></h5>
-                                <h5><span id="total_floor_area_residential_available">0</span> m2 <small
+                                <h5><mark><span id="total_floor_area_residential_available">0</span> m2</mark> <small
                                             class="text-muted">Total available area</small></h5>
 
                                 <br>
-
-                                <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400
-                                        people sq. km, Berlin is 4,000 people per sq. km. See more <a
-                                            href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density"
-                                            target="_blank">on Wikipedia</a></small>
+                                <small class="text-muted">Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small>
                                 <br><br>
                             </div>
 
                             <div class="usage_form d-none" id="built_env_form_mixuse_secondary">
-                                <h5><span id="current_pop_density_mixuse"></span> people per km2 <small
+                                <h5><mark><span id="current_pop_density_mixuse"></span> people per km2</mark> <small
                                         class="text-muted">Population Density</small></h5>
                                 <br>
 
-                                <h5><span id="avg_area_per_unit_mixuse">0</span> <small class="text-muted">Avg. Area per
+                                <h5><mark><span id="avg_area_per_unit_mixuse">0</span></mark> <small class="text-muted">Avg. Area per
                                         unit</small></h5>
-                                    <h5><span id="total_floor_area_residential_built_mixuse">0</span> m2 <small
+                                    <h5><mark><span id="total_floor_area_residential_built_mixuse">0</span> m2</mark> <small
                                             class="text-muted">Total built floor area</small></h5>
-                                    <h5> <span id="total_floor_area_residential_available_mixuse">0</span> m2 <small
+                                    <h5><mark><span id="total_floor_area_residential_available_mixuse">0</span> m2</mark> <small
                                             class="text-muted">Total available area</small></h5><br>
 
-                                    <h5><span id="total_floor_area_retail_required_mixuse">0</span> m2. <small
+                                    <h5><mark><span id="total_floor_area_retail_required_mixuse">0</span> m2.</mark> <small
                                             class="text-muted">Total Floor area needed</small></h5>
                                     <div class="d-none">
-                                        <h5><span id="total_floor_area_retail_luxury_split_mixuse">0</span> m2 <small
+                                        <h5><mark><span id="total_floor_area_retail_luxury_split_mixuse">0</span> m2</mark> <small
                                                 class="text-muted">Luxury</small></h5>
-                                        <h5><span id="total_floor_area_retail_support_split_mixuse">0</span> m2 <small
+                                        <h5><mark><span id="total_floor_area_retail_support_split_mixuse">0</span> m2</mark> <small
                                                 class="text-muted" mall>Support</small></h5>
-                                        <h5><span id="total_floor_area_retail_fmcg_split_mixuse">0</span> m2 <small
+                                        <h5><mark><span id="total_floor_area_retail_fmcg_split_mixuse">0</span> m2</mark> <small
                                                 class="text-muted">FMCG</small></h5>
-                                        <h5><span id="total_floor_area_retail_other_split_mixuse">0</span> m2 <small
+                                        <h5><mark><span id="total_floor_area_retail_other_split_mixuse">0</span> m2</mark> <small
                                                 class="text-muted">Other</small> </h5>
                                         <br>
                                     </div>
-                                    <h5><span id="total_floor_area_retail_available_mixuse">0</span> m2 <small
+                                    <h5><mark><span id="total_floor_area_retail_available_mixuse">0</span> m2</mark> <small
                                             class="text-muted">Total Floor area available</small></h5>
                                     <br>
-                                    <h5><span id="total_direct_employment_retail_mixuse">0</span> <small
+                                    <h5><mark><span id="total_direct_employment_retail_mixuse">0</span></mark> <small
                                             class="text-muted">Total direct employment</small></h5>
-                                    <h5><span id="total_indirect_employment_retail_mixuse">0</span> <small
+                                    <h5><mark><span id="total_indirect_employment_retail_mixuse">0</span></mark> <small
                                             class="text-muted">Total indirect employment</small></h5>
                                     <br><br>
 
-                                    <small>Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400
-                                        people sq. km, Berlin is 4,000 people per sq. km. See more <a
-                                            href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density"
-                                            target="_blank">on Wikipedia</a></small>
+                                    <small class="text-muted">Population density of Monaco is 18,000 people per sq. km, Hong Kong is 6,400 people sq. km, Berlin is 4,000 people per sq. km. See more <a href="https://en.wikipedia.org/wiki/List_of_cities_by_population_density" target="_blank">on Wikipedia</a></small>
                                     <br><br>
                                     <hr>
                             </div>
 
                             <div class="usage_form d-none" id="built_env_form_tourism_secondary">
 
-                                <h5><span id="tourism_total_rooms">3</span> <small class="text-muted">Total
-                                        Rooms</small></h5>
+                                <h5><mark><span id="tourism_total_rooms">3</span></mark> <small class="text-muted">Total Rooms</small></h5>
 
-                                <h5><span id="total_yearly_visitors">3</span> <small class="text-muted">Yearly
-                                        Visitors</small></h5>
+                                <h5><mark><span id="total_yearly_visitors">3</span></mark> <small class="text-muted">Yearly Visitors</small></h5>
 
-                                <h5><span id="total_daily_visitors">3</span> <small class="text-muted">Daily
-                                        Visitors</small></h5>
+                                <h5><mark><span id="total_daily_visitors">3</span></mark> <small class="text-muted">Daily Visitors</small></h5>
 
-                                <h5><span id="total_direct_employment_tourism">0</span> <small class="text-muted">Total
-                                        direct employment</small></h5>
-                                <h5><span id="total_indirect_employment_tourism">0</span> <small
-                                        class="text-muted">Total
-                                        indirect employment</small></h5>
+                                <h5><mark><span id="total_direct_employment_tourism">0</span></mark> <small class="text-muted">Total direct employment</small></h5>
+                                <h5><mark><span id="total_indirect_employment_tourism">0</span></mark> <small class="text-muted">Total indirect employment</small></h5>
                                 <br><br>
                             </div>
 
                             <div class="usage_form d-none" id="built_env_form_office_secondary">
                                 <br>
-                                <h5><span id="total_floor_area_office_available">0</span> m2 <small
-                                        class="text-muted">Total Floor area available</small></h5>
-                                <h5><span id="total_floor_area_office_required">0</span> m2 <small
-                                        class="text-muted">Total Floor area needed</small></h5>
+                                <h5><mark><span id="total_floor_area_office_available">0</span> m2</mark> <small class="text-muted">Total Floor area available</small></h5>
+                                <h5><mark><span id="total_floor_area_office_required">0</span> m2</mark> <small class="text-muted">Total Floor area needed</small></h5>
                                 <br>
-                                <h5><span id="total_direct_employment_office">0</span> <small class="text-muted">Total
-                                        direct employment</small></h5>
-                                <h5><span id="total_indirect_employment_office">0</span> <small class="text-muted">Total
-                                        indirect employment</small></h5>
+                                <h5><mark><span id="total_direct_employment_office">0</span></mark> <small class="text-muted">Total direct employment</small></h5>
+                                <h5><mark><span id="total_indirect_employment_office">0</span></mark> <small class="text-muted">Total indirect employment</small></h5>
                                 <br>
                             </div>
 
                             <div class="usage_form d-none" id="built_env_form_amenity_secondary">
                                 <br>
-                                <h5><span id="total_floor_area_amenity_available">0</span> m2 <small
-                                        class="text-muted">Total Floor area available</small></h5>
-                                <h5><span id="total_floor_area_amenity_required">0</span> m2 <small
-                                        class="text-muted">Total Floor area needed</small></h5>
+                                <h5><mark><span id="total_floor_area_amenity_available">0</span> m2</mark> <small class="text-muted">Total Floor area available</small></h5>
+                                <h5><mark><span id="total_floor_area_amenity_required">0</span> m2</mark> <small class="text-muted">Total Floor area needed</small></h5>
                                 <br>
-                                <h5><span id="total_direct_employment_amenity">0</span> <small class="text-muted">Total
-                                        direct employment</small></h5>
-                                <h5><span id="total_indirect_employment_amenity">0</span> <small
-                                        class="text-muted">Total
-                                        indirect employment</small></h5>
+                                <h5><mark><span id="total_direct_employment_amenity">0</span></mark> <small class="text-muted">Total direct employment</small></h5>
+                                <h5><mark><span id="total_indirect_employment_amenity">0</span></mark> <small class="text-muted">Total indirect employment</small></h5>
                                 <br>
                             </div>
 
 
                             <div class="usage_form d-none" id="built_env_form_retail_secondary">
 
-                                <h5><span id="total_floor_area_retail_required">0</span> m2. <small
-                                        class="text-muted">Total Floor area needed</small></h5>
+                                <h5><mark><span id="total_floor_area_retail_required">0</span> m2.</mark> <small class="text-muted">Total Floor area needed</small></h5>
                                 <div class="d-none">
-                                    <h5><span id="total_floor_area_retail_luxury_split">0</span> m2 <small
-                                            class="text-muted">Luxury</small></h5>
-                                    <h5><span id="total_floor_area_retail_support_split">0</span> m2 <small
-                                            class="text-muted">Support</small></h5>
-                                    <h5><span id="total_floor_area_retail_fmcg_split">0</span> m2 <small
-                                            class="text-muted">FMCG</small></h5>
-                                    <h5><span id="total_floor_area_retail_other_split">0</span> m2 <small
-                                            class="text-muted">other</small></h5>
+                                    <h5><mark><span id="total_floor_area_retail_luxury_split">0</span> m2</mark> <small class="text-muted">Luxury</small></h5>
+                                    <h5><mark><span id="total_floor_area_retail_support_split">0</span> m2</mark> <small class="text-muted">Support</small></h5>
+                                    <h5><mark><span id="total_floor_area_retail_fmcg_split">0</span> m2</mark> <small class="text-muted">FMCG</small></h5>
+                                    <h5><mark><span id="total_floor_area_retail_other_split">0</span> m2</mark> <small class="text-muted">other</small></h5>
                                     <br>
                                 </div>
-                                <h5><span id="total_floor_area_retail_available">0</span> m2 <small
-                                        class="text-muted">Total Floor area available</small></h5>
+                                <h5><mark><span id="total_floor_area_retail_available">0</span></mark> m2 <small class="text-muted">Total Floor area available</small></h5>
                                 <br>
                                 <br>
-                                <h5><span id="total_direct_employment_retail">0</span> <small class="text-muted">Total
-                                        direct employment</small></h5>
-                                <h5><span id="total_indirect_employment_retail">0</span> <small class="text-muted">Total
-                                        indirect employment</small></h5>
+                                <h5><mark><span id="total_direct_employment_retail">0</span></mark> <small class="text-muted">Total direct employment</small></h5>
+                                <h5><mark><span id="total_indirect_employment_retail">0</span></mark> <small class="text-muted">Total indirect employment</small></h5>
                                 <br>
                             </div>
                         </div>
-                   
+                    </div>
                 </div>
                 <div class="row">
+                    <div class="col-md-12">
                     <div id="services" class="services_form">
                         <h3>Services</h3>
-                        <small>A summary of supporting services and assumptions that are needed to support this
-                            Asset class</small>
+                        <small>A summary of supporting services and assumptions that are needed to support this Asset class</small>
                         <br><br>
                         <h4>Community</h4>
                         <table class="table table-bordered">
@@ -644,8 +615,9 @@
 
                     </div>
                 </div>
+                </div>
                 <div class="row">
-
+                    <div class="col-md-12">
                     <div id="" class="services_form">
 
                         <h4>Sewage</h4>
@@ -723,9 +695,11 @@
                         </table>
 
                     </div>
+                    </div>
                 </div>
 
-                <div class="row">                    
+                <div class="row">          
+                    <div class="col-md-12">
                     <div class="services_form">
                         <br>
                         <h4>Remember parameters</h4>
@@ -739,6 +713,7 @@
                             the values you enter so you dont have to enter them again.</small>
                         <% } %>
                     </div>
+                </div>          
                 </div>
 
             </div>

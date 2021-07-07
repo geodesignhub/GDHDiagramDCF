@@ -1,10 +1,13 @@
-# Asset and Financial Investment Analysis Library
+# Asset Analysis and Financial Models for Geodesign projects
+
+Using this library you can build and develop financial scenarios for your designs. You can set costs of construction, expected income, operating expenses and maintenance to calculate the Net Present Value. You can also set additional asset details such as expected visitors, expected workers etc. All of this information can then be aggregated across your study area and summarized to generate a unique spatial, financial analysis.
 
 ## Table of Contents
 
-- [Asset and Financial Investment Analysis Library](#asset-and-financial-investment-analysis-library)
+- [Asset Analysis and Financial Models for Geodesign projects](#asset-analysis-and-financial-models-for-geodesign-projects)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
+  - [Bulk update Financial Details](#bulk-update-financial-details)
   - [Financial Analysis](#financial-analysis)
   - [Asset Analysis](#asset-analysis)
   - [Investment Analysis Library](#investment-analysis-library)
@@ -13,23 +16,31 @@
 
 ## Introduction
 
-This plugin enables comprehensive financial and asset analysis for Geodesignhub projects. It uses the [Geodesignhub API](http://www.geodesignhub.com/api/) to download data from your project and provide a series of controls to analyze and set potential uses of this asset, conduct financial Analysis and finally conduct a investment summary.
+This plugin enables comprehensive financial and asset analysis for your Geodesignhub projects. It uses the [Geodesignhub API](http://www.geodesignhub.com/api/) to download data from your project and provide a series of controls to analyze and set potential uses of this asset, conduct financial Analysis and finally conduct a investment summary. Using the data import / export feature you can take the model data out and generate and load different financial scenarios.
+
+## Bulk update Financial Details
+
+A design has number of diagrams and you can set / update basic financial data for a design in a Excel like user interface.
+
+![alt text](readme-images/bulk-update.png)
 
 ## Financial Analysis
 
-This module of the plugin deals with Financial Information associated with the diagram. It is focused on the capital investment associated with the diagram.
+This module helps you refine and understand the Financial Information associated with the diagram. It is focused on the capital investment expected return of investment by doing a "Net Present Value" analysis on the diagram.
 
-![alt text][logo2]
+![alt text](readme-images/npv-dcf.png)
 
-You can enter the following parameters for a project:
+You can enter the following parameters:
 
-- Capital Expenditure / Initial investment needed to build the asset.
-- Start year for the investment and the end year which is the time it will take to build the asset.
-- Expected Annual Revenue once the asset has been built.
-- Annual Operating expenditure to run the asset e.g. in employee salaries, fees, taxes etc.
-- Annual SGA (Sales, General, and Administrative Expenses) associated with the asset.
-- Expected cashflow growth generally inflation or you can set any percentage e.g. if you expect the prices to increase by 5%.
-- Finally WACC is the rate at which you can get a loan for your investment, normally these are interest rates or a number higher than the current interest rate.
+- __Capital Expenditure / Initial investment__ needed to build the asset.
+- __Start year__ for the investment and the __end year__ which is the time it will take to build the asset.
+- Expected __Annual Revenue__ once the asset has been built.
+- __Annual Operating expenditure__ to run the asset e.g. in employee salaries, fees, taxes etc.
+- __Annual SGA__ (Sales, General, and Administrative Expenses) associated with the asset.
+- __Expected cashflow growth__ generally inflation or you can set any percentage e.g. if you expect the prices to increase by 5%.
+- Finally __Weighted Annual Cost of Capital__ (WACC) is the rate at which you can get a loan for your investment, normally these are interest rates or a number higher than the current interest rate.
+
+You can then calculate the Net present value of your investment and the 30 year discounted cash flow. Finally you can save these details.
 
 ## Asset Analysis
 

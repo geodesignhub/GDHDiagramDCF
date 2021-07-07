@@ -258,31 +258,37 @@ function computeNPV() {
 
 }
 
-function render_diagram_details(diagramdetail) {
+function render_diagram_details(details) {
+    let saved_diagram_details = details[0];
+    let diagramdetail = details[1];
+    console.log(details)
     var totalcost;
     var system_id = diagramdetail['sysid'];
     let sysdetail = systemdetail.find(o => o.id === system_id);
     $("#diagName").html(diagramdetail['description']);
 
-    if (diagramdetail['length'] == 0) {
-        $("#diagAreaLength").html("Area: " + parseFloat((diagramdetail['area'] / 10000)).toFixed(2) + " ha.");
-        if (diagramdetail['cost_override'] !== 0) {
-            if (diagramdetail['cost_override_type'] == 'total') {
-                totalcost = parseFloat(diagramdetail['cost_override']).toFixed(2);
+    
+
+        if (diagramdetail['length'] == 0) {
+            $("#diagAreaLength").html("Area: " + parseFloat((diagramdetail['area'] / 10000)).toFixed(2) + " ha.");
+            if (diagramdetail['cost_override'] !== 0) {
+                if (diagramdetail['cost_override_type'] == 'total') {
+                    totalcost = parseFloat(diagramdetail['cost_override']).toFixed(2);
+                } else {
+                    totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * diagramdetail['cost_override'];
+                }
             } else {
-                totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * diagramdetail['cost_override'];
+                totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * sysdetail['syscost'];
+
             }
-        } else {
-            totalcost = parseFloat((diagramdetail['area'] / 10000)).toFixed(2) * sysdetail['syscost'];
 
+        } else if (diagramdetail['area'] == 0) {
+            $("#diagAreaLength").html("Length: " + diagramdetail['length'] + " km.");
+            totalcost = parseFloat(diagramdetail['length']) * sysdetail['syscost'];
         }
+    
 
-    } else if (diagramdetail['area'] == 0) {
-        $("#diagAreaLength").html("Length: " + diagramdetail['length'] + " km.");
-        totalcost = parseFloat(diagramdetail['length']) * sysdetail['syscost'];
-    }
-
-    $("#sysCost").html("Total cost: " + abbrNum(totalcost, 2) + " EUR");
+    
     inputLayer.clearLayers();
     var diagramLayer = L.geoJSON(diagramdetail['geojson'], {
         style: miniMapstyleComp
@@ -304,7 +310,7 @@ function initializeTables() {
     var tableGenerator = function (domid) {
         var groupColumn = 3;
         var t = $('#' + domid).DataTable({
-            
+
             "columnDefs": [{
                 "visible": false,
                 "targets": groupColumn
@@ -563,6 +569,7 @@ function get_financials(diagram_id) {
     });
 
     promise.done(function (diagram_data) {
+        
         var default_values = {};
         if (diagram_data.opts.defaultvalues.hasOwnProperty('capex')) {
             default_values = diagram_data.opts.defaultvalues;
@@ -578,7 +585,7 @@ function get_financials(diagram_id) {
 
         $("#financial-details").removeClass('d-none');
         $("#asset-details").addClass('d-none');
-        render_diagram_details(diagram_data.opts.diagramdetail);
+        render_diagram_details([default_values, diagram_data.opts.diagramdetail]);
         initCostSliders(default_values);
         initpercentSliders(default_values);
         humane.log("Data successufully received", {
