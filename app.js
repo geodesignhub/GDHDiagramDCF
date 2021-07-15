@@ -22,8 +22,8 @@ app.use(csrf({
     cookie: true
 }));
 
-// let baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
-let baseurl = 'http://local.test:8000/api/v1/projects/';
+let baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
+// let baseurl = 'http://local.test:8000/api/v1/projects/';
 
 
 const image_files = ['commecial-office.jpg',
@@ -128,12 +128,15 @@ const image_files = ['commecial-office.jpg',
     'transport-road-12.jpg'];
 
 app.post('/exchange_set_data', function (request, response) {
-    let saved_diagram_data = request.body.saved_diagram_data;
+    let saved_diagram_data = request.body.financial_data;
+    saved_diagram_data = JSON.parse(saved_diagram_data);
     // validate data before saving. 
     
-    for (var key in saved_diagram_data) {
-        var current_saved_data = saved_diagram_data[key];
-        redisclient.hmset(key, current_saved_data);
+    for (let i_key in saved_diagram_data) {
+        let current_saved_data = saved_diagram_data[i_key];          
+        let key = current_saved_data['key'];
+        delete current_saved_data['key'];        
+        // redisclient.hmset(key, current_saved_data);
     }
     
     response.contentType('application/json');

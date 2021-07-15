@@ -12,6 +12,7 @@ Using this library you can build and develop financial scenarios for your design
   - [Asset Analysis](#asset-analysis)
   - [Investment Analysis Library](#investment-analysis-library)
     - [Boundary Analysis](#boundary-analysis)
+    - [Financial Scenarios Import / Export data](#financial-scenarios-import--export-data)
   - [Adding the plugin](#adding-the-plugin)
 
 ## Introduction
@@ -90,6 +91,12 @@ Finally the plugin splits the allocations proportionally across different bounda
 [ui2]: https://i.imgur.com/SYE7z3q.jpg "Rollup"
 [ui3]: https://i.imgur.com/3kI6ioU.jpg "Yearly Interface"
 [ui4]: https://i.imgur.com/51dzMca.jpg "Boundary map"
+
+### Financial Scenarios Import / Export data
+
+You can set the model / data parameters to take it out of the system. Then you can tweak the parameters and create financial scenarios for analysis. You can then store the data as a file for your records and load it again for the analysis. 
+
+![alt text](readme-images/import-export.png)
 
 ## Adding the plugin
 

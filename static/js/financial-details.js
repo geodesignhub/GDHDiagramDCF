@@ -259,9 +259,10 @@ function computeNPV() {
 }
 
 function render_diagram_details(details) {
+    // console.log(details);
     let saved_diagram_details = details[0];
     let diagramdetail = details[1];
-    console.log(details)
+    // console.log(saved_diagram_details, diagramdetail);    
     var totalcost;
     var system_id = diagramdetail['sysid'];
     let sysdetail = systemdetail.find(o => o.id === system_id);
@@ -569,7 +570,7 @@ function get_financials(diagram_id) {
     });
 
     promise.done(function (diagram_data) {
-        
+        // console.log(diagram_data);
         var default_values = {};
         if (diagram_data.opts.defaultvalues.hasOwnProperty('capex')) {
             default_values = diagram_data.opts.defaultvalues;
@@ -585,6 +586,7 @@ function get_financials(diagram_id) {
 
         $("#financial-details").removeClass('d-none');
         $("#asset-details").addClass('d-none');
+        
         render_diagram_details([default_values, diagram_data.opts.diagramdetail]);
         initCostSliders(default_values);
         initpercentSliders(default_values);

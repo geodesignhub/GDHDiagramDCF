@@ -44,7 +44,7 @@ function get_asset_details(diagram_id) {
       representative_image = "";
     }
    
-    render_diagram_details(asset_data.opts.diagramdetail);
+    render_diagram_details([defaultvalues, asset_data.opts.diagramdetail]);
 
     humane.log("Data successufully loaded", {
       addnCls: 'humane-flatty-success'

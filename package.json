@@ -1,7 +1,7 @@
 {
     "name": "geodesignhub-asset-analysis",
     "version": "1.0.0",
-    "description": "A Geodesignhub plugin to help compute Discounted Cash Flow analysis of a design and diagram.",
+    "description": "A Geodesignhub plugin to help compute Discounted Cash Flow analysis of a diagram and Investment flow of a design.",
     "main": "app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
